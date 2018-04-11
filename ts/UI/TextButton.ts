@@ -1,11 +1,11 @@
 import 'phaser-ce';
 
-export default class TextButton extends Phaser.Button 
+export default class TextButton extends Phaser.Button
 {
     private label: Phaser.Text;
     private maxWidth: number;
     private maxHeight: number;
-    constructor(game: Phaser.Game, x: number, y: number, text: string, textStyle: any, callback: Function, callbackContext: any, maxWidth?: number, maxHeight?: number, bgColor?: number) 
+    constructor(game: Phaser.Game, x: number, y: number, text: string, textStyle: any, callback: Function, callbackContext: any, maxWidth?: number, maxHeight?: number, bgColor?: number)
     {
         super(game, x, y, '', callback, callbackContext);
         this.maxHeight = maxHeight;

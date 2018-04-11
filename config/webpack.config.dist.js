@@ -85,8 +85,8 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            'GAME_WIDTH': 720,
-            'GAME_HEIGHT': 1280,
+            'GAME_WIDTH': 1280,
+            'GAME_HEIGHT': 720,
             'DEBUG': true,
             'version': JSON.stringify('dist'),
             'libs': JSON.stringify([

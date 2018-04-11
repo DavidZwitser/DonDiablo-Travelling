@@ -30,7 +30,7 @@ body, html {
     display: none;
 }
 
-@media screen and (orientation:landscape) 
+@media screen and (orientation:portrait) 
     {
     .rotateWarning
     {
@@ -39,7 +39,7 @@ body, html {
             position: absolute;
             top: 0;
             background: url(sprites/warning.png), rgb(200, 200, 200);
-            background-size: contain;
+            background-size: 90vw, contain;
             background-repeat: no-repeat; 
             background-position: center;
         }

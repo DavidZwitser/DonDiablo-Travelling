@@ -30,6 +30,9 @@ export default class Boot extends Phaser.State
             });
             this.scaleCanvasContain();
         } else {
+            let rotateScreen: any = document.getElementById('rotateWarning');
+            rotateScreen.classList.add('rotateWarning');
+
             this.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
             this.scale.fullScreenScaleMode = Phaser.ScaleManager.USER_SCALE;
 
