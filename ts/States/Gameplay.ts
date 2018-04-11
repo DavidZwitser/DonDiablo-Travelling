@@ -36,6 +36,7 @@ export default class Gameplay extends Phaser.State
     public update(): void
     {
         super.update(this.game);
+        this._renderer.update();
     }
 
     public resize(): void

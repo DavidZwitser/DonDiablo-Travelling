@@ -33,3 +33,8 @@ export default class TextButton extends Phaser.Button
         graphics.destroy(true);
     }
 }
+
+interface IRenderer<T extends Phaser.Sprite>
+{
+    addSprite(child: T): void;
+}

@@ -16,6 +16,9 @@ export default class Renderer extends Phaser.Group
 
     private perspectiveSprites: PerspectiveSprite[] = [];
 
+    /** This turns out to be this number, should be fixed to be 1 later */
+    private _roadZLength: number = 6.2;
+
     constructor(game: Phaser.Game)
     {
         super(game);
@@ -25,33 +28,65 @@ export default class Renderer extends Phaser.Group
         this._roadBordersWidth = .04;
         this._roadStripesWidth = .02;
 
-        this._depthOfField = .92;
+        this._depthOfField = .96;
         this.horizonPoint = new Phaser.Point(.5, .45);
         
         this._rendererdBackground = new Phaser.Graphics(this.game);
         this.addChild(this._rendererdBackground);
 
-        let testPerspectiveSprite: PerspectiveSprite = new PerspectiveSprite(this.game, 20);
-        this.addChild(testPerspectiveSprite);
-        this.perspectiveSprites.push(testPerspectiveSprite);
-        this.placeItems();
+        for (let i: number = 6; i--; )
+        {
+            let xPos: number = i % 2 === 0 ? this._roadWidth + this._roadStripesWidth : -(this._roadWidth + this._roadStripesWidth) * 1.5
+
+            let testPerspectiveSprite: PerspectiveSprite = new PerspectiveSprite(this.game, i, xPos);
+            testPerspectiveSprite.anchor.set(0, 1);
+
+            this.addChild(testPerspectiveSprite);
+            this.perspectiveSprites.push(testPerspectiveSprite);
+        }
     }
 
-    
     public placeItems(): void
     {
         for (let i: number = this.perspectiveSprites.length; i--; )
         {
             let currentSprite: PerspectiveSprite = this.perspectiveSprites[i];
 
-            let spritesHorizonPerspective: number = 1 - currentSprite.zPos / this.horizonPoint.y;
-            let nextToRoadX: number = (this._roadWidth * spritesHorizonPerspective) * this.game.width;
+            let worldCoordinates: {x: number, y: number, scale: number} = this.screenToWorld(currentSprite.zPos, currentSprite.xPos);
 
-            currentSprite.scale.set(1 - currentSprite.zPos / this.horizonPoint.y);
-            currentSprite.position.set(nextToRoadX, this.game.height * .75);
+            currentSprite.scale.set(worldCoordinates.scale * currentSprite.scaleMultiplier);
+            currentSprite.position.set(worldCoordinates.x, worldCoordinates.y);
 
-            // console.log(nextToRoadX);
+            if (currentSprite.zPos <= 0)
+            {
+                currentSprite.zPos = this._roadZLength; 
+                currentSprite.moveDown(); 
+            }
+            currentSprite.zPos -= .008;
         }
+    }
+
+    public update(): void
+    {
+        this.placeItems();        
+    }
+
+    private screenToWorld(zPos: number, xPos: number): {x: number, y: number, scale: number}
+    {
+        let perspectiveOffset: number = this.horizonPoint.y / zPos;
+        // console.log(this.horizonPoint.y, zPos, perspectiveOffset);
+
+        let projectedX: number = (this.horizonPoint.x + xPos * perspectiveOffset) * this.game.width;
+        let projectedY: number = (this.horizonPoint.y + (1 - this.horizonPoint.y) * perspectiveOffset) * this.game.height;
+        let projectedScale: number = perspectiveOffset;
+
+        // if (zPos > 1) { return; }
+
+        return {
+            x: projectedX,
+            y: projectedY,
+            scale: projectedScale
+        };
     }
 
     public renderRoad(): void
@@ -59,7 +94,7 @@ export default class Renderer extends Phaser.Group
 
         /** How much the width get's scaled at the horizon */
         let horizonPerspective: number = 1 - (this.horizonPoint.y * this._depthOfField) / this.horizonPoint.y;
-        let horizonY: number = this.game.height * this.horizonPoint.y;
+        let horizonY: number = this.game.height * this.horizonPoint.y + this.game.height * horizonPerspective;
 
         /* Drawing the road */
         let leftStartOfTheRoad: number = (this.horizonPoint.x - this._roadWidth / 2) * this.game.width;
@@ -119,6 +154,25 @@ export default class Renderer extends Phaser.Group
             this.game.width, horizonY,
             rightEndOfTheRoad, horizonY
         ]);
+
+        let polygonPoints: number[] = [];
+        for (let x: number = 3; x--; )
+        {
+            for (let y: number = 6; y--; )
+            {
+                let perspectiveOffset: number = this.horizonPoint.y / x;
+
+                polygonPoints.push(
+                    (this.horizonPoint.x + x * perspectiveOffset) * this.game.width
+                );
+
+                polygonPoints.push(
+                    y * this.game.height
+                );
+            }
+        }
+
+        let leftGrassGraphics: Phaser.Polygon = new Phaser.Polygon(polygonPoints);
         /* -- */
 
         this._rendererdBackground.clear();
@@ -141,7 +195,6 @@ export default class Renderer extends Phaser.Group
         this._rendererdBackground.drawShape(leftRoadLine);
         this._rendererdBackground.drawShape(rightRoadLine);
         this._rendererdBackground.endFill();
-
         
     }
 
