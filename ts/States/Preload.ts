@@ -55,7 +55,7 @@ export default class Preload extends Phaser.State
         });
 
         Sounds.List.forEach((assetName: string) => {
-            this.game.load.audio(assetName, 'assets/sounds/sfx/' + assetName + '.wav');
+            this.game.load.audio(assetName, 'assets/music/' + assetName + '.wav');
         });
 
         Spines.List.forEach((assetName: string) => {

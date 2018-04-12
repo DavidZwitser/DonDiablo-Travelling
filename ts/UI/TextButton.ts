@@ -2,7 +2,7 @@ import 'phaser-ce';
 
 export default class TextButton extends Phaser.Button
 {
-    private label: Phaser.Text;
+    public label: Phaser.Text;
     private maxWidth: number;
     private maxHeight: number;
     constructor(game: Phaser.Game, x: number, y: number, text: string, textStyle: any, callback: Function, callbackContext: any, maxWidth?: number, maxHeight?: number, bgColor?: number)
@@ -14,7 +14,6 @@ export default class TextButton extends Phaser.Button
         this.label = new Phaser.Text(game, 0, 0, text, textStyle);
         this.label.anchor.set(.5);
         this.addChild(this.label);
-        this.game.add.existing(this);
         this.createTexture(bgColor);
     }
 

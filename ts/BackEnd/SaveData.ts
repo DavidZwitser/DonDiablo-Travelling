@@ -1,13 +1,21 @@
+import Constants from '../Data/Constants';
+
 interface ISaveData
 {
-    sm: boolean;
-    mm: boolean;
-    hs: number;
+    sm: boolean; //sfx
+    mm: boolean; //music
+    q: number; //quality
+    lvls: ILevelData[]; //array of leveldata
+}
+interface ILevelData
+{
+    un: boolean; //unlocked
+    hs: number; //highscore
 }
 
 export default class SaveData
 {
-    private static _StorageKey: string = 'bs-saveData';
+    private static _StorageKey: string = 'traveling';
 
     public static Init(): void
     {
@@ -16,9 +24,19 @@ export default class SaveData
         this.data = {
             'sm': false,
             'mm': false,
-            'hs': 0
+            'q': 1,
+            'lvls': this.emplyLevelData()
         };
 
+    }
+    public static emplyLevelData(): ILevelData[] {
+        let levelData: ILevelData[] = [];
+        levelData.push({un: true, hs: 0});
+        for (let i: number = Constants.levelCount - 1; i--;) {
+            levelData.push({un: false, hs: 0});
+        }
+
+        return levelData;
     }
 
     /** Set if the sfx are muted in cache */
@@ -47,17 +65,17 @@ export default class SaveData
         return this.data.mm;
     }
 
-    /** Set highscore in cache */
-    public static set Highscore(value: number)
+    /** Save the quality in cache */
+    public static set Quality(value: number)
     {
         let newData: ISaveData = this.data;
-        newData.hs = value;
+        newData.q = value;
 
         this.data = newData;
     }
-    public static get Highscore(): number
+    public static get Quality(): number
     {
-        return this.data.hs;
+        return this.data.q;
     }
 
     /** Set or get the cached data */
