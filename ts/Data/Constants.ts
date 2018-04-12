@@ -1,7 +1,5 @@
 import 'phaser-ce';
 
-import SaveData from '../BackEnd/SaveData';
-
 /**
  * All the information that should be accassible from anywhere
  */
