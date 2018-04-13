@@ -1,8 +1,8 @@
 import 'phaser-ce';
 import ImageButton from '../UI/ImageButton';
 import TextButton from '../UI/TextButton';
-import SaveData from '../BackEnd/SaveData';
-import Menu from '../States/Menu';
+import SaveData from '../../../../BackEnd/SaveData';
+import Menu from '../../../../States/Menu';
 
 export default class SettingPopup extends Phaser.Group
 {

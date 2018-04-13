@@ -1,5 +1,5 @@
 import 'phaser-ce';
-import Atlases from '../Data/Atlases';
+import Atlases from '../../../../Data/Atlases';
 
 export default class ImageButton extends Phaser.Button
 {

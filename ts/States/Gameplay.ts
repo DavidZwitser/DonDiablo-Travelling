@@ -6,6 +6,8 @@ export default class Gameplay extends Phaser.State
 
     public name: string = Gameplay.Name;
 
+    private worldMood: number;
+
     constructor()
     {
         super();
