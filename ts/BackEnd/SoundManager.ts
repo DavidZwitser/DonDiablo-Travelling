@@ -13,6 +13,7 @@ export default class SoundManager
 
     /** The manager that handles the music */
     public music: Phaser.Sound = null;
+    private musicPlayer: HTMLMediaElement;
 
     /** All the instances of audio clips */
     private audioInstances: {
@@ -22,6 +23,7 @@ export default class SoundManager
     private constructor(game: Phaser.Game)
     {
         this._sound = game.sound;
+        this.musicPlayer = <HTMLMediaElement>document.getElementById('musicPlayer');
     }
 
     /** Get an instance of the game to handle sounds with */
@@ -73,31 +75,44 @@ export default class SoundManager
         {
             //Even though the music is currently turned off, keep track of the last music we wanted to play.
             //This way, when we turn the music on again, we already know which song to play.
-            this.music = this._sound.play(key, volume, true);
+            //this.music = this._sound.play(key, volume, true);
+            this.musicPlayer.src = 'assets/music/' + key + '.wav';
+            this.musicPlayer.currentTime = 0;
+            this.musicPlayer.loop = true;
 
             //Stop the music right away. We just want to keep track of the song.
-            this.music.stop();
+            //this.music.stop();
 
             console.error('Music, playing! Though muted :(');
             return;
         }
 
-        if (null === this.music || this.music.name !== key)
-        {
-            if (null !== this.music && this.music.name !== key)
-            {
-                this.music.stop();
-                console.error('sound already there!, stopping and playing again');
-            }
+        // if (null === this.music || this.music.name !== key)
+        // {
+        //     if (null !== this.music && this.music.name !== key)
+        //     {
+        //         this.music.stop();
+        //         console.error('sound already there!, stopping and playing again');
+        //     }
 
-            this.music = this._sound.play(key, 1, true);
+        //     this.music = this._sound.play(key, 1, true);
 
-            console.error('playin ze muziek');
+        //     console.error('playin ze muziek');
 
-            return;
-        }
+        //     return;
+        // }
 
-        console.error('doing nothing' );
+        //this.music = this._sound.play(key, 1, true);
+        this.musicPlayer.src = 'assets/music/' + key + '.wav';
+        this.musicPlayer.volume = volume;
+        this.musicPlayer.play();
+        this.musicPlayer.loop = true;
+
+        console.error('playin ze muziek');
+
+        return;
+
+        //console.error('doing nothing' );
     }
 
     /* Fade music folume to a spesific new volume */
@@ -121,6 +136,8 @@ export default class SoundManager
         {
             this.music.stop();
         }
+        this.musicPlayer.pause();
+        this.musicPlayer.currentTime = 0;
     }
 
     /** Toggle the sfx mute switch */
