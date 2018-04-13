@@ -4,8 +4,6 @@ import Test from './Test';
 import TextButton from '../UI/TextButton';
 import Gameplay from './Gameplay';
 import SettingPopup from '../UI/SettingPopup';
-import SoundManager from '../BackEnd/SoundManager';
-import Sounds from '../Data/Sounds';
 
 export default class Menu extends Phaser.State
 {
@@ -22,7 +20,7 @@ export default class Menu extends Phaser.State
 
     public init(): void
     {
-        SoundManager.getInstance(this.game);
+        //
     }
 
     public create(): void
@@ -35,7 +33,6 @@ export default class Menu extends Phaser.State
         this.settingGroup = new SettingPopup(this.game, this);
         this.game.add.existing(this.settingGroup);
 
-        SoundManager.getInstance().playMusic(Sounds.testMusic);
         this.resize();
     }
     public createMainButtons(): Phaser.Group {
@@ -89,7 +86,11 @@ export default class Menu extends Phaser.State
     public shutdown(): void
     {
         super.shutdown(this.game);
+
         this.mainButtonsGroup.destroy(true);
+
+        this.settingGroup.destroy();
+        this.settingGroup = null;
     }
 
 }

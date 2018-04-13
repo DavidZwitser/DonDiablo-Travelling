@@ -1,18 +1,22 @@
 import 'phaser-ce';
 
+import AudioVisualizer from '../BackEnd/AudioVisualizer';
+import SoundManager from '../BackEnd/SoundManager';
+import Sounds from '../Data/Sounds';
+
 export default class Gameplay extends Phaser.State
 {
     public static Name: string = 'gameplay';
 
     public name: string = Gameplay.Name;
-
+    private audioVisualizer: AudioVisualizer;
     constructor()
     {
         super();
     }
 
-    public resize(): void {
-        console.log('resize');
+    public init(): void {
+        SoundManager.getInstance(this.game);
     }
 
     public create(): void
@@ -23,11 +27,29 @@ export default class Gameplay extends Phaser.State
         fill: '#fff',
         align: 'center'});
         console.log(text);
+
+        this.audioVisualizer = new AudioVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
+        this.game.add.existing(this.audioVisualizer);
+
+        SoundManager.getInstance().playMusic(Sounds.testMusic);
+
+    }
+
+    public update(): void {
+        this.audioVisualizer.renderBar();
+    }
+
+    public resize(): void {
+        this.audioVisualizer.y = this.game.height;
+        console.log('resize');
     }
 
     public shutdown(): void
     {
         super.shutdown(this.game);
+
+        this.audioVisualizer.destroy();
+        this.audioVisualizer = null;
     }
 
 }
