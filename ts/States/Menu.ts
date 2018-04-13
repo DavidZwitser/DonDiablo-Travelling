@@ -1,9 +1,9 @@
 import 'phaser-ce';
 
 import Test from './Test';
-import TextButton from '../UI/TextButton';
+import TextButton from '../GameObjects/Interactable/Paralax/UI/TextButton';
 import Gameplay from './Gameplay';
-import SettingPopup from '../UI/SettingPopup';
+import SettingPopup from '../GameObjects/Interactable/Paralax/UI/SettingPopup';
 import SoundManager from '../BackEnd/SoundManager';
 import Sounds from '../Data/Sounds';
 

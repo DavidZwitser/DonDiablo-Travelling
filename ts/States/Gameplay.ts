@@ -21,6 +21,8 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
+        this.worldMood = this.worldMood;
+
         let text: any = this.game.add.text(0, 0, 'this is the gameplay state', {font: '50px',
         fill: '#fff',
         align: 'center'});
