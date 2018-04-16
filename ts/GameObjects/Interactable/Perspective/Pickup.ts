@@ -6,19 +6,28 @@ import Lanes from '../../../Enums/Lanes';
 export default class Pickup extends ReactivePerspectiveObject
 {
     private _sprite: Phaser.Sprite;
-    private _lanePosition: Lanes;
-    constructor(game: Phaser.Game, lanePos: Lanes) {
+    public _lanePosition: Lanes;
+    constructor(game: Phaser.Game) {
         super(game);
-
-        this._lanePosition = lanePos;
 
         //art assigning
         this._sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Hex_Coins');
         this._sprite.anchor.set(.5);
         this.addChild(this._sprite);
 
-        //TODO: remove this
-        console.log(this._lanePosition);
+    }
+    public reset(lane: Lanes): void {
+        this._lanePosition = lane;
+        this.position.set(0, 0);
+    }
+
+    public update(): void {
+        if (!this.visible) {
+            return;
+        }
+        super.update();
+        this.x += 10;
+        this.y += 10;
     }
 
     public reactToMusic(): void
