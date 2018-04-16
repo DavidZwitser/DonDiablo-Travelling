@@ -1,7 +1,7 @@
 import 'phaser-ce';
 
 /** A sprite that get's rendered by the pseudo3d renderer */
-export default class PerspectiveSprite extends Phaser.Sprite
+export default class PerspectiveObject extends Phaser.Group
 {
     private _zPos: number;
 

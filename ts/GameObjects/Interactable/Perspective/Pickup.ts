@@ -1,7 +1,7 @@
-import ReactivePerspectiveSprite from '../../../Rendering/Sprites/ReactivePerspectiveSprite';
+import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
 
 /** A pickup you can pickup */
-export default class Pickup extends ReactivePerspectiveSprite
+export default class Pickup extends ReactivePerspectiveObject
 {
 
     public reactToMusic(): void

@@ -1,8 +1,8 @@
 import { Lanes } from '../../../Enums/Lanes';
-import ReactivePerspectiveSprite from '../../../Rendering/Sprites/ReactivePerspectiveSprite';
+import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
 
 /** The player controlled by the user */
-export default class Player extends ReactivePerspectiveSprite
+export default class Player extends ReactivePerspectiveObject
 {
     private currentLane: Lanes;
 

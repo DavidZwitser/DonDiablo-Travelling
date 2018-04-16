@@ -1,8 +1,8 @@
-import ParalaxSprite from '../../../Rendering/Sprites/ParalaxSprite';
+import ParalaxObject from '../../../Rendering/Sprites/ParalaxObject';
 
 /** Visualizes songs */
 /** Visualizes music */
-export default class MusicVisualizer extends ParalaxSprite
+export default class MusicVisualizer extends ParalaxObject
 {
     private currentSong: Phaser.Sound;
 

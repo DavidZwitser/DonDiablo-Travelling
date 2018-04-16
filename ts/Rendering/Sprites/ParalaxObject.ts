@@ -1,7 +1,7 @@
 import 'phaser-ce';
 
 /** A sprite that reacts to the paralax effect of the game */
-export default class ParalaxSprite extends Phaser.Sprite
+export default class ParalaxObject extends Phaser.Group
 {
     private _offsetMultiplier: number;
 
