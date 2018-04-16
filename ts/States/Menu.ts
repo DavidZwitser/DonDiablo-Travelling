@@ -4,8 +4,6 @@ import Test from './Test';
 import TextButton from '../GameObjects/Interactable/Paralax/UI/TextButton';
 import Gameplay from './Gameplay';
 import SettingPopup from '../GameObjects/Interactable/Paralax/UI/SettingPopup';
-import SoundManager from '../BackEnd/SoundManager';
-import Sounds from '../Data/Sounds';
 
 export default class Menu extends Phaser.State
 {
@@ -71,10 +69,10 @@ export default class Menu extends Phaser.State
         let vmin: number = Math.min(this.game.height, this.game.width);
 
         this.mainButtonsGroup.position.set(this.game.width / 2, this.game.height / 2);
-        this.mainButtonsGroup.scale.set(vmin / GAME_HEIGHT);
+        this.mainButtonsGroup.scale.set(vmin / GAME_WIDTH);
 
         this.settingGroup.position.set(this.game.width / 2, this.game.height / 2);
-        this.settingGroup.scale.set(vmin / GAME_HEIGHT);
+        this.settingGroup.scale.set(vmin / GAME_WIDTH);
 
         console.log(vmin);
 

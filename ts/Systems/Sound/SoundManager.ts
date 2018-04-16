@@ -1,6 +1,6 @@
-import SaveGame from './SaveData';
-
 import 'phaser-ce';
+
+import SaveGame from '../../BackEnd/SaveData';
 
 /** Handles the playing of sounds */
 export default class SoundManager
@@ -13,7 +13,10 @@ export default class SoundManager
 
     /** The manager that handles the music */
     public music: Phaser.Sound = null;
-    private musicPlayer: HTMLMediaElement;
+    private _music: {
+        element: HTMLMediaElement,
+        key: string
+    };
 
     /** All the instances of audio clips */
     private audioInstances: {
@@ -23,7 +26,7 @@ export default class SoundManager
     private constructor(game: Phaser.Game)
     {
         this._sound = game.sound;
-        this.musicPlayer = <HTMLMediaElement>document.getElementById('musicPlayer');
+        this._music = { element: <HTMLMediaElement>document.getElementById('musicPlayer'), key: ''};
     }
 
     /** Get an instance of the game to handle sounds with */
@@ -76,9 +79,9 @@ export default class SoundManager
             //Even though the music is currently turned off, keep track of the last music we wanted to play.
             //This way, when we turn the music on again, we already know which song to play.
             //this.music = this._sound.play(key, volume, true);
-            this.musicPlayer.src = 'assets/music/' + key + '.wav';
-            this.musicPlayer.currentTime = 0;
-            this.musicPlayer.loop = true;
+            this._music.element.src = 'assets/music/' + key + '.wav';
+            this._music.element.currentTime = 0;
+            this._music.element.loop = true;
 
             //Stop the music right away. We just want to keep track of the song.
             //this.music.stop();
@@ -103,10 +106,14 @@ export default class SoundManager
         // }
 
         //this.music = this._sound.play(key, 1, true);
-        this.musicPlayer.src = 'assets/music/' + key + '.wav';
-        this.musicPlayer.volume = volume;
-        this.musicPlayer.play();
-        this.musicPlayer.loop = true;
+        if (this._music.key !== key) {
+            this._music.key = key;
+            this._music.element.src = 'assets/music/' + key + '.wav';
+            this._music.element.currentTime = 0;
+        }
+        this._music.element.volume = volume;
+        this._music.element.play();
+        this._music.element.loop = true;
 
         console.error('playin ze muziek');
 
@@ -127,17 +134,13 @@ export default class SoundManager
     /** Stop the music */
     public stopMusic(): void
     {
-        if (null === this.music)
-        {
-            return;
-        }
+        // if (null === this.music)
+        // {
+        //     return;
+        // }
 
-        if (this.music.isPlaying)
-        {
-            this.music.stop();
-        }
-        this.musicPlayer.pause();
-        this.musicPlayer.currentTime = 0;
+        this._music.element.pause();
+        this._music.element.currentTime = 0;
     }
 
     /** Toggle the sfx mute switch */

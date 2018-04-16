@@ -1,7 +1,7 @@
 import 'phaser-ce';
 
-import AudioVisualizer from '../BackEnd/AudioVisualizer';
-import SoundManager from '../BackEnd/SoundManager';
+import MusicVisualizer from '../GameObjects/Environment/Paralax/MusicVisualizer';
+import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
 export default class Gameplay extends Phaser.State
@@ -11,7 +11,7 @@ export default class Gameplay extends Phaser.State
     public name: string = Gameplay.Name;
 
     private worldMood: number;
-    private audioVisualizer: AudioVisualizer;
+    private audioVisualizer: MusicVisualizer;
 
     constructor()
     {
@@ -33,7 +33,7 @@ export default class Gameplay extends Phaser.State
         align: 'center'});
         console.log(text);
 
-        this.audioVisualizer = new AudioVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
+        this.audioVisualizer = new MusicVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
         this.game.add.existing(this.audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.testMusic);
@@ -41,7 +41,7 @@ export default class Gameplay extends Phaser.State
     }
 
     public update(): void {
-        this.audioVisualizer.renderBar();
+        this.audioVisualizer.render();
     }
 
     public resize(): void {
