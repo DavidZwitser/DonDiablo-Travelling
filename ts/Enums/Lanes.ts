@@ -11,3 +11,4 @@ export enum Lanes
     bottomRightLane,
     topRightLane
 }
+export default Lanes;
