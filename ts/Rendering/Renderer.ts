@@ -18,12 +18,12 @@ export default abstract class Renderer<T extends Phaser.Group> extends Phaser.Gr
     }
 
     /** Add a new child to the renderer, returns if the sprite was already added */
-    public addSprite(child: T): boolean
+    public addObject(child: T): boolean
     {
         /* Checking if it is already added */
         let alreadyExists: boolean = false;
-        this.forEach((sprite: T) => {
-            if (child === sprite) { alreadyExists = true; }
+        this.forEachObject((object: T) => {
+            if (child === object) { alreadyExists = true; }
         });
 
         /* Sprite was already added */
@@ -36,9 +36,21 @@ export default abstract class Renderer<T extends Phaser.Group> extends Phaser.Gr
         return false;
     }
 
-    /** Remove a child from the renderer */
-    public removeSprite(child: T): void
+    /** Remove a child from the renderer, returns if the object was a child */
+    public removeObject(child: T): boolean
     {
-        //
+        let wasAChild: boolean = false;
+
+        this.forEachObject((object: T, i: number) => {
+            if (child === object)
+            {
+                this.objects[i].destroy(true);
+                this.objects.splice(i, 1);
+
+                wasAChild = true;
+            }
+        });
+
+        return true;
     }
 }
