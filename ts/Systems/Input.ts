@@ -10,22 +10,26 @@ export default class Input
     private tappedAboveHorizon: boolean = false;
     private laneSelection: number = 1;
 
+    /** how to use it!
+     *  this.inputy = new Input(this.game);this.inputy.onInputDown.add((r: Lanes) => {console.log(r);});
+     */
+
     constructor(game: Phaser.Game)
     {
         this.game = game;
 
+        this.onInputDown = new Phaser.Signal();
         this.game.input.onDown.add(() => this.inputDown());
     }
 
     private inputDown(): void
     {
-
-        this.onInputDown.dispatch(this.laneReturner);
+        this.onInputDown.dispatch(this.laneReturner());
     }
 
     private aboveHorizonTapCheck(): boolean
     {
-        if (this.game.input.pointer1.y > this.game.height / 2)
+        if (this.game.input.y > this.game.height / 2)
         {
             return true;
         }
@@ -37,11 +41,11 @@ export default class Input
 
     private whatLaneCheck(): number
     {
-        if (this.game.input.pointer1.x < this.game.width / 3 )
+        if (this.game.input.x < this.game.width / 3 )
         {
             return 1;
         }
-        else if (this.game.input.pointer1.x < (this.game.width / 3) * 2 )
+        else if (this.game.input.x < (this.game.width / 3) * 2 )
         {
             return 2;
         }
@@ -52,9 +56,9 @@ export default class Input
 
     }
 
-    private laneReturner(): any
+    private laneReturner(): Lanes
     {
-        if (this.aboveHorizonTapCheck)
+        if (this.aboveHorizonTapCheck())
         {
             switch (this.whatLaneCheck())
             {
