@@ -8,6 +8,7 @@ import Menu from './Menu';
 import Atlases from '../Data/Atlases';
 import Spines from '../Data/Spines';
 import SpriteSheets from '../Data/SpriteSheets';
+import Jason from '../Data/Jason';
 
 export default class Preload extends Phaser.State
 {
@@ -60,6 +61,10 @@ export default class Preload extends Phaser.State
 
         Spines.List.forEach((assetName: string) => {
             this.game.load.spine(assetName, 'assets/spine/' + assetName + '.json');
+        });
+
+        Jason.List.forEach((assetName: string) => {
+            this.game.load.json(assetName, 'assets/json/' + assetName + '.json');
         });
     }
 
