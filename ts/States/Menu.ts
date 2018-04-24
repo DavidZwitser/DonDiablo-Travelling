@@ -2,8 +2,8 @@ import 'phaser-ce';
 
 import Test from './Test';
 import TextButton from '../GameObjects/Interactable/Paralax/UI/TextButton';
-import Gameplay from './Gameplay';
 import SettingPopup from '../GameObjects/Interactable/Paralax/UI/SettingPopup';
+import LevelSelect from '../GameObjects/Interactable/Paralax/UI/LevelSelect/LevelSelect';
 
 export default class Menu extends Phaser.State
 {
@@ -12,7 +12,9 @@ export default class Menu extends Phaser.State
     public name: string = Menu.Name;
 
     private mainButtonsGroup: Phaser.Group;
-    private settingGroup: Phaser.Group;
+    private settingGroup: SettingPopup;
+    private levelSelect: LevelSelect;
+
     constructor()
     {
         super();
@@ -30,8 +32,13 @@ export default class Menu extends Phaser.State
         this.mainButtonsGroup = this.createMainButtons();
         this.add.existing(this.mainButtonsGroup);
 
-        this.settingGroup = new SettingPopup(this.game, this);
+        this.settingGroup = new SettingPopup(this.game);
         this.game.add.existing(this.settingGroup);
+        this.settingGroup.onBack.add(this.DisplayMenu.bind(this));
+
+        this.levelSelect = new LevelSelect(this.game);
+        this.game.add.existing(this.levelSelect);
+        this.levelSelect.onBack.add(this.DisplayMenu.bind(this));
 
         this.resize();
     }
@@ -40,9 +47,7 @@ export default class Menu extends Phaser.State
         let group: Phaser.Group = new Phaser.Group(this.game);
         let playButton: TextButton = new TextButton(this.game, 0, 0, 'Play', {font: '50px',
         fill: '#fff',
-        align: 'center' }, () => {
-            this.state.start(Gameplay.Name);
-        }, this, 300, 100, 0x000000);
+        align: 'center' }, this.DisplayLevelSelect, this, 300, 100, 0x000000);
 
         group.addChild(playButton);
 
@@ -57,7 +62,7 @@ export default class Menu extends Phaser.State
         let settingButton: TextButton = new TextButton(this.game, 0, 150, 'settings', {font: '50px',
         fill: '#fff',
         align: 'center' }, () => {
-            this.DisplaySetting(true);
+            this.DisplaySetting();
         }, this, 300, 100, 0x000000);
         group.addChild(settingButton);
 
@@ -74,13 +79,29 @@ export default class Menu extends Phaser.State
         this.settingGroup.position.set(this.game.width / 2, this.game.height / 2);
         this.settingGroup.scale.set(vmin / GAME_WIDTH);
 
+        this.levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
+        this.levelSelect.scale.set(vmin / GAME_WIDTH);
+
         console.log(vmin);
 
     }
 
-    public DisplaySetting(visible: boolean): void {
-        this.settingGroup.visible = visible;
-        this.mainButtonsGroup.visible = !visible;
+    public DisplaySetting(): void {
+        this.settingGroup.visible = true;
+        this.mainButtonsGroup.visible = false;
+        this.levelSelect.visible = false;
+    }
+
+    public DisplayMenu(): void {
+        this.settingGroup.visible = false;
+        this.mainButtonsGroup.visible = true;
+        this.levelSelect.visible = false;
+    }
+
+    public DisplayLevelSelect(): void {
+        this.settingGroup.visible = false;
+        this.mainButtonsGroup.visible = false;
+        this.levelSelect.visible = true;
     }
 
     public shutdown(): void

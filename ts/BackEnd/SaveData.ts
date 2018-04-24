@@ -32,7 +32,7 @@ export default class SaveData
     public static emplyLevelData(): ILevelData[] {
         let levelData: ILevelData[] = [];
         levelData.push({un: true, hs: 0});
-        for (let i: number = Constants.levelCount - 1; i--;) {
+        for (let i: number = Constants.Levels.length - 1; i--;) {
             levelData.push({un: false, hs: 0});
         }
 
@@ -76,6 +76,19 @@ export default class SaveData
     public static get Quality(): number
     {
         return this.data.q;
+    }
+
+    /** Save the quality in cache */
+    public static set Levels(value: ILevelData[])
+    {
+        let newData: ISaveData = this.data;
+        newData.lvls = value;
+
+        this.data = newData;
+    }
+    public static get Levels(): ILevelData[]
+    {
+        return this.data.lvls;
     }
 
     /** Set or get the cached data */
