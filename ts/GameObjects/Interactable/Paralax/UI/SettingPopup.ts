@@ -2,7 +2,6 @@ import 'phaser-ce';
 import ImageButton from '../UI/ImageButton';
 import TextButton from '../UI/TextButton';
 import SaveData from '../../../../BackEnd/SaveData';
-import Menu from '../../../../States/Menu';
 
 export default class SettingPopup extends Phaser.Group
 {
@@ -10,12 +9,15 @@ export default class SettingPopup extends Phaser.Group
     private musicButton: ImageButton;
     private qualityButton: TextButton;
     private closeButton: ImageButton;
-    constructor(game: Phaser.Game, menuState: Menu)
+    public onBack: Phaser.Signal;
+
+    constructor(game: Phaser.Game)
     {
         super(game);
 
+        this.onBack = new Phaser.Signal();
         this.closeButton = new ImageButton(this.game, -200, -150, 'exitbutton', 'exitbutton', () => {
-            menuState.DisplaySetting(false);
+            this.onBack.dispatch();
         }, this);
         this.addChild(this.closeButton);
 

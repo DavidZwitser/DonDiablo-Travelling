@@ -8,6 +8,7 @@ import Menu from './Menu';
 import Atlases from '../Data/Atlases';
 import Spines from '../Data/Spines';
 import SpriteSheets from '../Data/SpriteSheets';
+import Jason from '../Data/Jason';
 
 export default class Preload extends Phaser.State
 {
@@ -40,7 +41,7 @@ export default class Preload extends Phaser.State
         this._preloadImage.width = this.game.width;
         this._preloadImage.height = this.game.height;
 
-        //this.game.load.bitmapFont('myfont', 'assets/fonts/font.png', 'assets/fonts/font.xml');
+        this.game.load.bitmapFont('myfont', 'assets/fonts/font.png', 'assets/fonts/font.xml');
 
         SpriteSheets.List.forEach((sheet: {name: string, frameWidth: number, frameHeight: number, amountOfFrames: number}) => {
             this.game.load.spritesheet(sheet.name, 'assets/spritesheets/' + sheet.name + '.png', sheet.frameWidth, sheet.frameHeight, sheet.amountOfFrames);
@@ -60,6 +61,10 @@ export default class Preload extends Phaser.State
 
         Spines.List.forEach((assetName: string) => {
             this.game.load.spine(assetName, 'assets/spine/' + assetName + '.json');
+        });
+
+        Jason.List.forEach((assetName: string) => {
+            this.game.load.json(assetName, 'assets/json/' + assetName + '.json');
         });
     }
 
