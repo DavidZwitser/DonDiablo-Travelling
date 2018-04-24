@@ -9,11 +9,19 @@ export default abstract class Renderer<T extends Phaser.Group> extends Phaser.Gr
     /* Apply the trensformations to the sprites and 'render' them */
     public abstract render(): void;
 
-    private forEachObject(callback: (child: T, i: number) => void): void
+    protected forEachObject(callback: (child: T, i: number) => void, context?: any): void
     {
         for (let i: number = this.objects.length; i--; )
         {
-            callback(this.objects[i], i);
+            if (context)
+            {
+                callback.bind(context)(this.objects[i], i);
+            }
+            else
+            {
+                callback(this.objects[i], i);
+            }
+
         }
     }
 

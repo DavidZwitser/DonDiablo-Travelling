@@ -1,5 +1,5 @@
 import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
-import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
+// import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 
 import ImageButton from './ImageButton';
 
@@ -7,9 +7,8 @@ import ImageButton from './ImageButton';
 export default class UI extends ParalaxObject
 {
     private _pauseButton: ImageButton;
-    private _titleText: Phaser.Text;
-    private _visualizer: MusicVisualizer;
-
+    // private _titleText: Phaser.Text;
+    // private _visualizer: MusicVisualizer;
 
     constructor(game: Phaser.Game)
     {
