@@ -31,6 +31,9 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
     private eachObject(object: PerspectiveObject): void
     {
         let targetTransform: IScreenTransform = this.screenToWorldPosition(object.xPos, object.zPos);
+
+        object.scale.set(targetTransform.scale);
+        object.position.set(targetTransform.x, targetTransform.y);
     }
 
     public screenToWorldPosition(xPos: number, zPos: number): IScreenTransform

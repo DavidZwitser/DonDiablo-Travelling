@@ -4,6 +4,8 @@ import MusicVisualizer from '../GameObjects/Environment/Paralax/MusicVisualizer'
 import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
+import Road from '../Rendering/Road';
+
 export default class Gameplay extends Phaser.State
 {
     public static Name: string = 'gameplay';
@@ -12,6 +14,8 @@ export default class Gameplay extends Phaser.State
 
     private worldMood: number;
     private audioVisualizer: MusicVisualizer;
+
+    private _road: Road;
 
     constructor()
     {
@@ -37,6 +41,10 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this.audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.testMusic);
+
+        this._road = new Road(this.game);
+        this.game.add.existing(this._road);
+        this._road.renderRoad( new Phaser.Point(.5, .45), .88);
 
     }
 
