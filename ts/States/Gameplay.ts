@@ -1,6 +1,7 @@
 import 'phaser-ce';
 
 import MusicVisualizer from '../GameObjects/Environment/Paralax/MusicVisualizer';
+import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
@@ -10,8 +11,10 @@ export default class Gameplay extends Phaser.State
 
     public name: string = Gameplay.Name;
 
-    private worldMood: number;
-    private audioVisualizer: MusicVisualizer;
+    private _worldMood: number;
+    private _audioVisualizer: MusicVisualizer;
+
+    private _userInterface: UI;
 
     constructor()
     {
@@ -26,26 +29,28 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
-        this.worldMood = this.worldMood;
+        this._worldMood = this._worldMood;
 
         let text: any = this.game.add.text(0, 0, 'this is the gameplay state', {font: '50px',
         fill: '#fff',
         align: 'center'});
         console.log(text);
 
-        this.audioVisualizer = new MusicVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
-        this.game.add.existing(this.audioVisualizer);
+        this._audioVisualizer = new MusicVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
+        this.game.add.existing(this._audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.testMusic);
 
+        this._userInterface = new UI(this.game, 0, 0);
+        this.game.add.existing(this._userInterface);
     }
 
     public update(): void {
-        this.audioVisualizer.render();
+        this._audioVisualizer.render();
     }
 
     public resize(): void {
-        this.audioVisualizer.y = this.game.height;
+        this._audioVisualizer.y = this.game.height;
         console.log('resize');
     }
 
@@ -53,8 +58,8 @@ export default class Gameplay extends Phaser.State
     {
         super.shutdown(this.game);
 
-        this.audioVisualizer.destroy();
-        this.audioVisualizer = null;
+        this._audioVisualizer.destroy();
+        this._audioVisualizer = null;
     }
 
 }
