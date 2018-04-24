@@ -5,6 +5,7 @@ import Constants from '../../../../../Data/Constants';
 import ImageButton from '../ImageButton';
 import SaveData from '../../../../../BackEnd/SaveData';
 import Gameplay from '../../../../../States/Gameplay';
+import AtlasImages from '../../../../../Data/AtlasImages';
 
 export default class LevelSelect extends Phaser.Group
 {
@@ -29,7 +30,7 @@ export default class LevelSelect extends Phaser.Group
         _titleText.anchor.set(.5);
         this.addChild(_titleText);
 
-        this._backButton = new ImageButton(this.game, -250, 0, 'exitbutton', 'exitbutton', () => {
+        this._backButton = new ImageButton(this.game, -250, 0, AtlasImages.Close_X_Button, AtlasImages.Close_X_Button, () => {
             this.onBack.dispatch();
         }, this);
         this._backButton.anchor.set(.5);
