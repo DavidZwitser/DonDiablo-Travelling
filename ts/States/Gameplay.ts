@@ -2,6 +2,7 @@ import 'phaser-ce';
 
 import MusicVisualizer from '../GameObjects/Environment/Paralax/MusicVisualizer';
 import UI from '../GameObjects/Interactable/Paralax/UI/UI';
+import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
@@ -17,6 +18,7 @@ export default class Gameplay extends Phaser.State
     private _audioVisualizer: MusicVisualizer;
 
     private _userInterface: UI;
+    private _player: Player;
 
     private _road: Road;
 
@@ -51,6 +53,9 @@ export default class Gameplay extends Phaser.State
 
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
+
+        this._player = new Player(this.game);
+        this.game.add.existing(this._player);
     }
 
     public update(): void {
