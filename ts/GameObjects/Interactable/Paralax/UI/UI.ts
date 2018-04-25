@@ -19,8 +19,7 @@ export default class UI extends ParalaxObject
     private createPauseButton(): void
 {
     this._pauseButton = new ImageButton(this.game, 100, 100, 'ui_ingame_button_pause', 'ui_ingame_button_pause', () => {
-    console.log('works');
-
+        // PAUSE FUNCTION
     }, this);
 
     this.game.add.existing(this._pauseButton);
