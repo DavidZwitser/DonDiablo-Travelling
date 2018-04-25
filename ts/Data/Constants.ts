@@ -9,9 +9,9 @@ export default class Constants
     public static PlaySoundEffects: boolean;
 
     public static Levels: {title: string, artist: string}[] = [
-        {title: 'Vader Jacob', artist: 'Don Diablo'},
-        {title: 'just MYTHE!', artist: 'Media college'},
-        {title: 'poesje mauw!', artist: 'Don Diablo'}
+        {title: 'Head Up', artist: 'Don Diablo'},
+        {title: 'Back To Us', artist: 'Don Diablo'},
+        {title: 'Believe', artist: 'Don Diablo'}
     ];
     public static currentLevel: number = 0;
 }

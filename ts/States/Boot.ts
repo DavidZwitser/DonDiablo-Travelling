@@ -104,6 +104,8 @@ export default class Boot extends Phaser.State
     public preload(): void
     {
         super.preload(this.game);
+        this.game.load.image('load_screen', 'assets/sprites/load_screen.jpg');
+
     }
 
     public resize(): void

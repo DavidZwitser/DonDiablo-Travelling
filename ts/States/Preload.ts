@@ -31,7 +31,7 @@ export default class Preload extends Phaser.State
     {
         super.preload(this.game);
 
-        this._preloadImage = this.game.add.sprite(0, 0, '');
+        this._preloadImage = this.game.add.sprite(0, 0, 'load_screen');
 
         this._preloadText = new Phaser.Sprite(this.game, this._preloadImage.width / 2, this._preloadImage.height * .4, '');
         this._preloadText.anchor.set(.5);
