@@ -51,8 +51,8 @@ export default class Road extends Phaser.Graphics
          let drawThiccLine: boolean = true;
          for (let i: number = 9; i--; )
          {
-            horizontalLines.push(getHorizonLine((i + 1) / 10, drawThiccLine === true ? .01 : .002));
-            horizontalLines.push(getHorizonLine(-(i + 1) / 10, drawThiccLine === true ? .01 : .002));
+            horizontalLines.push(getHorizonLine((i + 1) / 10, drawThiccLine === true ? .008 : .002));
+            horizontalLines.push(getHorizonLine(-(i + 1) / 10, drawThiccLine === true ? .008 : .002));
             drawThiccLine = false;
          }
 
@@ -120,7 +120,7 @@ export default class Road extends Phaser.Graphics
         }
 
         /* Offsetting their y in a persepctive kind of way */
-        y = horizonY / y * horizonY / 3.7 + horizonY;
+        y = horizonY / y * horizonY / 3.75 + horizonY;
 
         return new Phaser.Polygon([
             0, (y - height) * this.game.height,

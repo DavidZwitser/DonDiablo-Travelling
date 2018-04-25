@@ -1,9 +1,8 @@
 import { Lanes } from '../../../Enums/Lanes';
 import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
-import { Sprite } from 'phaser-ce';
 
 /** The player controlled by the user */
-export default class Player extends ReactivePerspectiveObject implements Sprite
+export default class Player extends ReactivePerspectiveObject
 {
     private currentLane: Lanes;
 
@@ -12,6 +11,8 @@ export default class Player extends ReactivePerspectiveObject implements Sprite
 
     public changeLane( lane: Lanes ): void
     {
+        /* So no tslint errors will be thrown */
+        lane = lane;
         //
     }
 
@@ -23,6 +24,9 @@ export default class Player extends ReactivePerspectiveObject implements Sprite
     constructor(game: Phaser.Game)
     {
         super(game);
+
+        /* So no tslint errors will be thrown */
+        this.currentLane = this.currentLane;
        // this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'Spacecraft_Main');
     }
 }
