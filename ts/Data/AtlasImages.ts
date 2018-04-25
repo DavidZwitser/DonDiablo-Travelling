@@ -9,7 +9,7 @@ export default class AtlasImages
 
     public static Exit_Button: string = 'exitbutton';
 
-    //settings sound
+    //sound options
     public static Music_Off_Button: string = 'ui_icon_music_off';
     public static Music_On_Button: string = 'ui_icon_music_on';
     public static SFX_Off_Button: string = 'ui_icon_sfx_off';
@@ -21,13 +21,15 @@ export default class AtlasImages
     public static Close_X_Button: string = 'ui_close_x_button';
     public static Credits_Screen: string = 'ui_credits_screen';
 
-    //background
+    //main menu
     public static Background: string = 'background';
-    public static Background_Overlay: string = 'background_overlay';
-
-    //menu
+    public static MainMenu_Overlay: string = 'background_overlay';
     public static Menu_Button: string = 'button_menu';
     public static Logo: string = 'logo';
+
+    //settings
+    public static Setting_Overlay: string = 'backgroundoverlay';
+    public static Setting_Header: string = 'settings';
 
     //level select
     public static Locked_Level: string = 'lockedlevel';
