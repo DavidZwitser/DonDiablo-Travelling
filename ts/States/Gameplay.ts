@@ -49,7 +49,7 @@ export default class Gameplay extends Phaser.State
 
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
-        this._road.renderRoad( new Phaser.Point(.5, .45), .88);
+        this._road.renderRoad( new Phaser.Point(.5, .5), .925);
 
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
