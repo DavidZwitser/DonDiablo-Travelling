@@ -3,7 +3,8 @@ import 'phaser-ce';
 /** Renders a road */
 export default class Road extends Phaser.Graphics
 {
-    private _stripesThickness: number = .008;
+    private _lineThickness: number = .008;
+    private _offset: number = 0;
 
     public renderRoad(horizonPoint: Phaser.Point, depthOfField: number): void
     {
@@ -13,11 +14,11 @@ export default class Road extends Phaser.Graphics
 
          let getBottomLine: Function = (offsetFromCenter: number, customWidth?: number) =>
          {
-            return this.getRoadLine(horizonPoint.x, horizonY, horizonPerspective, offsetFromCenter, customWidth ? customWidth : this._stripesThickness);
+            return this.getRoadLine(horizonPoint.x, horizonY, horizonPerspective, offsetFromCenter, customWidth ? customWidth : this._lineThickness);
          };
          let getTopLine: Function = (offsetFromCenter: number, customWidth?: number) =>
          {
-            return this.getRoadLine(horizonPoint.x, 1 - horizonY, horizonPerspective, offsetFromCenter, customWidth ? customWidth : this._stripesThickness, true);
+            return this.getRoadLine(horizonPoint.x, 1 - horizonY, horizonPerspective, offsetFromCenter, customWidth ? customWidth : this._lineThickness, true);
          };
 
          let getHorizonLine: Function = (y: number, height: number) =>
@@ -44,26 +45,37 @@ export default class Road extends Phaser.Graphics
          let topRightRoadLine: Phaser.Polygon = getTopLine(.3);
          /* -- */
 
-         let roadShapeBottom: Phaser.Polygon = getBottomLine(0, .6 + this._stripesThickness);
-         let roadShapeTop: Phaser.Polygon = getTopLine(0, .6 + this._stripesThickness);
+         let roadShapeBottom: Phaser.Polygon = getBottomLine(0, .6 + this._lineThickness);
+         let roadShapeTop: Phaser.Polygon = getTopLine(0, .6 + this._lineThickness);
 
+         /* Horizontal lines */
          let horizontalLines: Phaser.Polygon[] = [];
-         let drawThiccLine: boolean = true;
+
+         let bottomThickLine: Phaser.Polygon = getHorizonLine(.9, .01);
+         let topThickLine: Phaser.Polygon = getHorizonLine(-.9, .01);
+
+         if (this._offset >= -.1) { this._offset -= .0033; }
+         else { this._offset = 0; }
+
          for (let i: number = 9; i--; )
          {
-            horizontalLines.push(getHorizonLine((i + 1) / 10, drawThiccLine === true ? .008 : .002));
-            horizontalLines.push(getHorizonLine(-(i + 1) / 10, drawThiccLine === true ? .008 : .002));
-            drawThiccLine = false;
+            horizontalLines.push(getHorizonLine((i + 1) / 10 + this._offset, this._lineThickness / 2));
+            horizontalLines.push(getHorizonLine(-(i + 1) / 10 - this._offset, this._lineThickness / 2));
          }
+         /* -- */
 
          this.clear();
 
-         this.beginFill(0xff0ff0);
+         /* Horizon lines */
+         this.beginFill(0xE754B1);
          for (let i: number = horizontalLines.length; i--; )
          {
             this.drawShape(horizontalLines[i]);
          }
+         this.drawShape(bottomThickLine);
+         this.drawShape(topThickLine);
          this.endFill();
+         /* -- */
 
          this.beginFill(0x000000);
          this.drawShape(roadShapeBottom);
@@ -120,7 +132,7 @@ export default class Road extends Phaser.Graphics
         }
 
         /* Offsetting their y in a persepctive kind of way */
-        y = horizonY / y * horizonY / 3.75 + horizonY;
+        y = horizonY / y * horizonY / 2.8 + horizonY;
 
         return new Phaser.Polygon([
             0, (y - height) * this.game.height,

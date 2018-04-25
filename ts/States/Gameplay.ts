@@ -37,10 +37,9 @@ export default class Gameplay extends Phaser.State
 
         this._worldMood = this._worldMood;
 
-        let text: any = this.game.add.text(0, 0, 'this is the gameplay state', {font: '50px',
-        fill: '#fff',
-        align: 'center'});
-        console.log(text);
+        // let text: any = this.game.add.text(0, 0, 'this is the gameplay state', {font: '50px',
+        // fill: '#fff',
+        // align: 'center'});
 
         this._audioVisualizer = new MusicVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
         this.game.add.existing(this._audioVisualizer);
@@ -49,21 +48,24 @@ export default class Gameplay extends Phaser.State
 
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
-        this._road.renderRoad( new Phaser.Point(.5, .5), .925);
 
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
 
         this._player = new Player(this.game);
         this.game.add.existing(this._player);
+
+        this.resize();
     }
 
     public update(): void {
         this._audioVisualizer.render();
+        this._road.renderRoad(new Phaser.Point(.5, .5), .9);
     }
 
     public resize(): void {
         this._audioVisualizer.y = this.game.height;
+        this._road.renderRoad(new Phaser.Point(.5, .5), .9);
         console.log('resize');
     }
 
