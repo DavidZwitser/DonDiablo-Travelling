@@ -22,6 +22,6 @@ export default class UI extends ParalaxObject
         // PAUSE FUNCTION
     }, this);
 
-    this.game.add.existing(this._pauseButton);
+  //  this.game.add.existing(this._pauseButton);
 }
 }
