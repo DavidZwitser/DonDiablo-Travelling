@@ -1,10 +1,14 @@
 import { Lanes } from '../../../Enums/Lanes';
 import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
 
+import ImageButton from '../Paralax/UI/ImageButton';
+import AtlasImages from '../../../Data/AtlasImages';
+
 /** The player controlled by the user */
-export default class Player extends ReactivePerspectiveObject
+export default class Player extends ReactivePerspectiveObject implements Phaser.Sprite
 {
-    private currentLane: Lanes;
+    private _currentLane: Lanes;
+    private _playerSprite: Phaser.Sprite;
 
     public speed: number;
     public collectedPickup: Phaser.Signal;
@@ -23,10 +27,7 @@ export default class Player extends ReactivePerspectiveObject
 
     constructor(game: Phaser.Game)
     {
-        super(game);
-
-        /* So no tslint errors will be thrown */
-        this.currentLane = this.currentLane;
-       // this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'Spacecraft_Main');
+       super(game);
+       this._playerSprite = this.game.add.sprite(this.game.width / 2, this.game.height / 2, AtlasImages, 'Spacecraft_Main');
     }
 }
