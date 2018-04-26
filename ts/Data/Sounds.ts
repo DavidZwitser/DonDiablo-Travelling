@@ -11,9 +11,6 @@ export default class Sounds
     public static backToUs: string = 'back_to_us';
 
     public static List: string[] = [
-        Sounds.testMusic,
-        Sounds.headUp,
-        Sounds.believe,
-        Sounds.backToUs
+        Sounds.headUp
     ];
 }
