@@ -66,7 +66,7 @@ export default class Menu extends Phaser.State
             this.state.start(Test.Name);
         }, this);
         testButton.scale.set(.5);
-        group.addChild(testButton);
+        //group.addChild(testButton);
 
         let settingButton: TextButton = new TextButton(this.game, 0, 150, 'settings', 40, AtlasImages.Menu_Button, () => {
             this.DisplaySetting();

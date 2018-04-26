@@ -41,7 +41,7 @@ export default class Gameplay extends Phaser.State
         // fill: '#fff',
         // align: 'center'});
 
-        this._audioVisualizer = new MusicVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
+        this._audioVisualizer = new MusicVisualizer(this.game, 0, 0, this.game.width, this.game.height * .15);
         this.game.add.existing(this._audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.headUp);
@@ -64,7 +64,7 @@ export default class Gameplay extends Phaser.State
     }
 
     public resize(): void {
-        this._audioVisualizer.y = this.game.height;
+        this._audioVisualizer.y = this.game.height * .6;
         this._road.renderRoad(new Phaser.Point(.5, .5), .9);
         console.log('resize');
     }
