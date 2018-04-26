@@ -39,4 +39,7 @@ export default class AtlasImages
     //coins
     public static Hex_Coins: string = 'Hex_Coins';
 
+    public static ScoreBarBackground: string = 'UserInterface_ScoreBar_Backdrop';
+    public static ScoreBarFill: string = 'UserInterface_ScoreBar_Filling';
+    public static ScoreBarForeground: string = 'UserInterface_ScoreBar_Edges';
 }
