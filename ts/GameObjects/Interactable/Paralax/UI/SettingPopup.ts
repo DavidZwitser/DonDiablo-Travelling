@@ -2,34 +2,61 @@ import 'phaser-ce';
 import ImageButton from '../UI/ImageButton';
 import TextButton from '../UI/TextButton';
 import SaveData from '../../../../BackEnd/SaveData';
+import Atlases from '../../../../Data/Atlases';
+import AtlasImages from '../../../../Data/AtlasImages';
 
 export default class SettingPopup extends Phaser.Group
 {
+
+    //lay out
+    private settingHeader: Phaser.Sprite;
+    private settingBackdrop: Phaser.Sprite;
+
+    //buttons
     private sfxButton: ImageButton;
-    private musicButton: ImageButton;
+    //private musicButton: ImageButton;
     private qualityButton: TextButton;
-    private closeButton: ImageButton;
+    private backToMenuButton: ImageButton;
+    private playButton: ImageButton;
+
+    //signals
     public onBack: Phaser.Signal;
+    public onPlay: Phaser.Signal;
 
     constructor(game: Phaser.Game)
     {
         super(game);
 
         this.onBack = new Phaser.Signal();
-        this.closeButton = new ImageButton(this.game, -200, -150, 'exitbutton', 'exitbutton', () => {
+        this.onPlay = new Phaser.Signal();
+
+        this.settingHeader = new Phaser.Sprite(game, 0, -200, Atlases.Interface, AtlasImages.Setting_Header);
+        this.settingHeader.anchor.set(.5);
+        this.addChild(this.settingHeader);
+
+        this.settingBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, AtlasImages.Setting_Overlay);
+        this.settingBackdrop.anchor.set(.5);
+        this.addChild(this.settingBackdrop);
+
+        this.backToMenuButton = new ImageButton(this.game, -100, 100, AtlasImages.Exit_Button, AtlasImages.Exit_Button, () => {
             this.onBack.dispatch();
         }, this);
-        this.addChild(this.closeButton);
+        this.addChild(this.backToMenuButton);
 
-        this.sfxButton = new ImageButton(this.game, 0, -150, 'ui_ingame_button', '', this.toggleSFX, this);
+        this.playButton = new ImageButton(this.game, 100, 100, 'play', 'play', () => {
+            this.onPlay.dispatch();
+        }, this);
+        this.addChild(this.playButton);
+
+        this.sfxButton = new ImageButton(this.game, 0, -80, 'ui_ingame_button', '', this.toggleSFX, this);
+        this.sfxButton.scale.set(.6);
         this.addChild(this.sfxButton);
 
-        this.musicButton = new ImageButton(this.game, 0, 0, 'ui_ingame_button', '', this.toggleMusic, this);
-        this.addChild(this.musicButton);
+        //this.musicButton = new ImageButton(this.game, 0, 0, 'ui_ingame_button', '', this.toggleMusic, this);
+        //this.addChild(this.musicButton);
 
-        this.qualityButton = new TextButton(this.game, 0, 150, '', {font: '50px',
-        fill: '#fff',
-        align: 'center' }, this.toggleQuality, this, 300, 100, 0x000000);
+        this.qualityButton = new TextButton(this.game, 0, 0, '', 40, 'button_menu', this.toggleQuality, this);
+        this.qualityButton.scale.set(.5);
         this.addChild(this.qualityButton);
 
         this.visible = false;
@@ -53,7 +80,7 @@ export default class SettingPopup extends Phaser.Group
 
     private updateButtons(): void {
         this.sfxButton.icon.frameName = SaveData.SFXMuted ? 'ui_icon_sfx_off' : 'ui_icon_sfx_on';
-        this.musicButton.icon.frameName = SaveData.MusicMuted ? 'ui_icon_music_off' : 'ui_icon_music_on';
+        //this.musicButton.icon.frameName = SaveData.MusicMuted ? 'ui_icon_music_off' : 'ui_icon_music_on';
         this.qualityButton.label.text = SaveData.Quality ? 'quality: high' : 'quality: low';
     }
 }

@@ -15,7 +15,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --config ./config/webpack.config.js",
-    "dist": "webpack --config ./config/webpack.config.dist.js"
+    "dist": "webpack --config ./config/webpack.config.dist.js",
+    "poop": "echo \"Are you shitting me?!\" hihih youre stpud bro!"
   },
   "keywords": [],
   "author": "super author (check contributors)",

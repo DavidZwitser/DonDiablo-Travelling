@@ -15,6 +15,8 @@ export default class Player extends ReactivePerspectiveObject implements Phaser.
 
     public changeLane( lane: Lanes ): void
     {
+        /* So no tslint errors will be thrown */
+        lane = lane;
         //
     }
 

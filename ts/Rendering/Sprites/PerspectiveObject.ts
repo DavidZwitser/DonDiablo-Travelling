@@ -21,10 +21,10 @@ export default class PerspectiveObject extends Phaser.Group
     /** What x position the sprite is currently on */
     public get xPos(): number
     {
-        return this._zPos;
+        return this._xPos;
     }
     public set xPos(value: number)
     {
-        this._zPos = value;
+        this._xPos = value;
     }
 }
