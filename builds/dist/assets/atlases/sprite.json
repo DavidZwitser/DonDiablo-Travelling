@@ -1,19 +1,419 @@
 {
     "frames": {
+        "Road_Bottom_White": {
+            "frame": {
+                "x": 725,
+                "y": 725,
+                "w": 720,
+                "h": 548
+            }
+        },
+        "Road_Top_Black": {
+            "frame": {
+                "x": 0,
+                "y": 1285,
+                "w": 720,
+                "h": 548
+            }
+        },
+        "Spacecraft_Main": {
+            "frame": {
+                "x": 1450,
+                "y": 1016,
+                "w": 238,
+                "h": 119
+            }
+        },
         "icon": {
             "frame": {
-                "x": 398,
-                "y": 0,
+                "x": 2408,
+                "y": 1353,
                 "w": 159,
                 "h": 149
             }
         },
+        "exitbutton": {
+            "frame": {
+                "x": 1578,
+                "y": 1432,
+                "w": 80,
+                "h": 73
+            }
+        },
+        "ui_icon_music_off": {
+            "frame": {
+                "x": 1773,
+                "y": 1084,
+                "w": 49,
+                "h": 44
+            }
+        },
+        "ui_icon_music_on": {
+            "frame": {
+                "x": 2556,
+                "y": 1547,
+                "w": 34,
+                "h": 36
+            }
+        },
+        "ui_icon_sfx_off": {
+            "frame": {
+                "x": 1827,
+                "y": 1084,
+                "w": 43,
+                "h": 35
+            }
+        },
+        "ui_icon_sfx_on": {
+            "frame": {
+                "x": 2556,
+                "y": 1507,
+                "w": 38,
+                "h": 35
+            }
+        },
+        "ui_ingame_button_pause": {
+            "frame": {
+                "x": 1866,
+                "y": 884,
+                "w": 116,
+                "h": 118
+            }
+        },
+        "ui_ingame_button": {
+            "frame": {
+                "x": 1406,
+                "y": 1285,
+                "w": 116,
+                "h": 118
+            }
+        },
         "Naamloos": {
+            "frame": {
+                "x": 2010,
+                "y": 1041,
+                "w": 393,
+                "h": 605
+            }
+        },
+        "example_greyboxing ": {
+            "frame": {
+                "x": 725,
+                "y": 0,
+                "w": 1280,
+                "h": 720
+            }
+        },
+        "ui_close_x_button": {
+            "frame": {
+                "x": 1490,
+                "y": 1432,
+                "w": 83,
+                "h": 81
+            }
+        },
+        "ui_credits_screen": {
+            "frame": {
+                "x": 2010,
+                "y": 0,
+                "w": 585,
+                "h": 612
+            }
+        },
+        "body": {
+            "frame": {
+                "x": 1866,
+                "y": 725,
+                "w": 97,
+                "h": 154
+            }
+        },
+        "cap": {
+            "frame": {
+                "x": 2600,
+                "y": 1778,
+                "w": 69,
+                "h": 33
+            }
+        },
+        "Engine": {
+            "frame": {
+                "x": 1793,
+                "y": 1140,
+                "w": 87,
+                "h": 61
+            }
+        },
+        "Fuel": {
+            "frame": {
+                "x": 1421,
+                "y": 1546,
+                "w": 74,
+                "h": 112
+            }
+        },
+        "head": {
+            "frame": {
+                "x": 1877,
+                "y": 1285,
+                "w": 97,
+                "h": 72
+            }
+        },
+        "Heart": {
+            "frame": {
+                "x": 1500,
+                "y": 1546,
+                "w": 58,
+                "h": 78
+            }
+        },
+        "Laag 7 kopiëren": {
+            "frame": {
+                "x": 2600,
+                "y": 1703,
+                "w": 67,
+                "h": 70
+            }
+        },
+        "Left Arm": {
+            "frame": {
+                "x": 725,
+                "y": 1677,
+                "w": 24,
+                "h": 135
+            }
+        },
+        "Lens": {
+            "frame": {
+                "x": 1693,
+                "y": 1084,
+                "w": 75,
+                "h": 45
+            }
+        },
+        "Metal": {
+            "frame": {
+                "x": 2408,
+                "y": 1507,
+                "w": 143,
+                "h": 107
+            }
+        },
+        "Plastic": {
+            "frame": {
+                "x": 2410,
+                "y": 1651,
+                "w": 158,
+                "h": 80
+            }
+        },
+        "Right arm": {
+            "frame": {
+                "x": 1968,
+                "y": 725,
+                "w": 24,
+                "h": 135
+            }
+        },
+        "screws": {
+            "frame": {
+                "x": 1757,
+                "y": 1285,
+                "w": 115,
+                "h": 75
+            }
+        },
+        "wires": {
+            "frame": {
+                "x": 1630,
+                "y": 1285,
+                "w": 122,
+                "h": 76
+            }
+        },
+        "background_overlay": {
+            "frame": {
+                "x": 2010,
+                "y": 617,
+                "w": 580,
+                "h": 419
+            }
+        },
+        "background": {
             "frame": {
                 "x": 0,
                 "y": 0,
-                "w": 393,
-                "h": 605
+                "w": 720,
+                "h": 1280
+            }
+        },
+        "button_menu": {
+            "frame": {
+                "x": 2010,
+                "y": 1651,
+                "w": 395,
+                "h": 88
+            }
+        },
+        "logo": {
+            "frame": {
+                "x": 725,
+                "y": 1546,
+                "w": 691,
+                "h": 126
+            }
+        },
+        "Hex_Coins": {
+            "frame": {
+                "x": 1527,
+                "y": 1285,
+                "w": 98,
+                "h": 98
+            }
+        },
+        "UserInterface_Highscore_Backdrop": {
+            "frame": {
+                "x": 1693,
+                "y": 1016,
+                "w": 304,
+                "h": 63
+            }
+        },
+        "UserInterface_PauseButton": {
+            "frame": {
+                "x": 1406,
+                "y": 1432,
+                "w": 79,
+                "h": 92
+            }
+        },
+        "UserInterface_PauseHud_Backdrop": {
+            "frame": {
+                "x": 0,
+                "y": 1838,
+                "w": 48,
+                "h": 235
+            }
+        },
+        "UserInterface_ScoreBar_Backdrop": {
+            "frame": {
+                "x": 2600,
+                "y": 864,
+                "w": 32,
+                "h": 834
+            }
+        },
+        "UserInterface_ScoreBar_Edges": {
+            "frame": {
+                "x": 2600,
+                "y": 0,
+                "w": 73,
+                "h": 859
+            }
+        },
+        "UserInterface_ScoreBar_Filling": {
+            "frame": {
+                "x": 2637,
+                "y": 864,
+                "w": 24,
+                "h": 813
+            }
+        },
+        "UserInterface_ScoreBar_Point_Backdrop": {
+            "frame": {
+                "x": 2408,
+                "y": 1619,
+                "w": 27,
+                "h": 27
+            }
+        },
+        "UserInterface_ScoreBar_Point_Filling": {
+            "frame": {
+                "x": 1875,
+                "y": 1084,
+                "w": 28,
+                "h": 29
+            }
+        },
+        "UserInterface_ScoreBar_Score": {
+            "frame": {
+                "x": 1406,
+                "y": 1408,
+                "w": 484,
+                "h": 19
+            }
+        },
+        "UserInterface_ScoreBar_TimeLines": {
+            "frame": {
+                "x": 1450,
+                "y": 1214,
+                "w": 347,
+                "h": 40
+            }
+        },
+        "level select": {
+            "frame": {
+                "x": 1450,
+                "y": 1140,
+                "w": 338,
+                "h": 69
+            }
+        },
+        "levelSelectBackground": {
+            "frame": {
+                "x": 725,
+                "y": 1285,
+                "w": 676,
+                "h": 256
+            }
+        },
+        "lockedlevel": {
+            "frame": {
+                "x": 2408,
+                "y": 1041,
+                "w": 178,
+                "h": 151
+            }
+        },
+        "openlevel": {
+            "frame": {
+                "x": 2408,
+                "y": 1197,
+                "w": 178,
+                "h": 151
+            }
+        },
+        "back to menu": {
+            "frame": {
+                "x": 2461,
+                "y": 1744,
+                "w": 103,
+                "h": 64
+            }
+        },
+        "backgroundoverlay": {
+            "frame": {
+                "x": 1450,
+                "y": 725,
+                "w": 411,
+                "h": 286
+            }
+        },
+        "play": {
+            "frame": {
+                "x": 2353,
+                "y": 1744,
+                "w": 103,
+                "h": 64
+            }
+        },
+        "settings": {
+            "frame": {
+                "x": 2010,
+                "y": 1744,
+                "w": 338,
+                "h": 69
             }
         }
     },
@@ -23,8 +423,8 @@
         "image": "~sprite.png",
         "scale": 1,
         "size": {
-            "w": 557,
-            "h": 605
+            "w": 2673,
+            "h": 2073
         }
     }
 }
