@@ -24,10 +24,10 @@ export default class Player extends ReactivePerspectiveObject implements Phaser.
 
        this._playerSprite = this.game.add.sprite(this.game.width / 3, this.game.height / 1.25, AtlasImages.Interface, 'Spacecraft_Main');
 
+       /*
        this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
-      // this.addChild(this.spine);
+       this.addChild(this.spine);
 
-      /*
         SPINE / ANIMATIONS TEMPORARILY DISABLED.
         NO ANIMATIONS AVAILABLE
       */
