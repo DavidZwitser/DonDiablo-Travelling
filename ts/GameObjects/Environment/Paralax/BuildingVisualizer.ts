@@ -19,6 +19,7 @@ export default class BuildingVisualizer extends Phaser.Graphics
     public amountOfBars: number = 15;
     public minimumBarHeight: number = 10;
     public barDistance: number = 1;
+    private _contextAvailable: boolean;
 
     //
     public buildings: Phaser.Sprite[];
@@ -58,10 +59,12 @@ export default class BuildingVisualizer extends Phaser.Graphics
     /** Update the song the visualizer is using to visualize music */
     public changeSong(): void
     {
-        this._analyser.Setup();
-        this.ratioAmount = this._analyser._bufferLength / this.amountOfBars;
-        this._barWidth = (this.maxWidth * this.ratioAmount / this._analyser._bufferLength) - this.barDistance;
-        this.clear();
+        this._contextAvailable = this._analyser.Setup();
+        if (this._contextAvailable) {
+            this.ratioAmount = this._analyser._bufferLength / this.amountOfBars;
+            this._barWidth = (this.maxWidth * this.ratioAmount / this._analyser._bufferLength) - this.barDistance;
+            this.clear();
+        }
 
         //this._audioElement.currentTime = 60;
         //this._audioElement.play();
@@ -72,6 +75,10 @@ export default class BuildingVisualizer extends Phaser.Graphics
     /** Umpdate the visualizer so it's values can update */
     public render(): void
     {
+        if (!this._contextAvailable) {
+            return;
+        }
+
         this.clear();
         this.lineStyle(this._barWidth, 0x33FF00);
         this._xIndex = this._barWidth / 2;

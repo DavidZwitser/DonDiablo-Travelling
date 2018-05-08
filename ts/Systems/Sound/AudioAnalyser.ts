@@ -1,3 +1,5 @@
+//use strict;
+
 export default class AudioAnalyser
 {
 
@@ -11,12 +13,15 @@ export default class AudioAnalyser
     }
 
     //music get's assigned and some data gets calculated needed for the visualizer before rendering
-    public Setup(): void {
+    public Setup(): boolean {
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);
         //this._audioElement.load();
 
-        this.context = new AudioContext();
+        this.context = new AudioContext() || null;
+        if (this.context === null) {
+            return false;
+        }
         let src: MediaElementAudioSourceNode = this.context.createMediaElementSource(this._audioElement);
         this._analyser = this.context.createAnalyser();
 
@@ -28,6 +33,7 @@ export default class AudioAnalyser
         this._bufferLength = this._analyser.frequencyBinCount;
 
         this._dataArray = new Uint8Array(this._bufferLength);
+        return true;
     }
 
     public destroy(): void {
