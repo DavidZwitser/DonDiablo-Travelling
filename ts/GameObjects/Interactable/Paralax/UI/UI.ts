@@ -1,6 +1,6 @@
 import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
-
+import ScoreBar from '../../Paralax/UI/ScoreBar';
 import ImageButton from './ImageButton';
 
 /** The user interface */
@@ -11,6 +11,7 @@ export default class UI extends ParalaxObject
     // private _visualizer: MusicVisualizer;
 
     public onPause: Phaser.Signal;
+    private _scoreBar: ScoreBar;
 
     constructor(game: Phaser.Game)
     {
@@ -19,6 +20,7 @@ export default class UI extends ParalaxObject
         this.onPause = new Phaser.Signal();
 
         this.createPauseButton();
+        this.createScoreBar();
     }
 
     private createPauseButton(): void
@@ -30,4 +32,11 @@ export default class UI extends ParalaxObject
 
     this.game.add.existing(this._pauseButton);
 }
+
+    private createScoreBar(): void
+    {
+        this._scoreBar = new ScoreBar(this.game, 0, 0);
+
+        this.game.add.existing(this._scoreBar);
+    }
 }
