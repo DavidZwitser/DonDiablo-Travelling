@@ -15,6 +15,7 @@ export default abstract class Renderer<T extends Phaser.Group> extends Phaser.Gr
         this.objects = [];
     }
 
+    /** Loop through each object */
     protected forEachObject(callback: (child: T, i: number) => void, context?: any): void
     {
         for (let i: number = this.objects.length; i--; )
