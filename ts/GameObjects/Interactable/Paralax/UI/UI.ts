@@ -26,8 +26,7 @@ export default class UI extends ParalaxObject
     private createPauseButton(): void
 {
     this._pauseButton = new ImageButton(this.game, this.game.width / 1.1, this.game.height / 2, 'ui_ingame_button_pause', 'ui_ingame_button_pause', () => {
-        this.onPause.dispatch;
-        console.log('button pressed');
+        this.onPause.dispatch();
     }, this);
 
     this.game.add.existing(this._pauseButton);
@@ -35,7 +34,7 @@ export default class UI extends ParalaxObject
 
     private createScoreBar(): void
     {
-        this._scoreBar = new ScoreBar(this.game, 0, 0);
+        this._scoreBar = new ScoreBar(this.game, 0, this.game.height / 1.1);
 
         this.game.add.existing(this._scoreBar);
     }

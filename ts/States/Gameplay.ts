@@ -67,7 +67,7 @@ export default class Gameplay extends Phaser.State
         this._player = new Player(this.game);
         this.game.add.existing(this._player);
 
-        this._userInterface.onPause.add(this.pause);
+        this._userInterface.onPause.add(this.pause, this);
 
         this.resize();
     }
@@ -78,7 +78,6 @@ export default class Gameplay extends Phaser.State
             this._audioVisualizer.render();
             this._road.renderRoad(new Phaser.Point(.5, .5), .9);
         }
-
     }
 
     public resize(): void {
@@ -87,10 +86,9 @@ export default class Gameplay extends Phaser.State
         console.log('resize');
     }
 
-    public pause( pause: boolean): void
+    public pause(): void
     {
-       this._gamePaused = !pause;
-       console.log('paused');
+        this._gamePaused = !this._gamePaused;
     }
 
     public shutdown(): void
