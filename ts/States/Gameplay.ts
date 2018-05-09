@@ -31,7 +31,6 @@ export default class Gameplay extends Phaser.State
 
     private _gamePaused: boolean = false;
 
-
     /*
     get gamePaused(): boolean {
         return this._gamePaused;

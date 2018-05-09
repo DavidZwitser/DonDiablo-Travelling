@@ -10,8 +10,6 @@ export default class ScoreBar extends Phaser.Group
     private _backDropSprite: Phaser.Sprite;
     private _foreGroundSprite: Phaser.Sprite;
 
-    private _scoreFillScale: number = 0;
-
     constructor(game: Phaser.Game, x: number, y: number)
     {
         super(game);
@@ -33,7 +31,6 @@ export default class ScoreBar extends Phaser.Group
 
     public barFill(deltaFill: number): void
     {
-        this._scoreFillScale += deltaFill;
         this._valueSprite.scale.setTo(this._valueSprite.scale.x, deltaFill);
     }
 

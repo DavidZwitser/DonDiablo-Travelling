@@ -31,6 +31,9 @@ export default class Player extends ReactivePerspectiveObject
        this.yPos = .35;
        this.zPos = 0;
 
+       this._currentLane = Lanes.topMiddleLane;
+       this._currentLane = this._currentLane;
+
        /*
        this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
        this.addChild(this.spine);
