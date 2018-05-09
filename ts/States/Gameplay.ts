@@ -31,21 +31,13 @@ export default class Gameplay extends Phaser.State
 
     private _gamePaused: boolean = false;
 
-    /*
-    get gamePaused(): boolean {
-        return this._gamePaused;
-    }
-    set gamePaused(getPaused: boolean) {
-        this._gamePaused = getPaused;
-    }
-    */
-
     constructor()
     {
         super();
     }
 
-    public init(): void {
+    public init(): void
+    {
         SoundManager.getInstance(this.game);
     }
 
@@ -85,19 +77,20 @@ export default class Gameplay extends Phaser.State
         this.resize();
     }
 
-    public update(): void {
-        this._audioVisualizer.render();
+    public update(): void
+    {
 
-        this._road.render(this._perspectiveRenderer.horizonPoint);
-
-        this._perspectiveRenderer.render();
+        if (!this._gamePaused)
+        {
+            this._audioVisualizer.render();
+            this._road.render(this._perspectiveRenderer.horizonPoint);
+            this._perspectiveRenderer.render();
+        }
     }
 
-    public resize(): void {
-
+    public resize(): void
+    {
         this._audioVisualizer.y = this.game.height * .6;
-
-        if (this._gamePaused === true) { return; }
 
         this._audioVisualizer.render();
         this._road.render(this._perspectiveRenderer.horizonPoint);
