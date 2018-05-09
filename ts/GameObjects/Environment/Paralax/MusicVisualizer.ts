@@ -14,7 +14,7 @@ export default class MusicVisualizer extends Phaser.Graphics
     public maxHeight: number = 720 / 2;
 
     public ratioAmount: number;
-    public amountOfBars: number = 100;
+    public amountOfBars: number = 20;
     public minimumBarHeight: number = 10;
     public barDistance: number = 1;
 

@@ -29,6 +29,18 @@ export default class Gameplay extends Phaser.State
     private _perspectiveRenderer: PerspectiveRenderer;
     private _road: Road;
 
+    private _gamePaused: boolean = false;
+
+
+    /*
+    get gamePaused(): boolean {
+        return this._gamePaused;
+    }
+    set gamePaused(getPaused: boolean) {
+        this._gamePaused = getPaused;
+    }
+    */
+
     constructor()
     {
         super();
@@ -48,7 +60,7 @@ export default class Gameplay extends Phaser.State
         // fill: '#fff',
         // align: 'center'});
 
-        this._audioVisualizer = new MusicVisualizer(this.game, 0, this.game.height, this.game.width, this.game.height / 2);
+        this._audioVisualizer = new MusicVisualizer(this.game, 0, 0, this.game.width, this.game.height * .15);
         this.game.add.existing(this._audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.headUp);
@@ -69,6 +81,8 @@ export default class Gameplay extends Phaser.State
         new Pickup(this.game, this._perspectiveRenderer, .2, .2);
         new Pickup(this.game, this._perspectiveRenderer, -.2, -.2);
 
+        this._userInterface.onPause.add(this.pause, this);
+
         this.resize();
     }
 
@@ -81,9 +95,18 @@ export default class Gameplay extends Phaser.State
     }
 
     public resize(): void {
-        this._audioVisualizer.y = this.game.height;
+
+        this._audioVisualizer.y = this.game.height * .6;
+
+        if (this._gamePaused === true) { return; }
+
+        this._audioVisualizer.render();
         this._road.render(this._perspectiveRenderer.horizonPoint);
-        console.log('resize');
+    }
+
+    public pause(): void
+    {
+        this._gamePaused = !this._gamePaused;
     }
 
     public shutdown(): void
@@ -93,5 +116,4 @@ export default class Gameplay extends Phaser.State
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
     }
-
 }
