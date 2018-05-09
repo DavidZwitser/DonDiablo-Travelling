@@ -9,6 +9,12 @@ export default abstract class Renderer<T extends Phaser.Group> extends Phaser.Gr
     /* Apply the trensformations to the sprites and 'render' them */
     public abstract render(): void;
 
+    constructor(game: Phaser.Game)
+    {
+        super(game);
+        this.objects = [];
+    }
+
     protected forEachObject(callback: (child: T, i: number) => void, context?: any): void
     {
         for (let i: number = this.objects.length; i--; )
@@ -59,6 +65,6 @@ export default abstract class Renderer<T extends Phaser.Group> extends Phaser.Gr
             }
         });
 
-        return true;
+        return wasAChild;
     }
 }

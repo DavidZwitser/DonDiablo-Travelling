@@ -2,6 +2,7 @@ import { Lanes } from '../Enums/Lanes';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 import ObjectPool from './ObjectPool';
 import Jason from '../Data/Jason';
+import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 
 //interface that is the same of the json file it get recieved from
 interface ILevelData {
@@ -22,11 +23,15 @@ export default class PickupSpawner
     private timeOut: any;
     private spawnIndex: number = 0;
 
-    constructor(game: Phaser.Game) {
+    private perspectiveRenderer: PerspectiveRenderer;
+
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer) {
+
+        this.perspectiveRenderer = renderer;
 
         //pickup pooling gets defined
         this.pickupPool = new ObjectPool(() => {
-            let pickup: Pickup = new Pickup(game);
+            let pickup: Pickup = new Pickup(game, this.perspectiveRenderer, .2, .2);
             game.add.existing(pickup);
             return pickup;
         });
@@ -72,12 +77,14 @@ export default class PickupSpawner
     //this is the loop the spawning takes place from the leveldata
     private waitForNextSpawning(timeWaiting: number): void {
         this.timeOut = setTimeout(() => {
-            let pickup: Pickup = this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
+            this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
+
             this.spawnIndex++;
-            console.log(this.levelData.timings[this.spawnIndex - 1].time - this.levelData.timings[this.spawnIndex].time);
+
             if (this.spawnIndex < this.levelData.timings.length - 1) {
                 this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - this.levelData.timings[this.spawnIndex - 1].time);
             }
+
         }, timeWaiting * 1000);
     }
     // public spawnPickupIfNeeded(): void

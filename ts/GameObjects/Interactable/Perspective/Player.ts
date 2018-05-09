@@ -1,5 +1,6 @@
 import { Lanes } from '../../../Enums/Lanes';
 import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
+import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
 
 /** The player controlled by the user */
 export default class Player extends ReactivePerspectiveObject
@@ -21,9 +22,9 @@ export default class Player extends ReactivePerspectiveObject
         //
     }
 
-    constructor(game: Phaser.Game)
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
-        super(game);
+        super(game, renderer, 0, -.2);
 
         /* So no tslint errors will be thrown */
         this.currentLane = this.currentLane;
