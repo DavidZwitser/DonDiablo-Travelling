@@ -1,6 +1,6 @@
 import 'phaser-ce';
 
-import MusicVisualizer from '../GameObjects/Environment/Paralax/MusicVisualizer';
+import BuildingVisualizer from '../GameObjects/Environment/Paralax/BuildingVisualizer';
 import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
@@ -15,7 +15,8 @@ export default class Gameplay extends Phaser.State
     public name: string = Gameplay.Name;
 
     private _worldMood: number;
-    private _audioVisualizer: MusicVisualizer;
+
+    private _audioVisualizer: BuildingVisualizer;
 
     private _userInterface: UI;
     private _player: Player;
@@ -37,11 +38,7 @@ export default class Gameplay extends Phaser.State
 
         this._worldMood = this._worldMood;
 
-        // let text: any = this.game.add.text(0, 0, 'this is the gameplay state', {font: '50px',
-        // fill: '#fff',
-        // align: 'center'});
-
-        this._audioVisualizer = new MusicVisualizer(this.game, 0, 0, this.game.width, this.game.height * .15);
+        this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.headUp);
@@ -54,7 +51,6 @@ export default class Gameplay extends Phaser.State
 
         this._player = new Player(this.game);
         this.game.add.existing(this._player);
-
         this.resize();
     }
 
@@ -64,9 +60,8 @@ export default class Gameplay extends Phaser.State
     }
 
     public resize(): void {
-        this._audioVisualizer.y = this.game.height * .6;
+        this._audioVisualizer.resize();
         this._road.renderRoad(new Phaser.Point(.5, .5), .9);
-        console.log('resize');
     }
 
     public shutdown(): void
