@@ -78,7 +78,7 @@ export default class Gameplay extends Phaser.State
         new Pickup(this.game, this._perspectiveRenderer, .2, .2);
         new Pickup(this.game, this._perspectiveRenderer, -.2, -.2);
 
-        this._userInterface.onPause.add(this.pause, this);
+        //this._userInterface.onPause.add(this.pause, this);
 
         this.resize();
     }
@@ -97,6 +97,7 @@ export default class Gameplay extends Phaser.State
     public resize(): void
     {
         this._audioVisualizer.resize();
+        this._userInterface.resize();
         this._road.render(this._perspectiveRenderer.horizonPoint);
     }
 
