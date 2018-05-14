@@ -6,8 +6,6 @@ import Atlases from '../../../Data/Atlases';
 /** Visualizes music */
 export default class BuildingVisualizer extends Phaser.Graphics
 {
-    private _analyser: AudioAnalyser;
-
     private _xIndex: number;
     private _barWidth: number;
     private _barHeight: number;
@@ -31,7 +29,6 @@ export default class BuildingVisualizer extends Phaser.Graphics
 
         this.buildings = [];
 
-        this._analyser = new AudioAnalyser();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.changeSong();
@@ -59,10 +56,10 @@ export default class BuildingVisualizer extends Phaser.Graphics
     /** Update the song the visualizer is using to visualize music */
     public changeSong(): void
     {
-        this._contextAvailable = this._analyser.Setup();
+        this._contextAvailable = AudioAnalyser.getInstance().Setup();
         if (this._contextAvailable) {
-            this.ratioAmount = this._analyser._bufferLength / this.amountOfBars;
-            this._barWidth = (this.maxWidth * this.ratioAmount / this._analyser._bufferLength) - this.barDistance;
+            this.ratioAmount = AudioAnalyser.getInstance().bufferLength / this.amountOfBars;
+            this._barWidth = (this.maxWidth * this.ratioAmount / AudioAnalyser.getInstance().bufferLength) - this.barDistance;
             this.clear();
         }
 
@@ -85,15 +82,15 @@ export default class BuildingVisualizer extends Phaser.Graphics
 
         //let max: number = 0;
 
-        this._analyser._analyser.getByteFrequencyData(this._analyser._dataArray);
+        AudioAnalyser.getInstance().analyser.getByteFrequencyData(AudioAnalyser.getInstance().dataArray);
         for (let i: number = this.buildings.length; i--;) {
-            let height: number = this._analyser._dataArray[Math.round(this.buildings[i].x / this.maxWidth * this._analyser._bufferLength)] / 256 * this.buildings[i].height;
+            let height: number = AudioAnalyser.getInstance().dataArray[Math.round(this.buildings[i].x / this.maxWidth * AudioAnalyser.getInstance().bufferLength)] / 256 * this.buildings[i].height;
             console.log(height);
             this.buildings[i].y =  -height;
         }
 
-        for (let i: number = 0; i < this._analyser._bufferLength; i += this.ratioAmount) {
-            this._barHeight = (this._analyser._dataArray[Math.round(i)] / 256 * this.maxHeight);
+        for (let i: number = 0; i < AudioAnalyser.getInstance().bufferLength; i += this.ratioAmount) {
+            this._barHeight = (AudioAnalyser.getInstance().dataArray[Math.round(i)] / 256 * this.maxHeight);
             this.moveTo(this._xIndex, 0);
             this.lineTo(this._xIndex, Math.min(-this._barHeight, -this.minimumBarHeight));
             this._xIndex += this._barWidth + this.barDistance;

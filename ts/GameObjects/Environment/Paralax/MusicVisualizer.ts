@@ -31,8 +31,8 @@ export default class MusicVisualizer extends Phaser.Graphics
     public changeSong(): void
     {
         this._analyser.Setup();
-        this.ratioAmount = this._analyser._bufferLength / this.amountOfBars;
-        this._barWidth = (this.maxWidth * this.ratioAmount / this._analyser._bufferLength) - this.barDistance;
+        this.ratioAmount = this._analyser.bufferLength / this.amountOfBars;
+        this._barWidth = (this.maxWidth * this.ratioAmount / this._analyser.bufferLength) - this.barDistance;
         this.clear();
 
         //this._audioElement.currentTime = 60;
@@ -49,9 +49,9 @@ export default class MusicVisualizer extends Phaser.Graphics
         this._xIndex = this._barWidth / 2;
 
         //let max: number = 0;
-        this._analyser._analyser.getByteFrequencyData(this._analyser._dataArray);
-        for (let i: number = 0; i < this._analyser._bufferLength; i += this.ratioAmount) {
-            this._barHeight = (this._analyser._dataArray[Math.round(i)] / 256 * this.maxHeight);
+        this._analyser.analyser.getByteFrequencyData(this._analyser.dataArray);
+        for (let i: number = 0; i < this._analyser.bufferLength; i += this.ratioAmount) {
+            this._barHeight = (this._analyser.dataArray[Math.round(i)] / 256 * this.maxHeight);
             this.moveTo(this._xIndex, 0);
             this.lineTo(this._xIndex, Math.min(-this._barHeight, -this.minimumBarHeight));
             this._xIndex += this._barWidth + this.barDistance;
