@@ -48,13 +48,13 @@ export default class Gameplay extends Phaser.State
 
         this._worldMood = this._worldMood;
 
-        this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
-        this.game.add.existing(this._audioVisualizer);
-
         SoundManager.getInstance().playMusic(Sounds.headUp);
 
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
+
+        this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
+        this.game.add.existing(this._audioVisualizer);
 
         this._perspectiveRenderer = new PerspectiveRenderer(this.game, new Phaser.Point(.5, .5));
 
