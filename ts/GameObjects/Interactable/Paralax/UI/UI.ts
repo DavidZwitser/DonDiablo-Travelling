@@ -4,7 +4,6 @@ import ScoreBar from '../../Paralax/UI/ScoreBar';
 import ImageButton from './ImageButton';
 
 import AtlasImages from '../../../../Data/Atlases';
-import { MemoVoidArrayIterator } from 'lodash';
 
 /** The user interface */
 export default class UI extends ParalaxObject

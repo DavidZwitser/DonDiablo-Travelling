@@ -48,6 +48,7 @@ export default class Gameplay extends Phaser.State
         super.create(this.game);
 
         this.spawnEditor = new SpawnEditor();
+        this.spawnEditor = this.spawnEditor;
         //remove below comment to start recording the spawn editor.
         //this.spawnEditor.startRecording();
 
