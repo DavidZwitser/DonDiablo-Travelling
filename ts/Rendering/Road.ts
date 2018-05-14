@@ -1,4 +1,5 @@
 import 'phaser-ce';
+import { Lanes, laneToPerspectivePosition } from '../Enums/Lanes';
 
 /** Renders a road */
 export default class Road extends Phaser.Graphics
@@ -35,13 +36,13 @@ export default class Road extends Phaser.Graphics
         /* -- */
 
         /* The road lines */
-        let bottomLeftRoadLine: Phaser.Polygon = getBottomLine(-.3);
-        let bottomCenterRoadLine: Phaser.Polygon = getBottomLine(0);
-        let bottomRightRoadLine: Phaser.Polygon = getBottomLine(.3);
+        let bottomLeftRoadLine: Phaser.Polygon = getBottomLine( laneToPerspectivePosition( Lanes.bottomLeftLane ).x );
+        let bottomCenterRoadLine: Phaser.Polygon = getBottomLine( laneToPerspectivePosition( Lanes.bottomCenterLane ).x );
+        let bottomRightRoadLine: Phaser.Polygon = getBottomLine( laneToPerspectivePosition( Lanes.bottomRightLane ).x );
 
-        let topLeftRoadLine: Phaser.Polygon = getTopLine(-.3);
-        let topCenterRoadLine: Phaser.Polygon = getTopLine(0);
-        let topRightRoadLine: Phaser.Polygon = getTopLine(.3);
+        let topLeftRoadLine: Phaser.Polygon = getTopLine( laneToPerspectivePosition( Lanes.topLeftLane ).x );
+        let topCenterRoadLine: Phaser.Polygon = getTopLine( laneToPerspectivePosition( Lanes.topCenterLane ).x );
+        let topRightRoadLine: Phaser.Polygon = getTopLine( laneToPerspectivePosition( Lanes.topRightLane ).x );
         /* -- */
 
         let roadShapeBottom: Phaser.Polygon = getBottomLine(0, .5 + this._lineThickness);

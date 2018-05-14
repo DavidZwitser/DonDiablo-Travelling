@@ -1,6 +1,7 @@
 import 'phaser-ce';
 
 import PerspectiveRenderer from '../PerspectiveRenderer';
+import { Lanes, laneToPerspectivePosition } from '../../Enums/Lanes';
 
 /** A sprite that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
@@ -8,6 +9,10 @@ export default class PerspectiveObject extends Phaser.Group
     private _zPos: number;
     private _xPos: number;
     private _yPos: number;
+
+    private _lane: Lanes = Lanes.bottomCenterLane;
+
+    public positionShouldBeUpdated: boolean = true;
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer, xPos: number, yPos: number)
     {
@@ -19,6 +24,20 @@ export default class PerspectiveObject extends Phaser.Group
         this._yPos = yPos;
     }
 
+    public get lane(): Lanes
+    {
+        return this._lane;
+    }
+    public set lane(lane: Lanes)
+    {
+        let targetPosition: {x: number, y: number} = laneToPerspectivePosition(lane);
+
+        this.xPos = targetPosition.x;
+        this.yPos = targetPosition.y;
+
+        this._lane = lane;
+    }
+
     /** What z position the sprite is currently on */
     public get zPos(): number
     {
@@ -27,6 +46,7 @@ export default class PerspectiveObject extends Phaser.Group
     public set zPos(value: number)
     {
         this._zPos = value;
+        this.positionShouldBeUpdated = true;
     }
 
     /** What x position the sprite is currently on */
@@ -37,6 +57,7 @@ export default class PerspectiveObject extends Phaser.Group
     public set xPos(value: number)
     {
         this._xPos = value;
+        this.positionShouldBeUpdated = true;
     }
 
     /** What y position the sprite is currently on */
@@ -47,5 +68,6 @@ export default class PerspectiveObject extends Phaser.Group
     public set yPos(value: number)
     {
         this._yPos = value;
+        this.positionShouldBeUpdated = true;
     }
 }

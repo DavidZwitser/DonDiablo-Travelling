@@ -31,6 +31,9 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
     /** Apply transition to an object. */
     private transformObject(object: PerspectiveObject): void
     {
+        if (object.positionShouldBeUpdated === false) { return; }
+        object.positionShouldBeUpdated = false;
+
         let targetTransform: IScreenTransform = this.screenToWorldPosition(object.xPos, object.zPos, object.yPos);
 
         object.scale.set(targetTransform.scale);

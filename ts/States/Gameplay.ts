@@ -1,13 +1,13 @@
 import 'phaser-ce';
 
-import MusicVisualizer from '../GameObjects/Environment/Paralax/MusicVisualizer';
+import BuildingVisualizer from '../GameObjects/Environment/Paralax/BuildingVisualizer';
 import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
 // import PickupSpawner from '../Systems/PickupSpawner';
-
+import SpawnEditor from '../Systems/SpawnEditor';
 import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
@@ -19,7 +19,8 @@ export default class Gameplay extends Phaser.State
     public name: string = Gameplay.Name;
 
     private _worldMood: number;
-    private _audioVisualizer: MusicVisualizer;
+
+    private _audioVisualizer: BuildingVisualizer;
 
     private _userInterface: UI;
     private _player: Player;
@@ -30,22 +31,15 @@ export default class Gameplay extends Phaser.State
     private _road: Road;
 
     private _gamePaused: boolean = false;
-
-    /*
-    get gamePaused(): boolean {
-        return this._gamePaused;
-    }
-    set gamePaused(getPaused: boolean) {
-        this._gamePaused = getPaused;
-    }
-    */
+    private spawnEditor: SpawnEditor;
 
     constructor()
     {
         super();
     }
 
-    public init(): void {
+    public init(): void
+    {
         SoundManager.getInstance(this.game);
     }
 
@@ -53,19 +47,19 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
+        this.spawnEditor = new SpawnEditor();
+        //remove below comment to start recording the spawn editor.
+        //this.spawnEditor.startRecording();
+
         this._worldMood = this._worldMood;
-
-        // let text: any = this.game.add.text(0, 0, 'this is the gameplay state', {font: '50px',
-        // fill: '#fff',
-        // align: 'center'});
-
-        this._audioVisualizer = new MusicVisualizer(this.game, 0, 0, this.game.width, this.game.height * .15);
-        this.game.add.existing(this._audioVisualizer);
 
         SoundManager.getInstance().playMusic(Sounds.headUp);
 
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
+
+        this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
+        this.game.add.existing(this._audioVisualizer);
 
         this._perspectiveRenderer = new PerspectiveRenderer(this.game, new Phaser.Point(.5, .5));
 
@@ -74,6 +68,10 @@ export default class Gameplay extends Phaser.State
 
         this._player = new Player(this.game, this._perspectiveRenderer);
         this.game.add.existing(this._player);
+
+        setInterval(() => {
+            this._player.lane ++;
+        }, 2000);
 
         // this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
 
@@ -85,21 +83,20 @@ export default class Gameplay extends Phaser.State
         this.resize();
     }
 
-    public update(): void {
-        this._audioVisualizer.render();
+    public update(): void
+    {
 
-        this._road.render(this._perspectiveRenderer.horizonPoint);
-
-        this._perspectiveRenderer.render();
+        if (!this._gamePaused)
+        {
+            this._audioVisualizer.render();
+            this._road.render(this._perspectiveRenderer.horizonPoint);
+            this._perspectiveRenderer.render();
+        }
     }
 
-    public resize(): void {
-
-        this._audioVisualizer.y = this.game.height * .6;
-
-        if (this._gamePaused === true) { return; }
-
-        this._audioVisualizer.render();
+    public resize(): void
+    {
+        this._audioVisualizer.resize();
         this._road.render(this._perspectiveRenderer.horizonPoint);
     }
 

@@ -7,8 +7,6 @@ import AtlasImages from '../../../Data/Atlases';
 /** The player controlled by the user */
 export default class Player extends ReactivePerspectiveObject
 {
-    private _currentLane: Lanes;
-
     private _sprite: Phaser.Sprite;
 
     public spine: any;
@@ -21,18 +19,18 @@ export default class Player extends ReactivePerspectiveObject
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
-       super(game, renderer, 0, 0);
+        super(game, renderer, 0, 0);
 
-       this._sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
-       this.addChild(this._sprite);
+        this._sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
+        this.addChild(this._sprite);
 
-       this._sprite.anchor.set(.5, this.yPos < 0 ? 1 : 0);
+        this._sprite.scale.set(.5, 1);
 
-       this.yPos = .35;
-       this.zPos = 0;
+        this._sprite.anchor.set(.5, this.yPos < 0 ? 1 : 0);
 
-       this._currentLane = Lanes.topMiddleLane;
-       this._currentLane = this._currentLane;
+        this.zPos = .2;
+
+        this.lane = Lanes.bottomLeftLane;
 
        /*
        this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
@@ -86,5 +84,4 @@ export default class Player extends ReactivePerspectiveObject
         if (this.spine) { this.spine.destroy(true); }
         this.spine = null;
     }
-
 }
