@@ -64,6 +64,10 @@ export default class Gameplay extends Phaser.State
         this._player = new Player(this.game, this._perspectiveRenderer);
         this.game.add.existing(this._player);
 
+        setInterval(() => {
+            this._player.lane ++;
+        }, 2000);
+
         // this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
 
         new Pickup(this.game, this._perspectiveRenderer, .2, .2);
