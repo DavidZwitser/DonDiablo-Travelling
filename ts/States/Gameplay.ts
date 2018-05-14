@@ -7,7 +7,7 @@ import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
 // import PickupSpawner from '../Systems/PickupSpawner';
-
+import SpawnEditor from '../Systems/SpawnEditor';
 import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
@@ -31,6 +31,7 @@ export default class Gameplay extends Phaser.State
     private _road: Road;
 
     private _gamePaused: boolean = false;
+    private spawnEditor: SpawnEditor;
 
     constructor()
     {
@@ -45,6 +46,10 @@ export default class Gameplay extends Phaser.State
     public create(): void
     {
         super.create(this.game);
+
+        this.spawnEditor = new SpawnEditor();
+        //remove below comment to start recording the spawn editor.
+        //this.spawnEditor.startRecording();
 
         this._worldMood = this._worldMood;
 
