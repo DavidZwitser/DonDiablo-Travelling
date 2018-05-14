@@ -3,13 +3,19 @@
 export default class AudioAnalyser
 {
 
-    public _audioElement: HTMLMediaElement;
-    public _analyser: AnalyserNode;
-    public _dataArray: any;
-    public _bufferLength: number;
+    private static instance: AudioAnalyser = null;
+
+    public audioElement: HTMLMediaElement;
+    public analyser: AnalyserNode;
+    public dataArray: any;
+    public bufferLength: number;
     public context: AudioContext;
+    private _src: MediaElementAudioSourceNode;
+
+    private _alreadyDidThisBrutah: boolean = false;
+
     constructor () {
-        this._audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
+        this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
     }
 
     //music get's assigned and some data gets calculated needed for the visualizer before rendering
@@ -17,28 +23,38 @@ export default class AudioAnalyser
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);
         //this._audioElement.load();
+        console.log('yo man');
+
+        if (this._alreadyDidThisBrutah === true) { return; }
+        this._alreadyDidThisBrutah = true;
 
         this.context = new AudioContext() || null;
         if (this.context === null) {
             return false;
         }
-        let src: MediaElementAudioSourceNode = this.context.createMediaElementSource(this._audioElement);
-        this._analyser = this.context.createAnalyser();
+        this._src = this.context.createMediaElementSource(this.audioElement);
+        this.analyser = this.context.createAnalyser();
 
-        src.connect(this._analyser);
-        this._analyser.connect(this.context.destination);
+        this._src.connect(this.analyser);
+        this.analyser.connect(this.context.destination);
 
-        this._analyser.fftSize = 256;
+        this.analyser.fftSize = 256;
 
-        this._bufferLength = this._analyser.frequencyBinCount;
+        this.bufferLength = this.analyser.frequencyBinCount;
 
-        this._dataArray = new Uint8Array(this._bufferLength);
+        this.dataArray = new Uint8Array(this.bufferLength);
         return true;
     }
 
-    public destroy(): void {
-        this._analyser = null;
-        this._dataArray = null;
-        this._bufferLength = null;
+    public static getInstance(): AudioAnalyser
+    {
+        if (null === AudioAnalyser.instance)
+        {
+            console.log('init');
+            AudioAnalyser.instance = new AudioAnalyser();
+        }
+
+        return AudioAnalyser.instance;
     }
+
 }
