@@ -11,6 +11,7 @@ import SpawnEditor from '../Systems/SpawnEditor';
 import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
+import Constants from '../Data/Constants';
 
 export default class Gameplay extends Phaser.State
 {
@@ -29,6 +30,7 @@ export default class Gameplay extends Phaser.State
 
     private _perspectiveRenderer: PerspectiveRenderer;
     private _road: Road;
+    private _glowFilter: Phaser.Filter;
 
     private _gamePaused: boolean = false;
     private spawnEditor: SpawnEditor;
@@ -55,8 +57,11 @@ export default class Gameplay extends Phaser.State
 
         SoundManager.getInstance().playMusic(Sounds.headUp);
 
+        this._glowFilter = new Phaser.Filter(this.game, null, Constants.glowFilter);
+
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
+        this._road.filters = [this._glowFilter];
 
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
