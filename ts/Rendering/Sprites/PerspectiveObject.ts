@@ -6,6 +6,8 @@ import { Lanes, laneToPerspectivePosition } from '../../Enums/Lanes';
 /** A sprite that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
 {
+    protected sprite: Phaser.Sprite;
+
     private _zPos: number;
     private _xPos: number;
     private _yPos: number;
@@ -19,7 +21,7 @@ export default class PerspectiveObject extends Phaser.Group
         super(game);
         renderer.addObject(this);
 
-        this._zPos = 1;
+        this._zPos = 0;
         this._xPos = xPos;
         this._yPos = yPos;
     }
@@ -67,6 +69,8 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set yPos(value: number)
     {
+        if (this.sprite) { this.sprite.anchor.set(.5, value > 0 ? 1 : 0); }
+
         this._yPos = value;
         this.positionShouldBeUpdated = true;
     }

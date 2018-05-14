@@ -43,7 +43,7 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
     /** Give a world position and get a screen position back. */
     public screenToWorldPosition(xPos: number, zPos: number, yPos: number): IScreenTransform
     {
-        let projectedPosision: number = 1 / (Math.pow(2, zPos));
+        let projectedPosision: number = 1 / Math.pow(2, zPos);
 
         return {
             x: this.horizonPoint.x * this.game.width + projectedPosision * xPos * this.game.width,
