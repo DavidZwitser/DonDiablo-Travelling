@@ -22,7 +22,6 @@ export default class GameOverScreen extends BasePopUp
 
         this.addChild(this._highScoreText);
         this._highScoreText.anchor.set(0.5);
-        console.log('hallo');
     }
 
     /** Update the highscore text */
