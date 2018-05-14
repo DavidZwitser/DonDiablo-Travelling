@@ -1,14 +1,15 @@
 import { Lanes } from '../../../Enums/Lanes';
 import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
+import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
 
 import AtlasImages from '../../../Data/Atlases';
 
 /** The player controlled by the user */
-export default class Player extends ReactivePerspectiveObject implements Phaser.Sprite
+export default class Player extends ReactivePerspectiveObject
 {
     private _currentLane: Lanes;
 
-    private _playerSprite: Phaser.Sprite;
+    private _sprite: Phaser.Sprite;
 
     public spine: any;
     public speed: number;
@@ -18,11 +19,20 @@ export default class Player extends ReactivePerspectiveObject implements Phaser.
     public static ANIMATION_TURN: string = 'turn';
     public static ANIMATION_LOSE: string = 'defeat';
 
-    constructor(game: Phaser.Game)
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
-       super(game);
+       super(game, renderer, 0, 0);
 
-       this._playerSprite = this.game.add.sprite(this.game.width / 3, this.game.height / 1.25, AtlasImages.Interface, 'Spacecraft_Main');
+       this._sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
+       this.addChild(this._sprite);
+
+       this._sprite.anchor.set(.5, this.yPos < 0 ? 1 : 0);
+
+       this.yPos = .35;
+       this.zPos = 0;
+
+       this._currentLane = Lanes.topMiddleLane;
+       this._currentLane = this._currentLane;
 
        /*
        this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
@@ -76,5 +86,4 @@ export default class Player extends ReactivePerspectiveObject implements Phaser.
         if (this.spine) { this.spine.destroy(true); }
         this.spine = null;
     }
-
 }

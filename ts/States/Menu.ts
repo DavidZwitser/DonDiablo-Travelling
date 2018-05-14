@@ -52,6 +52,7 @@ export default class Menu extends Phaser.State
 
         this.resize();
     }
+
     public createMainButtons(): Phaser.Group {
 
         let group: Phaser.Group = new Phaser.Group(this.game);
@@ -96,7 +97,6 @@ export default class Menu extends Phaser.State
         this._logoSprite.scale.set(vmin / GAME_WIDTH);
 
         console.log(vmin);
-
     }
 
     public DisplaySetting(): void {
@@ -134,5 +134,4 @@ export default class Menu extends Phaser.State
         this._settingGroup.destroy();
         this._settingGroup = null;
     }
-
 }

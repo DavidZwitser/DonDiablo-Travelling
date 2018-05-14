@@ -1,6 +1,7 @@
 import Renderer from './Renderer';
 import PerspectiveObject from './Sprites/PerspectiveObject';
 
+/** The interface which describes a sprite's dimensions on the screen. */
 interface IScreenTransform
 {
     x: number;
@@ -11,44 +12,40 @@ interface IScreenTransform
 /** Renders sprites in a pseudo 3d way */
 export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 {
-    private _horizonPoint: Phaser.Point;
-    private _depthOfField: number;
+    /** The point at which the sprites aim to go */
+    public horizonPoint: Phaser.Point;
 
-    constructor(game: Phaser.Game)
+    constructor(game: Phaser.Game, horizonPoint: Phaser.Point)
     {
         super(game);
 
-        this._depthOfField = .96;
-        this._horizonPoint = new Phaser.Point(.5, .45);
+        this.horizonPoint = horizonPoint;
     }
 
-    /** Render the sprites in pseudo3d way */
+    /** Render (position) the sprites in pseudo3d way */
     public render(): void
     {
-        this.forEachObject(this.eachObject, this);
+        this.forEachObject(this.transformObject, this);
     }
 
-    private eachObject(object: PerspectiveObject): void
+    /** Apply transition to an object. */
+    private transformObject(object: PerspectiveObject): void
     {
-        let targetTransform: IScreenTransform = this.screenToWorldPosition(object.xPos, object.zPos);
+        let targetTransform: IScreenTransform = this.screenToWorldPosition(object.xPos, object.zPos, object.yPos);
 
         object.scale.set(targetTransform.scale);
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
-    public screenToWorldPosition(xPos: number, zPos: number): IScreenTransform
+    /** Give a world position and get a screen position back. */
+    public screenToWorldPosition(xPos: number, zPos: number, yPos: number): IScreenTransform
     {
-
-        let perspectiveOffset: number = this._horizonPoint.y / zPos;
-
-        let projectedX: number = (this._horizonPoint.x + xPos * perspectiveOffset) * this.game.width;
-        let projectedY: number = (this._horizonPoint.y + (1 - this._horizonPoint.y) * perspectiveOffset) * this.game.height;
-        let projectedScale: number = perspectiveOffset;
+        let projectedPosision: number = 1 / (Math.pow(2, zPos));
 
         return {
-            x: projectedX,
-            y: projectedY,
-            scale: projectedScale
+            x: this.horizonPoint.x * this.game.width + projectedPosision * xPos * this.game.width,
+            y: this.horizonPoint.y * this.game.height + projectedPosision * yPos * this.game.height,
+            scale: projectedPosision
         };
     }
 }
