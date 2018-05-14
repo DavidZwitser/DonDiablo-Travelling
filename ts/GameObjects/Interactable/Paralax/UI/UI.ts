@@ -4,8 +4,6 @@ import ScoreBar from '../../Paralax/UI/ScoreBar';
 import ImageButton from './ImageButton';
 import GameOverScreen from '../UI/GameOverScreen';
 import AtlasImages from '../../../../Data/AtlasImages';
-
-import AtlasImages from '../../../../Data/Atlases';
 import { MemoVoidArrayIterator } from 'lodash';
 
 /** The user interface */
@@ -28,12 +26,9 @@ export default class UI extends ParalaxObject
         this.createPauseBackground();
         this.createPauseButton();
         this.createScoreBar();
-<<<<<<< HEAD
         this.createGameOverScreen();
-=======
 
         this.resize();
->>>>>>> origin/dev
     }
 
     private resize(): void
