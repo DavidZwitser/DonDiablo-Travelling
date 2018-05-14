@@ -115,8 +115,6 @@ export default class SoundManager
         this._music.element.play();
         this._music.element.loop = true;
 
-        console.error('playin ze muziek');
-
         return;
 
         //console.error('doing nothing' );

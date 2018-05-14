@@ -1,7 +1,5 @@
 import 'phaser-ce';
-import ImageButton from '../UI/ImageButton';
 import TextButton from '../UI/TextButton';
-import Atlases from '../../../../Data/Atlases';
 import AtlasImages from '../../../../Data/AtlasImages';
 import Gameplay from '../../../../States/Gameplay';
 import Menu from '../../../../States/Menu';
@@ -63,7 +61,7 @@ export default class BasePopUp extends Phaser.Group
         this._scoreText.scale.set(scale, scale);
         this.addChild(this._scoreText);
 
-        this.visible = true;
+        this.visible = false;
 
     }
 
