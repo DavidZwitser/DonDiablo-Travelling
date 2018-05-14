@@ -42,4 +42,5 @@ export default class AtlasImages
     public static ScoreBarBackground: string = 'UserInterface_ScoreBar_Backdrop';
     public static ScoreBarFill: string = 'UserInterface_ScoreBar_Filling';
     public static ScoreBarForeground: string = 'UserInterface_ScoreBar_Edges';
+    public static Black_Pixel: string = 'Pixel_black';
 }
