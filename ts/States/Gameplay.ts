@@ -6,11 +6,10 @@ import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
-// import PickupSpawner from '../Systems/PickupSpawner';
+import PickupSpawner from '../Systems/PickupSpawner';
 import SpawnEditor from '../Systems/SpawnEditor';
 import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
-import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 import Constants from '../Data/Constants';
 
 export default class Gameplay extends Phaser.State
@@ -26,7 +25,7 @@ export default class Gameplay extends Phaser.State
     private _userInterface: UI;
     private _player: Player;
 
-    // private _pickupSpawner: PickupSpawner;
+    private _pickupSpawner: PickupSpawner;
 
     private _perspectiveRenderer: PerspectiveRenderer;
     private _road: Road;
@@ -52,11 +51,11 @@ export default class Gameplay extends Phaser.State
         this.spawnEditor = new SpawnEditor();
         this.spawnEditor = this.spawnEditor;
         //remove below comment to start recording the spawn editor.
-        //this.spawnEditor.startRecording();
+        this.spawnEditor.startRecording();
 
         this._worldMood = this._worldMood;
 
-        SoundManager.getInstance().playMusic(Sounds.headUp);
+        SoundManager.getInstance().playMusic(Sounds.testMusic);
 
         this._glowFilter = new Phaser.Filter(this.game, null, Constants.glowFilter);
 
@@ -79,10 +78,10 @@ export default class Gameplay extends Phaser.State
             this._player.lane ++;
         }, 2000);
 
-        // this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
+        this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
 
-        new Pickup(this.game, this._perspectiveRenderer, .2, .2);
-        new Pickup(this.game, this._perspectiveRenderer, -.2, -.2);
+        //new Pickup(this.game, this._perspectiveRenderer, .2, .2);
+        //new Pickup(this.game, this._perspectiveRenderer, -.2, -.2);
 
         this._userInterface.onPause.add(this.pause, this);
 
@@ -109,6 +108,7 @@ export default class Gameplay extends Phaser.State
     public pause(): void
     {
         this._gamePaused = !this._gamePaused;
+        this._pickupSpawner.pause(this._gamePaused);
     }
 
     public shutdown(): void

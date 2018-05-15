@@ -22,6 +22,8 @@ export default class PickupSpawner
     private levelData: ILevelData;
     private timeOut: any;
     private spawnIndex: number = 0;
+    private startTime: number;
+    private passedTime: number;
 
     private perspectiveRenderer: PerspectiveRenderer;
 
@@ -48,14 +50,13 @@ export default class PickupSpawner
     {
         let pickup: Pickup = <Pickup>this.pickupPool.getObject(true);
         if (pickup !== null) {
-            pickup._lanePosition = lanePos;
-            //TODO change position of pickup based on lanepos
-            pickup.position.set(0, 0);
+            pickup.lane = lanePos;
+            pickup.zPos = 2;
 
             //TODO: settimeout can be removed, it basically is a way do deactivate the sprite automaticly
             setTimeout(() => {
                 pickup.visible = false;
-            }, 500);
+            }, 5000);
         }
         return pickup;
     }
@@ -76,6 +77,7 @@ export default class PickupSpawner
 
     //this is the loop the spawning takes place from the leveldata
     private waitForNextSpawning(timeWaiting: number): void {
+        this.startTime = Date.now();
         this.timeOut = setTimeout(() => {
             this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
 
@@ -86,6 +88,15 @@ export default class PickupSpawner
             }
 
         }, timeWaiting * 1000);
+    }
+
+    public pause(pause: boolean): void {
+        if (pause) {
+            clearTimeout(this.timeOut);
+            this.passedTime = Date.now() - this.startTime;
+        } else {
+            this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - (this.spawnIndex !== 0 ? this.levelData.timings[this.spawnIndex - 1].time : 0) - this.passedTime);
+        }
     }
     // public spawnPickupIfNeeded(): void
     // {
