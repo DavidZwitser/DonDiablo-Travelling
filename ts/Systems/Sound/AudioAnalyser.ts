@@ -23,8 +23,6 @@ export default class AudioAnalyser
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);
         //this._audioElement.load();
-        console.log('yo man');
-
         if (this._alreadyDidThisBrutah === true) { return; }
         this._alreadyDidThisBrutah = true;
 
@@ -50,7 +48,6 @@ export default class AudioAnalyser
     {
         if (null === AudioAnalyser.instance)
         {
-            console.log('init');
             AudioAnalyser.instance = new AudioAnalyser();
         }
 

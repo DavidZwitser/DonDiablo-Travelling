@@ -16,7 +16,7 @@ export default class BasePopUp extends Phaser.Group
     private _menuBackground: Phaser.Image;
     private _blackPixel: Phaser.Sprite;
 
-    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number, backgroundImage: string)
+    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
     {
         super(game);
 
@@ -29,7 +29,7 @@ export default class BasePopUp extends Phaser.Group
         this._blackPixel.height = game.height;
         this.addChild(this._blackPixel);
         this._blackPixel.anchor.setTo(0.5);
-        this._blackPixel.alpha = 0.7;
+        this._blackPixel.alpha = 0;
 
         this._resetButton = new TextButton(game, 120, 200, 'Replay', 40, AtlasImages.Menu_Button, this.restartScene.bind(this), this);
         this._resetButton.anchor.set(0.5);
@@ -47,6 +47,7 @@ export default class BasePopUp extends Phaser.Group
 
         this._menuBackground = new Phaser.Image(game, 0, 0, AtlasImages.Background);
         this._menuBackground.anchor.set(0.5);
+        this._menuBackground.alpha = 0;
         this.addChild(this._menuBackground);
 
         this._titleText = new Phaser.BitmapText(game, 0, -80, 'myfont', 'Pause', 100);

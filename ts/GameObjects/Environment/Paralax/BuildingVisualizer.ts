@@ -82,7 +82,6 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topHalf.y = -this.maxHeight * 2;
         this._topHalf.scale.set(1, -1);
 
-        console.log(AudioAnalyser);
     }
 
     private setUpBuildings(top: boolean): void {

@@ -2,8 +2,6 @@ import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 import ScoreBar from '../../Paralax/UI/ScoreBar';
 import ImageButton from './ImageButton';
-
-import AtlasImages from '../../../../Data/Atlases';
 import GameOverScreen from '../UI/GameOverScreen';
 import AtlasImages from '../../../../Data/AtlasImages';
 
@@ -43,7 +41,7 @@ export default class UI extends ParalaxObject
 
     private createPauseBackground(): void
 {
-    this._pauseBackground = new Phaser.Sprite(this.game, this.game.width / 1.07, this.game.height / 2.45, AtlasImages.Interface, 'UserInterface_PauseHud_Backdrop');
+    this._pauseBackground = new Phaser.Sprite(this.game, this.game.width / 1.07, this.game.height / 2.45, AtlasImages.Background, 'UserInterface_PauseHud_Backdrop');
     this.addChild(this._pauseBackground);
 }
 
@@ -65,7 +63,7 @@ export default class UI extends ParalaxObject
 
     private createGameOverScreen(): void
     {
-        this._gameOverScreen = new GameOverScreen(this.game , 0.6, 120, 125, AtlasImages.Background);
+        this._gameOverScreen = new GameOverScreen(this.game , 0.6, 120, 125);
         this._gameOverScreen.x = this.game.width / 2;
         this._gameOverScreen.y = this.game.height / 2;
         this.game.add.existing(this._gameOverScreen);
