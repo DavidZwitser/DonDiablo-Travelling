@@ -7,9 +7,9 @@ export default class GameOverScreen extends BasePopUp
     /** The text that shows the highscore */
     private _highScoreText: Phaser.BitmapText;
 
-    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number, backgroundImage: string)
+    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
     {
-        super(game, scale, buttonOffset, spaceBetweenButtons, backgroundImage);
+        super(game, scale, buttonOffset, spaceBetweenButtons);
 
         this._titleText.text = 'GAME OVER';
 
