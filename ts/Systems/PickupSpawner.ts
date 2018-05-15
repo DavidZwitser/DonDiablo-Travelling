@@ -15,7 +15,7 @@ interface ITiming {
 }
 
 /** Spawns pickups */
-export default class PickupSpawner
+export default class PickupSpawner extends Phaser.Group
 {
     private pickupPool: ObjectPool;
 
@@ -29,13 +29,15 @@ export default class PickupSpawner
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
+        super(game);
+
         this.perspectiveRenderer = renderer;
 
-        //pickup pooling gets defined
+        // pickup pooling gets defined
         this.pickupPool = new ObjectPool(() => {
 
             let pickup: Pickup = new Pickup(game, this.perspectiveRenderer);
-            game.add.existing(pickup);
+            this.addChild(pickup);
 
             return pickup;
         });

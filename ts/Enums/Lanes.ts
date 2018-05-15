@@ -57,7 +57,8 @@ export namespace Lanes.Conversions {
                 break;
 
             default:
-                return null;
+                returnValue.x = 0;
+                returnValue.y = 0;
         }
 
         return returnValue;

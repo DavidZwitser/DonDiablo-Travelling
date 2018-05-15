@@ -9,7 +9,8 @@ export default class ObjectPool
     private _createInstance: () => PerspectiveObject;
     private _length: number;
 
-    constructor(createInstanceFunction: () => PerspectiveObject, length: number = 3) {
+    constructor(createInstanceFunction: () => PerspectiveObject, length: number = 6)
+    {
         this._createInstance = createInstanceFunction;
         this._length = length;
         this._objects = [];
@@ -18,37 +19,47 @@ export default class ObjectPool
     public getObject(forced: boolean = true): PerspectiveObject
     {
         let object: PerspectiveObject = null;
-        for (let i: number = this._objects.length; i--;) {
-            if (!this._objects[i].visible) {
+
+        for (let i: number = this._objects.length; i--; )
+        {
+            if (!this._objects[i].visible)
+            {
                 object = this._objects[i];
             }
         }
-        if (object === null && (forced || this._objects.length < this._length)) {
+
+        if (object === null && (forced || this._objects.length < this._length))
+        {
             object = this._createInstance();
             this._objects.push(object);
         }
 
-        if (object !== null) {
+        if (object !== null)
+        {
             //reset call can be done here.
             object.position.set(0, 0);
             object.visible = true;
-        } else {
+        }
+        else
+        {
             console.error('POOL GIVING NOTHING');
         }
+
         return object;
     }
 
-    public wipe(): void {
-
-        for (let i: number = this._objects.length; i--; ) {
-
+    public wipe(): void
+    {
+        for (let i: number = this._objects.length; i--; )
+        {
             this._objects[i].destroy(true);
             this._objects[i] = null;
         }
         this._objects = [];
     }
 
-    public destroy(): void {
+    public destroy(): void
+    {
         this.wipe();
         this._objects = null;
 
