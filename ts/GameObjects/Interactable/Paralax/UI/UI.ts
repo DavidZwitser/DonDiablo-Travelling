@@ -40,19 +40,19 @@ export default class UI extends ParalaxObject
     }
 
     private createPauseBackground(): void
-{
-    this._pauseBackground = new Phaser.Sprite(this.game, this.game.width / 1.07, this.game.height / 2.45, AtlasImages.Background, 'UserInterface_PauseHud_Backdrop');
-    this.addChild(this._pauseBackground);
-}
+    {
+        this._pauseBackground = new Phaser.Sprite(this.game, this.game.width / 1.07, this.game.height / 2.45, AtlasImages.Background, 'UserInterface_PauseHud_Backdrop');
+        this.addChild(this._pauseBackground);
+    }
 
     private createPauseButton(): void
-{
-    this._pauseButton = new ImageButton(this.game, this.game.width / 1.075, this.game.height / 2, 'ui_ingame_button_pause', 'ui_ingame_button_pause', () => {
-        this.onPause.dispatch();
-    }, this);
+    {
+        this._pauseButton = new ImageButton(this.game, this.game.width / 1.075, this.game.height / 2, 'ui_ingame_button_pause', 'ui_ingame_button_pause', () => {
+            this.onPause.dispatch();
+        }, this);
 
-    this.game.add.existing(this._pauseButton);
-}
+        this.game.add.existing(this._pauseButton);
+    }
 
     private createScoreBar(): void
     {

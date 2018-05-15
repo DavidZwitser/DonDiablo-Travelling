@@ -22,7 +22,7 @@ export default class Player extends ReactivePerspectiveObject
         this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
         this.addChild(this.sprite);
 
-        this.zPos = .2;
+        this.zPos = .3;
 
         this.lane = Lanes.bottomLeftLane;
 

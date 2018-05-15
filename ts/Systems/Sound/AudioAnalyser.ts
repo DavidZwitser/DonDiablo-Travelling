@@ -26,10 +26,15 @@ export default class AudioAnalyser
         if (this._alreadyDidThisBrutah === true) { return; }
         this._alreadyDidThisBrutah = true;
 
-        this.context = new AudioContext() || null;
-        if (this.context === null) {
+        try {
+            console.log('its true!');
+            this.context = new AudioContext();
+        }
+        catch {
+            console.log('its false!');
             return false;
         }
+
         this._src = this.context.createMediaElementSource(this.audioElement);
         this.analyser = this.context.createAnalyser();
 

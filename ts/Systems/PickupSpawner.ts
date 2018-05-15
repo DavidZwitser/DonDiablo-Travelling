@@ -22,23 +22,28 @@ export default class PickupSpawner
     private levelData: ILevelData;
     private timeOut: any;
     private spawnIndex: number = 0;
+    private startTime: number;
+    private passedTime: number;
 
     private perspectiveRenderer: PerspectiveRenderer;
 
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer) {
-
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    {
         this.perspectiveRenderer = renderer;
 
         //pickup pooling gets defined
         this.pickupPool = new ObjectPool(() => {
-            let pickup: Pickup = new Pickup(game, this.perspectiveRenderer, .2, .2);
+
+            let pickup: Pickup = new Pickup(game, this.perspectiveRenderer);
             game.add.existing(pickup);
+
             return pickup;
         });
 
         this.getLevelData(game, Jason.test);
         this.waitForNextSpawning(this.levelData.timings[0].time);
     }
+
     private getRandomLane(): Lanes
     {
         return Math.floor(Math.random() * Object.keys(Lanes).length / 2);
@@ -47,48 +52,69 @@ export default class PickupSpawner
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
     {
         let pickup: Pickup = <Pickup>this.pickupPool.getObject(true);
-        if (pickup !== null) {
-            pickup._lanePosition = lanePos;
-            //TODO change position of pickup based on lanepos
-            pickup.position.set(0, 0);
+
+        if (pickup !== null)
+        {
+            pickup.lane = lanePos;
+            pickup.zPos = 2;
 
             //TODO: settimeout can be removed, it basically is a way do deactivate the sprite automaticly
             setTimeout(() => {
                 pickup.visible = false;
-            }, 500);
+            }, 5000);
         }
+
         return pickup;
     }
 
+    //level data is get from cache of a json file
+    private getLevelData(game: Phaser.Game, key: string): void
+    {
+        this.levelData = game.cache.getJSON(key);
+    }
+
+    //this is the loop the spawning takes place from the leveldata
+    private waitForNextSpawning(timeWaiting: number): void
+    {
+        this.startTime = Date.now();
+        this.timeOut = setTimeout(() => {
+            this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
+
+            this.spawnIndex++;
+
+            if (this.spawnIndex < this.levelData.timings.length - 1)
+            {
+                this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - this.levelData.timings[this.spawnIndex - 1].time);
+            }
+
+        }, timeWaiting * 1000);
+    }
+
+    public pause(pause: boolean): void
+    {
+        if (pause)
+        {
+            clearTimeout(this.timeOut);
+            this.passedTime = Date.now() - this.startTime;
+        }
+        else
+        {
+            this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - (this.spawnIndex !== 0 ? this.levelData.timings[this.spawnIndex - 1].time : 0) - this.passedTime);
+        }
+    }
+
+    // public spawnPickupIfNeeded(): void
+    // {
+    //     //
+    // }
+
     //destroy function
-    public destroy(): void {
+    public destroy(): void
+    {
         this.pickupPool.destroy();
         this.pickupPool = null;
         this.levelData = null;
         clearTimeout(this.timeOut);
         this.spawnIndex = 0;
     }
-
-    //level data is get from cache of a json file
-    private getLevelData(game: Phaser.Game, key: string): void {
-        this.levelData = game.cache.getJSON(key);
-    }
-
-    //this is the loop the spawning takes place from the leveldata
-    private waitForNextSpawning(timeWaiting: number): void {
-        this.timeOut = setTimeout(() => {
-            this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
-
-            this.spawnIndex++;
-
-            if (this.spawnIndex < this.levelData.timings.length - 1) {
-                this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - this.levelData.timings[this.spawnIndex - 1].time);
-            }
-
-        }, timeWaiting * 1000);
-    }
-    // public spawnPickupIfNeeded(): void
-    // {
-    //     //
-    // }
 }
