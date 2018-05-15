@@ -5,17 +5,19 @@ import 'phaser-ce';
  */
 export default class Constants
 {
-    public static PlayMusic: boolean;
-    public static PlaySoundEffects: boolean;
+    public static PLAYING_MUSIC: boolean;
+    public static PLAYING_SOUND_EFFECTS: boolean;
 
-    public static Levels: {title: string, artist: string}[] = [
+    public static HORIZON_POSITION: {x: number, y: number} = {x: .5, y: .5};
+
+    public static LEVELS: {title: string, artist: string}[] = [
         {title: 'Head Up', artist: 'Don Diablo'},
         {title: 'Back To Us', artist: 'Don Diablo'},
         {title: 'Believe', artist: 'Don Diablo'}
     ];
-    public static currentLevel: number = 0;
+    public static CURRENT_LEVEL: number = 0;
 
-    public static glowFilter: any = [
+    public static GLOW_FILTER: any = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',
         'varying vec4 vColor;',

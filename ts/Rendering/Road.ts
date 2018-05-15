@@ -1,5 +1,6 @@
 import 'phaser-ce';
-import { Lanes, laneToPerspectivePosition } from '../Enums/Lanes';
+import { Lanes } from '../Enums/Lanes';
+import Constants from '../Data/Constants';
 
 /** Renders a road */
 export default class Road extends Phaser.Graphics
@@ -7,23 +8,23 @@ export default class Road extends Phaser.Graphics
     private _lineThickness: number = .008;
     private _offset: number = 0;
 
-    public render(horizonPoint: Phaser.Point): void
+    public render(): void
     {
         /** How much the width get's scaled at the horizon */
-        let horizonY: number = horizonPoint.y;
+        let horizonY: number = Constants.HORIZON_POSITION.y;
 
         let getBottomLine: Function = (offsetFromCenter: number, customWidth?: number) =>
         {
-            return this.getRoadLine(horizonPoint.x, horizonY, offsetFromCenter, customWidth ? customWidth : this._lineThickness);
+            return this.getRoadLine(Constants.HORIZON_POSITION.x, horizonY, offsetFromCenter, customWidth ? customWidth : this._lineThickness);
         };
         let getTopLine: Function = (offsetFromCenter: number, customWidth?: number) =>
         {
-            return this.getRoadLine(horizonPoint.x, 1 - horizonY, offsetFromCenter, customWidth ? customWidth : this._lineThickness, true);
+            return this.getRoadLine(Constants.HORIZON_POSITION.x, 1 - horizonY, offsetFromCenter, customWidth ? customWidth : this._lineThickness, true);
         };
 
         let getHorizonLine: Function = (y: number, height: number, renderInPerspective?: boolean) =>
         {
-            return this.getHorizonLine(horizonPoint.y, y, height, renderInPerspective);
+            return this.getHorizonLine(Constants.HORIZON_POSITION.y, y, height, renderInPerspective);
         };
         /* -- */
 
@@ -36,13 +37,13 @@ export default class Road extends Phaser.Graphics
         /* -- */
 
         /* The road lines */
-        let bottomLeftRoadLine: Phaser.Polygon = getBottomLine( laneToPerspectivePosition( Lanes.bottomLeftLane ).x );
-        let bottomCenterRoadLine: Phaser.Polygon = getBottomLine( laneToPerspectivePosition( Lanes.bottomCenterLane ).x );
-        let bottomRightRoadLine: Phaser.Polygon = getBottomLine( laneToPerspectivePosition( Lanes.bottomRightLane ).x );
+        let bottomLeftRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomLeftLane ).x );
+        let bottomCenterRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomCenterLane ).x );
+        let bottomRightRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomRightLane ).x );
 
-        let topLeftRoadLine: Phaser.Polygon = getTopLine( laneToPerspectivePosition( Lanes.topLeftLane ).x );
-        let topCenterRoadLine: Phaser.Polygon = getTopLine( laneToPerspectivePosition( Lanes.topCenterLane ).x );
-        let topRightRoadLine: Phaser.Polygon = getTopLine( laneToPerspectivePosition( Lanes.topRightLane ).x );
+        let topLeftRoadLine: Phaser.Polygon = getTopLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.topLeftLane ).x );
+        let topCenterRoadLine: Phaser.Polygon = getTopLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.topCenterLane ).x );
+        let topRightRoadLine: Phaser.Polygon = getTopLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.topRightLane ).x );
         /* -- */
 
         let roadShapeBottom: Phaser.Polygon = getBottomLine(0, .5 + this._lineThickness);

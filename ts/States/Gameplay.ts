@@ -12,6 +12,8 @@ import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 import Constants from '../Data/Constants';
+import Input from '../Systems/Input';
+import { Lanes } from '../Enums/Lanes';
 
 export default class Gameplay extends Phaser.State
 {
@@ -25,6 +27,8 @@ export default class Gameplay extends Phaser.State
 
     private _userInterface: UI;
     private _player: Player;
+
+    private _input: Input;
 
     // private _pickupSpawner: PickupSpawner;
 
@@ -58,7 +62,7 @@ export default class Gameplay extends Phaser.State
 
         SoundManager.getInstance().playMusic(Sounds.headUp);
 
-        this._glowFilter = new Phaser.Filter(this.game, null, Constants.glowFilter);
+        this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
 
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
@@ -67,7 +71,7 @@ export default class Gameplay extends Phaser.State
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
-        this._perspectiveRenderer = new PerspectiveRenderer(this.game, new Phaser.Point(.5, .5));
+        this._perspectiveRenderer = new PerspectiveRenderer(this.game);
 
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
@@ -75,14 +79,13 @@ export default class Gameplay extends Phaser.State
         this._player = new Player(this.game, this._perspectiveRenderer);
         this.game.add.existing(this._player);
 
-        setInterval(() => {
-            this._player.lane ++;
-        }, 2000);
+        this._input = new Input(this.game);
+        this._input.onInputDown.add( (lane: Lanes) => this._player.lane = lane );
 
         // this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
 
-        new Pickup(this.game, this._perspectiveRenderer, .2, .2);
-        new Pickup(this.game, this._perspectiveRenderer, -.2, -.2);
+        new Pickup(this.game, this._perspectiveRenderer);
+        new Pickup(this.game, this._perspectiveRenderer);
 
         this._userInterface.onPause.add(this.pause, this);
 
@@ -95,7 +98,7 @@ export default class Gameplay extends Phaser.State
         if (!this._gamePaused)
         {
             this._audioVisualizer.render();
-            this._road.render(this._perspectiveRenderer.horizonPoint);
+            this._road.render();
             this._perspectiveRenderer.render();
         }
     }
@@ -103,7 +106,7 @@ export default class Gameplay extends Phaser.State
     public resize(): void
     {
         this._audioVisualizer.resize();
-        this._road.render(this._perspectiveRenderer.horizonPoint);
+        this._road.render();
     }
 
     public pause(): void
