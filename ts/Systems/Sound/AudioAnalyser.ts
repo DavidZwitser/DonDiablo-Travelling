@@ -14,23 +14,27 @@ export default class AudioAnalyser
 
     private _alreadyDidThisBrutah: boolean = false;
 
-    constructor () {
+    constructor ()
+    {
         this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
     }
 
     //music get's assigned and some data gets calculated needed for the visualizer before rendering
-    public Setup(): boolean {
+    public Setup(): boolean
+    {
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);
         //this._audioElement.load();
         if (this._alreadyDidThisBrutah === true) { return; }
         this._alreadyDidThisBrutah = true;
 
-        try {
+        try
+        {
             console.log('its true!');
             this.context = new AudioContext();
         }
-        catch {
+        catch
+        {
             console.log('its false!');
             return false;
         }
