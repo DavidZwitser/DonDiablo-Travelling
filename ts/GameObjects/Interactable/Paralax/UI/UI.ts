@@ -24,7 +24,7 @@ export default class UI extends ParalaxObject
 
     private createScoreBar(): void
     {
-        this._scoreBar = new ScoreBar(this.game, 0, this.game.height / 1.1);
+        this._scoreBar = new ScoreBar(this.game, 0, 0);
         this.game.add.existing(this._scoreBar);
     }
 

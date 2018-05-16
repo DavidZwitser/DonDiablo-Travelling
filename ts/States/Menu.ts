@@ -96,7 +96,7 @@ export default class Menu extends Phaser.State
         this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
         this._logoSprite.scale.set(vmin / GAME_WIDTH);
 
-        console.log(vmin);
+        //console.log(vmin);
     }
 
     public DisplaySetting(): void {

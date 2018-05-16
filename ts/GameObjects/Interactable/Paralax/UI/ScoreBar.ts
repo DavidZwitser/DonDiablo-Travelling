@@ -43,7 +43,7 @@ export default class ScoreBar extends Phaser.Group
     {
         let vmin: number = Math.min(this.game.width, this.game.height / 2);
 
-        this.position.set(0, this.game.height / 2.5);
+        this.position.set(0, this.game.height / 1.25);
         this.scale.set(vmin / GAME_WIDTH);
     }
 
