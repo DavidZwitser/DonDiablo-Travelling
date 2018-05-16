@@ -38,11 +38,11 @@ export default class LevelSelect extends Phaser.Group
 
         this.buttons = [];
 
-        for (let i: number = 0; i < Constants.Levels.length; i++) {
+        for (let i: number = 0; i < Constants.LEVELS.length; i++) {
 
-            let button: LevelButton = new LevelButton(game, 0, 200 + i * 300, Constants.Levels[i], SaveData.Levels[i].hs, SaveData.Levels[i].un, () => {
+            let button: LevelButton = new LevelButton(game, 0, 200 + i * 300, Constants.LEVELS[i], SaveData.Levels[i].hs, SaveData.Levels[i].un, () => {
                 if (SaveData.Levels[i].un) {
-                    Constants.currentLevel = i;
+                    Constants.CURRENT_LEVEL = i;
                     this.game.state.start(Gameplay.Name);
                 }
             }, this);

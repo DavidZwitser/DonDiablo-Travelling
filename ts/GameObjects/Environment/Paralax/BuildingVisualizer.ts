@@ -6,8 +6,6 @@ import Atlases from '../../../Data/Atlases';
 /** Visualizes music */
 export default class BuildingVisualizer extends Phaser.Group
 {
-    private _analyser: AudioAnalyser;
-
     private maxWidth: number;
     private maxHeight: number;
 
@@ -37,9 +35,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._buildings = [];
         this._topBuildings = [];
 
-        this._analyser = new AudioAnalyser();
-        this._contextAvailable = this._analyser.Setup();
-
+        this._contextAvailable = AudioAnalyser.getInstance().Setup();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
 
@@ -85,6 +81,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topHalf.addChild(this._topGlow);
         this._topHalf.y = -this.maxHeight * 2;
         this._topHalf.scale.set(1, -1);
+
     }
 
     private setUpBuildings(top: boolean): void {
@@ -121,7 +118,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
 
         //when context is available
-        this._analyser._analyser.getByteFrequencyData(this._analyser._dataArray);
+        AudioAnalyser.getInstance().analyser.getByteFrequencyData(AudioAnalyser.getInstance().dataArray);
 
         //update wther one half is active
         if (!this._topIsActive) {
@@ -143,7 +140,7 @@ export default class BuildingVisualizer extends Phaser.Group
     }
     private renderBuilding(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void {
         for (let i: number = Math.floor(array.length / 2); i--;) {
-            let precentage: number = this._analyser._dataArray[Math.round(array[i].x / this.maxWidth * this._analyser._bufferLength * 2)] / 256;
+            let precentage: number = AudioAnalyser.getInstance().dataArray[Math.round(array[i].x / this.maxWidth * AudioAnalyser.getInstance().bufferLength * 2)] / 256;
             let height: number = precentage * array[i].height;
             array[i].y = -height;
             height = precentage * array[array.length - 1 - i].height;

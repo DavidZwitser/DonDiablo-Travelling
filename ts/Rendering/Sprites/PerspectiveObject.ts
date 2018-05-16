@@ -1,11 +1,13 @@
 import 'phaser-ce';
 
 import PerspectiveRenderer from '../PerspectiveRenderer';
-import { Lanes, laneToPerspectivePosition } from '../../Enums/Lanes';
+import { Lanes } from '../../Enums/Lanes';
 
 /** A sprite that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
 {
+    protected sprite: Phaser.Sprite;
+
     private _zPos: number;
     private _xPos: number;
     private _yPos: number;
@@ -14,14 +16,10 @@ export default class PerspectiveObject extends Phaser.Group
 
     public positionShouldBeUpdated: boolean = true;
 
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer, xPos: number, yPos: number)
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game);
         renderer.addObject(this);
-
-        this._zPos = 1;
-        this._xPos = xPos;
-        this._yPos = yPos;
     }
 
     public get lane(): Lanes
@@ -30,7 +28,7 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set lane(lane: Lanes)
     {
-        let targetPosition: {x: number, y: number} = laneToPerspectivePosition(lane);
+        let targetPosition: {x: number, y: number} = Lanes.Conversions.laneToPerspectivePosition(lane);
 
         this.xPos = targetPosition.x;
         this.yPos = targetPosition.y;
@@ -67,6 +65,8 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set yPos(value: number)
     {
+        if (this.sprite) { this.sprite.anchor.set(.5, value > 0 ? 1 : 0); }
+
         this._yPos = value;
         this.positionShouldBeUpdated = true;
     }

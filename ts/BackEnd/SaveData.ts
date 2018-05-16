@@ -32,7 +32,7 @@ export default class SaveData
     public static emplyLevelData(): ILevelData[] {
         let levelData: ILevelData[] = [];
         levelData.push({un: true, hs: 0});
-        for (let i: number = Constants.Levels.length - 1; i--;) {
+        for (let i: number = Constants.LEVELS.length - 1; i--;) {
             levelData.push({un: false, hs: 0});
         }
 

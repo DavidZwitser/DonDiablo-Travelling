@@ -6,11 +6,13 @@ import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
 import Sounds from '../Data/Sounds';
 
-// import PickupSpawner from '../Systems/PickupSpawner';
+import PickupSpawner from '../Systems/PickupSpawner';
 import SpawnEditor from '../Systems/SpawnEditor';
 import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
-import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
+import Constants from '../Data/Constants';
+import Input from '../Systems/Input';
+import { Lanes } from '../Enums/Lanes';
 
 export default class Gameplay extends Phaser.State
 {
@@ -25,10 +27,12 @@ export default class Gameplay extends Phaser.State
     private _userInterface: UI;
     private _player: Player;
 
-    // private _pickupSpawner: PickupSpawner;
+    private _input: Input;
+    private _pickupSpawner: PickupSpawner;
 
     private _perspectiveRenderer: PerspectiveRenderer;
     private _road: Road;
+    private _glowFilter: Phaser.Filter;
 
     private _gamePaused: boolean = false;
     private spawnEditor: SpawnEditor;
@@ -47,65 +51,74 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
-        this.spawnEditor = new SpawnEditor();
-        //remove below comment to start recording the spawn editor.
-        //this.spawnEditor.startRecording();
-
         this._worldMood = this._worldMood;
 
-        SoundManager.getInstance().playMusic(Sounds.headUp);
+        /* Level creation */
+        this.spawnEditor = new SpawnEditor();
+        this.spawnEditor = this.spawnEditor;
+        //remove below comment to start recording the spawn editor.
+        this.spawnEditor.startRecording();
+
+        /* Sounds */
+        SoundManager.getInstance().playMusic(Sounds.testMusic);
+
+        /* Road */
+        this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
 
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
 
+        this._road.filters = [this._glowFilter];
+
+        /* Visualizer */
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
-        this._perspectiveRenderer = new PerspectiveRenderer(this.game, new Phaser.Point(.5, .5));
+        /* Rendering */
+        this._perspectiveRenderer = new PerspectiveRenderer(this.game);
 
-        this._userInterface = new UI(this.game);
-        this.game.add.existing(this._userInterface);
+        /* Pickups */
+        this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
 
+        /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
         this.game.add.existing(this._player);
 
-        setInterval(() => {
-            this._player.lane ++;
-        }, 2000);
+        /* Input */
+        this._input = new Input(this.game);
+        this._input.onInputDown.add( (lane: Lanes) => this._player.lane = lane );
 
-        // this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
-
-        new Pickup(this.game, this._perspectiveRenderer, .2, .2);
-        new Pickup(this.game, this._perspectiveRenderer, -.2, -.2);
-
-        //this._userInterface.onPause.add(this.pause, this);
+        /* UI */
+        this._userInterface = new UI(this.game);
+        this.game.add.existing(this._userInterface);
+        this._userInterface.onPause.add(this.pause, this);
 
         this.resize();
     }
 
     public update(): void
     {
+        if (this._gamePaused) { return; }
 
-        if (!this._gamePaused)
-        {
-            this._audioVisualizer.render();
-            this._road.render(this._perspectiveRenderer.horizonPoint);
-            this._perspectiveRenderer.render();
-        }
+        this._audioVisualizer.render();
+        this._road.render();
+        this._perspectiveRenderer.render();
     }
 
     public resize(): void
     {
         this._audioVisualizer.resize();
         this._userInterface.resize();
-        this._road.render(this._perspectiveRenderer.horizonPoint);
+        this._road.render();
     }
 
     public pause(): void
     {
         this._gamePaused = !this._gamePaused;
+        this._pickupSpawner.pause(this._gamePaused);
     }
 
+    // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
     public shutdown(): void
     {
         super.shutdown(this.game);

@@ -1,5 +1,6 @@
 import Renderer from './Renderer';
 import PerspectiveObject from './Sprites/PerspectiveObject';
+import Constants from '../Data/Constants';
 
 /** The interface which describes a sprite's dimensions on the screen. */
 interface IScreenTransform
@@ -13,13 +14,9 @@ interface IScreenTransform
 export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 {
     /** The point at which the sprites aim to go */
-    public horizonPoint: Phaser.Point;
-
-    constructor(game: Phaser.Game, horizonPoint: Phaser.Point)
+    constructor(game: Phaser.Game)
     {
         super(game);
-
-        this.horizonPoint = horizonPoint;
     }
 
     /** Render (position) the sprites in pseudo3d way */
@@ -34,20 +31,26 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
         if (object.positionShouldBeUpdated === false) { return; }
         object.positionShouldBeUpdated = false;
 
-        let targetTransform: IScreenTransform = this.screenToWorldPosition(object.xPos, object.zPos, object.yPos);
+        let targetTransform: IScreenTransform = PerspectiveRenderer.worldToScreenPosition(this.game, object.xPos, object.yPos, object.zPos);
 
         object.scale.set(targetTransform.scale);
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
     /** Give a world position and get a screen position back. */
-    public screenToWorldPosition(xPos: number, zPos: number, yPos: number): IScreenTransform
+    public static worldToScreenPosition(
+        game: Phaser.Game,
+        xPos: number,
+        yPos: number,
+        zPos: number
+    ): IScreenTransform
     {
-        let projectedPosision: number = 1 / (Math.pow(2, zPos));
+        /* THE equation, calculating the perspective effect */
+        let projectedPosision: number = 1 / Math.pow(2, zPos);
 
         return {
-            x: this.horizonPoint.x * this.game.width + projectedPosision * xPos * this.game.width,
-            y: this.horizonPoint.y * this.game.height + projectedPosision * yPos * this.game.height,
+            x: Constants.HORIZON_POSITION.x * game.width + projectedPosision * xPos * game.width,
+            y: Constants.HORIZON_POSITION.y * game.height + projectedPosision * yPos * game.height,
             scale: projectedPosision
         };
     }

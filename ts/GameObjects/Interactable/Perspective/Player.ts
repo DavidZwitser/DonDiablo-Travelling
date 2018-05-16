@@ -7,8 +7,6 @@ import AtlasImages from '../../../Data/Atlases';
 /** The player controlled by the user */
 export default class Player extends ReactivePerspectiveObject
 {
-    private _sprite: Phaser.Sprite;
-
     public spine: any;
     public speed: number;
     public collectedPickup: Phaser.Signal;
@@ -19,16 +17,12 @@ export default class Player extends ReactivePerspectiveObject
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
-        super(game, renderer, 0, 0);
+        super(game, renderer);
 
-        this._sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
-        this.addChild(this._sprite);
+        this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
+        this.addChild(this.sprite);
 
-        this._sprite.scale.set(.5, 1);
-
-        this._sprite.anchor.set(.5, this.yPos < 0 ? 1 : 0);
-
-        this.zPos = .2;
+        this.zPos = .3;
 
         this.lane = Lanes.bottomLeftLane;
 
@@ -68,7 +62,7 @@ export default class Player extends ReactivePerspectiveObject
     public changeLane( lane: Lanes ): void
     {
         /* So no tslint errors will be thrown */
-        lane = lane;
+        this.lane = lane;
         //
     }
 
