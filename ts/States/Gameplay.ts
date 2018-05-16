@@ -108,6 +108,7 @@ export default class Gameplay extends Phaser.State
     public resize(): void
     {
         this._audioVisualizer.resize();
+        this._userInterface.resize();
         this._road.render();
     }
 
