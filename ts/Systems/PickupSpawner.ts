@@ -58,7 +58,10 @@ export default class PickupSpawner extends Phaser.Group
         if (pickup !== null)
         {
             pickup.lane = lanePos;
-            pickup.zPos = 2;
+            pickup.zPos = 2.4;
+            pickup.alpha = 0;
+            this.game.add.tween(pickup).to({alpha: 1}, 500,  Phaser.Easing.Linear.None, true);
+            this.sendToBack(pickup);
 
             //TODO: settimeout can be removed, it basically is a way do deactivate the sprite automaticly
             setTimeout(() => {
