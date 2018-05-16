@@ -70,4 +70,9 @@ export default class PerspectiveObject extends Phaser.Group
         this._yPos = value;
         this.positionShouldBeUpdated = true;
     }
+
+    public resize(): void
+    {
+        this.positionShouldBeUpdated = true;
+    }
 }

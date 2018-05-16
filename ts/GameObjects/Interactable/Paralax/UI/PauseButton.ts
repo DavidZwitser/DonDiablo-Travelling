@@ -11,7 +11,7 @@ export default class PauseButton extends Phaser.Group
     private _pauseButton: ImageButton;
     private _pauseBackground: Phaser.Sprite;
 
-    constructor(game: Phaser.Game, x: number, y: number)
+    constructor(game: Phaser.Game)
     {
         super(game);
 
