@@ -8,6 +8,12 @@ export default class Road extends Phaser.Graphics
     private _lineThickness: number = .008;
     private _offset: number = 0;
 
+    //colors
+    private _bottomMiddleColor: number = 0xf4091a;
+    private _bottomOuterColor: number = 0x66090f;
+    private _topMiddleColor: number = 0x8bf2d6;
+    private _topOuterColor: number = 0x148694;
+
     public render(): void
     {
         /** How much the width get's scaled at the horizon */
@@ -51,7 +57,8 @@ export default class Road extends Phaser.Graphics
         let horizonShape: Phaser.Polygon = getHorizonLine(.5, .2, false);
 
         /* Horizontal lines */
-        let horizontalLines: Phaser.Polygon[] = [];
+        let bottomHorizontalLines: Phaser.Polygon[] = [];
+        let topHorizontalLines: Phaser.Polygon[] = [];
 
         let bottomThickLine: Phaser.Polygon = getHorizonLine(.9, .01);
         let topThickLine: Phaser.Polygon = getHorizonLine(-.9, .01);
@@ -61,47 +68,54 @@ export default class Road extends Phaser.Graphics
 
         for (let i: number = 9; i--; )
         {
-            horizontalLines.push(getHorizonLine((i + 1) / 10 + this._offset, this._lineThickness / 2));
-            horizontalLines.push(getHorizonLine(-(i + 1) / 10 - this._offset, this._lineThickness / 2));
+            bottomHorizontalLines.push(getHorizonLine((i + 1) / 10 + this._offset, this._lineThickness / 2));
+            topHorizontalLines.push(getHorizonLine(-(i + 1) / 10 - this._offset, this._lineThickness / 2));
         }
         /* -- */
 
         this.clear();
 
         /* Horizon lines */
-        this.beginFill(0xE754B1);
-        for (let i: number = horizontalLines.length; i--; )
+        this.beginFill(this._topOuterColor);
+        for (let i: number = bottomHorizontalLines.length; i--; )
         {
-        this.drawShape(horizontalLines[i]);
+            this.drawShape(bottomHorizontalLines[i]);
         }
         this.endFill();
-        /* -- */
+
+        this.beginFill(this._bottomOuterColor);
+        for (let i: number = topHorizontalLines.length; i--; )
+        {
+            this.drawShape(topHorizontalLines[i]);
+        }
+        this.endFill();
 
         this.beginFill(0x000000);
         this.drawShape(roadShapeBottom);
         this.drawShape(roadShapeTop);
         this.endFill();
 
-        this.beginFill(0xff0000);
-        this.drawShape(bottomLeftRoadBorder);
-        this.drawShape(bottomRightRoadBorder);
-
-        this.drawShape(topLeftRoadBorder);
-        this.drawShape(topRightRoadBorder);
-        this.endFill();
-
-        this.beginFill(0xffffff);
+        this.beginFill(this._topMiddleColor);
         this.drawShape(bottomLeftRoadLine);
         this.drawShape(bottomCenterRoadLine);
         this.drawShape(bottomRightRoadLine);
+        this.endFill();
 
+        this.beginFill(this._topOuterColor);
+        this.drawShape(bottomLeftRoadBorder);
+        this.drawShape(bottomRightRoadBorder);
+        this.drawShape(bottomThickLine);
+        this.endFill();
+
+        this.beginFill(this._bottomMiddleColor);
         this.drawShape(topLeftRoadLine);
         this.drawShape(topCenterRoadLine);
         this.drawShape(topRightRoadLine);
         this.endFill();
 
-        this.beginFill(0xE754B1);
-        this.drawShape(bottomThickLine);
+        this.beginFill(this._bottomOuterColor);
+        this.drawShape(topLeftRoadBorder);
+        this.drawShape(topRightRoadBorder);
         this.drawShape(topThickLine);
         this.endFill();
 
