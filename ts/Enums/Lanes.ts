@@ -15,7 +15,8 @@ export enum Lanes
     topRightLane
 }
 
-export namespace Lanes.Conversions {
+export namespace Lanes.Conversions
+{
 
     /** Give a lane and get the position a perspective sprite should get, back from it. */
     export function laneToPerspectivePosition(lane: Lanes): {x: number, y: number}

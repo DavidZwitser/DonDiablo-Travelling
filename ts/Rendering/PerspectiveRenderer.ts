@@ -37,6 +37,11 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
+    public resize(): void
+    {
+        this.forEachObject((child: PerspectiveObject) => { child.resize(); }, this );
+    }
+
     /** Give a world position and get a screen position back. */
     public static worldToScreenPosition(
         game: Phaser.Game,
