@@ -73,6 +73,11 @@ export default class PickupSpawner extends Phaser.Group
     private getLevelData(game: Phaser.Game, key: string): void
     {
         this._levelData = game.cache.getJSON(key);
+        let temp: ILevelData = this._levelData;
+        for (let i: number = 0; i < temp.timings.length; i++) {
+            temp.timings[i].lane ++;
+        }
+        console.log(JSON.stringify(temp));
     }
 
     //this is the loop the spawning takes place from the leveldata

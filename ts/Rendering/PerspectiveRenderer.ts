@@ -25,6 +25,12 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
         this.forEachObject(this.transformObject, this);
     }
 
+    /** Update (position) the sprites in pseudo3d way */
+    public updatePosition(): void
+    {
+        this.forEachObject(this.updateObject, this);
+    }
+
     /** Apply transition to an object. */
     private transformObject(object: PerspectiveObject): void
     {
@@ -33,8 +39,12 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 
         let targetTransform: IScreenTransform = PerspectiveRenderer.worldToScreenPosition(this.game, object.xPos, object.yPos, object.zPos);
 
-        object.scale.set(targetTransform.scale);
+        object.scale.set(targetTransform.scale * object.resizedScale);
         object.position.set(targetTransform.x, targetTransform.y);
+    }
+
+    private updateObject(object: PerspectiveObject): void {
+        object.updateObject();
     }
 
     public resize(): void

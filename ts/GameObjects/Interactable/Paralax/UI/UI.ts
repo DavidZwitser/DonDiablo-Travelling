@@ -17,6 +17,7 @@ export default class UI extends ParalaxObject
     constructor(game: Phaser.Game)
     {
         super(game);
+        this.onPause = new Phaser.Signal();
 
         this.createScoreBar();
         this.createPauseButton();
@@ -34,7 +35,7 @@ export default class UI extends ParalaxObject
         this.game.add.existing(this._pauseButton);
 
         this.onPause = new Phaser.Signal();
-        this._pauseButton.onPause.add(this.signal);
+        this._pauseButton.onPause.add(this.signal.bind(this));
     }
 
     public resize(): void
@@ -45,6 +46,6 @@ export default class UI extends ParalaxObject
 
     public signal(): void
     {
-      //  this.onPause.dispatch();
+        this.onPause.dispatch();
     }
 }
