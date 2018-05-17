@@ -26,7 +26,10 @@ export default class Pickup extends ReactivePerspectiveObject
         }
         super.update();
 
-        this.zPos -= .009;
+        this.zPos -= .014;
+        if (this.scale.y < 0) {
+            this.visible = false;
+        }
     }
 
     public reactToMusic(): void
