@@ -91,7 +91,7 @@ export default class Gameplay extends Phaser.State
         /* UI */
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
-        this._userInterface.onPause.add(this.pause, this);
+        this._userInterface.onUIPause.add(this.pause, this);
 
         this.resize();
     }
