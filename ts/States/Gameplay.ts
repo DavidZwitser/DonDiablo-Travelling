@@ -104,6 +104,8 @@ export default class Gameplay extends Phaser.State
     {
         if (this._gamePaused) { return; }
 
+        Constants.DELTA_TIME = this.game.time.elapsedMS / 1000;
+
         this._audioVisualizer.render();
         this._road.render();
         this._perspectiveRenderer.updatePosition();

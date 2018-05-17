@@ -21,6 +21,8 @@ export default class Constants
 
     public static PLAYER_Z_POSITION: number = 1.2;
 
+    public static DELTA_TIME: number = 1;
+
     public static GLOW_FILTER: any = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',

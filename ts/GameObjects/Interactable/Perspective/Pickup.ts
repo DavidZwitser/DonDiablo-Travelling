@@ -15,7 +15,6 @@ export default class Pickup extends ReactivePerspectiveObject
         //art assigning
         this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'laying hexagon');
         this.addChild(this.sprite);
-
     }
 
     public reset(lane: Lanes): void {
@@ -46,7 +45,7 @@ export default class Pickup extends ReactivePerspectiveObject
 
     public updateObject(): void
     {
-        this.zPos -= .014 * Constants.GLOBAL_SPEED;
+        this.zPos -= Constants.DELTA_TIME * Constants.GLOBAL_SPEED;
         if (this.scale.y < 0) {
             //out of screen/field of view (FOV)
             this.visible = false;
