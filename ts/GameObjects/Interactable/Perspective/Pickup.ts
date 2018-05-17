@@ -23,18 +23,6 @@ export default class Pickup extends ReactivePerspectiveObject
         this.position.set(0, 0);
     }
 
-    public update(): void {
-        if (!this.visible) {
-            return;
-        }
-        super.update();
-        this.move(Constants.GLOBAL_SPEED);
-        if (this.zPos > 1 && this.zPos < 1.4)
-        {
-            this.initiateCollision();
-        }
-    }
-
     private initiateCollision(): void
     {
         if (PlayerCollisionChecker.getInstance().isCollidingLanes(this.lane))
@@ -62,6 +50,10 @@ export default class Pickup extends ReactivePerspectiveObject
         if (this.scale.y < 0) {
             //out of screen/field of view (FOV)
             this.visible = false;
+        }
+        if (this.zPos > 1 && this.zPos < 1.4)
+        {
+            this.initiateCollision();
         }
     }
 }
