@@ -2,6 +2,7 @@ import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspe
 import Atlases from '../../../Data/Atlases';
 import { Lanes } from '../../../Enums/Lanes';
 import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
+import Constants from '../../../Data/Constants';
 
 /** A pickup you can pickup */
 export default class Pickup extends ReactivePerspectiveObject
@@ -10,7 +11,7 @@ export default class Pickup extends ReactivePerspectiveObject
         super(game, renderer);
 
         //art assigning
-        this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Hex_Coins');
+        this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'laying hexagon');
         this.addChild(this.sprite);
 
     }
@@ -25,11 +26,7 @@ export default class Pickup extends ReactivePerspectiveObject
             return;
         }
         super.update();
-
-        this.zPos -= .014;
-        if (this.scale.y < 0) {
-            this.visible = false;
-        }
+        this.move(Constants.GLOBAL_SPEED);
     }
 
     public reactToMusic(): void

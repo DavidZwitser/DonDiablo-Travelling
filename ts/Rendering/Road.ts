@@ -63,7 +63,7 @@ export default class Road extends Phaser.Graphics
         let bottomThickLine: Phaser.Polygon = getHorizonLine(.9, .01);
         let topThickLine: Phaser.Polygon = getHorizonLine(-.9, .01);
 
-        if (this._offset >= -.1) { this._offset -= .0028; }
+        if (this._offset >= -.1) { this._offset -= .0028 * Constants.GLOBAL_SPEED; }
         else { this._offset = 0; }
 
         for (let i: number = 9; i--; )

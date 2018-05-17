@@ -58,12 +58,12 @@ export default class PickupSpawner extends Phaser.Group
         if (pickup !== null)
         {
             pickup.lane = lanePos;
-            pickup.zPos = 3;
+            pickup.zPos = 5;
+
             pickup.alpha = 0;
-
             this.game.add.tween(pickup).to({alpha: 1}, 500,  Phaser.Easing.Linear.None, true);
-            this.sendToBack(pickup);
 
+            this.sendToBack(pickup);
         }
 
         return pickup;

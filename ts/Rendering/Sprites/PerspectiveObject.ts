@@ -28,6 +28,10 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set lane(lane: Lanes)
     {
+        if (lane === Lanes.none)
+        {
+            this.visible = false;
+        }
         let targetPosition: {x: number, y: number} = Lanes.Conversions.laneToPerspectivePosition(lane);
 
         this.xPos = targetPosition.x;
@@ -65,7 +69,11 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set yPos(value: number)
     {
-        if (this.sprite) { this.sprite.anchor.set(.5, value > 0 ? 1 : 0); }
+        if (this.sprite)
+        {
+            this.sprite.anchor.set(.5, 1);
+            this.sprite.rotation = value > 0 ? 0 : Math.PI;
+        }
 
         this._yPos = value;
         this.positionShouldBeUpdated = true;
@@ -74,5 +82,15 @@ export default class PerspectiveObject extends Phaser.Group
     public resize(): void
     {
         this.positionShouldBeUpdated = true;
+    }
+
+    protected move(speed: number = 1): void
+    {
+        this.zPos -= .014 * speed;
+        if (this.scale.y < 0) {
+            //out of screen/field of view (FOV)
+            this.visible = false;
+        }
+
     }
 }

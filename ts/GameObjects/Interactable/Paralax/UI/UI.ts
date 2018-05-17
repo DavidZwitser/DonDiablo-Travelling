@@ -30,7 +30,7 @@ export default class UI extends ParalaxObject
 
     private createPauseButton(): void
     {
-        this._pauseButton = new PauseButton(this.game, 0, 0);
+        this._pauseButton = new PauseButton(this.game);
         this.game.add.existing(this._pauseButton);
 
         this.onPause = new Phaser.Signal();
