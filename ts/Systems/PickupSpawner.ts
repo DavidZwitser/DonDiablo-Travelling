@@ -17,33 +17,33 @@ interface ITiming {
 /** Spawns pickups */
 export default class PickupSpawner extends Phaser.Group
 {
-    private pickupPool: ObjectPool;
+    private _pickupPool: ObjectPool;
 
-    private levelData: ILevelData;
-    private timeOut: any;
-    private spawnIndex: number = 0;
-    private startTime: number;
-    private passedTime: number;
+    private _levelData: ILevelData;
+    private _timeOut: any;
+    private _spawnIndex: number = 0;
+    private _startTime: number;
+    private _passedTime: number;
 
-    private perspectiveRenderer: PerspectiveRenderer;
+    private _perspectiveRenderer: PerspectiveRenderer;
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game);
 
-        this.perspectiveRenderer = renderer;
+        this._perspectiveRenderer = renderer;
 
         // pickup pooling gets defined
-        this.pickupPool = new ObjectPool(() => {
+        this._pickupPool = new ObjectPool(() => {
 
-            let pickup: Pickup = new Pickup(game, this.perspectiveRenderer);
+            let pickup: Pickup = new Pickup(game, this._perspectiveRenderer);
             this.addChild(pickup);
 
             return pickup;
         });
 
         this.getLevelData(game, Jason.test);
-        this.waitForNextSpawning(this.levelData.timings[0].time);
+        this.waitForNextSpawning(this._levelData.timings[0].time);
     }
 
     private getRandomLane(): Lanes
@@ -53,20 +53,17 @@ export default class PickupSpawner extends Phaser.Group
 
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
     {
-        let pickup: Pickup = <Pickup>this.pickupPool.getObject(true);
+        let pickup: Pickup = <Pickup>this._pickupPool.getObject(true);
 
         if (pickup !== null)
         {
             pickup.lane = lanePos;
-            pickup.zPos = 2.4;
+            pickup.zPos = 5;
+
             pickup.alpha = 0;
             this.game.add.tween(pickup).to({alpha: 1}, 500,  Phaser.Easing.Linear.None, true);
-            this.sendToBack(pickup);
 
-            //TODO: settimeout can be removed, it basically is a way do deactivate the sprite automaticly
-            setTimeout(() => {
-                pickup.visible = false;
-            }, 5000);
+            this.sendToBack(pickup);
         }
 
         return pickup;
@@ -75,21 +72,21 @@ export default class PickupSpawner extends Phaser.Group
     //level data is get from cache of a json file
     private getLevelData(game: Phaser.Game, key: string): void
     {
-        this.levelData = game.cache.getJSON(key);
+        this._levelData = game.cache.getJSON(key);
     }
 
     //this is the loop the spawning takes place from the leveldata
     private waitForNextSpawning(timeWaiting: number): void
     {
-        this.startTime = Date.now();
-        this.timeOut = setTimeout(() => {
-            this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
+        this._startTime = Date.now();
+        this._timeOut = setTimeout(() => {
+            this.spawnPickup(this._levelData.timings[this._spawnIndex].lane);
 
-            this.spawnIndex++;
+            this._spawnIndex++;
 
-            if (this.spawnIndex < this.levelData.timings.length - 1)
+            if (this._spawnIndex < this._levelData.timings.length - 1)
             {
-                this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - this.levelData.timings[this.spawnIndex - 1].time);
+                this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - this._levelData.timings[this._spawnIndex - 1].time);
             }
 
         }, timeWaiting * 1000);
@@ -99,27 +96,22 @@ export default class PickupSpawner extends Phaser.Group
     {
         if (pause)
         {
-            clearTimeout(this.timeOut);
-            this.passedTime = Date.now() - this.startTime;
+            clearTimeout(this._timeOut);
+            this._passedTime = Date.now() - this._startTime;
         }
         else
         {
-            this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - (this.spawnIndex !== 0 ? this.levelData.timings[this.spawnIndex - 1].time : 0) - this.passedTime);
+            this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
         }
     }
-
-    // public spawnPickupIfNeeded(): void
-    // {
-    //     //
-    // }
 
     //destroy function
     public destroy(): void
     {
-        this.pickupPool.destroy();
-        this.pickupPool = null;
-        this.levelData = null;
-        clearTimeout(this.timeOut);
-        this.spawnIndex = 0;
+        this._pickupPool.destroy();
+        this._pickupPool = null;
+        this._levelData = null;
+        clearTimeout(this._timeOut);
+        this._spawnIndex = 0;
     }
 }

@@ -17,6 +17,8 @@ export default class Constants
     ];
     public static CURRENT_LEVEL: number = 0;
 
+    public static GLOBAL_SPEED: number = 1.5;
+
     public static GLOW_FILTER: any = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',

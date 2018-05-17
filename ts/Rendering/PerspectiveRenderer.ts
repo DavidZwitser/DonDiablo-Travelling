@@ -51,12 +51,10 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
     ): IScreenTransform
     {
         /* THE equation, calculating the perspective effect */
-        let projectedPosision: number = 1 / Math.pow(2, zPos);
-
         return {
-            x: Constants.HORIZON_POSITION.x * game.width + projectedPosision * xPos * game.width,
-            y: Constants.HORIZON_POSITION.y * game.height + projectedPosision * yPos * game.height,
-            scale: projectedPosision
+            x: Constants.HORIZON_POSITION.x * game.width + (xPos / zPos) * game.width,
+            y: Constants.HORIZON_POSITION.y * game.height + (yPos / zPos) * game.height,
+            scale: (1 / zPos) * 1.5
         };
     }
 }
