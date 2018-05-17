@@ -12,6 +12,7 @@ import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
+
 import { Lanes } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
@@ -94,7 +95,7 @@ export default class Gameplay extends Phaser.State
         /* UI */
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
-        this._userInterface.onPause.add(this.pause, this);
+        this._userInterface.onUIPause.add(this.pause, this);
 
         this.resize();
     }
@@ -105,6 +106,7 @@ export default class Gameplay extends Phaser.State
 
         this._audioVisualizer.render();
         this._road.render();
+        this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
     }
 
@@ -120,6 +122,7 @@ export default class Gameplay extends Phaser.State
     {
         this._gamePaused = !this._gamePaused;
         this._pickupSpawner.pause(this._gamePaused);
+        SoundManager.getInstance().pause(this._gamePaused);
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*

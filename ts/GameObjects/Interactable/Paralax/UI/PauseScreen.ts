@@ -1,7 +1,7 @@
 import 'phaser-ce';
 import BasePopUp from './BasePopUp';
 
-export default class GameOverScreen extends BasePopUp
+export default class PauseScreen extends BasePopUp
 {
     /** The text that shows the highscore */
     private _highScoreText: Phaser.BitmapText;

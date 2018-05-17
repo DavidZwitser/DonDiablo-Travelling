@@ -9,7 +9,7 @@ export default class UI extends ParalaxObject
     // private _titleText: Phaser.Text;
     // private _visualizer: MusicVisualizer;
 
-    public onPause: Phaser.Signal;
+    public onUIPause: Phaser.Signal;
 
     private _scoreBar: ScoreBar;
     private _pauseButton: PauseButton;
@@ -18,8 +18,10 @@ export default class UI extends ParalaxObject
     {
         super(game);
 
-        this.createScoreBar();
         this.createPauseButton();
+        this.createScoreBar();
+
+        this.onUIPause = new Phaser.Signal();
     }
 
     private createScoreBar(): void
@@ -33,18 +35,12 @@ export default class UI extends ParalaxObject
         this._pauseButton = new PauseButton(this.game);
         this.game.add.existing(this._pauseButton);
 
-        this.onPause = new Phaser.Signal();
-        this._pauseButton.onPause.add(this.signal);
+        this._pauseButton.onPause.add(() => this.onUIPause.dispatch(), this);
     }
 
     public resize(): void
     {
         this._pauseButton.resize();
         this._scoreBar.resize();
-    }
-
-    public signal(): void
-    {
-      //  this.onPause.dispatch();
     }
 }
