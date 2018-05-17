@@ -103,6 +103,7 @@ export default class Gameplay extends Phaser.State
 
         this._audioVisualizer.render();
         this._road.render();
+        this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
     }
 
@@ -118,6 +119,7 @@ export default class Gameplay extends Phaser.State
     {
         this._gamePaused = !this._gamePaused;
         this._pickupSpawner.pause(this._gamePaused);
+        SoundManager.getInstance().pause(this._gamePaused);
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
