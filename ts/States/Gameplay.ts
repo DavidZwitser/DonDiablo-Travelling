@@ -13,6 +13,7 @@ import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
 import { Lanes } from '../Enums/Lanes';
+import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 export default class Gameplay extends Phaser.State
 {
@@ -77,11 +78,13 @@ export default class Gameplay extends Phaser.State
         /* Rendering */
         this._perspectiveRenderer = new PerspectiveRenderer(this.game);
 
+        /* Player */
+        this._player = new Player(this.game, this._perspectiveRenderer);
+        PlayerCollisionChecker.getInstance(this._player);
+
         /* Pickups */
         this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
 
-        /* Player */
-        this._player = new Player(this.game, this._perspectiveRenderer);
         this.game.add.existing(this._player);
 
         /* Input */

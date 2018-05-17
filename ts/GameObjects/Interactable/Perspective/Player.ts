@@ -1,7 +1,7 @@
 import { Lanes } from '../../../Enums/Lanes';
 import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
 import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
-
+import Constants from '../../../Data/Constants';
 import AtlasImages from '../../../Data/Atlases';
 
 /** The player controlled by the user */
@@ -22,7 +22,7 @@ export default class Player extends ReactivePerspectiveObject
         this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
         this.addChild(this.sprite);
 
-        this.zPos = 1.2;
+        this.zPos = Constants.PLAYER_Z_POSITION;
 
         this.lane = Lanes.bottomLeftLane;
 

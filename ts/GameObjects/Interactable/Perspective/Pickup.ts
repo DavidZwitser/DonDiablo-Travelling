@@ -4,6 +4,8 @@ import { Lanes } from '../../../Enums/Lanes';
 import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
 import Constants from '../../../Data/Constants';
 
+import PlayerCollisionChecker from '../../../Systems/PlayerCollisionChecker';
+
 /** A pickup you can pickup */
 export default class Pickup extends ReactivePerspectiveObject
 {
@@ -27,6 +29,19 @@ export default class Pickup extends ReactivePerspectiveObject
         }
         super.update();
         this.move(Constants.GLOBAL_SPEED);
+        if (this.zPos > 1 && this.zPos < 1.4)
+        {
+            this.initiateCollision();
+        }
+    }
+
+    private initiateCollision(): void
+    {
+        if (PlayerCollisionChecker.getInstance().isCollidingLanes(this.lane))
+        {
+            this.visible = false;
+            //Colision events go here
+        }
     }
 
     public reactToMusic(): void

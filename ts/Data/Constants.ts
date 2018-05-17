@@ -19,6 +19,8 @@ export default class Constants
 
     public static GLOBAL_SPEED: number = 1.5;
 
+    public static PLAYER_Z_POSITION: number = 1.2;
+
     public static GLOW_FILTER: any = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',
