@@ -58,6 +58,7 @@ export default class BuildingVisualizer extends Phaser.Group
 
         this.mask = this._maskGraphic;
     }
+
     private setUp(): void
     {
         //bottom half
@@ -90,11 +91,13 @@ export default class BuildingVisualizer extends Phaser.Group
     private setUpBuildings(top: boolean): void
     {
         let pos: number = 0;
-        while (pos < this._maxWidth) {
+        while (pos < this._maxWidth)
+        {
             let building: Phaser.Sprite;
             let index: number;
 
-            if (top) {
+            if (top)
+            {
                 index = Math.ceil(Math.random() * 16);
                 building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'building_dark_' + index);
             }
@@ -110,7 +113,8 @@ export default class BuildingVisualizer extends Phaser.Group
             {
                 this._topHalf.addChild(building);
                 this._topBuildings.push(building);
-            } else
+            }
+            else
             {
                 this._bottomHalf.addChild(building);
                 this._buildings.push(building);
@@ -130,7 +134,8 @@ export default class BuildingVisualizer extends Phaser.Group
             {
                 this.renderBuildingWithoutContext(this._buildings, this._glow, this._backGlow);
                 this.renderBuildingWithoutContext(this._topBuildings, this._topGlow, this._topBackGlow);
-            } else
+            }
+            else
             {
                 this.renderBuildingWithoutContext(this._topBuildings, this._topGlow, this._topBackGlow);
             }
@@ -145,7 +150,8 @@ export default class BuildingVisualizer extends Phaser.Group
         {
             this.renderBuilding(this._buildings, this._glow, this._backGlow);
             this.renderBuilding(this._topBuildings, this._topGlow, this._topBackGlow);
-        } else
+        }
+        else
         {
             this.renderBuilding(this._topBuildings, this._topGlow, this._topBackGlow);
         }
@@ -182,13 +188,15 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topIsActive = !this._topIsActive;
         this.deactivateHalf();
     }
+
     private deactivateHalf(): void
     {
         if (!this._topIsActive)
         {
             this.game.add.tween(this._topHalf).to({y: -this._maxHeight * 2}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
             this.game.add.tween(this._bottomHalf).to({y: 0}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
-        } else
+        }
+        else
         {
             this.game.add.tween(this._topHalf).to({y: -this._maxHeight}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
             this.game.add.tween(this._bottomHalf).to({y: this._maxHeight}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
