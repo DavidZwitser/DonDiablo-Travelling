@@ -43,5 +43,4 @@ export default class UI extends ParalaxObject
         this._pauseButton.resize();
         this._scoreBar.resize();
     }
-
 }
