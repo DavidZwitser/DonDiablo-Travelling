@@ -13,7 +13,7 @@ import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
 
-import { Lanes, LanesInfo } from '../Enums/Lanes';
+import { Lanes, LaneIndexer } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 export default class Gameplay extends Phaser.State
@@ -97,7 +97,7 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._userInterface);
         this._userInterface.onUIPause.add(this.pause, this);
 
-        LanesInfo.AMOUNT_OF_ACTIVE_LANES = 5;
+        LaneIndexer.AMOUNT_OF_ACTIVE_LANES = 6;
 
         this.resize();
     }

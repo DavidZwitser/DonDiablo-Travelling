@@ -14,6 +14,7 @@ export enum Lanes
     bottomRightLane = 3
 }
 
+/** An interface which describes everything a lane has as data */
 export interface ILane
 {
     x: number;
@@ -23,10 +24,9 @@ export interface ILane
     enabled: boolean;
 }
 
+/** Has the data of each individual lane */
 export class LanesInfo
 {
-    private static _AMOUNT_OF_ENABLED_LANES: number = 6;
-
     /* None */
     public static readonly NONE_LANE: ILane = {
         x: 0,
@@ -82,14 +82,36 @@ export class LanesInfo
         enabled: true
     };
 
+    /** A list of all the lanes */
+    public static readonly LIST: {[index: number]: ILane} = {
+        [Lanes.none]: LanesInfo.NONE_LANE,
+
+        [Lanes.topLeftLane]: LanesInfo.TOP_LEFT_LANE,
+        [Lanes.topCenterLane]: LanesInfo.TOP_CENTER_LANE,
+        [Lanes.topRightLane]: LanesInfo.TOP_RIGHT_LANE,
+
+        [Lanes.bottomLeftLane]: LanesInfo.BOTTOM_LEFT_LANE,
+        [Lanes.bottomCenterLane]: LanesInfo.BOTTOM_CENTER_LANE,
+        [Lanes.bottomRightLane]: LanesInfo.BOTTOM_RIGHT_LANE
+    };
+
+}
+
+/** Manages looping over lanes and making them active/inactive. */
+export class LaneIndexer
+{
+    private static _AMOUNT_OF_ENABLED_LANES: number = 6;
+
     /** Get the amount of active lanes */
     public static get AMOUNT_OF_ACTIVE_LANES(): number
     {
         return this._AMOUNT_OF_ENABLED_LANES;
     }
 
+    /** Set how many lanes are active (this will handle which lanes will show by itself) */
     public static set AMOUNT_OF_ACTIVE_LANES(amount: number)
     {
+        // If there is a not defined amount of roads, just don't do anything
         if (amount > 6 || amount < 1) { return; }
 
         this.DISABLE_ALL_LANES();
@@ -126,6 +148,7 @@ export class LanesInfo
         this._AMOUNT_OF_ENABLED_LANES = amount;
     }
 
+    /** Set all lanes to inactive */
     private static DISABLE_ALL_LANES(): void
     {
         Object.keys(LanesInfo.LIST).forEach((key: any) => {
@@ -143,35 +166,26 @@ export class LanesInfo
             callback(LanesInfo.LIST[key]);
         });
     }
+}
 
-    /** A list of all the lanes */
-    public static readonly LIST: {[index: number]: ILane} = {
-        [Lanes.none]: LanesInfo.NONE_LANE,
-
-        [Lanes.topLeftLane]: LanesInfo.TOP_LEFT_LANE,
-        [Lanes.topCenterLane]: LanesInfo.TOP_CENTER_LANE,
-        [Lanes.topRightLane]: LanesInfo.TOP_RIGHT_LANE,
-
-        [Lanes.bottomLeftLane]: LanesInfo.BOTTOM_LEFT_LANE,
-        [Lanes.bottomCenterLane]: LanesInfo.BOTTOM_CENTER_LANE,
-        [Lanes.bottomRightLane]: LanesInfo.BOTTOM_RIGHT_LANE
-    };
-
-    /* Conversions */
-
+/** Handles all the (lane to screen position etc) positioning */
+export class LaneConverter
+{
     /** Give a lane and get the position a perspective sprite should get, back from it. */
-    public static laneToILane(lane: Lanes): ILane
+    public static LANE_TO_ILANE(lane: Lanes): ILane
     {
         return LanesInfo.LIST[lane];
     }
 
-    public static perspectivePositionToRoundedLane(x: number, y: number): Lanes
+    /** Asks for a position in perspective and will return the closest lane */
+    public static PERSPECTIVE_POSITION_TO_CLOSEST_LANE(x: number, y: number): Lanes
     {
         let currentSmallestDistance: number = Infinity;
         let smallestDistanceLane: Lanes = Lanes.none;
 
-        LanesInfo.GET_ENABLED_LANES((lane: ILane) => {
+        LaneIndexer.GET_ENABLED_LANES((lane: ILane) => {
 
+            // Some pythagoras magic
             let a: number = lane.x - x;
             let b: number = lane.y - y;
 
@@ -187,7 +201,7 @@ export class LanesInfo
     }
 
     /** Give a screen position and get the coresponding lane back */
-    public static  screenPositionToLane(game: Phaser.Game, x: number, y: number): Lanes
+    public static  SCREENPOSITION_TO_LANE(game: Phaser.Game, x: number, y: number): Lanes
     {
         /* So the "getting smaller of the road in the distance" can be accounted for */
         let perspectiveOffset: number = ((y / game.height - Constants.HORIZON_POSITION.y) * 2);
@@ -195,7 +209,7 @@ export class LanesInfo
         let xScreen: number = (x / game.width - Constants.HORIZON_POSITION.x) / perspectiveOffset;
         let yScreen: number = y / game.height - Constants.HORIZON_POSITION.y;
 
-        return LanesInfo.perspectivePositionToRoundedLane(xScreen, yScreen);
+        return LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(xScreen, yScreen);
 
     }
 }

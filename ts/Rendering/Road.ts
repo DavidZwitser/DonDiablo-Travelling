@@ -1,5 +1,5 @@
 import 'phaser-ce';
-import { LanesInfo } from '../Enums/Lanes';
+import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
 
 /** Renders a road */
@@ -37,7 +37,7 @@ export default class Road extends Phaser.Graphics
         /* -- */
 
         /* The road lines */
-        let amountOfLanes: number = LanesInfo.AMOUNT_OF_ACTIVE_LANES;
+        let amountOfLanes: number = LaneIndexer.AMOUNT_OF_ACTIVE_LANES;
 
         let topRoadLines: Phaser.Polygon[] = [];
         let bottomRoadLines: Phaser.Polygon[] = [];
