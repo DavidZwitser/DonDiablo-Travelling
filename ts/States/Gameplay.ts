@@ -62,7 +62,9 @@ export default class Gameplay extends Phaser.State
         this.spawnEditor.startRecording();
 
         /* Sounds */
-        SoundManager.getInstance().playMusic(Sounds.headUp);
+        setTimeout(() => {
+            SoundManager.getInstance().playMusic(Sounds.headUp);
+        }, Constants.SONG_DELAY / Constants.GLOBAL_SPEED);
 
         /* Road */
         this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);

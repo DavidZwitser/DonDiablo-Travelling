@@ -3,16 +3,16 @@ import Constants from '../Data/Constants';
 /** Defines the different lanes */
 export enum Lanes
 {
-    none,
+    none, // 0
 
-    bottomLeftLane,
-    topLeftLane,
+    topLeftLane, // 1
+    bottomLeftLane, // 2
 
-    bottomCenterLane,
-    topCenterLane,
+    topCenterLane, // 3
+    bottomCenterLane, // 4
 
-    bottomRightLane,
-    topRightLane
+    topRightLane, // 5
+    bottomRightLane // 6
 }
 
 export namespace Lanes.Conversions
