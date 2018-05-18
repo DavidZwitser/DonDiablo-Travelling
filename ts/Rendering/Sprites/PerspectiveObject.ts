@@ -1,7 +1,7 @@
 import 'phaser-ce';
 
 import PerspectiveRenderer from '../PerspectiveRenderer';
-import { Lanes } from '../../Enums/Lanes';
+import { Lanes, LanesInfo, ILane } from '../../Enums/Lanes';
 
 /** A sprite that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
@@ -33,12 +33,17 @@ export default class PerspectiveObject extends Phaser.Group
         {
             this.visible = false;
         }
-        let targetPosition: {x: number, y: number} = Lanes.Conversions.laneToPerspectivePosition(lane);
 
-        this.xPos = targetPosition.x;
+        let desiredLane: ILane = LanesInfo.laneToILane(lane);
+
+        /** Setting the lane to the closest enabled lane */
+        this._lane = LanesInfo.perspectivePositionToRoundedLane(desiredLane.x, desiredLane.y);
+
+        let targetPosition: {x: number, y: number} = LanesInfo.laneToILane(this._lane);
+
         this.yPos = targetPosition.y;
+        this.xPos = this.yPos < 0 ? -targetPosition.x : targetPosition.x;
 
-        this._lane = lane;
     }
 
     /** What z position the sprite is currently on */
@@ -70,13 +75,14 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set yPos(value: number)
     {
+        this._yPos = value;
+
         if (this.sprite)
         {
             this.sprite.anchor.set(.5, 1);
             this.sprite.rotation = value > 0 ? 0 : Math.PI;
         }
 
-        this._yPos = value;
         this.positionShouldBeUpdated = true;
     }
 

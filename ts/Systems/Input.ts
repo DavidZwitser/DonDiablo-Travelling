@@ -1,6 +1,6 @@
 import 'phaser-ce';
 
-import {Lanes} from '../Enums/Lanes';
+import {LanesInfo} from '../Enums/Lanes';
 //** Handles reading input */
 export default class Input
 {
@@ -22,7 +22,7 @@ export default class Input
 
     private inputDown(pointer: Phaser.Pointer): void
     {
-        this.onInputDown.dispatch(Lanes.Conversions.screenPositionToLane(this.game, pointer.position.x, pointer.position.y));
+        this.onInputDown.dispatch(LanesInfo.screenPositionToLane(this.game, pointer.position.x, pointer.position.y));
     }
 
     public destroy(): void

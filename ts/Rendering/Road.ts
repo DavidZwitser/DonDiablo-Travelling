@@ -1,5 +1,5 @@
 import 'phaser-ce';
-import { Lanes } from '../Enums/Lanes';
+import { LanesInfo } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
 
 /** Renders a road */
@@ -9,9 +9,9 @@ export default class Road extends Phaser.Graphics
     private _offset: number = 0;
 
     //colors
-    private _bottomMiddleColor: number = 0xf4091a;
+    private _bottomMiddleColor: number = 0x8bf2d6;
     private _bottomOuterColor: number = 0x66090f;
-    private _topMiddleColor: number = 0x8bf2d6;
+    private _topMiddleColor: number = 0xf4091a;
     private _topOuterColor: number = 0x148694;
 
     private getTopLine(offsetFromCenter: number, customWidth?: number): Phaser.Polygon
@@ -37,7 +37,7 @@ export default class Road extends Phaser.Graphics
         /* -- */
 
         /* The road lines */
-        let amountOfLanes: number = Lanes.LanesInfo.AMOUNT_OF_ACTIVE_LANES;
+        let amountOfLanes: number = LanesInfo.AMOUNT_OF_ACTIVE_LANES;
 
         let topRoadLines: Phaser.Polygon[] = [];
         let bottomRoadLines: Phaser.Polygon[] = [];

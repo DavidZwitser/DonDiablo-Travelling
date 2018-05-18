@@ -3,192 +3,199 @@ import Constants from '../Data/Constants';
 /** Defines the different lanes */
 export enum Lanes
 {
-    none,
+    none = 0,
 
-    topLeftLane,
-    topCenterLane,
-    topRightLane,
+    topLeftLane = 4,
+    topCenterLane = 5,
+    topRightLane = 6,
 
-    bottomLeftLane,
-    bottomCenterLane,
-    bottomRightLane
+    bottomLeftLane = 1,
+    bottomCenterLane = 2,
+    bottomRightLane = 3
 }
 
-export namespace Lanes
+export interface ILane
 {
-    interface ILane
+    x: number;
+    y: number;
+    lane: Lanes;
+    onTop: boolean;
+    enabled: boolean;
+}
+
+export class LanesInfo
+{
+    private static _AMOUNT_OF_ENABLED_LANES: number = 6;
+
+    /* None */
+    public static readonly NONE_LANE: ILane = {
+        x: 0,
+        y: 0,
+        lane: Lanes.none,
+        onTop: false,
+        enabled: false
+    };
+
+    /* Top lanes */
+    public static readonly TOP_LEFT_LANE: ILane = {
+        x: -.3,
+        y: -.5,
+        lane: Lanes.topLeftLane,
+        onTop: true,
+        enabled: true
+    };
+    public static readonly TOP_CENTER_LANE: ILane = {
+        x: 0,
+        y: -.5,
+        lane: Lanes.topCenterLane,
+        onTop: true,
+        enabled: true
+    };
+    public static readonly TOP_RIGHT_LANE: ILane = {
+        x: .3,
+        y: -.5,
+        lane: Lanes.topRightLane,
+        onTop: true,
+        enabled: true
+    };
+
+    /* Bottom lanes */
+    public static readonly BOTTOM_LEFT_LANE: ILane = {
+        x: -.3,
+        y: .5,
+        lane: Lanes.bottomLeftLane,
+        onTop: false,
+        enabled: true
+    };
+    public static readonly BOTTOM_CENTER_LANE: ILane = {
+        x: 0,
+        y: .5,
+        lane: Lanes.bottomCenterLane,
+        onTop: false,
+        enabled: true
+    };
+    public static readonly BOTTOM_RIGHT_LANE: ILane = {
+        x: .3,
+        y: .5,
+        lane: Lanes.bottomRightLane,
+        onTop: false,
+        enabled: true
+    };
+
+    /** Get the amount of active lanes */
+    public static get AMOUNT_OF_ACTIVE_LANES(): number
     {
-        x: number;
-        y: number;
-        lane: Lanes;
-        enabled: boolean;
+        return this._AMOUNT_OF_ENABLED_LANES;
     }
 
-    export class LanesInfo
+    public static set AMOUNT_OF_ACTIVE_LANES(amount: number)
     {
-        private static _AMOUNT_OF_ENABLED_LANES: number = 6;
+        if (amount > 6 || amount < 1) { return; }
 
-        /* None */
-        public static readonly NONE_LANE: ILane = {
-            x: 0,
-            y: 0,
-            lane: Lanes.none,
-            enabled: false
-        };
+        this.DISABLE_ALL_LANES();
 
-        /* Top lanes */
-        public static readonly TOP_LEFT_LANE: ILane = {
-            x: -.3,
-            y: -.5,
-            lane: Lanes.topLeftLane,
-            enabled: true
-        };
-        public static readonly TOP_CENTER_LANE: ILane = {
-            x: 0,
-            y: -.5,
-            lane: Lanes.topCenterLane,
-            enabled: true
-        };
-        public static readonly TOP_RIGHT_LANE: ILane = {
-            x: .3,
-            y: -.5,
-            lane: Lanes.topRightLane,
-            enabled: true
-        };
-
-        /* Bottom lanes */
-        public static readonly BOTTOM_LEFT_LANE: ILane = {
-            x: -.3,
-            y: .5,
-            lane: Lanes.bottomLeftLane,
-            enabled: true
-        };
-        public static readonly BOTTOM_CENTER_LANE: ILane = {
-            x: 0,
-            y: .5,
-            lane: Lanes.bottomCenterLane,
-            enabled: true
-        };
-        public static readonly BOTTOM_RIGHT_LANE: ILane = {
-            x: .3,
-            y: .5,
-            lane: Lanes.bottomRightLane,
-            enabled: true
-        };
-
-        /** Get the amount of active lanes */
-        public static get AMOUNT_OF_ACTIVE_LANES(): number
+        switch (amount)
         {
-            return this._AMOUNT_OF_ENABLED_LANES;
+            case 6:
+                LanesInfo.TOP_CENTER_LANE.enabled = true;
+            case 5:
+                LanesInfo.BOTTOM_CENTER_LANE.enabled = true;
+            case 4:
+                LanesInfo.TOP_LEFT_LANE.enabled = true;
+                LanesInfo.TOP_RIGHT_LANE.enabled = true;
+                LanesInfo.BOTTOM_LEFT_LANE.enabled = true;
+                LanesInfo.BOTTOM_RIGHT_LANE.enabled = true;
+                break;
+
+            case 3:
+                LanesInfo.TOP_CENTER_LANE.enabled = true;
+                LanesInfo.BOTTOM_LEFT_LANE.enabled = true;
+                LanesInfo.BOTTOM_RIGHT_LANE.enabled = true;
+                break;
+
+            case 2:
+                LanesInfo.TOP_CENTER_LANE.enabled = true;
+            case 1:
+                LanesInfo.BOTTOM_CENTER_LANE.enabled = true;
+                break;
+
+            default:
+                break;
         }
 
-        public static set AMOUNT_OF_ACTIVE_LANES(amount: number)
-        {
-            if (amount > 6 || amount < 1) { return; }
-
-            this.DISABLE_ALL_LANES();
-
-            switch (amount)
-            {
-                case 6:
-                    LanesInfo.TOP_CENTER_LANE.enabled = true;
-                case 5:
-                    LanesInfo.BOTTOM_CENTER_LANE.enabled = true;
-                case 4:
-                    LanesInfo.TOP_LEFT_LANE.enabled = true;
-                    LanesInfo.TOP_RIGHT_LANE.enabled = true;
-                    LanesInfo.BOTTOM_LEFT_LANE.enabled = true;
-                    LanesInfo.BOTTOM_RIGHT_LANE.enabled = true;
-                    break;
-
-                case 3:
-                    LanesInfo.TOP_CENTER_LANE.enabled = true;
-                    LanesInfo.BOTTOM_LEFT_LANE.enabled = true;
-                    LanesInfo.BOTTOM_RIGHT_LANE.enabled = true;
-                    break;
-
-                case 2:
-                    LanesInfo.TOP_CENTER_LANE.enabled = true;
-                case 1:
-                    LanesInfo.BOTTOM_CENTER_LANE.enabled = true;
-                    break;
-
-                default:
-                    break;
-            }
-
-            this._AMOUNT_OF_ENABLED_LANES = amount;
-        }
-
-        private static DISABLE_ALL_LANES(): void
-        {
-            for (let i: number = LanesInfo.LIST.length; i--; )
-            {
-                LanesInfo.LIST[i].enabled = false;
-            }
-        }
-
-        /** A list of all the lanes */
-        public static readonly LIST: ILane[] = [
-            LanesInfo.NONE_LANE,
-
-            LanesInfo.TOP_LEFT_LANE,
-            LanesInfo.TOP_CENTER_LANE,
-            LanesInfo.TOP_RIGHT_LANE,
-
-            LanesInfo.BOTTOM_LEFT_LANE,
-            LanesInfo.BOTTOM_CENTER_LANE,
-            LanesInfo.BOTTOM_RIGHT_LANE
-        ];
+        this._AMOUNT_OF_ENABLED_LANES = amount;
     }
 
-    export namespace Conversions
+    private static DISABLE_ALL_LANES(): void
     {
-        /** Give a lane and get the position a perspective sprite should get, back from it. */
-        export function laneToPerspectivePosition(lane: Lanes): ILane
-        {
-            for (let i: number = LanesInfo.LIST.length; i--; )
-            {
-                if (LanesInfo.LIST[i].lane === lane && LanesInfo.LIST[i].enabled === true) { return LanesInfo.LIST[i]; }
-            }
+        Object.keys(LanesInfo.LIST).forEach((key: any) => {
+            LanesInfo.LIST[key].enabled = false;
+        });
+    }
 
-            return LanesInfo.NONE_LANE;
-        }
+    /** Returns all the lanes that are enabled */
+    public static GET_ENABLED_LANES(callback: (lane: ILane) => void): void
+    {
+        Object.keys(LanesInfo.LIST).forEach((key: any) => {
 
-        /** Give a screen position and get the coresponding lane back */
-        export function screenPositionToLane(game: Phaser.Game, x: number, y: number): Lanes
-        {
-            let onBottom: boolean = y > game.height / 2;
+            if (LanesInfo.LIST[key].enabled === false) { return; }
 
-            /* So the "getting smaller of the road in the distance" can be accounted for */
-            let perspectiveOffset: number = ((y / game.height - Constants.HORIZON_POSITION.y) * 2);
-            /* The xPosition on the screen from -.5 on the left to .5 on the right */
-            let xScreen: number = (x / game.width - Constants.HORIZON_POSITION.x) / perspectiveOffset;
+            callback(LanesInfo.LIST[key]);
+        });
+    }
 
-            /* The distances from the paramater to the specific lanes on the x-axis */
-            let leftXDistance: number = Math.abs( this.laneToPerspectivePosition( Lanes.bottomLeftLane ).x - xScreen );
-            let centerXDistance: number = Math.abs( this.laneToPerspectivePosition( Lanes.bottomCenterLane ).x - xScreen );
-            let rightXDistance: number = Math.abs( this.laneToPerspectivePosition( Lanes.bottomRightLane ).x - xScreen );
+    /** A list of all the lanes */
+    public static readonly LIST: {[index: number]: ILane} = {
+        [Lanes.none]: LanesInfo.NONE_LANE,
 
-            /* Checking which distance is the smallest */
-            let smallest: number = Math.min(leftXDistance, centerXDistance, rightXDistance);
+        [Lanes.topLeftLane]: LanesInfo.TOP_LEFT_LANE,
+        [Lanes.topCenterLane]: LanesInfo.TOP_CENTER_LANE,
+        [Lanes.topRightLane]: LanesInfo.TOP_RIGHT_LANE,
 
-            /* Filtering out which outcome belongs to which lane */
-            if (onBottom === true)
-            {
-                if (smallest === leftXDistance) { return Lanes.bottomLeftLane; }
-                if (smallest === centerXDistance) { return Lanes.bottomCenterLane; }
-                if (smallest === rightXDistance) { return Lanes.bottomRightLane; }
-            }
-            else
-            {
-                /* These are flipped, since everything on the top is mirrored */
-                if (smallest === rightXDistance) { return Lanes.topLeftLane; }
-                if (smallest === centerXDistance) { return Lanes.topCenterLane; }
-                if (smallest === leftXDistance) { return Lanes.topRightLane; }
-            }
+        [Lanes.bottomLeftLane]: LanesInfo.BOTTOM_LEFT_LANE,
+        [Lanes.bottomCenterLane]: LanesInfo.BOTTOM_CENTER_LANE,
+        [Lanes.bottomRightLane]: LanesInfo.BOTTOM_RIGHT_LANE
+    };
 
-            return Lanes.none;
-        }
+    /* Conversions */
+
+    /** Give a lane and get the position a perspective sprite should get, back from it. */
+    public static laneToILane(lane: Lanes): ILane
+    {
+        return LanesInfo.LIST[lane];
+    }
+
+    public static perspectivePositionToRoundedLane(x: number, y: number): Lanes
+    {
+        let currentSmallestDistance: number = Infinity;
+        let smallestDistanceLane: Lanes = Lanes.none;
+
+        LanesInfo.GET_ENABLED_LANES((lane: ILane) => {
+
+            let a: number = lane.x - x;
+            let b: number = lane.y - y;
+
+            let distance: number = Math.abs(a * a + b * b);
+
+            if (distance > currentSmallestDistance) { return; }
+            currentSmallestDistance = distance;
+
+            smallestDistanceLane = lane.lane;
+        });
+
+        return smallestDistanceLane;
+    }
+
+    /** Give a screen position and get the coresponding lane back */
+    public static  screenPositionToLane(game: Phaser.Game, x: number, y: number): Lanes
+    {
+        /* So the "getting smaller of the road in the distance" can be accounted for */
+        let perspectiveOffset: number = ((y / game.height - Constants.HORIZON_POSITION.y) * 2);
+        /* The xPosition on the screen from -.5 on the left to .5 on the right */
+        let xScreen: number = (x / game.width - Constants.HORIZON_POSITION.x) / perspectiveOffset;
+        let yScreen: number = y / game.height - Constants.HORIZON_POSITION.y;
+
+        return LanesInfo.perspectivePositionToRoundedLane(xScreen, yScreen);
+
     }
 }
