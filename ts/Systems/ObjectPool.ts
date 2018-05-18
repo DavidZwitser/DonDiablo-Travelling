@@ -9,7 +9,7 @@ export default class ObjectPool
     private _createInstance: () => PerspectiveObject;
     private _length: number;
 
-    constructor(createInstanceFunction: () => PerspectiveObject, length: number = 6)
+    constructor(createInstanceFunction: () => PerspectiveObject, length: number = 5)
     {
         this._createInstance = createInstanceFunction;
         this._length = length;
@@ -25,6 +25,7 @@ export default class ObjectPool
             if (!this._objects[i].visible)
             {
                 object = this._objects[i];
+                break;
             }
         }
 
@@ -37,7 +38,6 @@ export default class ObjectPool
         if (object !== null)
         {
             //reset call can be done here.
-            object.position.set(0, 0);
             object.visible = true;
         }
         else

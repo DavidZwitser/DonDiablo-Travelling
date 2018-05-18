@@ -59,6 +59,7 @@ export default class PickupSpawner extends Phaser.Group
         {
             pickup.lane = lanePos;
             pickup.zPos = 5;
+            pickup.scale.set(1);
 
             pickup.alpha = 0;
             this.game.add.tween(pickup).to({alpha: 1}, 500,  Phaser.Easing.Linear.None, true);
@@ -89,7 +90,7 @@ export default class PickupSpawner extends Phaser.Group
 
             this._spawnIndex++;
 
-            if (this._spawnIndex < this._levelData.timings.length - 1)
+            if (this._spawnIndex < this._levelData.timings.length)
             {
                 this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - this._levelData.timings[this._spawnIndex - 1].time);
             }

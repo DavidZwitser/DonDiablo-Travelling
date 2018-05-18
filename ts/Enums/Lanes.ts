@@ -5,13 +5,13 @@ export enum Lanes
 {
     none = 0,
 
-    topLeftLane = 4,
-    topCenterLane = 5,
-    topRightLane = 6,
+    topLeftLane = 1,
+    topCenterLane = 3,
+    topRightLane = 5,
 
-    bottomLeftLane = 1,
-    bottomCenterLane = 2,
-    bottomRightLane = 3
+    bottomLeftLane = 2,
+    bottomCenterLane = 4,
+    bottomRightLane = 6
 }
 
 /** An interface which describes everything a lane has as data */
@@ -38,7 +38,7 @@ export class LanesInfo
 
     /* Top lanes */
     public static readonly TOP_LEFT_LANE: ILane = {
-        x: -.3,
+        x: .3,
         y: -.5,
         lane: Lanes.topLeftLane,
         onTop: true,
@@ -52,7 +52,7 @@ export class LanesInfo
         enabled: true
     };
     public static readonly TOP_RIGHT_LANE: ILane = {
-        x: .3,
+        x: -.3,
         y: -.5,
         lane: Lanes.topRightLane,
         onTop: true,
@@ -148,6 +148,12 @@ export class LaneIndexer
         this._AMOUNT_OF_ENABLED_LANES = amount;
     }
 
+    /** Give a lane and get the coresponding ILane back from it. */
+    public static LANE_TO_ILANE(lane: Lanes): ILane
+    {
+        return LanesInfo.LIST[lane];
+    }
+
     /** Set all lanes to inactive */
     private static DISABLE_ALL_LANES(): void
     {
@@ -171,12 +177,6 @@ export class LaneIndexer
 /** Handles all the (lane to screen position etc) positioning */
 export class LaneConverter
 {
-    /** Give a lane and get the position a perspective sprite should get, back from it. */
-    public static LANE_TO_ILANE(lane: Lanes): ILane
-    {
-        return LanesInfo.LIST[lane];
-    }
-
     /** Asks for a position in perspective and will return the closest lane */
     public static PERSPECTIVE_POSITION_TO_CLOSEST_LANE(x: number, y: number): Lanes
     {
@@ -186,7 +186,7 @@ export class LaneConverter
         LaneIndexer.GET_ENABLED_LANES((lane: ILane) => {
 
             // Some pythagoras magic
-            let a: number = lane.x - x;
+            let a: number = (lane.onTop === true ? -lane.x : lane.x) - x;
             let b: number = lane.y - y;
 
             let distance: number = Math.abs(a * a + b * b);

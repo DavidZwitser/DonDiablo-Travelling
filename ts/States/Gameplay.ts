@@ -13,7 +13,7 @@ import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
 
-import { Lanes, LaneIndexer } from '../Enums/Lanes';
+import { Lanes, LaneIndexer, LaneConverter } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 export default class Gameplay extends Phaser.State
@@ -62,7 +62,9 @@ export default class Gameplay extends Phaser.State
         this.spawnEditor.startRecording();
 
         /* Sounds */
-        SoundManager.getInstance().playMusic(Sounds.headUp);
+        setTimeout(() => {
+            SoundManager.getInstance().playMusic(Sounds.headUp);
+        }, Constants.SONG_DELAY / Constants.GLOBAL_SPEED);
 
         /* Road */
         this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
@@ -90,7 +92,7 @@ export default class Gameplay extends Phaser.State
 
         /* Input */
         this._input = new Input(this.game);
-        this._input.onInputDown.add( (lane: Lanes) => this._player.lane = lane );
+        this._input.onInputDown.add( (lane: Lanes) => this._player.changeLane(lane));
 
         /* UI */
         this._userInterface = new UI(this.game);

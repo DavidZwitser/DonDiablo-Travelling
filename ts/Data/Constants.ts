@@ -23,6 +23,8 @@ export default class Constants
 
     public static DELTA_TIME: number = 1;
 
+    public static SONG_DELAY: number = 3500;
+
     public static GLOW_FILTER: any = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',

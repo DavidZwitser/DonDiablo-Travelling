@@ -1,7 +1,7 @@
 import 'phaser-ce';
 
 import PerspectiveRenderer from '../PerspectiveRenderer';
-import { Lanes, ILane, LaneConverter } from '../../Enums/Lanes';
+import { Lanes, ILane, LaneConverter, LaneIndexer } from '../../Enums/Lanes';
 
 /** A sprite that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
@@ -34,15 +34,15 @@ export default class PerspectiveObject extends Phaser.Group
             this.visible = false;
         }
 
-        let desiredLane: ILane = LaneConverter.LANE_TO_ILANE(lane);
+        let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
 
         /** Setting the lane to the closest enabled lane */
         this._lane = LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(desiredLane.x, desiredLane.y);
 
-        let targetPosition: {x: number, y: number} = LaneConverter.LANE_TO_ILANE(this._lane);
+        let targetPosition: {x: number, y: number} = LaneIndexer.LANE_TO_ILANE(this._lane);
 
         this.yPos = targetPosition.y;
-        this.xPos = this.yPos < 0 ? -targetPosition.x : targetPosition.x;
+        this.xPos = targetPosition.x; //this.yPos < 0 ? -targetPosition.x : targetPosition.x;
 
     }
 
