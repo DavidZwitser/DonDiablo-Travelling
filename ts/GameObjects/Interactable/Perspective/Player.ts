@@ -69,14 +69,12 @@ export default class Player extends ReactivePerspectiveObject
             .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100)
             .start();
         this.laneTween.onComplete.addOnce(() => this.laneEnd(lane), this);
-        console.log(targetPosition);
         //
     }
 
     private laneEnd(lane: Lanes ): void
     {
         this.lane = lane;
-        console.log("jasss");
     }
     public reactToMusic(): void
     {
