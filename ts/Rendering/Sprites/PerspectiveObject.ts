@@ -14,6 +14,7 @@ export default class PerspectiveObject extends Phaser.Group
 
     private _lane: Lanes = Lanes.bottomCenterLane;
 
+    public resizedScale: number = 1;
     public positionShouldBeUpdated: boolean = true;
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
@@ -82,15 +83,11 @@ export default class PerspectiveObject extends Phaser.Group
     public resize(): void
     {
         this.positionShouldBeUpdated = true;
+        this.resizedScale = this.game.width / GAME_WIDTH;
     }
 
-    protected move(speed: number = 1): void
+    public updateObject(): void
     {
-        this.zPos -= .014 * speed;
-        if (this.scale.y < 0) {
-            //out of screen/field of view (FOV)
-            this.visible = false;
-        }
-
+        //
     }
 }

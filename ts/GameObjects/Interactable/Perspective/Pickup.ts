@@ -4,6 +4,8 @@ import { Lanes } from '../../../Enums/Lanes';
 import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
 import Constants from '../../../Data/Constants';
 
+import PlayerCollisionChecker from '../../../Systems/PlayerCollisionChecker';
+
 /** A pickup you can pickup */
 export default class Pickup extends ReactivePerspectiveObject
 {
@@ -13,7 +15,6 @@ export default class Pickup extends ReactivePerspectiveObject
         //art assigning
         this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'laying hexagon');
         this.addChild(this.sprite);
-
     }
 
     public reset(lane: Lanes): void {
@@ -21,12 +22,13 @@ export default class Pickup extends ReactivePerspectiveObject
         this.position.set(0, 0);
     }
 
-    public update(): void {
-        if (!this.visible) {
-            return;
+    private initiateCollision(): void
+    {
+        if (PlayerCollisionChecker.getInstance().isCollidingLanes(this.lane))
+        {
+            this.visible = false;
+            //Colision events go here
         }
-        super.update();
-        this.move(Constants.GLOBAL_SPEED);
     }
 
     public reactToMusic(): void
@@ -39,5 +41,18 @@ export default class Pickup extends ReactivePerspectiveObject
         super.destroy();
         this.sprite.destroy();
         this.sprite = null;
+    }
+
+    public updateObject(): void
+    {
+        this.zPos -= Constants.DELTA_TIME * Constants.GLOBAL_SPEED;
+        if (this.scale.y < 0) {
+            //out of screen/field of view (FOV)
+            this.visible = false;
+        }
+        if (this.zPos > 1 && this.zPos < 1.4)
+        {
+            this.initiateCollision();
+        }
     }
 }

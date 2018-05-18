@@ -17,7 +17,11 @@ export default class Constants
     ];
     public static CURRENT_LEVEL: number = 0;
 
-    public static GLOBAL_SPEED: number = 1.5;
+    public static GLOBAL_SPEED: number = 2.5;
+
+    public static PLAYER_Z_POSITION: number = 1.2;
+
+    public static DELTA_TIME: number = 1;
 
     public static GLOW_FILTER: any = [
         'precision lowp float;',

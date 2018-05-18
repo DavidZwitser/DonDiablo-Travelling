@@ -45,6 +45,10 @@ export default class SoundManager
         return SoundManager.instance;
     }
 
+    public pause(pause: boolean): void {
+        pause ? this._music.element.pause() : this._music.element.play();
+    }
+
     /** Play a sfx */
     public play(key: string, volume: number = 1, loop: boolean = false): Phaser.Sound
     {
