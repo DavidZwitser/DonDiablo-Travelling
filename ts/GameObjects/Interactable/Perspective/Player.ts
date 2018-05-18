@@ -15,6 +15,8 @@ export default class Player extends ReactivePerspectiveObject
     public static ANIMATION_TURN: string = 'turn';
     public static ANIMATION_LOSE: string = 'defeat';
 
+    private laneTween: Phaser.Tween;
+
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game, renderer);
@@ -62,10 +64,20 @@ export default class Player extends ReactivePerspectiveObject
     public changeLane( lane: Lanes ): void
     {
         /* So no tslint errors will be thrown */
-        this.lane = lane;
+        let targetPosition: {x: number, y: number} = Lanes.Conversions.laneToPerspectivePosition(lane);
+        this.laneTween = this.game.add.tween(this)
+            .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100)
+            .start();
+        this.laneTween.onComplete.addOnce(() => this.laneEnd(lane), this);
+        console.log(targetPosition);
         //
     }
 
+    private laneEnd(lane: Lanes ): void
+    {
+        this.lane = lane;
+        console.log("jasss");
+    }
     public reactToMusic(): void
     {
         //

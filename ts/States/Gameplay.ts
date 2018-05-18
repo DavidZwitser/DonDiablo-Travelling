@@ -90,7 +90,7 @@ export default class Gameplay extends Phaser.State
 
         /* Input */
         this._input = new Input(this.game);
-        this._input.onInputDown.add( (lane: Lanes) => this._player.lane = lane );
+        this._input.onInputDown.add( (lane: Lanes) => this._player.changeLane(lane));
 
         /* UI */
         this._userInterface = new UI(this.game);
