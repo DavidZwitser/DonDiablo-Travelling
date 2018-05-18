@@ -26,12 +26,14 @@ export namespace Lanes
 
     export class LanesInfo
     {
+        private static _AMOUNT_OF_ENABLED_LANES: number = 6;
+
         /* None */
         public static readonly NONE_LANE: ILane = {
             x: 0,
             y: 0,
             lane: Lanes.none,
-            enabled: true
+            enabled: false
         };
 
         /* Top lanes */
@@ -77,14 +79,53 @@ export namespace Lanes
         /** Get the amount of active lanes */
         public static get AMOUNT_OF_ACTIVE_LANES(): number
         {
-            let activeLanes: number = 0;
+            return this._AMOUNT_OF_ENABLED_LANES;
+        }
 
-            for (let i: number = LanesInfo.LIST.length; i--; )
+        public static set AMOUNT_OF_ACTIVE_LANES(amount: number)
+        {
+            if (amount > 6 || amount < 1) { return; }
+
+            this.DISABLE_ALL_LANES();
+
+            switch (amount)
             {
-                if (LanesInfo.LIST[i].enabled === true) { activeLanes ++; }
+                case 6:
+                    LanesInfo.TOP_CENTER_LANE.enabled = true;
+                case 5:
+                    LanesInfo.BOTTOM_CENTER_LANE.enabled = true;
+                case 4:
+                    LanesInfo.TOP_LEFT_LANE.enabled = true;
+                    LanesInfo.TOP_RIGHT_LANE.enabled = true;
+                    LanesInfo.BOTTOM_LEFT_LANE.enabled = true;
+                    LanesInfo.BOTTOM_RIGHT_LANE.enabled = true;
+                    break;
+
+                case 3:
+                    LanesInfo.TOP_CENTER_LANE.enabled = true;
+                    LanesInfo.BOTTOM_LEFT_LANE.enabled = true;
+                    LanesInfo.BOTTOM_RIGHT_LANE.enabled = true;
+                    break;
+
+                case 2:
+                    LanesInfo.TOP_CENTER_LANE.enabled = true;
+                case 1:
+                    LanesInfo.BOTTOM_CENTER_LANE.enabled = true;
+                    break;
+
+                default:
+                    break;
             }
 
-            return activeLanes;
+            this._AMOUNT_OF_ENABLED_LANES = amount;
+        }
+
+        private static DISABLE_ALL_LANES(): void
+        {
+            for (let i: number = LanesInfo.LIST.length; i--; )
+            {
+                LanesInfo.LIST[i].enabled = false;
+            }
         }
 
         /** A list of all the lanes */
