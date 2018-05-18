@@ -13,7 +13,7 @@ import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
 
-import { Lanes, LaneIndexer, LaneConverter } from '../Enums/Lanes';
+import { Lanes, LaneIndexer } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 export default class Gameplay extends Phaser.State

@@ -42,7 +42,7 @@ export default class PerspectiveObject extends Phaser.Group
         let targetPosition: {x: number, y: number} = LaneIndexer.LANE_TO_ILANE(this._lane);
 
         this.yPos = targetPosition.y;
-        this.xPos = targetPosition.x; //this.yPos < 0 ? -targetPosition.x : targetPosition.x;
+        this.xPos = targetPosition.x;
 
     }
 
