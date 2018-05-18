@@ -12,7 +12,7 @@ export default class AudioAnalyser
     public context: AudioContext;
     private _src: MediaElementAudioSourceNode;
 
-    private _alreadyDidThisBrutah: boolean = false;
+    private _alreadySetup: boolean = false;
 
     constructor ()
     {
@@ -25,8 +25,8 @@ export default class AudioAnalyser
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);
         //this._audioElement.load();
-        if (this._alreadyDidThisBrutah === true) { return; }
-        this._alreadyDidThisBrutah = true;
+        if (this._alreadySetup === true) { return; }
+        this._alreadySetup = true;
 
         try
         {

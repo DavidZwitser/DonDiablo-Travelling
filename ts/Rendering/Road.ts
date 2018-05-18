@@ -5,6 +5,8 @@ import Constants from '../Data/Constants';
 /** Renders a road */
 export default class Road extends Phaser.Graphics
 {
+    public amountOfLanes: number = 6;
+
     private _lineThickness: number = .008;
     private _offset: number = 0;
 
@@ -35,21 +37,21 @@ export default class Road extends Phaser.Graphics
         /* -- */
 
         /* The road borders */
-        let bottomLeftRoadBorder: Phaser.Polygon = getBottomLine(-.5);
-        let bottomRightRoadBorder: Phaser.Polygon = getBottomLine(.5);
-
         let topLeftRoadBorder: Phaser.Polygon = getTopLine(-.5);
         let topRightRoadBorder: Phaser.Polygon = getTopLine(.5);
+
+        let bottomLeftRoadBorder: Phaser.Polygon = getBottomLine(-.5);
+        let bottomRightRoadBorder: Phaser.Polygon = getBottomLine(.5);
         /* -- */
 
         /* The road lines */
-        let bottomLeftRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomLeftLane ).x );
-        let bottomCenterRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomCenterLane ).x );
-        let bottomRightRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomRightLane ).x );
-
         let topLeftRoadLine: Phaser.Polygon = getTopLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.topLeftLane ).x );
         let topCenterRoadLine: Phaser.Polygon = getTopLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.topCenterLane ).x );
         let topRightRoadLine: Phaser.Polygon = getTopLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.topRightLane ).x );
+
+        let bottomLeftRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomLeftLane ).x );
+        let bottomCenterRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomCenterLane ).x );
+        let bottomRightRoadLine: Phaser.Polygon = getBottomLine( Lanes.Conversions.laneToPerspectivePosition( Lanes.bottomRightLane ).x );
         /* -- */
 
         let roadShapeBottom: Phaser.Polygon = getBottomLine(0, .5 + this._lineThickness);
@@ -57,11 +59,11 @@ export default class Road extends Phaser.Graphics
         let horizonShape: Phaser.Polygon = getHorizonLine(.5, .2, false);
 
         /* Horizontal lines */
-        let bottomHorizontalLines: Phaser.Polygon[] = [];
         let topHorizontalLines: Phaser.Polygon[] = [];
+        let bottomHorizontalLines: Phaser.Polygon[] = [];
 
-        let bottomThickLine: Phaser.Polygon = getHorizonLine(.9, .01);
         let topThickLine: Phaser.Polygon = getHorizonLine(-.9, .01);
+        let bottomThickLine: Phaser.Polygon = getHorizonLine(.9, .01);
 
         if (this._offset >= -.1) { this._offset -= .0028 * Constants.GLOBAL_SPEED; }
         else { this._offset = 0; }
@@ -76,17 +78,17 @@ export default class Road extends Phaser.Graphics
         this.clear();
 
         /* Horizon lines */
-        this.beginFill(this._topOuterColor);
-        for (let i: number = bottomHorizontalLines.length; i--; )
-        {
-            this.drawShape(bottomHorizontalLines[i]);
-        }
-        this.endFill();
-
         this.beginFill(this._bottomOuterColor);
         for (let i: number = topHorizontalLines.length; i--; )
         {
             this.drawShape(topHorizontalLines[i]);
+        }
+        this.endFill();
+
+        this.beginFill(this._topOuterColor);
+        for (let i: number = bottomHorizontalLines.length; i--; )
+        {
+            this.drawShape(bottomHorizontalLines[i]);
         }
         this.endFill();
 
@@ -95,28 +97,28 @@ export default class Road extends Phaser.Graphics
         this.drawShape(roadShapeTop);
         this.endFill();
 
-        this.beginFill(this._topMiddleColor);
-        this.drawShape(bottomLeftRoadLine);
-        this.drawShape(bottomCenterRoadLine);
-        this.drawShape(bottomRightRoadLine);
-        this.endFill();
-
-        this.beginFill(this._topOuterColor);
-        this.drawShape(bottomLeftRoadBorder);
-        this.drawShape(bottomRightRoadBorder);
-        this.drawShape(bottomThickLine);
-        this.endFill();
-
         this.beginFill(this._bottomMiddleColor);
-        this.drawShape(topLeftRoadLine);
-        this.drawShape(topCenterRoadLine);
-        this.drawShape(topRightRoadLine);
+        if (this.amountOfLanes > 3) { this.drawShape(topLeftRoadLine); }
+        if (this.amountOfLanes === 2 || this.amountOfLanes > 5) { this.drawShape(topCenterRoadLine); }
+        if (this.amountOfLanes > 3) { this.drawShape(topRightRoadLine); }
         this.endFill();
 
         this.beginFill(this._bottomOuterColor);
         this.drawShape(topLeftRoadBorder);
         this.drawShape(topRightRoadBorder);
         this.drawShape(topThickLine);
+        this.endFill();
+
+        this.beginFill(this._topMiddleColor);
+        if (this.amountOfLanes > 3) { this.drawShape(bottomLeftRoadLine); }
+        if (this.amountOfLanes === 1 || this.amountOfLanes === 2 || this.amountOfLanes > 4) { this.drawShape(bottomCenterRoadLine); }
+        if (this.amountOfLanes > 3) { this.drawShape(bottomRightRoadLine); }
+        this.endFill();
+
+        this.beginFill(this._topOuterColor);
+        this.drawShape(bottomLeftRoadBorder);
+        this.drawShape(bottomRightRoadBorder);
+        this.drawShape(bottomThickLine);
         this.endFill();
 
         this.beginFill(0x000000);
