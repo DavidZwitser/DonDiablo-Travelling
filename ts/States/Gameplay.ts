@@ -13,8 +13,10 @@ import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
 
-import { Lanes, LaneIndexer } from '../Enums/Lanes';
+import { Lanes } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
+
+import PhaseSystem from '../Systems/PhaseSystem';
 
 export default class Gameplay extends Phaser.State
 {
@@ -39,6 +41,8 @@ export default class Gameplay extends Phaser.State
     private _gamePaused: boolean = false;
     private spawnEditor: SpawnEditor;
 
+    private _phaseSystem: PhaseSystem;
+
     constructor()
     {
         super();
@@ -47,6 +51,8 @@ export default class Gameplay extends Phaser.State
     public init(): void
     {
         SoundManager.getInstance(this.game);
+
+        Constants.GAME_TIME = 0;
     }
 
     public create(): void
@@ -99,7 +105,12 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._userInterface);
         this._userInterface.onUIPause.add(this.pause, this);
 
-        LaneIndexer.AMOUNT_OF_ACTIVE_LANES = 6;
+        /* Phases! */
+        this._phaseSystem = new PhaseSystem();
+        this._phaseSystem.init();
+
+        this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
+        this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
 
         this.resize();
     }
@@ -109,6 +120,9 @@ export default class Gameplay extends Phaser.State
         if (this._gamePaused) { return; }
 
         Constants.DELTA_TIME = this.game.time.elapsedMS / 1000;
+        Constants.GAME_TIME += Constants.DELTA_TIME;
+
+        this._phaseSystem.update();
 
         this._audioVisualizer.render();
         this._road.render();
