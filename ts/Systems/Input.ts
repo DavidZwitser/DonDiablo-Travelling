@@ -22,7 +22,7 @@ export default class Input
 
     private inputDown(pointer: Phaser.Pointer): void
     {
-        this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_LANE(this.game, pointer.position.x, pointer.position.y));
+        this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, pointer.position.x, pointer.position.y));
     }
 
     public destroy(): void
