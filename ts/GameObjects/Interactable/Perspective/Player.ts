@@ -65,7 +65,13 @@ export default class Player extends ReactivePerspectiveObject
     {
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
-        let targetPosition: {x: number, y: number} = LaneIndexer.LANE_TO_ILANE( LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(desiredLane.x, desiredLane.y));
+        let targetPosition: {x: number, y: number} =
+            LaneIndexer.LANE_TO_ILANE(
+                LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(
+                    desiredLane.x,
+                    desiredLane.y
+                )
+            );
 
         this.laneTween = this.game.add.tween(this)
             .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100)

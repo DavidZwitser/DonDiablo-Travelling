@@ -148,18 +148,18 @@ export class LaneIndexer
         this._AMOUNT_OF_ENABLED_LANES = amount;
     }
 
-    /** Give a lane and get the coresponding ILane back from it. */
-    public static LANE_TO_ILANE(lane: Lanes): ILane
-    {
-        return LanesInfo.LIST[lane];
-    }
-
     /** Set all lanes to inactive */
     private static DISABLE_ALL_LANES(): void
     {
         Object.keys(LanesInfo.LIST).forEach((key: any) => {
             LanesInfo.LIST[key].enabled = false;
         });
+    }
+
+    /** Give a lane and get the coresponding ILane back from it. */
+    public static LANE_TO_ILANE(lane: Lanes): ILane
+    {
+        return LanesInfo.LIST[lane];
     }
 
     /** Returns all the lanes that are enabled */
@@ -201,10 +201,10 @@ export class LaneConverter
     }
 
     /** Give a screen position and get the coresponding lane back */
-    public static  SCREENPOSITION_TO_LANE(game: Phaser.Game, x: number, y: number): Lanes
+    public static  SCREENPOSITION_TO_CLOSEST_LANE(game: Phaser.Game, x: number, y: number): Lanes
     {
         /* So the "getting smaller of the road in the distance" can be accounted for */
-        let perspectiveOffset: number = ((y / game.height - Constants.HORIZON_POSITION.y) * 2);
+        let perspectiveOffset: number = Math.abs((y / game.height - Constants.HORIZON_POSITION.y) * 2);
         /* The xPosition on the screen from -.5 on the left to .5 on the right */
         let xScreen: number = (x / game.width - Constants.HORIZON_POSITION.x) / perspectiveOffset;
         let yScreen: number = y / game.height - Constants.HORIZON_POSITION.y;
