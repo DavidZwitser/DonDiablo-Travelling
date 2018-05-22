@@ -16,6 +16,7 @@ export default class Player extends ReactivePerspectiveObject
     public static ANIMATION_LOSE: string = 'defeat';
 
     private laneTween: Phaser.Tween;
+    private rotationTween: Phaser.Tween;
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
@@ -63,20 +64,30 @@ export default class Player extends ReactivePerspectiveObject
 
     public changeLane( lane: Lanes ): void
     {
+        this.rotation = 0;
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
-        let targetPosition: {x: number, y: number} =
-            LaneIndexer.LANE_TO_ILANE(
-                LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(
-                    desiredLane.x,
-                    desiredLane.y
-                )
-            );
-
+        let targetPosition: {x: number, y: number} = LaneIndexer.LANE_TO_ILANE( LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(desiredLane.x, desiredLane.y));
+        let targetRotation: number;
+        if (this.xPos > targetPosition.x)
+        {
+            targetRotation = - (Math.PI / 12);
+        }
+        else if (this.xPos < targetPosition.x)
+        {
+            targetRotation =  (Math.PI / 12);
+        }
+        else if (this.xPos === targetPosition.x)
+        {
+            targetRotation = 0;
+        }
         this.laneTween = this.game.add.tween(this)
-            .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100)
+            .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100, Phaser.Easing.Cubic.InOut)
             .start();
         this.laneTween.onComplete.addOnce(() => this.laneEnd(lane), this);
+        this.rotationTween = this.game.add.tween(this)
+            .to({rotation: targetRotation}, 200, Phaser.Easing.Cubic.InOut, true, 0, 0, true)
+            .start();
     }
 
     private laneEnd(lane: Lanes ): void
