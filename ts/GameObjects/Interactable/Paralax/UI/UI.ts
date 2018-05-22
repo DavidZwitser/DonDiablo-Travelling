@@ -2,6 +2,7 @@ import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 import ScoreBar from '../../Paralax/UI/ScoreBar';
 import PauseButton from '../../Paralax/UI/PauseButton';
+import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
 /** The user interface */
 export default class UI extends ParalaxObject
@@ -27,6 +28,15 @@ export default class UI extends ParalaxObject
     private createScoreBar(): void
     {
         this._scoreBar = new ScoreBar(this.game, 0, 0);
+        PlayerCollisionChecker.getInstance().onColliding.add(() => {
+            this._scoreBar.Value += 0.05;
+        });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => {
+            this._scoreBar.Value -= 0.1;
+        });
+        this._scoreBar.onEmpty.add(() => {
+            console.log('GAME OVER!');
+        });
         this.game.add.existing(this._scoreBar);
     }
 
