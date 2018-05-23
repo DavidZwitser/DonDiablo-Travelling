@@ -46,6 +46,7 @@ export default class PhaseSystem
 
         /** Set the new values! */
         LaneIndexer.AMOUNT_OF_ACTIVE_LANES = nextPhase.amountOfLanes;
+        Constants.GLOBAL_SPEED = nextPhase.pickupSpeed;
         this._phaseDuration = nextPhase.phaseDuration;
 
         this._currentPhase = phase;

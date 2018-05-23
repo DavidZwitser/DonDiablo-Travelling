@@ -1,6 +1,5 @@
 import 'phaser-ce';
 import { Lanes } from '../Enums/Lanes';
-import Constants from '../Data/Constants';
 
 //interface that is the same of the json file it get recieved from
 interface ILevelData {
@@ -56,7 +55,7 @@ export default class Spawner
     }
     public addPickup(lane: Lanes): void {
         console.log(Lanes[lane]);
-        let time: number = (Date.now() - this.startTime - (Constants.SONG_DELAY / Constants.GLOBAL_SPEED)) / 1000 ;
+        let time: number = (Date.now() - this.startTime) / 1000;
         let pickup: ITiming = {time: time, lane};
         this.spawnedLevelData.timings.push(pickup);
         console.log(JSON.stringify(this.spawnedLevelData));
