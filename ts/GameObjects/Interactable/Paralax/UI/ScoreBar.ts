@@ -83,4 +83,16 @@ export default class ScoreBar extends Phaser.Group
         this.scale.set(vmin / GAME_WIDTH);
     }
 
+    public destroy(): void {
+        super.destroy(true, true);
+
+        if (this.onEmpty) {
+            this.onEmpty.removeAll();
+        }
+        this.onEmpty = null;
+
+        if (this.scaleTween) { this.scaleTween.stop(); }
+        this.scaleTween = null;
+    }
+
 }

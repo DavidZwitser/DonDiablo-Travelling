@@ -3,6 +3,7 @@ import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 import ScoreBar from '../../Paralax/UI/ScoreBar';
 import PauseButton from '../../Paralax/UI/PauseButton';
 import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
+import PauseScreen from './PauseScreen';
 
 /** The user interface */
 export default class UI extends ParalaxObject
@@ -14,6 +15,7 @@ export default class UI extends ParalaxObject
 
     private _scoreBar: ScoreBar;
     private _pauseButton: PauseButton;
+    public pauseScreen: PauseScreen;
 
     constructor(game: Phaser.Game)
     {
@@ -21,6 +23,11 @@ export default class UI extends ParalaxObject
 
         this.createPauseButton();
         this.createScoreBar();
+
+        this.pauseScreen = new PauseScreen(game, 1, 80, 80);
+        this.pauseScreen.onResume.add(() => this.onUIPause.dispatch(), this);
+
+        this.addChild(this.pauseScreen);
 
         this.onUIPause = new Phaser.Signal();
     }
@@ -43,14 +50,29 @@ export default class UI extends ParalaxObject
     private createPauseButton(): void
     {
         this._pauseButton = new PauseButton(this.game);
-        this.game.add.existing(this._pauseButton);
 
         this._pauseButton.onPause.add(() => this.onUIPause.dispatch(), this);
     }
 
+    public Pause(pause: boolean): void {
+        this.pauseScreen.visible = pause;
+        this._pauseButton.pauseButton.visible = !pause;
+        this._scoreBar.visible = !pause;
+    }
+
     public resize(): void
     {
+        this.pauseScreen.position.set(this.game.width / 2, this.game.height / 2);
+        this.pauseScreen.resize();
+
         this._pauseButton.resize();
         this._scoreBar.resize();
+    }
+
+    public destroy(): void {
+        PlayerCollisionChecker.getInstance().onColliding.removeAll();
+        PlayerCollisionChecker.getInstance().onMissing.removeAll();
+
+        this._scoreBar.destroy();
     }
 }
