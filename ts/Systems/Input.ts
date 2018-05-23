@@ -7,6 +7,7 @@ export default class Input
     public game: Phaser.Game;
 
     public onInputDown: Phaser.Signal;
+    public active: boolean = true;
 
     /** how to use it!
      *  this.inputy = new Input(this.game);this.inputy.onInputDown.add((r: Lanes) => {console.log(r);});
@@ -22,7 +23,10 @@ export default class Input
 
     private inputDown(pointer: Phaser.Pointer): void
     {
-        this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, pointer.position.x, pointer.position.y));
+        if (this.active)
+        {
+            this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, pointer.position.x, pointer.position.y));
+        }
     }
 
     public destroy(): void

@@ -52,7 +52,7 @@ export default class ScoreBar extends Phaser.Group
 
     public updateFill(): void
     {
-        this.scaleTween = this.game.add.tween(this._fillMask.scale).to({y: this._value}, 500, Phaser.Easing.Linear.None);
+        this.scaleTween = this.game.add.tween(this._fillMask.scale).to({y: this._value}, 1000, Phaser.Easing.Elastic.InOut);
         this.scaleTween.start();
     }
 
