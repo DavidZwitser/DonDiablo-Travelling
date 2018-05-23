@@ -139,7 +139,9 @@ export default class PickupSpawner extends Phaser.Group
     //destroy function
     public destroy(): void
     {
-        this._pickupPool.destroy();
+        if (this._pickupPool) {
+            this._pickupPool.destroy();
+        }
         this._pickupPool = null;
         this._levelData = null;
         clearTimeout(this._timeOut);

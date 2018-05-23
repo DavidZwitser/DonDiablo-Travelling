@@ -87,6 +87,10 @@ export default class Player extends ReactivePerspectiveObject
         {
             targetRotation = 0;
         }
+        if (this.yPos === -0.5)
+        {
+            targetRotation *= -1;
+        }
         this.laneTween = this.game.add.tween(this)
             .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100, Phaser.Easing.Cubic.InOut)
             .start();
@@ -95,7 +99,6 @@ export default class Player extends ReactivePerspectiveObject
             .to({rotation: targetRotation}, 100, Phaser.Easing.Cubic.InOut, true)
             .start();
         this.rotationTween.onComplete.addOnce(() => {
-            console.log('done');
             this.rotationTween = this.game.add.tween(this)
             .to({rotation: 0}, 500, Phaser.Easing.Cubic.InOut, true)
             .start();

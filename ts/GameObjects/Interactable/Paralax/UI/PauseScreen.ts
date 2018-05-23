@@ -1,37 +1,45 @@
 import 'phaser-ce';
 import BasePopUp from './BasePopUp';
-import AtlasImages from '../../../../Data/AtlasImages';
-import TextButton from './TextButton';
+import SlideBar from './SlideBar';
+import ImageButton from './ImageButton';
 
 export default class PauseScreen extends BasePopUp
 {
     /** The text that shows the highscore */
-    private _continueGameButton: TextButton;
-    private _sfxButton: TextButton;
-    private _musicButton: TextButton;
+    private _sfxText: Phaser.BitmapText;
+    private _sfxSlider: SlideBar;
+    private _closeButton: ImageButton;
+
+    public onResume: Phaser.Signal;
 
     public onContinue: Phaser.Signal;
     
-    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number, backgroundImage: string)
+    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
     {
         super(game, scale, buttonOffset, spaceBetweenButtons);
 
-        this._continueGameButton = new TextButton(game, 0,  buttonOffset - spaceBetweenButtons * 2, 'Pausemenu_Button_Restart_and_Quit', 'Continue', this.continue, this, null);
-        this._continueGameButton.anchor.set(0.5);
-        this._continueGameButton.scale.set(scale);
-        this.addChild(this._continueGameButton);
+        this._titleText.text = 'Pause';
 
-        this._sfxButton = new TextButton(game, - spaceBetweenButtons, buttonOffset +  spaceBetweenButtons, 'Pausemenu_Button_Restart_and_Quit', 'SFX', this.sfxToggle, this, null);
-        this._sfxButton.anchor.set(0.5);
-        this.addChild(this._sfxButton);
-        this._sfxButton.scale.set(scale);
+        this.onResume = new Phaser.Signal();
 
-        this._musicButton = new TextButton(game, spaceBetweenButtons, buttonOffset + spaceBetweenButtons, 'ui_ingame_highscore_backdrop', 'M', this.musicToggle, this, null);
-        this._musicButton.anchor.set(0.5);
-        this.addChild(this._musicButton);
-        this._musicButton.scale.set(scale);
+        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'myfont', 'SFX', 40);
+        this._sfxText.tint = 0xffffff;
+        this._sfxText.anchor.set(0.5);
+        this._sfxText.scale.set(scale, scale);
 
-        this.onContinue = new Phaser.Signal();
+        this._sfxSlider = new SlideBar(this.game, 1, () => {
+            //
+        });
+        this._sfxSlider.x = 0;
+        this._sfxSlider.y = 0;
+
+        this._closeButton = new ImageButton(this.game, 250, -150, 'UserInterface_Hex_Button_Cross', 'UserInterface_Hex_Button_Cross', () => {
+            this.onResume.dispatch();
+        }, this);
+
+        this.addChild(this._sfxText);
+        this.addChild(this._sfxSlider);
+        this.addChild(this._closeButton);
     }
 
     /** Update the highscore text */
@@ -45,17 +53,27 @@ export default class PauseScreen extends BasePopUp
 
     private musicToggle(): void
     {
-      //  Constants.PlayMusic = ! Constants.PlayMusic;
-    }
-
-    private sfxToggle(): void
-    {
-     //  Constants.PlaySoundEffects = ! Constants.PlaySoundEffects;
+        if (newHighScore)
+        {
+        this._sfxText.text = 'New highscore!';
+        }
+        else
+        {
+        this._sfxText.text = 'Highscore: ';
+        }
     }
 
     public destroy(): void
     {
         super.destroy();
+
+        if (this.onResume) {
+            this.onResume.removeAll();
+        }
+        this.onResume = null;
+
+        if (this._sfxText) { this._sfxText.destroy(true); }
+        this._sfxText = null;
     }
 
 }

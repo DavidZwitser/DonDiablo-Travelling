@@ -146,8 +146,8 @@ export default class Gameplay extends Phaser.State
         if (this._gamePaused) {
             return;
         }
-        this.pause();
         this._blurred = true;
+        this.pause();
     }
 
     //called when window gets focused
@@ -163,7 +163,12 @@ export default class Gameplay extends Phaser.State
         this._gamePaused = !this._gamePaused;
         this._pickupSpawner.pause(this._gamePaused);
         SoundManager.getInstance().pause(this._gamePaused);
+        this._userInterface.pauseScreen.visible = this._gamePaused;
         this._input.active = !this._gamePaused;
+        if (!this._blurred) {
+            console.log('UI pause');
+            this._userInterface.Pause(this._gamePaused);
+        }
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
@@ -173,6 +178,12 @@ export default class Gameplay extends Phaser.State
 
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
+
+        this._userInterface.destroy();
+        this._userInterface = null;
+
+        this._pickupSpawner.destroy();
+        this._pickupSpawner = null;
 
         //removing events
         window.removeEventListener('blur', this.blur.bind(this));
