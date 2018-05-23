@@ -44,6 +44,9 @@ export default class Gameplay extends Phaser.State
     private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
 
+    private _comboCounter: number = 0;
+    private readonly _comboTimeBeforePhaseUp: number = 15;
+
     constructor()
     {
         super();
@@ -126,6 +129,26 @@ export default class Gameplay extends Phaser.State
 
         Constants.DELTA_TIME = this.game.time.elapsedMS / 1000;
         Constants.GAME_TIME += Constants.DELTA_TIME;
+
+        if (this._userInterface.scoreBar.Value > .75)
+        {
+            this._comboCounter += Constants.DELTA_TIME;
+        }
+        else if (this._userInterface.scoreBar.Value < .6)
+        {
+            this._comboCounter -= Constants.DELTA_TIME;
+        }
+
+        if (this._comboCounter > this._comboTimeBeforePhaseUp)
+        {
+            this._phaseSystem.startNextPhase();
+            this._comboCounter = 0;
+        }
+        else if (this._comboCounter < -this._comboTimeBeforePhaseUp)
+        {
+            this._phaseSystem.startLastPhase();
+            this._comboCounter = 0;
+        }
 
         this._phaseSystem.update();
 

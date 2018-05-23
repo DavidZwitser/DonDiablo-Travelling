@@ -70,6 +70,11 @@ export default class Constants
             phaseDuration: 40,
             amountOfLanes: 6,
             pickupSpeed: 3.5
+        },
+        {
+            phaseDuration: 40,
+            amountOfLanes: 6,
+            pickupSpeed: 4
         }
     ];
 

@@ -123,7 +123,7 @@ export default class Road extends Phaser.Group
     {
         this._roadLineAlpha = 0;
 
-        this._roadAmountTransitionTween.stop(false);
+        if (this._roadAmountTransitionTween) { this._roadAmountTransitionTween.stop(false); }
         this._roadAmountTransitionTween = null;
 
         this._roadAmountTransitionTween =

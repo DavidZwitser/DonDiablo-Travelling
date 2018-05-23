@@ -13,7 +13,7 @@ export default class UI extends ParalaxObject
 
     public onUIPause: Phaser.Signal;
 
-    private _scoreBar: ScoreBar;
+    public scoreBar: ScoreBar;
     private _pauseButton: PauseButton;
     public pauseScreen: PauseScreen;
 
@@ -34,17 +34,17 @@ export default class UI extends ParalaxObject
 
     private createScoreBar(): void
     {
-        this._scoreBar = new ScoreBar(this.game, 0, 0);
+        this.scoreBar = new ScoreBar(this.game, 0, 0);
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this._scoreBar.Value += 0.05;
+            this.scoreBar.Value += 0.05;
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
-            this._scoreBar.Value -= 0.1;
+            this.scoreBar.Value -= 0.1;
         });
-        this._scoreBar.onEmpty.add(() => {
+        this.scoreBar.onEmpty.add(() => {
             console.log('GAME OVER!');
         });
-        this.game.add.existing(this._scoreBar);
+        this.game.add.existing(this.scoreBar);
     }
 
     private createPauseButton(): void
@@ -57,7 +57,7 @@ export default class UI extends ParalaxObject
     public Pause(pause: boolean): void {
         this.pauseScreen.visible = pause;
         this._pauseButton.pauseButton.visible = !pause;
-        this._scoreBar.visible = !pause;
+        this.scoreBar.visible = !pause;
     }
 
     public resize(): void
@@ -66,13 +66,13 @@ export default class UI extends ParalaxObject
         this.pauseScreen.resize();
 
         this._pauseButton.resize();
-        this._scoreBar.resize();
+        this.scoreBar.resize();
     }
 
     public destroy(): void {
         PlayerCollisionChecker.getInstance().onColliding.removeAll();
         PlayerCollisionChecker.getInstance().onMissing.removeAll();
 
-        this._scoreBar.destroy();
+        this.scoreBar.destroy();
     }
 }

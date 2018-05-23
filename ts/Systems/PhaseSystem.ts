@@ -32,14 +32,26 @@ export default class PhaseSystem
     }
 
     /** Update logic inside the PhaseSystem */
-    public update (): void
+    public update(): void
     {
         /** Is it time for a new phase? */
         if (Constants.GAME_TIME <= this._lastPhaseTime + this._phaseDuration) { return; }
 
         /** Initiate the new phase! */
         this._lastPhaseTime = Constants.GAME_TIME;
+        /* Temporary off to implement combo system */
+        // this.currentPhase ++;
+    }
+
+    public startNextPhase(): void
+    {
+        if (this.currentPhase > Constants.PHASES.length) { return; }
         this.currentPhase ++;
+    }
+    public startLastPhase(): void
+    {
+        if (this.currentPhase < 0) { return; }
+        this.currentPhase --;
     }
 
     /** Start the transition from one phase to another */
@@ -69,7 +81,7 @@ export default class PhaseSystem
     private set currentPhase(phase: number)
     {
         /** Is it actually needed to change the phase? */
-        if (phase === this.currentPhase || phase > Constants.PHASES.length) { return; }
+        if (phase === this.currentPhase || phase > Constants.PHASES.length || phase <= 0) { return; }
 
         /** Fire the transition! */
         this.startPhaseTransition(phase);
