@@ -24,9 +24,6 @@ export default class Road extends Phaser.Group
     /** The layer where the horizon clear and the highlights around the road are drawn */
     private _highlightLayer: Phaser.Graphics;
 
-    /** The alpha new lines that get introduced use. */
-    private _lastAmountOfLanes: number = 0;
-
     private _roadLineAlpha: number = 0;
     private _roadAmountTransitionTween: Phaser.Tween;
 
@@ -47,15 +44,7 @@ export default class Road extends Phaser.Group
     public render(redrawEverything: boolean = false): void
     {
         /* The road lines */
-        let amountOfLanes: number = LaneIndexer.AMOUNT_OF_ACTIVE_LANES;
-        // let amountOfLanesChanged: boolean = false;
-
-        // /* Is the amount of lanes changed */
-        // if (this._lastAmountOfLanes !== amountOfLanes)
-        // {
-        //     amountOfLanesChanged = true;
-        // }
-        this._lastAmountOfLanes = amountOfLanes;
+        LaneIndexer.AMOUNT_OF_ACTIVE_LANES;
 
         /* Drawing the lines on the sides that give the movement effect */
         this.drawSideLines();

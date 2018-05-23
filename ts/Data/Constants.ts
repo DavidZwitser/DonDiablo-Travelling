@@ -47,7 +47,7 @@ export default class Constants
     /** All the phases saved in a Phase array */
     public static readonly PHASES: IGamePhase[] = [
         {
-            phaseDuration: 13,
+            phaseDuration: 10,
             amountOfLanes: 2,
             pickupSpeed: 2.5
         },

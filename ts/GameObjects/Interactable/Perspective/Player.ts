@@ -1,4 +1,4 @@
-import { Lanes, LaneConverter, ILane, LaneIndexer } from '../../../Enums/Lanes';
+import { Lanes } from '../../../Enums/Lanes';
 import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspectiveObject';
 import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
 import Constants from '../../../Data/Constants';
