@@ -41,11 +41,16 @@ export default class Gameplay extends Phaser.State
     private _gamePaused: boolean = false;
     private spawnEditor: SpawnEditor;
 
+    private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
 
     constructor()
     {
         super();
+
+        //focus/blur events setup
+        window.addEventListener('blur', this.blur.bind(this));
+        window.addEventListener('focus', this.focus.bind(this));
     }
 
     public init(): void
@@ -138,11 +143,29 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.resize();
     }
 
+    //called when window gets blurred
+    public blur(): void {
+        if (this._gamePaused) {
+            return;
+        }
+        this.pause();
+        this._blurred = true;
+    }
+
+    //called when window gets focused
+    public focus(): void {
+        if (this._gamePaused && this._blurred) {
+            this.pause();
+            this._blurred = false;
+        }
+    }
+
     public pause(): void
     {
         this._gamePaused = !this._gamePaused;
         this._pickupSpawner.pause(this._gamePaused);
         SoundManager.getInstance().pause(this._gamePaused);
+        this._input.active = !this._gamePaused;
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
@@ -152,5 +175,9 @@ export default class Gameplay extends Phaser.State
 
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
+
+        //removing events
+        window.removeEventListener('blur', this.blur.bind(this));
+        window.removeEventListener('focus', this.focus.bind(this));
     }
 }

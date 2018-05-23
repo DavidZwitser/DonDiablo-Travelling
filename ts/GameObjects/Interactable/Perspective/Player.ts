@@ -114,5 +114,11 @@ export default class Player extends ReactivePerspectiveObject
 
         if (this.spine) { this.spine.destroy(true); }
         this.spine = null;
+
+        if (this.rotationTween) { this.rotationTween.pause(); }
+        this.rotationTween = null;
+
+        if (this.laneTween) { this.laneTween.pause(); }
+        this.laneTween = null;
     }
 }
