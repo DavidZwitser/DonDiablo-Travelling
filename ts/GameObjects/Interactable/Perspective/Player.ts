@@ -62,6 +62,12 @@ export default class Player extends ReactivePerspectiveObject
         this.spine.autoUpdate = !pause;
     }
 
+    /** Reset lane, so the player moves to the nearest lane (used when a new lane is added). */
+    public reposition(): void
+    {
+        this.changeLane(this.lane);
+    }
+
     public changeLane( lane: Lanes ): void
     {
         this.rotation = 0;
@@ -88,6 +94,9 @@ export default class Player extends ReactivePerspectiveObject
         this.rotationTween = this.game.add.tween(this)
             .to({rotation: targetRotation}, 200, Phaser.Easing.Cubic.InOut, true, 0, 0, true)
             .start();
+
+        // To quickly fix the tslint error
+        this.rotationTween = this.rotationTween;
     }
 
     private laneEnd(lane: Lanes ): void

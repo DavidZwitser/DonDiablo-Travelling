@@ -22,6 +22,8 @@ export default class Constants
     public static PLAYER_Z_POSITION: number = 1.2;
 
     public static DELTA_TIME: number = 1;
+    /** How long the current game is running for */
+    public static GAME_TIME: number = 0;
 
     public static SONG_DELAY: number = 3500;
 

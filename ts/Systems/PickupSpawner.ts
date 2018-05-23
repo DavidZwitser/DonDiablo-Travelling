@@ -70,6 +70,15 @@ export default class PickupSpawner extends Phaser.Group
         return pickup;
     }
 
+    /** Reposition all the pickups, so they get alligned well after a road is added. */
+    public repositionAllPickups(): void
+    {
+        for (let i: number = this._pickupPool.objects.length; i--; )
+        {
+            this._pickupPool.objects[i].reposition();
+        }
+    }
+
     //level data is get from cache of a json file
     private getLevelData(game: Phaser.Game, key: string): void
     {
