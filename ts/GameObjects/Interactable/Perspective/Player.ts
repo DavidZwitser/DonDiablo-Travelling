@@ -92,8 +92,14 @@ export default class Player extends ReactivePerspectiveObject
             .start();
         this.laneTween.onComplete.addOnce(() => this.laneEnd(lane), this);
         this.rotationTween = this.game.add.tween(this)
-            .to({rotation: targetRotation}, 200, Phaser.Easing.Cubic.InOut, true, 0, 0, true)
+            .to({rotation: targetRotation}, 100, Phaser.Easing.Cubic.InOut, true)
             .start();
+        this.rotationTween.onComplete.addOnce(() => {
+            console.log('done');
+            this.rotationTween = this.game.add.tween(this)
+            .to({rotation: 0}, 500, Phaser.Easing.Cubic.InOut, true)
+            .start();
+        });
 
         // To quickly fix the tslint error
         this.rotationTween = this.rotationTween;
