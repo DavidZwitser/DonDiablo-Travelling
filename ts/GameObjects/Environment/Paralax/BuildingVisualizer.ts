@@ -98,16 +98,16 @@ export default class BuildingVisualizer extends Phaser.Group
 
             if (top)
             {
-                index = Math.ceil(Math.random() * 16);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'building_dark_' + index);
+                index = Math.ceil(Math.random() * 14);
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
             }
             else
             {
                 index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'building_good_' + index);
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
             }
             building.anchor.set(0);
-            building.scale.set((this.game.width / GAME_WIDTH) * 1.5);
+            building.scale.set((this.game.width / GAME_WIDTH) * .5);
 
             if (top)
             {

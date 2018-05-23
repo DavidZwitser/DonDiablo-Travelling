@@ -49,6 +49,7 @@ export default class Pickup extends ReactivePerspectiveObject
         if (this.scale.y < 0) {
             //out of screen/field of view (FOV)
             this.visible = false;
+            PlayerCollisionChecker.getInstance().onMissing.dispatch();
         }
         if (this.zPos > 1 && this.zPos < 1.4)
         {

@@ -46,6 +46,12 @@ export default class PerspectiveObject extends Phaser.Group
 
     }
 
+    /** Resetting to the nearest lane. Used if any lane is added. */
+    public reposition(): void
+    {
+        this.lane = this.lane;
+    }
+
     /** What z position the sprite is currently on */
     public get zPos(): number
     {
