@@ -1,8 +1,8 @@
 import { Lanes } from '../Enums/Lanes';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 import ObjectPool from './ObjectPool';
-import Jason from '../Data/Jason';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
+import Constants from '../Data/Constants';
 
 //interface that is the same of the json file it get recieved from
 interface ILevelData {
@@ -42,8 +42,13 @@ export default class PickupSpawner extends Phaser.Group
             return pickup;
         });
 
-        this.getLevelData(game, Jason.test);
-        this.waitForNextSpawning(this._levelData.timings[0].time);
+        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ].json );
+    }
+
+    public setNewSong(json: string): void
+    {
+        this.getLevelData(this.game, json);
+        this.waitForNextSpawning(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
     }
 
     private getRandomLane(): Lanes
@@ -103,8 +108,19 @@ export default class PickupSpawner extends Phaser.Group
             {
                 this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - this._levelData.timings[this._spawnIndex - 1].time);
             }
+            else
+            {
+                this.noMoreJsonData();
+                return;
+            }
 
         }, timeWaiting * 1000);
+    }
+
+    // TODO: This should be done by listening to the music manager, so a delay between songs can be added.
+    private noMoreJsonData(): void
+    {
+        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ++ ].json );
     }
 
     public pause(pause: boolean): void
