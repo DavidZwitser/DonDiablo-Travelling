@@ -116,7 +116,6 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
 
         this.resize();
-        this.pause();
     }
 
     public update(): void
