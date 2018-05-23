@@ -1,16 +1,6 @@
 import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
-
-/** Used to define separate states */
-interface IGamePhase
-{
-    /** How long this phase takes */
-    phaseDuration: number;
-    /** How many lanes there should be */
-    amountOfLanes: number;
-    /** How fast the pickups should move towards you. */
-    pickupSpeed: number;
-}
+import IGamePhase from '../Enums/GamePhase';
 
 export default class PhaseSystem
 {
@@ -51,9 +41,8 @@ export default class PhaseSystem
     private set currentPhase(phase: number)
     {
         /** Is it actually needed to change the phase? */
-        if (phase === this.currentPhase || phase > this.phases.length) { return; }
-
-        let nextPhase: IGamePhase = this.phases[phase - 1];
+        if (phase === this.currentPhase || phase > Constants.PHASES.length) { return; }
+        let nextPhase: IGamePhase = Constants.PHASES[phase - 1];
 
         /** Set the new values! */
         LaneIndexer.AMOUNT_OF_ACTIVE_LANES = nextPhase.amountOfLanes;
@@ -70,35 +59,6 @@ export default class PhaseSystem
     {
         return this._currentPhase;
     }
-
-    /** All the phases saved in a Phase array */
-    private phases: IGamePhase[] = [
-        {
-            phaseDuration: 20,
-            amountOfLanes: 2,
-            pickupSpeed: 1
-        },
-        {
-            phaseDuration: 30,
-            amountOfLanes: 3,
-            pickupSpeed: 1
-        },
-        {
-            phaseDuration: 25,
-            amountOfLanes: 4,
-            pickupSpeed: 1
-        },
-        {
-            phaseDuration: 35,
-            amountOfLanes: 5,
-            pickupSpeed: 1
-        },
-        {
-            phaseDuration: 40,
-            amountOfLanes: 6,
-            pickupSpeed: 1
-        }
-    ];
 
     /** Destroys all the junk */
     public destroy(): void

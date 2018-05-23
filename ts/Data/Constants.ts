@@ -1,5 +1,7 @@
 import 'phaser-ce';
 
+import IGamePhase from '../Enums/GamePhase';
+
 /**
  * All the information that should be accassible from anywhere
  */
@@ -10,7 +12,7 @@ export default class Constants
 
     public static HORIZON_POSITION: {x: number, y: number} = {x: .5, y: .5};
 
-    public static LEVELS: {title: string, artist: string}[] = [
+    public static readonly LEVELS: {title: string, artist: string}[] = [
         {title: 'Head Up', artist: 'Don Diablo'},
         {title: 'Back To Us', artist: 'Don Diablo'},
         {title: 'Believe', artist: 'Don Diablo'}
@@ -25,9 +27,38 @@ export default class Constants
     /** How long the current game is running for */
     public static GAME_TIME: number = 0;
 
-    public static SONG_DELAY: number = 3500;
+    public static readonly SONG_DELAY: number = 3500;
 
-    public static GLOW_FILTER: any = [
+    /** All the phases saved in a Phase array */
+    public static readonly PHASES: IGamePhase[] = [
+        {
+            phaseDuration: 13,
+            amountOfLanes: 2,
+            pickupSpeed: 1
+        },
+        {
+            phaseDuration: 20,
+            amountOfLanes: 3,
+            pickupSpeed: 1
+        },
+        {
+            phaseDuration: 25,
+            amountOfLanes: 4,
+            pickupSpeed: 1
+        },
+        {
+            phaseDuration: 25,
+            amountOfLanes: 5,
+            pickupSpeed: 1
+        },
+        {
+            phaseDuration: 40,
+            amountOfLanes: 6,
+            pickupSpeed: 1
+        }
+    ];
+
+    public static readonly GLOW_FILTER: any = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',
         'varying vec4 vColor;',
