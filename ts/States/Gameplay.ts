@@ -114,6 +114,8 @@ export default class Gameplay extends Phaser.State
 
         this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
         this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
+        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
+        this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
 
         this.resize();
     }

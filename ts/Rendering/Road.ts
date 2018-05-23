@@ -27,6 +27,9 @@ export default class Road extends Phaser.Group
     /** The alpha new lines that get introduced use. */
     private _lastAmountOfLanes: number = 0;
 
+    private _roadLineAlpha: number = 0;
+    private _roadAmountTransitionTween: Phaser.Tween;
+
     constructor(game: Phaser.Game)
     {
         super(game);
@@ -45,31 +48,25 @@ export default class Road extends Phaser.Group
     {
         /* The road lines */
         let amountOfLanes: number = LaneIndexer.AMOUNT_OF_ACTIVE_LANES;
-        let amountOfLanesChanged: boolean = false;
+        // let amountOfLanesChanged: boolean = false;
 
-        /* Is the amount of lanes changed */
-        if (this._lastAmountOfLanes !== amountOfLanes)
-        {
-            amountOfLanesChanged = true;
-        }
+        // /* Is the amount of lanes changed */
+        // if (this._lastAmountOfLanes !== amountOfLanes)
+        // {
+        //     amountOfLanesChanged = true;
+        // }
         this._lastAmountOfLanes = amountOfLanes;
 
         /* Drawing the lines on the sides that give the movement effect */
-        this._horizonLinesLayer.clear();
         this.drawSideLines();
-
-        /** Are there any new lanes to draw */
-        if (amountOfLanesChanged === false && redrawEverything === false) { return; }
-
-        /* Drawing the lines that represent the road */
-        this._roadLinesLayer.clear();
-        this.drawRoadLine();
 
         /** Should I redraw the highlights */
         if (redrawEverything === false) { return; }
 
+        /* Drawing the lines that represent the road */
+        this.drawRoadLine();
+
         /* Drawing the highlights around the sides */
-        this._highlightLayer.clear();
         this.drawHighlights();
 
     }
@@ -77,6 +74,8 @@ export default class Road extends Phaser.Group
     /** Draws the lines on the side giving the feel of movement */
     private drawSideLines(): void
     {
+        this._horizonLinesLayer.clear();
+
         /** Where the top horizon lines are stored */
         let topHorizontalLines: Phaser.Polygon[] = [];
         /** Where the bottom horizon lines are stored */
@@ -116,9 +115,43 @@ export default class Road extends Phaser.Group
         this._horizonLinesLayer.endFill();
     }
 
-    /** Draws the lines that represent the road */
-    private drawRoadLine(): void
+    public hideExistingRoadLines(transitionDuration?: number): void
     {
+        this._roadLineAlpha = 1;
+
+        this._roadAmountTransitionTween =
+            this.game.add.tween(this)
+                .to({_roadLineAlpha: 0}, transitionDuration / 2, Phaser.Easing.Cubic.InOut, true, 0, 1, false)
+                .start();
+
+        this._roadAmountTransitionTween.onUpdateCallback( () => {
+            this.drawRoadLine(this._roadLineAlpha);
+        });
+
+    }
+
+    public fadeInNewRoadLines(): void
+    {
+        this._roadLineAlpha = 0;
+
+        this._roadAmountTransitionTween.stop(false);
+        this._roadAmountTransitionTween = null;
+
+        this._roadAmountTransitionTween =
+            this.game.add.tween(this)
+                .to({_roadLineAlpha: 1}, 1200, Phaser.Easing.Cubic.Out, true, 0, 0, false)
+                .start();
+
+        this._roadAmountTransitionTween.onUpdateCallback( () => {
+            this.drawRoadLine(this._roadLineAlpha);
+        });
+    }
+
+    /** Draws the lines that represent the road */
+    public drawRoadLine(alpha: number = 1): void
+    {
+        this._roadLinesLayer.clear();
+
         /* Shapes for clearing lines that shouldn't be there */
         let roadShapeBottom: Phaser.Polygon = this.getBottomLine(0, .5 + this._lineThickness);
         let roadShapeTop: Phaser.Polygon = this.getTopLine(0, .5 + this._lineThickness);
@@ -161,7 +194,7 @@ export default class Road extends Phaser.Group
         }
 
         /** Drawing all the top road lines */
-        this._roadLinesLayer.beginFill(this._topMiddleColor);
+        this._roadLinesLayer.beginFill(this._topMiddleColor, alpha);
         for (let i: number = topRoadLines.length; i--; )
         {
             this._roadLinesLayer.drawShape(topRoadLines[i]);
@@ -169,7 +202,7 @@ export default class Road extends Phaser.Group
         this._roadLinesLayer.endFill();
 
         /** Drawing all the bottom road lines */
-        this._roadLinesLayer.beginFill(this._bottomMiddleColor);
+        this._roadLinesLayer.beginFill(this._bottomMiddleColor, alpha);
         for (let i: number = bottomRoadLines.length; i--; )
         {
             this._roadLinesLayer.drawShape(bottomRoadLines[i]);
@@ -181,6 +214,8 @@ export default class Road extends Phaser.Group
     /** Draws the highlights around the road and horizon */
     private drawHighlights(): void
     {
+        this._highlightLayer.clear();
+
         /* The road borders */
         let topLeftRoadBorder: Phaser.Polygon = this.getTopLine(-.5);
         let topRightRoadBorder: Phaser.Polygon = this.getTopLine(.5);
