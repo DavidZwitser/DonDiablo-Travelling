@@ -1,7 +1,9 @@
 import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 import ScoreBar from '../../Paralax/UI/ScoreBar';
+
 import PauseButton from '../../Paralax/UI/PauseButton';
+import PauseScreen from '../../Paralax/UI/PauseScreen';
 
 /** The user interface */
 export default class UI extends ParalaxObject
@@ -12,7 +14,9 @@ export default class UI extends ParalaxObject
     public onUIPause: Phaser.Signal;
 
     private _scoreBar: ScoreBar;
+
     private _pauseButton: PauseButton;
+    private _pauseScreen: PauseScreen;
 
     constructor(game: Phaser.Game)
     {
@@ -35,7 +39,17 @@ export default class UI extends ParalaxObject
         this._pauseButton = new PauseButton(this.game);
         this.game.add.existing(this._pauseButton);
 
-        this._pauseButton.onPause.add(() => this.onUIPause.dispatch(), this);
+        this._pauseButton.onPause.add(() =>
+        {
+            this.onUIPause.dispatch(),
+            this.createPauseMenu();
+        } , this);
+    }
+
+    private createPauseMenu(): void
+    {
+        this._pauseScreen = new PauseScreen(this.game, 0, 0, 0, null);
+        this.game.add.existing(this._pauseScreen);
     }
 
     public resize(): void

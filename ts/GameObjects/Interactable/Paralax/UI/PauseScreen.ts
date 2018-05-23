@@ -1,47 +1,61 @@
 import 'phaser-ce';
 import BasePopUp from './BasePopUp';
+import AtlasImages from '../../../../Data/AtlasImages';
+import TextButton from './TextButton';
 
 export default class PauseScreen extends BasePopUp
 {
     /** The text that shows the highscore */
-    private _highScoreText: Phaser.BitmapText;
+    private _continueGameButton: TextButton;
+    private _sfxButton: TextButton;
+    private _musicButton: TextButton;
 
-    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
+    public onContinue: Phaser.Signal;
+    
+    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number, backgroundImage: string)
     {
         super(game, scale, buttonOffset, spaceBetweenButtons);
 
-        this._titleText.text = 'GAME OVER';
+        this._continueGameButton = new TextButton(game, 0,  buttonOffset - spaceBetweenButtons * 2, 'Pausemenu_Button_Restart_and_Quit', 'Continue', this.continue, this, null);
+        this._continueGameButton.anchor.set(0.5);
+        this._continueGameButton.scale.set(scale);
+        this.addChild(this._continueGameButton);
 
-        this._highScoreText = new Phaser.BitmapText(game, 0 , 60, 'myfont', 'highscore: ', 60);
-        let text: Phaser.Text = new Phaser.Text(this.game, 0, 0 , 'COOL');
-        this.addChild(text);
-        this._highScoreText.tint = 0x181137;
-        this._highScoreText.anchor.set(0, 0.5);
-        this._highScoreText.scale.set(scale, scale);
+        this._sfxButton = new TextButton(game, - spaceBetweenButtons, buttonOffset +  spaceBetweenButtons, 'Pausemenu_Button_Restart_and_Quit', 'SFX', this.sfxToggle, this, null);
+        this._sfxButton.anchor.set(0.5);
+        this.addChild(this._sfxButton);
+        this._sfxButton.scale.set(scale);
 
-        this.addChild(this._highScoreText);
-        this._highScoreText.anchor.set(0.5);
+        this._musicButton = new TextButton(game, spaceBetweenButtons, buttonOffset + spaceBetweenButtons, 'ui_ingame_highscore_backdrop', 'M', this.musicToggle, this, null);
+        this._musicButton.anchor.set(0.5);
+        this.addChild(this._musicButton);
+        this._musicButton.scale.set(scale);
+
+        this.onContinue = new Phaser.Signal();
     }
 
     /** Update the highscore text */
-    public updateText(newHighScore: boolean): void
+
+
+    private continue(): void
     {
-        if (newHighScore)
-        {
-        this._highScoreText.text = 'New highscore!';
-        }
-        else
-        {
-        this._highScoreText.text = 'Highscore: ';
-        }
+        this.visible = false;
+        this.onContinue.dispatch();
+    }
+
+    private musicToggle(): void
+    {
+      //  Constants.PlayMusic = ! Constants.PlayMusic;
+    }
+
+    private sfxToggle(): void
+    {
+     //  Constants.PlaySoundEffects = ! Constants.PlaySoundEffects;
     }
 
     public destroy(): void
     {
         super.destroy();
-
-        if (this._highScoreText) { this._highScoreText.destroy(true); }
-        this._highScoreText = null;
     }
 
 }
