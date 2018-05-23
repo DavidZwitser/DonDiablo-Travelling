@@ -1,26 +1,43 @@
 import 'phaser-ce';
 import BasePopUp from './BasePopUp';
+import SlideBar from './SlideBar';
+import ImageButton from './ImageButton';
 
 export default class PauseScreen extends BasePopUp
 {
     /** The text that shows the highscore */
-    private _highScoreText: Phaser.BitmapText;
+    private _sfxText: Phaser.BitmapText;
+    private _sfxSlider: SlideBar;
+    private _closeButton: ImageButton;
+
+    public onResume: Phaser.Signal;
 
     constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
     {
         super(game, scale, buttonOffset, spaceBetweenButtons);
 
-        this._titleText.text = 'GAME OVER';
+        this._titleText.text = 'Pause';
 
-        this._highScoreText = new Phaser.BitmapText(game, 0 , 60, 'myfont', 'highscore: ', 60);
-        let text: Phaser.Text = new Phaser.Text(this.game, 0, 0 , 'COOL');
-        this.addChild(text);
-        this._highScoreText.tint = 0x181137;
-        this._highScoreText.anchor.set(0, 0.5);
-        this._highScoreText.scale.set(scale, scale);
+        this.onResume = new Phaser.Signal();
 
-        this.addChild(this._highScoreText);
-        this._highScoreText.anchor.set(0.5);
+        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'myfont', 'SFX', 40);
+        this._sfxText.tint = 0xffffff;
+        this._sfxText.anchor.set(0.5);
+        this._sfxText.scale.set(scale, scale);
+
+        this._sfxSlider = new SlideBar(this.game, 1, () => {
+            //
+        });
+        this._sfxSlider.x = 0;
+        this._sfxSlider.y = 0;
+
+        this._closeButton = new ImageButton(this.game, 250, -150, 'UserInterface_Hex_Button_Cross', 'UserInterface_Hex_Button_Cross', () => {
+            this.onResume.dispatch();
+        }, this);
+
+        this.addChild(this._sfxText);
+        this.addChild(this._sfxSlider);
+        this.addChild(this._closeButton);
     }
 
     /** Update the highscore text */
@@ -28,11 +45,11 @@ export default class PauseScreen extends BasePopUp
     {
         if (newHighScore)
         {
-        this._highScoreText.text = 'New highscore!';
+        this._sfxText.text = 'New highscore!';
         }
         else
         {
-        this._highScoreText.text = 'Highscore: ';
+        this._sfxText.text = 'Highscore: ';
         }
     }
 
@@ -40,8 +57,13 @@ export default class PauseScreen extends BasePopUp
     {
         super.destroy();
 
-        if (this._highScoreText) { this._highScoreText.destroy(true); }
-        this._highScoreText = null;
+        if (this.onResume) {
+            this.onResume.removeAll();
+        }
+        this.onResume = null;
+
+        if (this._sfxText) { this._sfxText.destroy(true); }
+        this._sfxText = null;
     }
 
 }
