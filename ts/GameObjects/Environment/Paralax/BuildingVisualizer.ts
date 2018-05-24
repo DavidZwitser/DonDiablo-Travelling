@@ -62,14 +62,14 @@ export default class BuildingVisualizer extends Phaser.Group
     private setUp(): void
     {
         //bottom half
-        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'upper_glow_utopia');
+        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
         this._backGlow.anchor.set(0, 1);
         this._backGlow.alpha = 0;
         this._bottomHalf.addChild(this._backGlow);
 
         this.setUpBuildings(false);
 
-        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'upper_glow_utopia');
+        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
         this._glow.anchor.set(0, 1);
         this._bottomHalf.addChild(this._glow);
 
