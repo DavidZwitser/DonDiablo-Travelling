@@ -19,6 +19,8 @@ export default class PhaseSystem
     /** Tells what time the last phase was, so the current phase time can be calculated */
     private _lastPhaseTime: number = 0;
 
+    public inTransition: boolean = false;
+
     /** Set initial values in the PhaseSystem */
     public init(): void
     {
@@ -28,6 +30,7 @@ export default class PhaseSystem
         this._lastPhaseTime = 0;
 
         /* So the listners can be set before the first lane update starts */
+        requestAnimationFrame( () => this.setPhase(Math.round(Constants.PHASES.length / 2)) );
         requestAnimationFrame( () => this.setPhase(1) );
     }
 
@@ -57,6 +60,8 @@ export default class PhaseSystem
     /** Start the transition from one phase to another */
     private startPhaseTransition(nextPhase: number): void
     {
+        this.inTransition = true;
+
         this.prePhaseChange.dispatch(this._phaseTransitionDuration * 1000);
 
         setTimeout( () => this.setPhase(nextPhase), this._phaseTransitionDuration * 1000 );
@@ -75,10 +80,12 @@ export default class PhaseSystem
         this._currentPhase = phase;
 
         this.onPhaseChange.dispatch();
+
+        this.inTransition = false;
     }
 
     /** Changes the current phase the game is in */
-    private set currentPhase(phase: number)
+    public set currentPhase(phase: number)
     {
         /** Is it actually needed to change the phase? */
         if (phase === this.currentPhase || phase > Constants.PHASES.length || phase <= 0) { return; }
@@ -88,7 +95,7 @@ export default class PhaseSystem
     }
 
     /** What phase we are in now */
-    private get currentPhase(): number
+    public get currentPhase(): number
     {
         return this._currentPhase;
     }
