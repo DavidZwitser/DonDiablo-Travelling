@@ -44,6 +44,9 @@ export default class Gameplay extends Phaser.State
     private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
 
+    private _comboCounter: number = 0;
+    private readonly _comboTimeBeforePhaseUp: number = 7;
+
     constructor()
     {
         super();
@@ -106,7 +109,7 @@ export default class Gameplay extends Phaser.State
         /* UI */
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
-        this._userInterface.onUIPause.add(this.pause, this);
+        this._userInterface.onPause.add(this.pause, this);
 
         /* Phases! */
         this._phaseSystem = new PhaseSystem();
@@ -114,9 +117,19 @@ export default class Gameplay extends Phaser.State
 
         this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
         this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
+        this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.Value = .5 );
+        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
+        this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
+
+        this._userInterface.scoreBar.onEmpty.add( () => {
+            if (this._phaseSystem.currentPhase === 1)
+            {
+                this._userInterface.gameOver();
+                this.pause(false);
+            }
+        });
 
         this.resize();
-        this.pause();
     }
 
     public update(): void
@@ -132,13 +145,40 @@ export default class Gameplay extends Phaser.State
         this._road.render();
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
+
+        if (this._phaseSystem.inTransition === true) { return; }
+
+        if (this._userInterface.scoreBar.Value >= .666)
+        {
+            this._comboCounter += Constants.DELTA_TIME;
+        }
+        else if (this._userInterface.scoreBar.Value <= .333)
+        {
+            this._comboCounter -= Constants.DELTA_TIME;
+        }
+        else
+        {
+            this._comboCounter = 0;
+        }
+
+        if (this._comboCounter > this._comboTimeBeforePhaseUp)
+        {
+            this._phaseSystem.startNextPhase();
+            this._comboCounter = 0;
+        }
+        else if (this._comboCounter < -this._comboTimeBeforePhaseUp)
+        {
+            this._phaseSystem.startLastPhase();
+            this._comboCounter = 0;
+        }
+
     }
 
     public resize(): void
     {
         this._audioVisualizer.resize();
         this._userInterface.resize();
-        this._road.render();
+        this._road.render(true);
         this._perspectiveRenderer.resize();
     }
 
@@ -159,13 +199,18 @@ export default class Gameplay extends Phaser.State
         }
     }
 
-    public pause(): void
+    public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
         this._pickupSpawner.pause(this._gamePaused);
+
         SoundManager.getInstance().pause(this._gamePaused);
-        this._userInterface.pauseScreen.visible = this._gamePaused;
+
         this._input.active = !this._gamePaused;
+
+        if (showPauseScreen === false) { return; }
+        this._userInterface.pauseScreen.visible = this._gamePaused;
+
         if (!this._blurred) {
             console.log('UI pause');
             this._userInterface.Pause(this._gamePaused);
@@ -185,6 +230,27 @@ export default class Gameplay extends Phaser.State
 
         this._pickupSpawner.destroy();
         this._pickupSpawner = null;
+
+        this._player.destroy();
+        this._player = null;
+
+        this._input.destroy();
+        this._input = null;
+
+        this._perspectiveRenderer.destroy(true);
+        this._perspectiveRenderer = null;
+
+        this._road.destroy(true);
+        this._road = null;
+
+        this.spawnEditor.destroy();
+        this.spawnEditor = null;
+
+        this._phaseSystem.destroy();
+        this._phaseSystem = null;
+
+        this._glowFilter.destroy();
+        this._glowFilter = null;
 
         //removing events
         window.removeEventListener('blur', this.blur.bind(this));
