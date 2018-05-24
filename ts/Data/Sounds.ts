@@ -6,11 +6,13 @@ export default class Sounds
     public static testMusic: string = 'test';
 
     //don diablo music
-    public static headUp: string = 'head_up';
-    public static believe: string = 'believe';
-    public static backToUs: string = 'back_to_us';
+    public static HEAD_UP: string = 'head_up';
+    public static PEOPLE_SAY: string = 'People_Say';
+    public static GIVE_ME_YOUR_LOVE: string = 'Give_Me_Your_Love';
 
     public static List: string[] = [
-        Sounds.headUp
+        Sounds.HEAD_UP,
+        Sounds.GIVE_ME_YOUR_LOVE,
+        Sounds.PEOPLE_SAY
     ];
 }
