@@ -4,99 +4,216 @@ import Atlases from '../../../Data/Atlases';
 
 /** Visualizes songs */
 /** Visualizes music */
-export default class BuildingVisualizer extends Phaser.Graphics
+export default class BuildingVisualizer extends Phaser.Group
 {
-    private _analyser: AudioAnalyser;
+    private _maxWidth: number;
+    private _maxHeight: number;
 
-    private _xIndex: number;
-    private _barWidth: number;
-    private _barHeight: number;
+    private _barDistance: number = 1;
+    private _contextAvailable: boolean;
 
-    public maxWidth: number = 1280;
-    public maxHeight: number = 720 / 2;
+    //bottom buildings
+    private _bottomHalf: Phaser.Group;
+    private _buildings: Phaser.Sprite[];
+    private _glow: Phaser.Sprite;
+    private _backGlow: Phaser.Sprite;
 
-    public ratioAmount: number;
-    public amountOfBars: number = 15;
-    public minimumBarHeight: number = 10;
-    public barDistance: number = 1;
+    //top buildings
+    private _topHalf: Phaser.Group;
+    private _topBuildings: Phaser.Sprite[];
+    private _topGlow: Phaser.Sprite;
+    private _topBackGlow: Phaser.Sprite;
 
-    //
-    public buildings: Phaser.Sprite[];
-    private glow: Phaser.Sprite;
-    private backGlow: Phaser.Sprite;
+    private _topIsActive: boolean = false;
+    private _switchTime: number = 300;
 
-    constructor (game: Phaser.Game, x: number, y: number, maxWidth: number, maxHeight: number) {
-        super(game, x, y);
+    private _maskGraphic: Phaser.Graphics;
 
-        this.buildings = [];
+    constructor (game: Phaser.Game, maxWidth: number, maxHeight: number)
+    {
+        super(game);
 
-        this._analyser = new AudioAnalyser();
-        this.maxWidth = maxWidth;
-        this.maxHeight = maxHeight;
-        this.changeSong();
+        this._buildings = [];
+        this._topBuildings = [];
 
-        this.glow = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
-        this.glow.anchor.set(0, 1);
-        this.addChild(this.glow);
+        this._contextAvailable = AudioAnalyser.getInstance().Setup();
+        this._maxWidth = maxWidth;
+        this._maxHeight = maxHeight;
 
-        this.backGlow = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Purple_glow_utopia');
-        this.backGlow.anchor.set(0, 1);
-        this.addChild(this.backGlow);
+        this._topHalf = new Phaser.Group(game);
+        this.addChild(this._topHalf);
 
+        this._bottomHalf = new Phaser.Group(game);
+        this.addChild(this._bottomHalf);
+
+        //mask setup
+        this._maskGraphic = new Phaser.Graphics(this.game, 0, 0);
+        this.addChild(this._maskGraphic);
+        this._maskGraphic.beginFill(0xFF3300);
+        this._maskGraphic.drawRect(0, -this._maxHeight, this._maxWidth, maxHeight);
+        this._maskGraphic.endFill();
+
+        this.setUp();
+        //this.deactivateHalf();
+
+        this.mask = this._maskGraphic;
+    }
+
+    private setUp(): void
+    {
+        //bottom half
+        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._backGlow.anchor.set(0, 1);
+        this._backGlow.alpha = 0;
+        this._bottomHalf.addChild(this._backGlow);
+
+        this.setUpBuildings(false);
+
+        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._glow.anchor.set(0, 1);
+        this._bottomHalf.addChild(this._glow);
+
+        //top half
+        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'dark_glow_top');
+        this._topBackGlow.anchor.set(0, 1);
+        this._topHalf.addChild(this._topBackGlow);
+
+        this.setUpBuildings(true);
+
+        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'glowunder');
+        this._topGlow.anchor.set(0, 1);
+        this._topHalf.addChild(this._topGlow);
+        this._topHalf.y = -this._maxHeight * 1;
+        this._topHalf.scale.set(1, -1);
+
+    }
+
+    private setUpBuildings(top: boolean): void
+    {
         let pos: number = 0;
-        while (pos < maxWidth) {
-            let building: Phaser.Sprite = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'building_good_' + Math.ceil(Math.random() * 14) );
+        while (pos < this._maxWidth)
+        {
+            let building: Phaser.Sprite;
+            let index: number;
+
+            if (top)
+            {
+                index = Math.ceil(Math.random() * 14);
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
+            }
+            else
+            {
+                index = Math.ceil(Math.random() * 14);
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
+            }
             building.anchor.set(0);
-            building.scale.set(2);
-            this.addChild(building);
-            this.buildings.push(building);
-            pos += building.width + this.barDistance;
+            building.scale.set((this.game.width / GAME_WIDTH) * .5);
+
+            if (top)
+            {
+                this._topHalf.addChild(building);
+                this._topBuildings.push(building);
+            }
+            else
+            {
+                this._bottomHalf.addChild(building);
+                this._buildings.push(building);
+            }
+            pos += building.width + this._barDistance;
         }
 
     }
 
-    /** Update the song the visualizer is using to visualize music */
-    public changeSong(): void
-    {
-        this._analyser.Setup();
-        this.ratioAmount = this._analyser._bufferLength / this.amountOfBars;
-        this._barWidth = (this.maxWidth * this.ratioAmount / this._analyser._bufferLength) - this.barDistance;
-        this.clear();
-
-        //this._audioElement.currentTime = 60;
-        //this._audioElement.play();
-
-        this.render();
-    }
-
-    /** Umpdate the visualizer so it's values can update */
+    /** Update the visualizer so it's values can update */
     public render(): void
     {
-        this.clear();
-        this.lineStyle(this._barWidth, 0x33FF00);
-        this._xIndex = this._barWidth / 2;
-
-        //let max: number = 0;
-
-        this._analyser._analyser.getByteFrequencyData(this._analyser._dataArray);
-        for (let i: number = this.buildings.length; i--;) {
-            let height: number = this._analyser._dataArray[Math.round(this.buildings[i].x / this.maxWidth * this._analyser._bufferLength)] / 256 * this.buildings[i].height;
-            console.log(height);
-            this.buildings[i].y =  -height;
+        //when context isn't available
+        if (!this._contextAvailable)
+        {
+            if (!this._topIsActive)
+            {
+                this.renderBuildingWithoutContext(this._buildings, this._glow, this._backGlow);
+                this.renderBuildingWithoutContext(this._topBuildings, this._topGlow, this._topBackGlow);
+            }
+            else
+            {
+                this.renderBuildingWithoutContext(this._topBuildings, this._topGlow, this._topBackGlow);
+            }
+            return;
         }
 
-        for (let i: number = 0; i < this._analyser._bufferLength; i += this.ratioAmount) {
-            this._barHeight = (this._analyser._dataArray[Math.round(i)] / 256 * this.maxHeight);
-            this.moveTo(this._xIndex, 0);
-            this.lineTo(this._xIndex, Math.min(-this._barHeight, -this.minimumBarHeight));
-            this._xIndex += this._barWidth + this.barDistance;
-            //max = Math.max(max, this._dataArray[Math.round(i)]);
+        //when context is available
+        AudioAnalyser.getInstance().analyser.getByteFrequencyData(AudioAnalyser.getInstance().dataArray);
+
+        //update wther one half is active
+        if (!this._topIsActive)
+        {
+            this.renderBuilding(this._buildings, this._glow, this._backGlow);
+            this.renderBuilding(this._topBuildings, this._topGlow, this._topBackGlow);
         }
-        //console.log(max);
+        else
+        {
+            this.renderBuilding(this._topBuildings, this._topGlow, this._topBackGlow);
+        }
     }
 
-    public destroy(): void {
-        this.clear();
+    private renderBuildingWithoutContext(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void
+    {
+        for (let i: number = Math.floor(array.length / 2); i--;)
+        {
+            let precentage: number = (1 - i / (array.length / 2));
+            let height: number = array[i].height * precentage;
+            array[i].y = -height;
+            height = array[array.length - 1 - i].height * precentage;
+            array[array.length - 1 - i].y = -height;
+        }
+        glow.alpha = backGlow.alpha = -array[1].y / array[1].height;
+    }
+
+    private renderBuilding(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void
+    {
+        for (let i: number = Math.floor(array.length / 2); i--;)
+        {
+            let precentage: number = AudioAnalyser.getInstance().dataArray[Math.round(array[i].x / this._maxWidth * AudioAnalyser.getInstance().bufferLength * 2)] / 256;
+            let height: number = precentage * array[i].height;
+            array[i].y = -height;
+            height = precentage * array[array.length - 1 - i].height;
+            array[array.length - 1 - i].y = -height;
+        }
+        glow.alpha = backGlow.alpha = -array[1].y / array[1].height;
+    }
+
+    public switch(): void
+    {
+        this._topIsActive = !this._topIsActive;
+        this.deactivateHalf();
+    }
+
+    private deactivateHalf(): void
+    {
+        if (!this._topIsActive)
+        {
+            this.game.add.tween(this._topHalf).to({y: -this._maxHeight * 2}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
+            this.game.add.tween(this._bottomHalf).to({y: 0}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
+        }
+        else
+        {
+            this.game.add.tween(this._topHalf).to({y: -this._maxHeight}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
+            this.game.add.tween(this._bottomHalf).to({y: this._maxHeight}, this._switchTime, Phaser.Easing.Cubic.InOut, true);
+        }
+    }
+
+    public resize(): void
+    {
+        //needs more things!
+        this.y = this.game.height * .6;
+        requestAnimationFrame(() => {
+            this.scale.set(this.game.width / this._maskGraphic.width, this.game.height * .2 / this._maskGraphic.height);
+        });
+    }
+
+    public destroy(): void
+    {
         super.destroy(true);
     }
 }

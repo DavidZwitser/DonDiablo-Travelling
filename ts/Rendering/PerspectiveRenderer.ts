@@ -1,6 +1,8 @@
 import Renderer from './Renderer';
 import PerspectiveObject from './Sprites/PerspectiveObject';
+import Constants from '../Data/Constants';
 
+/** The interface which describes a sprite's dimensions on the screen. */
 interface IScreenTransform
 {
     x: number;
@@ -11,44 +13,60 @@ interface IScreenTransform
 /** Renders sprites in a pseudo 3d way */
 export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 {
-    private _horizonPoint: Phaser.Point;
-    private _depthOfField: number;
-
+    /** The point at which the sprites aim to go */
     constructor(game: Phaser.Game)
     {
         super(game);
-
-        this._depthOfField = .96;
-        this._horizonPoint = new Phaser.Point(.5, .45);
     }
 
-    /** Render the sprites in pseudo3d way */
+    /** Render (position) the sprites in pseudo3d way */
     public render(): void
     {
-        this.forEachObject(this.eachObject, this);
+        this.forEachObject(this.transformObject, this);
     }
 
-    private eachObject(object: PerspectiveObject): void
+    /** Update (position) the sprites in pseudo3d way */
+    public updatePosition(): void
     {
-        let targetTransform: IScreenTransform = this.screenToWorldPosition(object.xPos, object.zPos);
+        this.forEachObject(this.updateObject, this);
+    }
 
-        object.scale.set(targetTransform.scale);
+    /** Apply transition to an object. */
+    private transformObject(object: PerspectiveObject): void
+    {
+        if (object.positionShouldBeUpdated === false) { return; }
+        object.positionShouldBeUpdated = false;
+
+        let targetTransform: IScreenTransform = PerspectiveRenderer.worldToScreenPosition(this.game, object.xPos, object.yPos, object.zPos);
+
+        object.scale.set(targetTransform.scale * object.resizedScale);
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
-    public screenToWorldPosition(xPos: number, zPos: number): IScreenTransform
+    private updateObject(object: PerspectiveObject): void {
+        if (object.visible) {
+            object.updateObject();
+        }
+    }
+
+    public resize(): void
     {
+        this.forEachObject((child: PerspectiveObject) => { child.resize(); }, this );
+    }
 
-        let perspectiveOffset: number = this._horizonPoint.y / zPos;
-
-        let projectedX: number = (this._horizonPoint.x + xPos * perspectiveOffset) * this.game.width;
-        let projectedY: number = (this._horizonPoint.y + (1 - this._horizonPoint.y) * perspectiveOffset) * this.game.height;
-        let projectedScale: number = perspectiveOffset;
-
+    /** Give a world position and get a screen position back. */
+    public static worldToScreenPosition(
+        game: Phaser.Game,
+        xPos: number,
+        yPos: number,
+        zPos: number
+    ): IScreenTransform
+    {
+        /* THE equation, calculating the perspective effect */
         return {
-            x: projectedX,
-            y: projectedY,
-            scale: projectedScale
+            x: Constants.HORIZON_POSITION.x * game.width + (xPos / zPos) * game.width,
+            y: Constants.HORIZON_POSITION.y * game.height + (yPos / zPos) * game.height,
+            scale: (1 / zPos) * 1.5
         };
     }
 }

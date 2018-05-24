@@ -45,6 +45,10 @@ export default class SoundManager
         return SoundManager.instance;
     }
 
+    public pause(pause: boolean): void {
+        pause ? this._music.element.pause() : this._music.element.play();
+    }
+
     /** Play a sfx */
     public play(key: string, volume: number = 1, loop: boolean = false): Phaser.Sound
     {
@@ -79,7 +83,12 @@ export default class SoundManager
             //Even though the music is currently turned off, keep track of the last music we wanted to play.
             //This way, when we turn the music on again, we already know which song to play.
             //this.music = this._sound.play(key, volume, true);
-            this._music.element.src = 'assets/music/' + key + '.wav';
+            if ((typeof this._music.element.canPlayType === 'function' &&
+            this._music.element.canPlayType('audio/mpeg;codecs=ogg') !== '')) {
+                this._music.element.src = 'assets/music/' + key + '.ogg';
+            } else {
+                this._music.element.src = 'assets/music/' + key + '.mp3';
+            }
             this._music.element.currentTime = 0;
             this._music.element.loop = true;
 
@@ -108,14 +117,17 @@ export default class SoundManager
         //this.music = this._sound.play(key, 1, true);
         if (this._music.key !== key) {
             this._music.key = key;
-            this._music.element.src = 'assets/music/' + key + '.wav';
+            if ((typeof this._music.element.canPlayType === 'function' &&
+            this._music.element.canPlayType('audio/mpeg;codecs=ogg') !== '')) {
+                this._music.element.src = 'assets/music/' + key + '.ogg';
+            } else {
+                this._music.element.src = 'assets/music/' + key + '.mp3';
+            }
             this._music.element.currentTime = 0;
         }
         this._music.element.volume = volume;
         this._music.element.play();
         this._music.element.loop = true;
-
-        console.error('playin ze muziek');
 
         return;
 

@@ -1,10 +1,111 @@
 import 'phaser-ce';
 
+import PerspectiveRenderer from '../PerspectiveRenderer';
+import { Lanes, ILane, LaneConverter, LaneIndexer } from '../../Enums/Lanes';
+
 /** A sprite that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
 {
+    protected sprite: Phaser.Sprite;
+
     private _zPos: number;
     private _xPos: number;
+    private _yPos: number;
+
+    private _lane: Lanes = Lanes.bottomCenterLane;
+
+    public resizedScale: number = 1;
+    public positionShouldBeUpdated: boolean = true;
+
+    private laneTween: Phaser.Tween;
+    private rotationTween: Phaser.Tween;
+
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    {
+        super(game);
+        renderer.addObject(this);
+    }
+
+    public get lane(): Lanes
+    {
+        return this._lane;
+    }
+    public set lane(lane: Lanes)
+    {
+        if (lane === Lanes.none)
+        {
+            this.visible = false;
+        }
+
+        let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
+
+        /** Setting the lane to the closest enabled lane */
+        this._lane = LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(desiredLane.x, desiredLane.y);
+
+        let targetPosition: {x: number, y: number} = LaneIndexer.LANE_TO_ILANE(this._lane);
+
+        this.yPos = targetPosition.y;
+        this.xPos = targetPosition.x;
+
+    }
+
+    /** Reset lane, so the player moves to the nearest lane (used when a new lane is added). */
+    public reposition(): void
+    {
+        this.changeLane(this.lane);
+    }
+
+    public changeLane( lane: Lanes ): void
+    {
+        this.rotation = 0;
+
+        let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
+        /* So no tslint errors will be thrown */
+
+        let targetPosition: {x: number, y: number} = LaneIndexer.LANE_TO_ILANE( LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(desiredLane.x, desiredLane.y));
+        let targetRotation: number;
+
+        if (this.xPos > targetPosition.x)
+        {
+            targetRotation = - (Math.PI / 12);
+        }
+        else if (this.xPos < targetPosition.x)
+        {
+            targetRotation =  (Math.PI / 12);
+        }
+        else if (this.xPos === targetPosition.x)
+        {
+            targetRotation = 0;
+        }
+
+        if (this.yPos === -0.5)
+        {
+            targetRotation *= -1;
+        }
+
+        this.laneTween = this.game.add.tween(this)
+            .to({xPos: targetPosition.x, yPos: targetPosition.y}, 100, Phaser.Easing.Cubic.InOut)
+            .start();
+        this.laneTween.onComplete.addOnce(() => this.laneEnd(lane), this);
+
+        this.rotationTween = this.game.add.tween(this)
+            .to({rotation: targetRotation}, 100, Phaser.Easing.Cubic.InOut, true)
+            .start();
+
+        this.rotationTween.onComplete.addOnce(() => {
+            this.rotationTween = this.game.add.tween(this)
+            .to({rotation: 0}, 500, Phaser.Easing.Cubic.InOut, true)
+            .start();
+        });
+
+        // To quickly fix the tslint error
+        this.rotationTween = this.rotationTween;
+    }
+
+    private laneEnd(lane: Lanes ): void
+    {
+        this.lane = lane;
+    }
 
     /** What z position the sprite is currently on */
     public get zPos(): number
@@ -13,9 +114,8 @@ export default class PerspectiveObject extends Phaser.Group
     }
     public set zPos(value: number)
     {
-        if (this.zPos < 0) { return; }
-
         this._zPos = value;
+        this.positionShouldBeUpdated = true;
     }
 
     /** What x position the sprite is currently on */
@@ -26,5 +126,46 @@ export default class PerspectiveObject extends Phaser.Group
     public set xPos(value: number)
     {
         this._xPos = value;
+        this.positionShouldBeUpdated = true;
+    }
+
+    /** What y position the sprite is currently on */
+    public get yPos(): number
+    {
+        return this._yPos;
+    }
+    public set yPos(value: number)
+    {
+        this._yPos = value;
+
+        if (this.sprite)
+        {
+            this.sprite.anchor.set(.5, 1);
+            this.sprite.rotation = value > 0 ? 0 : Math.PI;
+        }
+
+        this.positionShouldBeUpdated = true;
+    }
+
+    public resize(): void
+    {
+        this.positionShouldBeUpdated = true;
+        this.resizedScale = this.game.width / GAME_WIDTH;
+    }
+
+    public updateObject(): void
+    {
+        //
+    }
+
+    public destroy(destroyChildren: boolean = true): void
+    {
+        super.destroy(destroyChildren);
+
+        if (this.rotationTween) { this.rotationTween.pause(); }
+        this.rotationTween = null;
+
+        if (this.laneTween) { this.laneTween.pause(); }
+        this.laneTween = null;
     }
 }

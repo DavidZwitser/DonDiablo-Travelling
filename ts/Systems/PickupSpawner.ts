@@ -1,7 +1,8 @@
 import { Lanes } from '../Enums/Lanes';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 import ObjectPool from './ObjectPool';
-import Jason from '../Data/Jason';
+import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
+import Constants from '../Data/Constants';
 
 //interface that is the same of the json file it get recieved from
 interface ILevelData {
@@ -14,26 +15,42 @@ interface ITiming {
 }
 
 /** Spawns pickups */
-export default class PickupSpawner
+export default class PickupSpawner extends Phaser.Group
 {
-    private pickupPool: ObjectPool;
+    private _pickupPool: ObjectPool;
 
-    private levelData: ILevelData;
-    private timeOut: any;
-    private spawnIndex: number = 0;
+    private _levelData: ILevelData;
+    private _timeOut: any;
+    private _spawnIndex: number = 0;
+    private _startTime: number;
+    private _passedTime: number;
 
-    constructor(game: Phaser.Game) {
+    private _perspectiveRenderer: PerspectiveRenderer;
 
-        //pickup pooling gets defined
-        this.pickupPool = new ObjectPool(() => {
-            let pickup: Pickup = new Pickup(game);
-            game.add.existing(pickup);
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    {
+        super(game);
+
+        this._perspectiveRenderer = renderer;
+
+        // pickup pooling gets defined
+        this._pickupPool = new ObjectPool(() => {
+
+            let pickup: Pickup = new Pickup(game, this._perspectiveRenderer);
+            this.addChild(pickup);
+
             return pickup;
         });
 
-        this.getLevelData(game, Jason.test);
-        this.waitForNextSpawning(this.levelData.timings[0].time);
+        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ].json );
     }
+
+    public setNewSong(json: string): void
+    {
+        this.getLevelData(this.game, json);
+        this.waitForNextSpawning(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
+    }
+
     private getRandomLane(): Lanes
     {
         return Math.floor(Math.random() * Object.keys(Lanes).length / 2);
@@ -41,47 +58,93 @@ export default class PickupSpawner
 
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
     {
-        let pickup: Pickup = <Pickup>this.pickupPool.getObject(true);
-        if (pickup !== null) {
-            pickup._lanePosition = lanePos;
-            //TODO change position of pickup based on lanepos
-            pickup.position.set(0, 0);
+        let pickup: Pickup = <Pickup>this._pickupPool.getObject(true);
 
-            //TODO: settimeout can be removed, it basically is a way do deactivate the sprite automaticly
-            setTimeout(() => {
-                pickup.visible = false;
-            }, 500);
+        if (pickup !== null)
+        {
+            pickup.lane = lanePos;
+            pickup.zPos = 5;
+            pickup.scale.set(1);
+
+            pickup.alpha = 0;
+            this.game.add.tween(pickup).to({alpha: 1}, 500,  Phaser.Easing.Linear.None, true);
+
+            this.sendToBack(pickup);
         }
+
         return pickup;
     }
 
-    //destroy function
-    public destroy(): void {
-        this.pickupPool.destroy();
-        this.pickupPool = null;
-        this.levelData = null;
-        clearTimeout(this.timeOut);
-        this.spawnIndex = 0;
+    /** Reposition all the pickups, so they get alligned well after a road is added. */
+    public repositionAllPickups(): void
+    {
+        for (let i: number = this._pickupPool.objects.length; i--; )
+        {
+            this._pickupPool.objects[i].reposition();
+        }
     }
 
     //level data is get from cache of a json file
-    private getLevelData(game: Phaser.Game, key: string): void {
-        this.levelData = game.cache.getJSON(key);
+    private getLevelData(game: Phaser.Game, key: string): void
+    {
+        this._levelData = game.cache.getJSON(key);
+        // let temp: ILevelData = this._levelData;
+        // for (let i: number = 0; i < temp.timings.length; i++) {
+        //     temp.timings[i].lane ++;
+        // }
+        // console.log(JSON.stringify(temp));
     }
 
     //this is the loop the spawning takes place from the leveldata
-    private waitForNextSpawning(timeWaiting: number): void {
-        this.timeOut = setTimeout(() => {
-            let pickup: Pickup = this.spawnPickup(this.levelData.timings[this.spawnIndex].lane);
-            this.spawnIndex++;
-            console.log(this.levelData.timings[this.spawnIndex - 1].time - this.levelData.timings[this.spawnIndex].time);
-            if (this.spawnIndex < this.levelData.timings.length - 1) {
-                this.waitForNextSpawning(this.levelData.timings[this.spawnIndex].time - this.levelData.timings[this.spawnIndex - 1].time);
+    private waitForNextSpawning(timeWaiting: number): void
+    {
+        this._startTime = Date.now();
+        this._timeOut = setTimeout(() => {
+            this.spawnPickup(this._levelData.timings[this._spawnIndex].lane);
+
+            this._spawnIndex++;
+
+            if (this._spawnIndex < this._levelData.timings.length)
+            {
+                this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - this._levelData.timings[this._spawnIndex - 1].time);
             }
+            else
+            {
+                this.noMoreJsonData();
+                return;
+            }
+
         }, timeWaiting * 1000);
     }
-    // public spawnPickupIfNeeded(): void
-    // {
-    //     //
-    // }
+
+    // TODO: This should be done by listening to the music manager, so a delay between songs can be added.
+    private noMoreJsonData(): void
+    {
+        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ++ ].json );
+    }
+
+    public pause(pause: boolean): void
+    {
+        if (pause)
+        {
+            clearTimeout(this._timeOut);
+            this._passedTime = Date.now() - this._startTime;
+        }
+        else
+        {
+            this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
+        }
+    }
+
+    //destroy function
+    public destroy(): void
+    {
+        if (this._pickupPool) {
+            this._pickupPool.destroy();
+        }
+        this._pickupPool = null;
+        this._levelData = null;
+        clearTimeout(this._timeOut);
+        this._spawnIndex = 0;
+    }
 }

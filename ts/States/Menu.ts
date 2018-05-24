@@ -13,12 +13,12 @@ export default class Menu extends Phaser.State
 
     public name: string = Menu.Name;
 
-    private mainButtonsGroup: Phaser.Group;
-    private logo: Phaser.Sprite;
-    private background: Phaser.Sprite;
+    private _mainButtonsGroup: Phaser.Group;
+    private _logoSprite: Phaser.Sprite;
+    private _backgroundSprite: Phaser.Sprite;
 
-    private settingGroup: SettingPopup;
-    private levelSelect: LevelSelect;
+    private _settingGroup: SettingPopup;
+    private _levelSelect: LevelSelect;
 
     constructor()
     {
@@ -34,24 +34,25 @@ export default class Menu extends Phaser.State
     {
         super.create(this.game);
 
-        this.background = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Background);
-        this.logo = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Logo);
-        this.logo.anchor.set(.5);
+        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Background);
+        this._logoSprite = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Logo);
+        this._logoSprite.anchor.set(.5);
 
-        this.mainButtonsGroup = this.createMainButtons();
-        this.add.existing(this.mainButtonsGroup);
+        this._mainButtonsGroup = this.createMainButtons();
+        this.add.existing(this._mainButtonsGroup);
 
-        this.settingGroup = new SettingPopup(this.game);
-        this.game.add.existing(this.settingGroup);
-        this.settingGroup.onBack.add(this.DisplayMenu.bind(this));
-        this.settingGroup.onPlay.add(this.DisplayLevelSelect.bind(this));
+        this._settingGroup = new SettingPopup(this.game);
+        this.game.add.existing(this._settingGroup);
+        this._settingGroup.onBack.add(this.DisplayMenu.bind(this));
+        this._settingGroup.onPlay.add(this.DisplayLevelSelect.bind(this));
 
-        this.levelSelect = new LevelSelect(this.game);
-        this.game.add.existing(this.levelSelect);
-        this.levelSelect.onBack.add(this.DisplayMenu.bind(this));
+        this._levelSelect = new LevelSelect(this.game);
+        this.game.add.existing(this._levelSelect);
+        this._levelSelect.onBack.add(this.DisplayMenu.bind(this));
 
         this.resize();
     }
+
     public createMainButtons(): Phaser.Group {
 
         let group: Phaser.Group = new Phaser.Group(this.game);
@@ -66,7 +67,7 @@ export default class Menu extends Phaser.State
             this.state.start(Test.Name);
         }, this);
         testButton.scale.set(.5);
-        //group.addChild(testButton);
+        group.addChild(testButton);
 
         let settingButton: TextButton = new TextButton(this.game, 0, 150, 'settings', 40, AtlasImages.Menu_Button, () => {
             this.DisplaySetting();
@@ -78,61 +79,57 @@ export default class Menu extends Phaser.State
 
     public resize(): void
     {
-        this.background.width = this.game.width;
-        this.background.height = this.game.height;
+        this._backgroundSprite.width = this.game.width;
+        this._backgroundSprite.height = this.game.height;
 
         let vmin: number = Math.min(this.game.height, this.game.width);
 
-        this.mainButtonsGroup.position.set(this.game.width / 2, this.game.height / 2);
-        this.mainButtonsGroup.scale.set(vmin / GAME_WIDTH);
+        this._mainButtonsGroup.position.set(this.game.width / 2, this.game.height / 2);
+        this._mainButtonsGroup.scale.set(vmin / GAME_WIDTH);
 
-        this.settingGroup.position.set(this.game.width / 2, this.game.height * .6);
-        this.settingGroup.scale.set(vmin / GAME_WIDTH);
+        this._settingGroup.position.set(this.game.width / 2, this.game.height * .6);
+        this._settingGroup.scale.set(vmin / GAME_WIDTH);
 
-        this.levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
-        this.levelSelect.scale.set(vmin / GAME_WIDTH);
+        this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
+        this._levelSelect.scale.set(vmin / GAME_WIDTH);
 
-        this.logo.position.set(this.game.width / 2, this.game.height * 0.25);
-        this.logo.scale.set(vmin / GAME_WIDTH);
-
-        console.log(vmin);
-
+        this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
+        this._logoSprite.scale.set(vmin / GAME_WIDTH);
     }
 
     public DisplaySetting(): void {
-        this.settingGroup.visible = true;
-        this.mainButtonsGroup.visible = false;
-        this.logo.visible = true;
-        this.levelSelect.visible = false;
+        this._settingGroup.visible = true;
+        this._mainButtonsGroup.visible = false;
+        this._logoSprite.visible = true;
+        this._levelSelect.visible = false;
     }
 
     public DisplayMenu(): void {
-        this.settingGroup.visible = false;
-        this.mainButtonsGroup.visible = true;
-        this.logo.visible = true;
-        this.levelSelect.visible = false;
+        this._settingGroup.visible = false;
+        this._mainButtonsGroup.visible = true;
+        this._logoSprite.visible = true;
+        this._levelSelect.visible = false;
     }
 
     public DisplayLevelSelect(): void {
-        this.settingGroup.visible = false;
-        this.mainButtonsGroup.visible = false;
-        this.logo.visible = false;
-        this.levelSelect.visible = true;
+        this._settingGroup.visible = false;
+        this._mainButtonsGroup.visible = false;
+        this._logoSprite.visible = false;
+        this._levelSelect.visible = true;
     }
 
     public shutdown(): void
     {
         super.shutdown(this.game);
 
-        this.mainButtonsGroup.destroy(true);
+        this._mainButtonsGroup.destroy(true);
 
-        this.background.destroy(true);
+        this._backgroundSprite.destroy(true);
 
-        this.levelSelect.destroy();
-        this.levelSelect = null;
+        this._levelSelect.destroy();
+        this._levelSelect = null;
 
-        this.settingGroup.destroy();
-        this.settingGroup = null;
+        this._settingGroup.destroy();
+        this._settingGroup = null;
     }
-
 }
