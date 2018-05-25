@@ -1,48 +1,163 @@
+
 import 'phaser-ce';
 import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
 
 /** Renders a road */
-export default class Road extends Phaser.Graphics
+export default class Road extends Phaser.Group
 {
+    /** How thick the lines should be */
     private _lineThickness: number = .008;
+    /** This is used for the horizon lines to offset them a bit every frame */
     private _offset: number = 0;
 
-    //colors
+    /** The colors for the lines */
     private _bottomMiddleColor: number = 0x8bf2d6;
     private _bottomOuterColor: number = 0x66090f;
     private _topMiddleColor: number = 0xf4091a;
     private _topOuterColor: number = 0x148694;
 
-    private getTopLine(offsetFromCenter: number, customWidth?: number): Phaser.Polygon
-    {
-        return this.getRoadLine(Constants.HORIZON_POSITION.x, 1 - Constants.HORIZON_POSITION.y, offsetFromCenter, customWidth ? customWidth : this._lineThickness, true);
+    /** The layers where the lines on the horion are drawn */
+    private _horizonLinesLayer: Phaser.Graphics;
+    /** The layer where the clear behind the road and the roadline themself are drawn */
+    private _roadLinesLayer: Phaser.Graphics;
+    /** The layer where the horizon clear and the highlights around the road are drawn */
+    private _highlightLayer: Phaser.Graphics;
 
+    private _roadLineAlpha: number = 0;
+    private _roadAmountTransitionTween: Phaser.Tween;
+
+    constructor(game: Phaser.Game)
+    {
+        super(game);
+
+        this._horizonLinesLayer = new Phaser.Graphics(game);
+        this.addChild(this._horizonLinesLayer);
+
+        this._roadLinesLayer = new Phaser.Graphics(game);
+        this.addChild(this._roadLinesLayer);
+
+        this._highlightLayer = new Phaser.Graphics(game);
+        this.addChild(this._highlightLayer);
     }
 
-    private getBottomLine(offsetFromCenter: number, customWidth?: number): Phaser.Polygon
+    public render(redrawEverything: boolean = false): void
     {
-        return this.getRoadLine(Constants.HORIZON_POSITION.x, Constants.HORIZON_POSITION.y, offsetFromCenter, customWidth ? customWidth : this._lineThickness);
-    }
-
-    public render(): void
-    {
-
-        /* The road borders */
-        let topLeftRoadBorder: Phaser.Polygon = this.getTopLine(-.5);
-        let topRightRoadBorder: Phaser.Polygon = this.getTopLine(.5);
-
-        let bottomLeftRoadBorder: Phaser.Polygon = this.getBottomLine(-.5);
-        let bottomRightRoadBorder: Phaser.Polygon = this.getBottomLine(.5);
-        /* -- */
-
         /* The road lines */
-        let amountOfLanes: number = LaneIndexer.AMOUNT_OF_ACTIVE_LANES;
+        LaneIndexer.AMOUNT_OF_ACTIVE_LANES;
 
+        /* Drawing the lines on the sides that give the movement effect */
+        this.drawSideLines();
+
+        /** Should I redraw the highlights */
+        if (redrawEverything === false) { return; }
+
+        /* Drawing the lines that represent the road */
+        this.drawRoadLine();
+
+        /* Drawing the highlights around the sides */
+        this.drawHighlights();
+
+    }
+
+    /** Draws the lines on the side giving the feel of movement */
+    private drawSideLines(): void
+    {
+        this._horizonLinesLayer.clear();
+
+        /** Where the top horizon lines are stored */
+        let topHorizontalLines: Phaser.Polygon[] = [];
+        /** Where the bottom horizon lines are stored */
+        let bottomHorizontalLines: Phaser.Polygon[] = [];
+
+        /* Changin the horizon lines offset so they move */
+        if (this._offset >= -.1)
+        {
+            this._offset -= Constants.DELTA_TIME * Constants.GLOBAL_SPEED * 0.2;
+        }
+        else
+        {
+            this._offset = -.0001;
+        }
+
+        /** Adding 9 top and bottom horizon lines so they can be drawn */
+        for (let i: number = 9; i--; )
+        {
+            bottomHorizontalLines.push(this.getHorizonLine((i + 1) / 10 + this._offset, this._lineThickness / 2));
+            topHorizontalLines.push(this.getHorizonLine(-(i + 1) / 10 - this._offset, this._lineThickness / 2));
+        }
+
+        /** Drawing the top horizon lines */
+        this._horizonLinesLayer.beginFill(this._bottomOuterColor);
+        for (let i: number = topHorizontalLines.length; i--; )
+        {
+            this._horizonLinesLayer.drawShape(topHorizontalLines[i]);
+        }
+        this._horizonLinesLayer.endFill();
+
+        /** Drawing the bottom horizon lines */
+        this._horizonLinesLayer.beginFill(this._topOuterColor);
+        for (let i: number = bottomHorizontalLines.length; i--; )
+        {
+            this._horizonLinesLayer.drawShape(bottomHorizontalLines[i]);
+        }
+        this._horizonLinesLayer.endFill();
+    }
+
+    public hideExistingRoadLines(transitionDuration?: number): void
+    {
+        this._roadLineAlpha = 1;
+
+        this._roadAmountTransitionTween =
+            this.game.add.tween(this)
+                .to({_roadLineAlpha: 0}, transitionDuration / 2, Phaser.Easing.Cubic.InOut, true, 0, 1, false)
+                .start();
+
+        this._roadAmountTransitionTween.onUpdateCallback( () => {
+            this.drawRoadLine(this._roadLineAlpha);
+        });
+
+    }
+
+    public fadeInNewRoadLines(): void
+    {
+        this._roadLineAlpha = 0;
+
+        if (this._roadAmountTransitionTween) { this._roadAmountTransitionTween.stop(false); }
+        this._roadAmountTransitionTween = null;
+
+        this._roadAmountTransitionTween =
+            this.game.add.tween(this)
+                .to({_roadLineAlpha: 1}, 1200, Phaser.Easing.Cubic.Out, true, 0, 0, false)
+                .start();
+
+        this._roadAmountTransitionTween.onUpdateCallback( () => {
+            this.drawRoadLine(this._roadLineAlpha);
+        });
+    }
+
+    /** Draws the lines that represent the road */
+    public drawRoadLine(alpha: number = 1): void
+    {
+        this._roadLinesLayer.clear();
+
+        /* Shapes for clearing lines that shouldn't be there */
+        let roadShapeBottom: Phaser.Polygon = this.getBottomLine(0, .5 + this._lineThickness);
+        let roadShapeTop: Phaser.Polygon = this.getTopLine(0, .5 + this._lineThickness);
+
+        /* Clearing the side lines that are drawn over the road */
+        this._roadLinesLayer.beginFill(0x000000);
+        this._roadLinesLayer.drawShape(roadShapeBottom);
+        this._roadLinesLayer.drawShape(roadShapeTop);
+        this._roadLinesLayer.endFill();
+
+        /** All the roads on the top side */
         let topRoadLines: Phaser.Polygon[] = [];
+        /** All the lanes on the bottom side */
         let bottomRoadLines: Phaser.Polygon[] = [];
 
-        switch (amountOfLanes)
+        /** Adding the specific amount of road lines that should be drawn */
+        switch (LaneIndexer.AMOUNT_OF_ACTIVE_LANES)
         {
             case 6:
                 topRoadLines.push(this.getTopLine(-.2));
@@ -67,83 +182,75 @@ export default class Road extends Phaser.Graphics
                 break;
         }
 
-        /* -- */
-
-        let roadShapeBottom: Phaser.Polygon = this.getBottomLine(0, .5 + this._lineThickness);
-        let roadShapeTop: Phaser.Polygon = this.getTopLine(0, .5 + this._lineThickness);
-        let horizonShape: Phaser.Polygon = this.getHorizonLine(.5, .2, false);
-
-        /* Horizontal lines */
-        let topHorizontalLines: Phaser.Polygon[] = [];
-        let bottomHorizontalLines: Phaser.Polygon[] = [];
-
-        let topThickLine: Phaser.Polygon = this.getHorizonLine(-.9, .01);
-        let bottomThickLine: Phaser.Polygon = this.getHorizonLine(.9, .01);
-
-        if (this._offset >= -.1) { this._offset -= Constants.DELTA_TIME * Constants.GLOBAL_SPEED * 0.2; }
-        else { this._offset = -.0001; }
-
-        for (let i: number = 9; i--; )
-        {
-            bottomHorizontalLines.push(this.getHorizonLine((i + 1) / 10 + this._offset, this._lineThickness / 2));
-            topHorizontalLines.push(this.getHorizonLine(-(i + 1) / 10 - this._offset, this._lineThickness / 2));
-        }
-        /* -- */
-
-        this.clear();
-
-        /* Horizon lines */
-        this.beginFill(this._bottomOuterColor);
-        for (let i: number = topHorizontalLines.length; i--; )
-        {
-            this.drawShape(topHorizontalLines[i]);
-        }
-        this.endFill();
-
-        this.beginFill(this._topOuterColor);
-        for (let i: number = bottomHorizontalLines.length; i--; )
-        {
-            this.drawShape(bottomHorizontalLines[i]);
-        }
-        this.endFill();
-
-        this.beginFill(0x000000);
-        this.drawShape(roadShapeBottom);
-        this.drawShape(roadShapeTop);
-        this.endFill();
-
-        this.beginFill(this._topMiddleColor);
+        /** Drawing all the top road lines */
+        this._roadLinesLayer.beginFill(this._topMiddleColor, alpha);
         for (let i: number = topRoadLines.length; i--; )
         {
-            this.drawShape(topRoadLines[i]);
+            this._roadLinesLayer.drawShape(topRoadLines[i]);
         }
-        this.endFill();
+        this._roadLinesLayer.endFill();
 
-        this.beginFill(this._bottomOuterColor);
-        this.drawShape(topLeftRoadBorder);
-        this.drawShape(topRightRoadBorder);
-        this.drawShape(topThickLine);
-        this.endFill();
-
-        this.beginFill(this._bottomMiddleColor);
+        /** Drawing all the bottom road lines */
+        this._roadLinesLayer.beginFill(this._bottomMiddleColor, alpha);
         for (let i: number = bottomRoadLines.length; i--; )
         {
-            this.drawShape(bottomRoadLines[i]);
+            this._roadLinesLayer.drawShape(bottomRoadLines[i]);
         }
-        this.endFill();
-
-        this.beginFill(this._topOuterColor);
-        this.drawShape(bottomLeftRoadBorder);
-        this.drawShape(bottomRightRoadBorder);
-        this.drawShape(bottomThickLine);
-        this.endFill();
-
-        this.beginFill(0x000000);
-        this.drawShape(horizonShape);
-        this.endFill();
+        this._roadLinesLayer.endFill();
 
     }
 
+    /** Draws the highlights around the road and horizon */
+    private drawHighlights(): void
+    {
+        this._highlightLayer.clear();
+
+        /* The road borders */
+        let topLeftRoadBorder: Phaser.Polygon = this.getTopLine(-.5);
+        let topRightRoadBorder: Phaser.Polygon = this.getTopLine(.5);
+
+        let bottomLeftRoadBorder: Phaser.Polygon = this.getBottomLine(-.5);
+        let bottomRightRoadBorder: Phaser.Polygon = this.getBottomLine(.5);
+
+        /* Horizontal lines */
+        let topThickLine: Phaser.Polygon = this.getHorizonLine(-.9, .01);
+        let bottomThickLine: Phaser.Polygon = this.getHorizonLine(.9, .01);
+
+        /** Drawing the top hightlights */
+        this._highlightLayer.beginFill(this._bottomOuterColor);
+        this._highlightLayer.drawShape(topLeftRoadBorder);
+        this._highlightLayer.drawShape(topRightRoadBorder);
+        this._highlightLayer.drawShape(topThickLine);
+        this._highlightLayer.endFill();
+
+        /** Drawing the bottom highlights */
+        this._highlightLayer.beginFill(this._topOuterColor);
+        this._highlightLayer.drawShape(bottomLeftRoadBorder);
+        this._highlightLayer.drawShape(bottomRightRoadBorder);
+        this._highlightLayer.drawShape(bottomThickLine);
+        this._highlightLayer.endFill();
+
+        let horizonShape: Phaser.Polygon = this.getHorizonLine(.5, .2, false);
+
+        /* Clearing the road lines that are drawn over the horizon */
+        this._highlightLayer.beginFill(0x000000);
+        this._highlightLayer.drawShape(horizonShape);
+        this._highlightLayer.endFill();
+    }
+
+    /** Get a road line for the top side of the screen */
+    private getTopLine(offsetFromCenter: number, customWidth?: number): Phaser.Polygon
+    {
+        return this.getRoadLine(Constants.HORIZON_POSITION.x, 1 - Constants.HORIZON_POSITION.y, offsetFromCenter, customWidth ? customWidth : this._lineThickness, true);
+    }
+
+    /** Get a road line for the bottom side of the screen */
+    private getBottomLine(offsetFromCenter: number, customWidth?: number): Phaser.Polygon
+    {
+        return this.getRoadLine(Constants.HORIZON_POSITION.x, Constants.HORIZON_POSITION.y, offsetFromCenter, customWidth ? customWidth : this._lineThickness);
+    }
+
+    /** Get a road line */
     private getRoadLine(
         horizonX: number,
         horizonY: number,
@@ -160,6 +267,7 @@ export default class Road extends Phaser.Graphics
         ]);
     }
 
+    /** Get a horizno line */
     private getHorizonLine(y: number, height: number, usePerspective: boolean = true): Phaser.Polygon
     {
         let horizonY: number = Constants.HORIZON_POSITION.y;

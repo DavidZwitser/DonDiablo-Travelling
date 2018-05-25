@@ -28,11 +28,11 @@ export default class GameOverScreen extends BasePopUp
     {
         if (newHighScore)
         {
-        this._highScoreText.text = 'New highscore!';
+            this._highScoreText.text = 'New highscore!';
         }
         else
         {
-        this._highScoreText.text = 'Highscore: ';
+            this._highScoreText.text = 'Highscore: ';
         }
     }
 

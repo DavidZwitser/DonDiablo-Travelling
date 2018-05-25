@@ -4,7 +4,6 @@ import BuildingVisualizer from '../GameObjects/Environment/Paralax/BuildingVisua
 import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
-import Sounds from '../Data/Sounds';
 
 import PickupSpawner from '../Systems/PickupSpawner';
 import SpawnEditor from '../Systems/SpawnEditor';
@@ -44,13 +43,12 @@ export default class Gameplay extends Phaser.State
     private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
 
+    private _comboCounter: number = 0;
+    private readonly _comboTimeBeforePhaseUp: number = 7;
+
     constructor()
     {
         super();
-
-        //focus/blur events setup
-        window.addEventListener('blur', this.blur.bind(this));
-        window.addEventListener('focus', this.focus.bind(this));
     }
 
     public init(): void
@@ -64,6 +62,10 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
+        //focus/blur events setup
+        window.addEventListener('blur', this.blur.bind(this));
+        window.addEventListener('focus', this.focus.bind(this));
+
         this._worldMood = this._worldMood;
 
         /* Level creation */
@@ -73,7 +75,7 @@ export default class Gameplay extends Phaser.State
         this.spawnEditor.startRecording();
 
         /* Sounds */
-        SoundManager.getInstance().playMusic(Sounds.headUp);
+        SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music);
 
         /* Road */
         this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
@@ -106,7 +108,7 @@ export default class Gameplay extends Phaser.State
         /* UI */
         this._userInterface = new UI(this.game);
         this.game.add.existing(this._userInterface);
-        this._userInterface.onUIPause.add(this.pause, this);
+        this._userInterface.onPause.add(this.pause, this);
 
         /* Phases! */
         this._phaseSystem = new PhaseSystem();
@@ -114,6 +116,17 @@ export default class Gameplay extends Phaser.State
 
         this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
         this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
+        this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.Value = .5 );
+        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
+        this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
+
+        this._userInterface.scoreBar.onEmpty.add( () => {
+            if (this._phaseSystem.currentPhase === 1)
+            {
+                this._userInterface.gameOver();
+                this.pause(false);
+            }
+        });
 
         this.resize();
     }
@@ -131,13 +144,40 @@ export default class Gameplay extends Phaser.State
         this._road.render();
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
+
+        if (this._phaseSystem.inTransition === true) { return; }
+
+        if (this._userInterface.scoreBar.Value >= .666)
+        {
+            this._comboCounter += Constants.DELTA_TIME;
+        }
+        else if (this._userInterface.scoreBar.Value <= .333)
+        {
+            this._comboCounter -= Constants.DELTA_TIME;
+        }
+        else
+        {
+            this._comboCounter = 0;
+        }
+
+        if (this._comboCounter > this._comboTimeBeforePhaseUp)
+        {
+            this._phaseSystem.startNextPhase();
+            this._comboCounter = 0;
+        }
+        else if (this._comboCounter < -this._comboTimeBeforePhaseUp)
+        {
+            this._phaseSystem.startLastPhase();
+            this._comboCounter = 0;
+        }
+
     }
 
     public resize(): void
     {
         this._audioVisualizer.resize();
         this._userInterface.resize();
-        this._road.render();
+        this._road.render(true);
         this._perspectiveRenderer.resize();
     }
 
@@ -147,7 +187,7 @@ export default class Gameplay extends Phaser.State
             return;
         }
         this._blurred = true;
-        this.pause();
+        this.pause(false);
     }
 
     //called when window gets focused
@@ -158,15 +198,19 @@ export default class Gameplay extends Phaser.State
         }
     }
 
-    public pause(): void
+    public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
         this._pickupSpawner.pause(this._gamePaused);
+
         SoundManager.getInstance().pause(this._gamePaused);
-        this._userInterface.pauseScreen.visible = this._gamePaused;
+
         this._input.active = !this._gamePaused;
+
+        if (showPauseScreen === false) { return; }
+        this._userInterface.pauseScreen.visible = this._gamePaused;
+
         if (!this._blurred) {
-            console.log('UI pause');
             this._userInterface.Pause(this._gamePaused);
         }
     }
@@ -174,6 +218,8 @@ export default class Gameplay extends Phaser.State
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
     public shutdown(): void
     {
+        this.pause();
+
         super.shutdown(this.game);
 
         this._audioVisualizer.destroy();
@@ -184,6 +230,26 @@ export default class Gameplay extends Phaser.State
 
         this._pickupSpawner.destroy();
         this._pickupSpawner = null;
+
+        this._player.destroy();
+        this._player = null;
+
+        this._input.destroy();
+        this._input = null;
+
+        this._perspectiveRenderer.destroy(true);
+        this._perspectiveRenderer = null;
+
+        this._road.destroy(true);
+        this._road = null;
+
+        this.spawnEditor.destroy();
+        this.spawnEditor = null;
+
+        this._phaseSystem.destroy();
+        this._phaseSystem = null;
+
+        this._glowFilter = null;
 
         //removing events
         window.removeEventListener('blur', this.blur.bind(this));

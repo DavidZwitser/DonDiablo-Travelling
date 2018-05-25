@@ -35,7 +35,7 @@ export default class Menu extends Phaser.State
         super.create(this.game);
 
         this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'UserInterface_Menu_Background');
-        
+
         /*
         this._logoSprite = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Logo);
         this._logoSprite.anchor.set(.5);
@@ -58,11 +58,8 @@ export default class Menu extends Phaser.State
     public createMainButtons(): Phaser.Group {
 
         let group: Phaser.Group = new Phaser.Group(this.game);
-        let backdropSprite: Phaser.Sprite = new Phaser.Sprite(this.game, 0, 100, Atlases.Interface, 'UserInterface_Hex_Backdrop');
-        backdropSprite.anchor.set(.5);
-        group.addChild(backdropSprite);
 
-        let playButton: TextButton = new TextButton(this.game, 0, 0, 'Play', 40, AtlasImages.Menu_Button, this.DisplayLevelSelect, this);
+        let playButton: TextButton = new TextButton(this.game, 0, 0, '', 40, 'UserInterface_Menu_PlayButton', this.DisplayLevelSelect, this);
         group.addChild(playButton);
 
         let testButton: TextButton = new TextButton(this.game, 0, 300, 'particle editor', 40, AtlasImages.Menu_Button, () => {
@@ -71,10 +68,25 @@ export default class Menu extends Phaser.State
         testButton.scale.set(.5);
         group.addChild(testButton);
 
-        let settingButton: TextButton = new TextButton(this.game, 0, 150, 'settings', 40, AtlasImages.Menu_Button, () => {
+        let settingButton: TextButton = new TextButton(this.game, -135, 180, '', 40, 'UserInterface_Menu_Options', () => {
             this.DisplaySetting();
         }, this);
         group.addChild(settingButton);
+
+        let creditsButton: TextButton = new TextButton(this.game, 135, 180, '', 40, 'UserInterface_Menu_Credits', () => {
+            console.log('show credits');
+        }, this);
+        group.addChild(creditsButton);
+
+        let characterButton: TextButton = new TextButton(this.game, -200, 70, '', 40, 'UserInterface_Menu_CharacterSelect', () => {
+            console.log('show character selection');
+        }, this);
+        group.addChild(characterButton);
+
+        let continueButton: TextButton = new TextButton(this.game, 200, 70, '', 40, 'UserInterface_Menu_ContinueButton', () => {
+            console.log('continue session');
+        }, this);
+        group.addChild(continueButton);
 
         return group;
     }

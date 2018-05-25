@@ -65,10 +65,14 @@ export default class ScoreBar extends Phaser.Group
     }
 
     public set Value(value: number) {
+
         this._value = value;
+
         if (this._value > 1) {
             this._value = 1;
-        } else if (this._value < 0) {
+        }
+        else if (this._value < 0)
+        {
             this._value = 0;
             this.onEmpty.dispatch();
         }
