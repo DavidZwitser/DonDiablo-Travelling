@@ -14,7 +14,7 @@ export default class Menu extends Phaser.State
     public name: string = Menu.Name;
 
     private _mainButtonsGroup: Phaser.Group;
-    private _logoSprite: Phaser.Sprite;
+  //  private _logoSprite: Phaser.Sprite;
     private _backgroundSprite: Phaser.Sprite;
 
     private _settingGroup: SettingPopup;
@@ -34,10 +34,12 @@ export default class Menu extends Phaser.State
     {
         super.create(this.game);
 
-        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Background);
+        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'UserInterface_Menu_Background');
+
+        /*
         this._logoSprite = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Logo);
         this._logoSprite.anchor.set(.5);
-
+*/
         this._mainButtonsGroup = this.createMainButtons();
         this.add.existing(this._mainButtonsGroup);
 
@@ -105,28 +107,28 @@ export default class Menu extends Phaser.State
         this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
         this._levelSelect.scale.set(vmin / GAME_WIDTH);
 
-        this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
-        this._logoSprite.scale.set(vmin / GAME_WIDTH);
+       // this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
+       // this._logoSprite.scale.set(vmin / GAME_WIDTH);
     }
 
     public DisplaySetting(): void {
         this._settingGroup.visible = true;
         this._mainButtonsGroup.visible = false;
-        this._logoSprite.visible = true;
+      //  this._logoSprite.visible = true;
         this._levelSelect.visible = false;
     }
 
     public DisplayMenu(): void {
         this._settingGroup.visible = false;
         this._mainButtonsGroup.visible = true;
-        this._logoSprite.visible = true;
+      //  this._logoSprite.visible = true;
         this._levelSelect.visible = false;
     }
 
     public DisplayLevelSelect(): void {
         this._settingGroup.visible = false;
         this._mainButtonsGroup.visible = false;
-        this._logoSprite.visible = false;
+    //    this._logoSprite.visible = false;
         this._levelSelect.visible = true;
     }
 

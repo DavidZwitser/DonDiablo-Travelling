@@ -12,6 +12,8 @@ export default class PauseScreen extends BasePopUp
 
     public onResume: Phaser.Signal;
 
+    public onContinue: Phaser.Signal;
+
     constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
     {
         super(game, scale, buttonOffset, spaceBetweenButtons);
@@ -41,7 +43,15 @@ export default class PauseScreen extends BasePopUp
     }
 
     /** Update the highscore text */
-    public updateText(newHighScore: boolean): void
+
+
+    private continue(): void
+    {
+        this.visible = false;
+        this.onContinue.dispatch();
+    }
+
+    private musicToggle(): void
     {
         if (newHighScore)
         {

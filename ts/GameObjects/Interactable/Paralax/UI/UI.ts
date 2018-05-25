@@ -1,6 +1,7 @@
 import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 import ScoreBar from '../../Paralax/UI/ScoreBar';
+
 import PauseButton from '../../Paralax/UI/PauseButton';
 import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
