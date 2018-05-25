@@ -10,6 +10,8 @@ export default class Player extends ReactivePerspectiveObject
     public spine: any;
     public speed: number;
     public collectedPickup: Phaser.Signal;
+    public tapped: boolean = false;
+    private tappedTimeout: any;
 
     public static ANIMATION_DRIVE: string = 'drive';
     public static ANIMATION_TURN: string = 'turn';
@@ -58,6 +60,28 @@ export default class Player extends ReactivePerspectiveObject
     {
         this.spine.autoUpdate = !pause;
     }
+    public changeLane( lane: Lanes ): void
+    {
+        if (this._lane === lane) {
+            return;
+        }
+        super.changeLane(lane);
+        this.tapping();
+    }
+
+    public tapping(duration: number = 150): void {
+        if (this.tapped) {
+            return;
+        }
+        this.tapped = true;
+        this.sprite.frameName = 'Spacecraft_Main_Blink';
+        this.tappedTimeout = setTimeout(this.unTap.bind(this), duration);
+    }
+    public unTap(): void
+    {
+        this.sprite.frameName = 'Spacecraft_Main';
+        this.tapped = false;
+    }
 
     public reactToMusic(): void
     {
@@ -70,5 +94,8 @@ export default class Player extends ReactivePerspectiveObject
 
         if (this.spine) { this.spine.destroy(true); }
         this.spine = null;
+
+        clearTimeout(this.tappedTimeout);
+        this.tappedTimeout = null;
     }
 }

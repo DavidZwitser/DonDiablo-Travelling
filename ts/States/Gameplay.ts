@@ -63,8 +63,8 @@ export default class Gameplay extends Phaser.State
         super.create(this.game);
 
         //focus/blur events setup
-        window.addEventListener('blur', this.blur.bind(this));
-        window.addEventListener('focus', this.focus.bind(this));
+        document.addEventListener('blur', this.blur.bind(this));
+        document.addEventListener('focus', this.focus.bind(this));
 
         this._worldMood = this._worldMood;
 
@@ -103,7 +103,8 @@ export default class Gameplay extends Phaser.State
 
         /* Input */
         this._input = new Input(this.game);
-        this._input.onInputDown.add( (lane: Lanes) => this._player.changeLane(lane));
+        this._input.onInputMove.add( (lane: Lanes) => this._player.changeLane(lane));
+        this._input.onInputDown.add( () => this._player.tapping());
 
         /* UI */
         this._userInterface = new UI(this.game);
@@ -253,7 +254,7 @@ export default class Gameplay extends Phaser.State
         this._glowFilter = null;
 
         //removing events
-        window.removeEventListener('blur', this.blur.bind(this));
-        window.removeEventListener('focus', this.focus.bind(this));
+        document.removeEventListener('blur', this.blur.bind(this));
+        document.removeEventListener('focus', this.focus.bind(this));
     }
 }

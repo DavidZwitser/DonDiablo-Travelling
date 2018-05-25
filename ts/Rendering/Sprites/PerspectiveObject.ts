@@ -12,7 +12,7 @@ export default class PerspectiveObject extends Phaser.Group
     private _xPos: number;
     private _yPos: number;
 
-    private _lane: Lanes = Lanes.bottomCenterLane;
+    protected _lane: Lanes = Lanes.bottomCenterLane;
 
     public resizedScale: number = 1;
     public positionShouldBeUpdated: boolean = true;
