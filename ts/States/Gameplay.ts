@@ -166,7 +166,7 @@ export default class Gameplay extends Phaser.State
             this._phaseSystem.startNextPhase();
             this._comboCounter = 0;
         }
-        else if (this._comboCounter < -this._comboTimeBeforePhaseUp)
+        else if (this._comboCounter < -this._comboTimeBeforePhaseUp / 2)
         {
             this._phaseSystem.startLastPhase();
             this._comboCounter = 0;
