@@ -4,7 +4,6 @@ import BuildingVisualizer from '../GameObjects/Environment/Paralax/BuildingVisua
 import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
-import Sounds from '../Data/Sounds';
 
 import PickupSpawner from '../Systems/PickupSpawner';
 import SpawnEditor from '../Systems/SpawnEditor';
@@ -50,10 +49,6 @@ export default class Gameplay extends Phaser.State
     constructor()
     {
         super();
-
-        //focus/blur events setup
-        window.addEventListener('blur', this.blur.bind(this));
-        window.addEventListener('focus', this.focus.bind(this));
     }
 
     public init(): void
@@ -67,6 +62,10 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
+        //focus/blur events setup
+        window.addEventListener('blur', this.blur.bind(this));
+        window.addEventListener('focus', this.focus.bind(this));
+
         this._worldMood = this._worldMood;
 
         /* Level creation */
@@ -77,7 +76,7 @@ export default class Gameplay extends Phaser.State
 
         /* Sounds */
         SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music);
-        console.log(Constants.LEVELS[0].music);
+
         /* Road */
         this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
 
@@ -188,7 +187,7 @@ export default class Gameplay extends Phaser.State
             return;
         }
         this._blurred = true;
-        this.pause();
+        this.pause(false);
     }
 
     //called when window gets focused
@@ -212,7 +211,6 @@ export default class Gameplay extends Phaser.State
         this._userInterface.pauseScreen.visible = this._gamePaused;
 
         if (!this._blurred) {
-            console.log('UI pause');
             this._userInterface.Pause(this._gamePaused);
         }
     }
@@ -220,6 +218,8 @@ export default class Gameplay extends Phaser.State
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
     public shutdown(): void
     {
+        this.pause();
+
         super.shutdown(this.game);
 
         this._audioVisualizer.destroy();
@@ -249,7 +249,6 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.destroy();
         this._phaseSystem = null;
 
-        this._glowFilter.destroy();
         this._glowFilter = null;
 
         //removing events
