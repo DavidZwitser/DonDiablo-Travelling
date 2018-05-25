@@ -13,7 +13,7 @@ export default class PauseScreen extends BasePopUp
     public onResume: Phaser.Signal;
 
     public onContinue: Phaser.Signal;
-    
+
     constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
     {
         super(game, scale, buttonOffset, spaceBetweenButtons);
