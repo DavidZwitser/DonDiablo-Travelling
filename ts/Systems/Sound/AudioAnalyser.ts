@@ -25,8 +25,6 @@ export default class AudioAnalyser
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);
         //this._audioElement.load();
-        if (this._alreadySetup === true) { return; }
-        this._alreadySetup = true;
 
         try
         {
@@ -38,6 +36,9 @@ export default class AudioAnalyser
             console.log('its false!');
             return false;
         }
+
+        if (this._alreadySetup === true) { return true; }
+        this._alreadySetup = true;
 
         this._src = this.context.createMediaElementSource(this.audioElement);
         this.analyser = this.context.createAnalyser();

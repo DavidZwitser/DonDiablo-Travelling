@@ -2,6 +2,7 @@ import 'phaser-ce';
 import BasePopUp from './BasePopUp';
 import SlideBar from './SlideBar';
 import ImageButton from './ImageButton';
+import SaveData from '../../../../BackEnd/SaveData';
 
 export default class PauseScreen extends BasePopUp
 {
@@ -27,8 +28,8 @@ export default class PauseScreen extends BasePopUp
         this._sfxText.anchor.set(0.5);
         this._sfxText.scale.set(scale, scale);
 
-        this._sfxSlider = new SlideBar(this.game, 1, () => {
-            //
+        this._sfxSlider = new SlideBar(this.game, SaveData.SFX_VOLUME, () => {
+            SaveData.SFX_VOLUME = this._sfxSlider.value;
         });
         this._sfxSlider.x = 0;
         this._sfxSlider.y = 0;

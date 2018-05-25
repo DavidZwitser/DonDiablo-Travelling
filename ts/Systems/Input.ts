@@ -22,7 +22,7 @@ export default class Input
     }
 
     private inputMove(): void {
-        if (!this.game.input.onDown || !this.active) {
+        if (!this.game.input.activePointer.isDown || !this.active) {
             return;
         }
         this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, this.game.input.position.x, this.game.input.position.y));
