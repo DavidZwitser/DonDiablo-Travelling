@@ -44,25 +44,6 @@ export default class PauseScreen extends BasePopUp
 
     /** Update the highscore text */
 
-
-    private continue(): void
-    {
-        this.visible = false;
-        this.onContinue.dispatch();
-    }
-
-    private musicToggle(): void
-    {
-        if (newHighScore)
-        {
-        this._sfxText.text = 'New highscore!';
-        }
-        else
-        {
-        this._sfxText.text = 'Highscore: ';
-        }
-    }
-
     public destroy(): void
     {
         super.destroy();

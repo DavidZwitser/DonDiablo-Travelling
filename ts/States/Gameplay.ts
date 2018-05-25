@@ -83,7 +83,7 @@ export default class Gameplay extends Phaser.State
         this._road = new Road(this.game);
         this.game.add.existing(this._road);
 
-        //this._road.filters = [this._glowFilter];
+        this._road.filters = [this._glowFilter];
 
         /* Visualizer */
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
