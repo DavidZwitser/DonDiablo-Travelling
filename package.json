@@ -1,7 +1,7 @@
 {
-  "name": "webpack-demo",
+  "name": "upside_don",
   "version": "1.0.0",
-  "description": "This is a webpack build configuration for Phaser in combinartion with sass and typescript.",
+  "description": "Upside Don is a endless runner game where you ride through the world of Hexagonia and collect Hex coins.",
   "contributors": [
     {
       "name": "Nathan Nieuwenhuizen",

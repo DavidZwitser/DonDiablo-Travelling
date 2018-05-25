@@ -74,7 +74,6 @@ export default class BasePopUp extends Phaser.Group
 
     /* Resize all the elements on the base popup */
     public resize(): void {
-        console.log('black');
         this._blackPixel.width = this.game.width;
         this._blackPixel.height = this.game.height;
         this._blackPixel.scale.set(this.scale.x * 10000);
