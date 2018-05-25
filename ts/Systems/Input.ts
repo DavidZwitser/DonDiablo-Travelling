@@ -18,15 +18,14 @@ export default class Input
         this.game = game;
 
         this.onInputDown = new Phaser.Signal();
-        this.game.input.onDown.add((pointer: Phaser.Pointer) => this.inputDown(pointer));
+        this.game.input.addMoveCallback(this.inputMove, this);
     }
 
-    private inputDown(pointer: Phaser.Pointer): void
-    {
-        if (this.active)
-        {
-            this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, pointer.position.x, pointer.position.y));
+    private inputMove(): void {
+        if (!this.game.input.onDown || !this.active) {
+            return;
         }
+        this.onInputDown.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, this.game.input.position.x, this.game.input.position.y));
     }
 
     public destroy(): void

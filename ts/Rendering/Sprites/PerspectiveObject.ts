@@ -57,7 +57,11 @@ export default class PerspectiveObject extends Phaser.Group
 
     public changeLane( lane: Lanes ): void
     {
-        this.rotation = 0;
+        //only move when the lane is different that its own lane
+        if (this._lane === lane) {
+            return;
+        }
+        this._lane = lane;
 
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
@@ -81,6 +85,18 @@ export default class PerspectiveObject extends Phaser.Group
         if (this.yPos === -0.5)
         {
             targetRotation *= -1;
+        }
+
+        //canceling the tween if they are running
+        if (this.laneTween) {
+            if (this.laneTween.isRunning) {
+                this.laneTween.pause();
+            }
+        }
+        if (this.rotationTween) {
+            if (this.rotationTween.isRunning) {
+                this.rotationTween.pause();
+            }
         }
 
         this.laneTween = this.game.add.tween(this)
