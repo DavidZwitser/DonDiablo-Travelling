@@ -16,6 +16,7 @@ import { Lanes } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 import PhaseSystem from '../Systems/PhaseSystem';
+import ScoreSystem from '../Systems/ScoreSystem';
 
 export default class Gameplay extends Phaser.State
 {
@@ -40,11 +41,10 @@ export default class Gameplay extends Phaser.State
     private _gamePaused: boolean = false;
     private spawnEditor: SpawnEditor;
 
+    private _scoreSystem: ScoreSystem;
+
     private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
-
-    private _comboCounter: number = 0;
-    private readonly _comboTimeBeforePhaseUp: number = 7;
 
     constructor()
     {
@@ -122,6 +122,8 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
 
+        this._scoreSystem = new ScoreSystem(this._phaseSystem);
+
         this._userInterface.scoreBar.onEmpty.add( () => {
             if (this._phaseSystem.currentPhase === 1)
             {
@@ -147,31 +149,7 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
 
-        if (this._phaseSystem.inTransition === true) { return; }
-
-        if (this._userInterface.scoreBar.Value >= .666)
-        {
-            this._comboCounter += Constants.DELTA_TIME;
-        }
-        else if (this._userInterface.scoreBar.Value <= .333)
-        {
-            this._comboCounter -= Constants.DELTA_TIME;
-        }
-        else
-        {
-            this._comboCounter = 0;
-        }
-
-        if (this._comboCounter > this._comboTimeBeforePhaseUp)
-        {
-            this._phaseSystem.startNextPhase();
-            this._comboCounter = 0;
-        }
-        else if (this._comboCounter < -this._comboTimeBeforePhaseUp)
-        {
-            this._phaseSystem.startLastPhase();
-            this._comboCounter = 0;
-        }
+        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.Value);
 
     }
 
