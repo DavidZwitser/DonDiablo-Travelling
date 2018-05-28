@@ -107,9 +107,6 @@ export default class UI extends ParalaxObject
     }
 
     public destroy(): void {
-        PlayerCollisionChecker.getInstance().onColliding.removeAll();
-        PlayerCollisionChecker.getInstance().onMissing.removeAll();
-
         this.scoreBar.destroy();
     }
 }
