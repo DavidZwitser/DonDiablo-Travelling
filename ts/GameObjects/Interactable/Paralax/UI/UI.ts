@@ -8,6 +8,8 @@ import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 import PauseScreen from './PauseScreen';
 import GameOverScreen from './GameOverScreen';
 
+import PickupCounter from '../UI/PickupCounter';
+
 /** The user interface */
 export default class UI extends ParalaxObject
 {
@@ -17,6 +19,7 @@ export default class UI extends ParalaxObject
     public onPause: Phaser.Signal;
 
     public scoreBar: ScoreBar;
+    public pickupCounter: PickupCounter;
     private _pauseButton: PauseButton;
     public pauseScreen: PauseScreen;
 
@@ -28,6 +31,7 @@ export default class UI extends ParalaxObject
 
         this.createPauseButton();
         this.createScoreBar();
+        this.createPickUpCounter();
 
         this.pauseScreen = new PauseScreen(game, 1, 80, 80);
         this.pauseScreen.onResume.add(() => this.onPause.dispatch(), this);
@@ -60,6 +64,19 @@ export default class UI extends ParalaxObject
         this._pauseButton = new PauseButton(this.game);
 
         this._pauseButton.onPause.add(() => this.onPause.dispatch(), this);
+    }
+
+    private createPickUpCounter(): void
+    {
+        this.pickupCounter = new PickupCounter(this.game, this.game.width / 2, this.game.height / 2);
+        this.addChild(this.pickupCounter);
+        PlayerCollisionChecker.getInstance().onColliding.add(() => {
+            this.pickupCounter.updateScore(10);
+        });
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
+        {
+            this.pickupCounter.updateScore(15);
+        });
     }
 
     public Pause(pause: boolean): void {

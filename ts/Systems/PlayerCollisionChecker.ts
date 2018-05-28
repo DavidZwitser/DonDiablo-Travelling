@@ -1,5 +1,6 @@
 /** Checks collision */
 import Player from '../GameObjects/Interactable/Perspective/Player';
+//import PickupCounter from '../GameObjects/Interactable/Paralax/UI/PickupCounter';
 import { Lanes } from '../Enums/Lanes';
 export default class PlayerCollisionChecker
 {
@@ -7,12 +8,14 @@ export default class PlayerCollisionChecker
     private static instance: PlayerCollisionChecker = null;
 
     public onColliding: Phaser.Signal;
+    public onCollidingPerfect: Phaser.Signal;
     public onMissing: Phaser.Signal;
 
     constructor(player: Player)
     {
         this._player = player;
         this.onColliding = new Phaser.Signal();
+        this.onCollidingPerfect = new Phaser.Signal();
         this.onMissing = new Phaser.Signal();
     }
     public isCollidingLanes(lane: Lanes): number
@@ -23,10 +26,12 @@ export default class PlayerCollisionChecker
             {
                 //super pickup
                 this._player.unTap();
+                this.onCollidingPerfect.dispatch();
                 return 2;
             }
             else
             {
+                //Regular pickup
                 this.onColliding.dispatch();
                 return 1;
             }
