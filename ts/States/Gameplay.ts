@@ -94,8 +94,10 @@ export default class Gameplay extends Phaser.State
 
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
+
         PlayerCollisionChecker.getInstance(this._player);
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
         this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
@@ -178,6 +180,10 @@ export default class Gameplay extends Phaser.State
         }
     }
 
+    public onMissingpPickup(): void {
+        this.game.camera.flash(0xff0000, 300, true, 0.1);
+    }
+
     public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
@@ -196,6 +202,10 @@ export default class Gameplay extends Phaser.State
     }
 
     public worldReact(): void {
+        if (navigator.vibrate) {
+            // vibration API supported
+            window.navigator.vibrate(50);
+        }
         this._audioVisualizer.react();
     }
 
@@ -206,6 +216,9 @@ export default class Gameplay extends Phaser.State
         SoundManager.getInstance().stopMusic();
 
         super.shutdown(this.game);
+
+        PlayerCollisionChecker.getInstance().onColliding.removeAll();
+        PlayerCollisionChecker.getInstance().onMissing.removeAll();
 
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
