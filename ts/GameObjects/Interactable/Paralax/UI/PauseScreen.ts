@@ -6,7 +6,18 @@ import SaveData from '../../../../BackEnd/SaveData';
 
 export default class PauseScreen extends BasePopUp
 {
-    /** The text that shows the highscore */
+    /** Pause Screen
+     *
+     * This script takes care of the screen that
+     * pops up after tapping the pause button.
+     *
+     * This script contains the functionality of:
+     * - Sound Effect Slider
+     * - Quit Button
+     * - Replay Button
+     * - Resume Button
+     */
+
     private _sfxText: Phaser.BitmapText;
     private _sfxSlider: SlideBar;
     private _closeButton: ImageButton;
@@ -42,9 +53,6 @@ export default class PauseScreen extends BasePopUp
         this.addChild(this._sfxSlider);
         this.addChild(this._closeButton);
     }
-
-    /** Update the highscore text */
-
     public destroy(): void
     {
         super.destroy();
@@ -54,8 +62,9 @@ export default class PauseScreen extends BasePopUp
         }
         this.onResume = null;
 
+        /** If the game resumes, the pause screen will get destroyed. */
+
         if (this._sfxText) { this._sfxText.destroy(true); }
         this._sfxText = null;
     }
-
 }

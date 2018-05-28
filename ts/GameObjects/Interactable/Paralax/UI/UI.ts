@@ -8,7 +8,11 @@ import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 import PauseScreen from './PauseScreen';
 import GameOverScreen from './GameOverScreen';
 
-/** The user interface */
+/** User Interface
+ *
+ * This class contains all user interface related scripts.
+ * It's purpose is to act as a storage
+ */
 export default class UI extends ParalaxObject
 {
     // private _titleText: Phaser.Text;
