@@ -39,7 +39,7 @@ export default class Pickup extends ReactivePerspectiveObject
         }
     }
 
-    public reactToMusic(): void
+    public react(): void
     {
         //
     }
