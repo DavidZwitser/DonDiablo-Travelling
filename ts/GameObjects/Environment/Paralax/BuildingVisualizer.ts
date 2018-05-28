@@ -29,6 +29,8 @@ export default class BuildingVisualizer extends Phaser.Group
 
     private _maskGraphic: Phaser.Graphics;
 
+    private reactTween: Phaser.Tween;
+
     constructor (game: Phaser.Game, maxWidth: number, maxHeight: number)
     {
         super(game);
@@ -37,7 +39,6 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topBuildings = [];
 
         this._contextAvailable = AudioAnalyser.getInstance().Setup();
-        console.log('context', this._contextAvailable);
         this._maxWidth = maxWidth;
         this._maxHeight = maxHeight;
 
@@ -122,7 +123,23 @@ export default class BuildingVisualizer extends Phaser.Group
             }
             pos += building.width + this._barDistance;
         }
+    }
 
+    public react(): void
+    {
+        if (this.reactTween) {
+            this.reactTween.pause();
+            this.reactTween.onComplete.removeAll();
+        }
+
+        this.reactTween = this.game.add.tween(this._bottomHalf.scale).to({y: 0.2}, 100, Phaser.Easing.Cubic.InOut, true).onUpdateCallback(() => {
+            this._topHalf.scale.y = -this._bottomHalf.scale.y;
+        });
+        this.reactTween.onComplete.addOnce(() => {
+            this.reactTween = this.game.add.tween(this._bottomHalf.scale).to({y: 1}, 500, Phaser.Easing.Cubic.InOut, true).onUpdateCallback(() => {
+                this._topHalf.scale.y = -this._bottomHalf.scale.y;
+            });
+        });
     }
 
     /** Update the visualizer so it's values can update */

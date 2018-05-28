@@ -68,9 +68,17 @@ export default class Gameplay extends Phaser.State
 
         this._worldMood = this._worldMood;
 
+        /* Rendering */
+        this._perspectiveRenderer = new PerspectiveRenderer(this.game);
+
+        /* Player */
+        this._player = new Player(this.game, this._perspectiveRenderer);
+        PlayerCollisionChecker.getInstance(this._player);
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
-        this.spawnEditor = this.spawnEditor;
+
         //remove below comment to start recording the spawn editor.
         this.spawnEditor.startRecording();
 
@@ -94,7 +102,10 @@ export default class Gameplay extends Phaser.State
 
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
+
         PlayerCollisionChecker.getInstance(this._player);
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
         this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
@@ -177,6 +188,10 @@ export default class Gameplay extends Phaser.State
         }
     }
 
+    public onMissingpPickup(): void {
+        this.game.camera.flash(0xff0000, 300, true, 0.1);
+    }
+
     public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
@@ -194,6 +209,14 @@ export default class Gameplay extends Phaser.State
         }
     }
 
+    public worldReact(): void {
+        if (navigator.vibrate) {
+            // vibration API supported
+            window.navigator.vibrate(50);
+        }
+        this._audioVisualizer.react();
+    }
+
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
     public shutdown(): void
     {
@@ -201,6 +224,9 @@ export default class Gameplay extends Phaser.State
         SoundManager.getInstance().stopMusic();
 
         super.shutdown(this.game);
+
+        PlayerCollisionChecker.getInstance().onColliding.removeAll();
+        PlayerCollisionChecker.getInstance().onMissing.removeAll();
 
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
