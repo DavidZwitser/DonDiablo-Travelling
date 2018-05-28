@@ -2,6 +2,7 @@ import 'phaser-ce';
 
 import IGamePhase from '../Enums/GamePhase';
 import JSON from './JSON';
+import Sounds from './Sounds';
 
 /**
  * All the information that should be accassible from anywhere
@@ -26,21 +27,24 @@ export default class Constants
     public static CURRENT_LEVEL: number = 0;
 
     /** The levels */
-    public static readonly LEVELS: {title: string, artist: string, json: string}[] = [
+    public static readonly LEVELS: {title: string, artist: string, json: string, music: string}[] = [
         {
             title: 'Head Up',
             artist: 'Don Diablo',
-            json: JSON.HEAD_UP
+            json: JSON.HEAD_UP,
+            music: Sounds.HEAD_UP
         },
         {
-            title: 'Back To Us',
+            title: 'People Say',
             artist: 'Don Diablo',
-            json: JSON.BACK_TO_US
+            json: JSON.PEOPLE_SAY,
+            music: Sounds.PEOPLE_SAY
         },
         {
-            title: 'Believe',
+            title: 'Give me your love',
             artist: 'Don Diablo',
-            json: JSON.BELIEVE
+            json: JSON.GIVE_ME_YOUR_LOVE,
+            music: Sounds.GIVE_ME_YOUR_LOVE
         }
     ];
 

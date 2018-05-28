@@ -62,7 +62,7 @@ export default class SoundManager
             this.audioInstances[key] = this._sound.add(key);
         }
 
-        this.audioInstances[key].play(undefined, undefined, volume, loop, true);
+        this.audioInstances[key].play(undefined, undefined, volume * SaveGame.SFX_VOLUME, loop, true);
         return this.audioInstances[key];
     }
 

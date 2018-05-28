@@ -3,6 +3,7 @@ import Constants from '../Data/Constants';
 interface ISaveData
 {
     sm: boolean; //sfx
+    sfx_vol: number; //sfx volume
     mm: boolean; //music
     q: number; //quality
     lvls: ILevelData[]; //array of leveldata
@@ -19,10 +20,13 @@ export default class SaveData
 
     public static Init(): void
     {
-        if (this.data !== null) { return; }
+        if (this.data !== null) {
+            return;
+        }
 
         this.data = {
             'sm': false,
+            'sfx_vol': 1,
             'mm': false,
             'q': 1,
             'lvls': this.emplyLevelData()
@@ -50,6 +54,21 @@ export default class SaveData
     public static get SFXMuted(): boolean
     {
         return this.data.sm;
+    }
+
+    /** Set if the sfx are muted in cache */
+    public static set SFX_VOLUME(value: number)
+    {
+        let newData: ISaveData = this.data;
+        newData.sfx_vol = value;
+        this.data = newData;
+
+        //check if sfx should be muted if volume is 0
+        SaveData.SFXMuted = (value === 0 ? true : false);
+    }
+    public static get SFX_VOLUME(): number
+    {
+        return this.data.sfx_vol;
     }
 
     /** Save if the sound is muted in cache */

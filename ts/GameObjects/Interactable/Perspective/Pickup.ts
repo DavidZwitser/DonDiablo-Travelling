@@ -24,9 +24,17 @@ export default class Pickup extends ReactivePerspectiveObject
 
     private initiateCollision(): void
     {
-        if (PlayerCollisionChecker.getInstance().isCollidingLanes(this.lane))
+        let collissionResult: number = PlayerCollisionChecker.getInstance().isCollidingLanes(this.lane);
+        if (collissionResult)
         {
             this.visible = false;
+            if (collissionResult === 1)
+            {
+                console.log('puckup collect');
+            }
+            else {
+                console.log('puckup super collect');
+            }
             //Colision events go here
         }
     }

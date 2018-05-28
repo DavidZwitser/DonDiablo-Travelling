@@ -37,6 +37,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topBuildings = [];
 
         this._contextAvailable = AudioAnalyser.getInstance().Setup();
+        console.log('context', this._contextAvailable);
         this._maxWidth = maxWidth;
         this._maxHeight = maxHeight;
 

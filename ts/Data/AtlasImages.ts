@@ -22,7 +22,7 @@ export default class AtlasImages
     public static Credits_Screen: string = 'ui_credits_screen';
 
     //main menu
-    public static Background: string = 'background';
+    public static Background: string = 'UserInterface_Menu_Background';
     public static MainMenu_Overlay: string = 'background_overlay';
     public static Menu_Button: string = 'button_menu';
     public static Logo: string = 'logo';

@@ -5,14 +5,14 @@ export default class JSON
 {
     public static readonly TEST: string = 'test';
 
-    public static readonly HEAD_UP: string = 'headup';
-    public static readonly BACK_TO_US: string = 'backtous';
-    public static readonly BELIEVE: string = 'believe';
+    public static readonly HEAD_UP: string = 'Head_up';
+    public static readonly GIVE_ME_YOUR_LOVE: string = 'Give_Me_Your_Love';
+    public static readonly PEOPLE_SAY: string = 'People_Say';
 
     public static readonly LIST: string[] = [
         JSON.TEST,
         JSON.HEAD_UP,
-        JSON.BACK_TO_US,
-        JSON.BELIEVE
+        JSON.GIVE_ME_YOUR_LOVE,
+        JSON.PEOPLE_SAY
     ];
 }

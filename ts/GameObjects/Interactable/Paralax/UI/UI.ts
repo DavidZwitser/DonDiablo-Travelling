@@ -1,6 +1,7 @@
 import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 import ScoreBar from '../../Paralax/UI/ScoreBar';
+
 import PauseButton from '../../Paralax/UI/PauseButton';
 import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
@@ -74,10 +75,14 @@ export default class UI extends ParalaxObject
 
     public resize(): void
     {
+        let vmin: number = Math.min(this.game.height, this.game.width);
+
         this.pauseScreen.position.set(this.game.width / 2, this.game.height / 2);
+        this.pauseScreen.scale.set(vmin / GAME_WIDTH);
         this.pauseScreen.resize();
 
         this._gameOverScreen.position.set(this.game.width / 2, this.game.height / 2);
+        this._gameOverScreen.scale.set(vmin / GAME_WIDTH);
         this._gameOverScreen.resize();
 
         this._pauseButton.resize();

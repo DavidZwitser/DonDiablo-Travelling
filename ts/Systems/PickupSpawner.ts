@@ -42,7 +42,7 @@ export default class PickupSpawner extends Phaser.Group
             return pickup;
         });
 
-        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ].json );
+        this.setNewSong( Constants.LEVELS[Constants.CURRENT_LEVEL].json );
     }
 
     public setNewSong(json: string): void

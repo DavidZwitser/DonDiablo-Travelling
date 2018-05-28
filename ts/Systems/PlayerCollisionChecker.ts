@@ -15,19 +15,28 @@ export default class PlayerCollisionChecker
         this.onColliding = new Phaser.Signal();
         this.onMissing = new Phaser.Signal();
     }
-    public isCollidingLanes(lane: Lanes): boolean
+    public isCollidingLanes(lane: Lanes): number
     {
         if ( this._player.lane === lane)
         {
-            this.onColliding.dispatch();
-            return true;
+            if (this._player.tapped)
+            {
+                //super pickup
+                this._player.unTap();
+                return 2;
+            }
+            else
+            {
+                this.onColliding.dispatch();
+                return 1;
+            }
         }
-        return false;
+        return 0;
     }
 
     public static getInstance(player?: Player): PlayerCollisionChecker
     {
-        if (null === PlayerCollisionChecker.instance && player)
+        if (null === PlayerCollisionChecker.instance || player)
         {
             PlayerCollisionChecker.instance = new PlayerCollisionChecker(player);
         }
