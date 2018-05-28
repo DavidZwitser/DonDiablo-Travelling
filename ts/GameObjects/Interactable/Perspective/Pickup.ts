@@ -51,8 +51,6 @@ export default class Pickup extends ReactivePerspectiveObject
             this._reactTween = null;
         }
 
-        console.log('tweening pickup');
-
         this._reactTween = this.game.add.tween(this)
             .to({scaleMultiplier: this.scaleMultiplier * 1.1}, 200, Phaser.Easing.Cubic.Out, true, 0, 0, true)
             .start();
