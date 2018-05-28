@@ -30,7 +30,7 @@ export default class PhaseSystem
         this._lastPhaseTime = 0;
 
         /* So the listners can be set before the first lane update starts */
-        requestAnimationFrame( () => this.setPhase(Math.round(Constants.PHASES.length / 2)) );
+        requestAnimationFrame( () => this.setPhase(Math.round(Constants.PHASES.length / 2) - 1) );
     }
 
     /** Update logic inside the PhaseSystem */
