@@ -186,7 +186,7 @@ export class LaneConverter
         LaneIndexer.GET_ENABLED_LANES((lane: ILane) => {
 
             // Some pythagoras magic
-            let a: number = (lane.onTop === true ? -lane.x : lane.x) - x;
+            let a: number = lane.x - x;
             let b: number = lane.y - y;
 
             let distance: number = Math.abs(a * a + b * b);
