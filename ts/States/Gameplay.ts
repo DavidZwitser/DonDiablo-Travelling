@@ -68,6 +68,14 @@ export default class Gameplay extends Phaser.State
 
         this._worldMood = this._worldMood;
 
+        /* Rendering */
+        this._perspectiveRenderer = new PerspectiveRenderer(this.game);
+
+        /* Player */
+        this._player = new Player(this.game, this._perspectiveRenderer);
+        PlayerCollisionChecker.getInstance(this._player);
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
 

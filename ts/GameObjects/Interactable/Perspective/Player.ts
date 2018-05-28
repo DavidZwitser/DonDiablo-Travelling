@@ -83,14 +83,14 @@ export default class Player extends ReactivePerspectiveObject
         this.tapped = false;
     }
 
-    public reactToMusic(): void
+    public react(): void
     {
         //
     }
 
     public destroy(): void
     {
-        super.destroy(true);
+        super.destroy();
 
         if (this.spine) { this.spine.destroy(true); }
         this.spine = null;
