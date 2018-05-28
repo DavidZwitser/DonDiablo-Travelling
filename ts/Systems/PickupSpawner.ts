@@ -41,12 +41,11 @@ export default class PickupSpawner extends Phaser.Group
 
             return pickup;
         });
-
-        this.setNewSong( Constants.LEVELS[Constants.CURRENT_LEVEL].json );
     }
 
     public setNewSong(json: string): void
     {
+        this.pause(true);
         this.getLevelData(this.game, json);
         this.waitForNextSpawning(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
     }
@@ -87,6 +86,7 @@ export default class PickupSpawner extends Phaser.Group
     //level data is get from cache of a json file
     private getLevelData(game: Phaser.Game, key: string): void
     {
+        this._spawnIndex = 0;
         this._levelData = game.cache.getJSON(key);
         // let temp: ILevelData = this._levelData;
         // for (let i: number = 0; i < temp.timings.length; i++) {

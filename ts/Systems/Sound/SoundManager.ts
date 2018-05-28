@@ -11,6 +11,8 @@ export default class SoundManager
     /** The manager that handles the sfx's */
     private _sound: Phaser.SoundManager;
 
+    public onMusicEnd: Phaser.Signal;
+
     /** The manager that handles the music */
     public music: Phaser.Sound = null;
     private _music: {
@@ -27,6 +29,8 @@ export default class SoundManager
     {
         this._sound = game.sound;
         this._music = { element: <HTMLMediaElement>document.getElementById('musicPlayer'), key: ''};
+        this._music.element.addEventListener('ended', this.musicEnded.bind(this));
+        this.onMusicEnd = new Phaser.Signal;
     }
 
     /** Get an instance of the game to handle sounds with */
@@ -47,6 +51,10 @@ export default class SoundManager
 
     public pause(pause: boolean): void {
         pause ? this._music.element.pause() : this._music.element.play();
+    }
+
+    private musicEnded(): void {
+        this.onMusicEnd.dispatch();
     }
 
     /** Play a sfx */
@@ -76,7 +84,7 @@ export default class SoundManager
     }
 
     /** Start playing a background tune */
-    public playMusic(key: string, volume: number = 1): void
+    public playMusic(key: string, volume: number = 1, loop: boolean = true): void
     {
         if (SaveGame.MusicMuted)
         {
@@ -90,7 +98,7 @@ export default class SoundManager
                 this._music.element.src = 'assets/music/' + key + '.mp3';
             }
             this._music.element.currentTime = 0;
-            this._music.element.loop = true;
+            this._music.element.loop = loop;
 
             //Stop the music right away. We just want to keep track of the song.
             //this.music.stop();
@@ -127,7 +135,7 @@ export default class SoundManager
         }
         this._music.element.volume = volume;
         this._music.element.play();
-        this._music.element.loop = true;
+        this._music.element.loop = loop;
 
         return;
 
