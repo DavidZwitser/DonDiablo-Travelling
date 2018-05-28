@@ -14,7 +14,7 @@ export default class PerspectiveObject extends Phaser.Group
 
     protected _lane: Lanes = Lanes.bottomCenterLane;
 
-    public resizedScale: number = 1;
+    private _resizedScale: number = 1;
     public positionShouldBeUpdated: boolean = true;
 
     private laneTween: Phaser.Tween;
@@ -123,6 +123,19 @@ export default class PerspectiveObject extends Phaser.Group
         this.lane = lane;
     }
 
+    /** The object's scale, indipendent of the renderer. Use this to change the scale without interfearing with the perspective rendering */
+    public set scaleMultiplier(newSize: number)
+    {
+        this._resizedScale = newSize;
+
+        this.positionShouldBeUpdated = true;
+    }
+
+    public get scaleMultiplier(): number
+    {
+        return this._resizedScale;
+    }
+
     /** What z position the sprite is currently on */
     public get zPos(): number
     {
@@ -166,7 +179,7 @@ export default class PerspectiveObject extends Phaser.Group
     public resize(): void
     {
         this.positionShouldBeUpdated = true;
-        this.resizedScale = this.game.width / GAME_WIDTH;
+        this.scaleMultiplier = this.game.width / GAME_WIDTH;
     }
 
     public updateObject(): void

@@ -13,13 +13,15 @@ export default class Player extends ReactivePerspectiveObject
     public tapped: boolean = false;
     private tappedTimeout: any;
 
+    private _collectTween: Phaser.Tween;
+
     public static ANIMATION_DRIVE: string = 'drive';
     public static ANIMATION_TURN: string = 'turn';
     public static ANIMATION_LOSE: string = 'defeat';
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
-        super(game, renderer);
+        super(game, renderer, false);
 
         this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
         this.addChild(this.sprite);
@@ -85,7 +87,17 @@ export default class Player extends ReactivePerspectiveObject
 
     public react(): void
     {
-        //
+        if (this._collectTween)
+        {
+            this._collectTween.stop();
+            this._collectTween = null;
+        }
+
+        let desiredScale: number = Math.min(this.scale.x, this.scale.y) * 1.05;
+
+        this._collectTween = this.game.add.tween(this.scale)
+            .to({x: desiredScale, y: desiredScale}, 160, Phaser.Easing.Cubic.Out, true, 0, 0, true)
+            .start();
     }
 
     public destroy(): void

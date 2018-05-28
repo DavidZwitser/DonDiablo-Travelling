@@ -41,7 +41,7 @@ export default class PlayerCollisionChecker
 
     public static getInstance(player?: Player): PlayerCollisionChecker
     {
-        if (null === PlayerCollisionChecker.instance || player)
+        if (null === PlayerCollisionChecker.instance && player)
         {
             PlayerCollisionChecker.instance = new PlayerCollisionChecker(player);
         }

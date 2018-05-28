@@ -76,6 +76,8 @@ export default class Gameplay extends Phaser.State
         PlayerCollisionChecker.getInstance(this._player);
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
 
+        this._player.setupReacting();
+
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
 
@@ -93,12 +95,6 @@ export default class Gameplay extends Phaser.State
         /* Visualizer */
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
-
-        /* Rendering */
-        this._perspectiveRenderer = new PerspectiveRenderer(this.game);
-
-        /* Player */
-        this._player = new Player(this.game, this._perspectiveRenderer);
 
         PlayerCollisionChecker.getInstance(this._player);
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
