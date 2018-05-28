@@ -70,7 +70,7 @@ export default class Gameplay extends Phaser.State
 
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
-        this.spawnEditor = this.spawnEditor;
+
         //remove below comment to start recording the spawn editor.
         this.spawnEditor.startRecording();
 
@@ -95,6 +95,7 @@ export default class Gameplay extends Phaser.State
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
         PlayerCollisionChecker.getInstance(this._player);
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
 
         /* Pickups */
         this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
@@ -214,6 +215,10 @@ export default class Gameplay extends Phaser.State
         if (!this._blurred) {
             this._userInterface.Pause(this._gamePaused);
         }
+    }
+
+    public worldReact(): void {
+        this._audioVisualizer.react();
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
