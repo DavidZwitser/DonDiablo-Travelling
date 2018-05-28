@@ -47,7 +47,7 @@ export default class Pickup extends ReactivePerspectiveObject
 
         if (this._reactTween)
         {
-            this._reactTween.stop();
+            this._reactTween.stop(true);
             this._reactTween = null;
         }
 

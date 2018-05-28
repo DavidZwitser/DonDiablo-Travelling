@@ -89,7 +89,7 @@ export default class Player extends ReactivePerspectiveObject
     {
         if (this._collectTween)
         {
-            this._collectTween.stop();
+            this._collectTween.stop(true);
             this._collectTween = null;
         }
 
