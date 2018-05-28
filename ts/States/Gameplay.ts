@@ -76,6 +76,8 @@ export default class Gameplay extends Phaser.State
         PlayerCollisionChecker.getInstance(this._player);
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
 
+        this._player.setupReacting();
+
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
 

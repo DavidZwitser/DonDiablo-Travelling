@@ -5,11 +5,17 @@ import PerspectiveRenderer from '../PerspectiveRenderer';
 /** A sprite that get's rendered in a perspective and has the ability to react to music */
 export default abstract class ReactivePerspectiveObject extends PerspectiveObject
 {
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer, setUpReactingAtStart: boolean = true)
     {
         super(game, renderer);
 
+        if (setUpReactingAtStart === true) { this.setupReacting(); }
+    }
+
+    public setupReacting(): void
+    {
         PlayerCollisionChecker.getInstance().onColliding.add(this.react, this);
+
     }
 
     protected abstract react( positiveness: number): void;
