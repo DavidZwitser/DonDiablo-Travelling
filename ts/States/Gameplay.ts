@@ -5,7 +5,7 @@ import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
 
-import PickupSpawner from '../Systems/PickupSpawner';
+import PickupManager from '../Systems/PickupSpawner';
 import SpawnEditor from '../Systems/SpawnEditor';
 import Road from '../Rendering/Road';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
@@ -33,7 +33,7 @@ export default class Gameplay extends Phaser.State
     private _player: Player;
 
     private _input: Input;
-    private _pickupSpawner: PickupSpawner;
+    private _pickupManager: PickupManager;
 
     private _perspectiveRenderer: PerspectiveRenderer;
     private _road: Road;
@@ -76,8 +76,6 @@ export default class Gameplay extends Phaser.State
         this._player = new Player(this.game, this._perspectiveRenderer);
         PlayerCollisionChecker.getInstance(this._player);
 
-        this._player.setupReacting();
-
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
 
@@ -100,7 +98,7 @@ export default class Gameplay extends Phaser.State
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
-        this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
+        this._pickupManager = new PickupManager(this.game, this._perspectiveRenderer);
 
         this.game.add.existing(this._player);
 
@@ -119,7 +117,7 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.init();
 
         this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
-        this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
+        this._phaseSystem.onPhaseChange.add( this._pickupManager.repositionAllPickups.bind(this._pickupManager) );
         this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.reset() );
 
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
@@ -155,7 +153,7 @@ export default class Gameplay extends Phaser.State
         this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
         setTimeout(() => {
             SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
-            this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+            this._pickupManager.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
         }, delay);
     }
 
@@ -220,7 +218,7 @@ export default class Gameplay extends Phaser.State
     public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
-        this._pickupSpawner.pause(this._gamePaused);
+        this._pickupManager.pause(this._gamePaused);
 
         SoundManager.getInstance().pause(this._gamePaused);
 
@@ -240,6 +238,9 @@ export default class Gameplay extends Phaser.State
             window.navigator.vibrate(50);
         }
         this._audioVisualizer.react();
+        this._player.react();
+        this._pickupManager.makeAllPickupsReact();
+        this._userInterface.react();
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
@@ -260,8 +261,8 @@ export default class Gameplay extends Phaser.State
         this._userInterface.destroy();
         this._userInterface = null;
 
-        this._pickupSpawner.destroy();
-        this._pickupSpawner = null;
+        this._pickupManager.destroy();
+        this._pickupManager = null;
 
         this._player.destroy();
         this._player = null;

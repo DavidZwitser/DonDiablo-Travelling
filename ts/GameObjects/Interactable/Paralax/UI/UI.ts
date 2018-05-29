@@ -108,6 +108,11 @@ export default class UI extends ParalaxObject
         this.scoreBar.visible = !pause;
     }
 
+    public react(): void
+    {
+        this._popUpText.reactToCollection();
+    }
+
     public gameOver(score: number, highscore: number): void
     {
         this._gameOverScreen.show(score, highscore);

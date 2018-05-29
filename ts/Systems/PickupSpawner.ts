@@ -14,8 +14,9 @@ interface ITiming {
     lane: number;
 }
 
+// TODO: Seperate this in a pickup container and spawner
 /** Spawns pickups */
-export default class PickupSpawner extends Phaser.Group
+export default class PickupManager extends Phaser.Group
 {
     private _pickupPool: ObjectPool;
 
@@ -77,10 +78,17 @@ export default class PickupSpawner extends Phaser.Group
     /** Reposition all the pickups, so they get alligned well after a road is added. */
     public repositionAllPickups(): void
     {
-        for (let i: number = this._pickupPool.objects.length; i--; )
-        {
-            this._pickupPool.objects[i].reposition();
-        }
+        this._pickupPool.forEach( (pickup: Pickup) => {
+            pickup.reposition();
+        });
+    }
+
+    /** Make all the pickups call their react method */
+    public makeAllPickupsReact(): void
+    {
+        this._pickupPool.forEach( (pickup: Pickup) => {
+            pickup.react();
+        });
     }
 
     //level data is get from cache of a json file

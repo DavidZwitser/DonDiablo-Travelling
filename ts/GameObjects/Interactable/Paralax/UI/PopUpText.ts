@@ -1,7 +1,6 @@
 import 'phaser-ce';
 import Constants from '../../../../Data/Constants';
 import { setTimeout, clearTimeout } from 'timers';
-import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
 export default class PickupCounter extends Phaser.BitmapText
 {
@@ -20,11 +19,9 @@ export default class PickupCounter extends Phaser.BitmapText
         this.alpha = 0.0;
         this.fontSize = 20;
         this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
-
-        PlayerCollisionChecker.getInstance().onCollidingPerfect.add( this.reactToCollection.bind(this) );
     }
 
-    private reactToCollection(): void
+    public reactToCollection(): void
     {
         if (this._reactTween)
         {
@@ -40,9 +37,11 @@ export default class PickupCounter extends Phaser.BitmapText
 
         /* Pausing the hide/show tween so they don't interfere */
         this._reactTween.onStart.addOnce( () => {
+            if (!this._hideTween) { return; }
             this._hideTween.pause();
         });
         this._reactTween.onComplete.addOnce( () => {
+            if (!this._hideTween) { return; }
             this._hideTween.resume();
         });
     }

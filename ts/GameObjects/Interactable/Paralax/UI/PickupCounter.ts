@@ -38,9 +38,11 @@ export default class PickupCounter extends Phaser.BitmapText
 
         /* Pausing the hide/show tween so they don't interfere */
         this._reactTween.onStart.addOnce( () => {
+            if (!this._hideTween) { return; }
             this._hideTween.pause();
         });
         this._reactTween.onComplete.addOnce( () => {
+            if (!this._hideTween) { return; }
             this._hideTween.resume();
         });
     }
