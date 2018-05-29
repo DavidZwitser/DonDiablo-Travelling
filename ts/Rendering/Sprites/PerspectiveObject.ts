@@ -182,7 +182,7 @@ export default class PerspectiveObject extends Phaser.Group
         this.scaleMultiplier = this.game.width / GAME_WIDTH;
     }
 
-    public updateObject(): void
+    public updatePosition(): void
     {
         //
     }
@@ -196,5 +196,8 @@ export default class PerspectiveObject extends Phaser.Group
 
         if (this.laneTween) { this.laneTween.pause(); }
         this.laneTween = null;
+
+        if (this.sprite) { this.sprite.destroy(true); }
+        this.sprite = null;
     }
 }

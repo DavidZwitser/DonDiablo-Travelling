@@ -45,7 +45,7 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 
     private updateObject(object: PerspectiveObject): void {
         if (object.visible) {
-            object.updateObject();
+            object.updatePosition();
         }
     }
 
