@@ -5,7 +5,7 @@ import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
 export default class PickupCounter extends Phaser.BitmapText
 {
-    private _score: number = 0;
+    public score: number = 0;
 
     private _timeOutID: NodeJS.Timer;
 
@@ -50,8 +50,8 @@ export default class PickupCounter extends Phaser.BitmapText
     public updateScore(scoreIncrease: number): void
     {
         this.fadeIn();
-        this._score += scoreIncrease;
-        this.text = this._score.toString();
+        this.score += scoreIncrease;
+        this.text = this.score.toString();
 
     }
 

@@ -17,6 +17,7 @@ import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 import PhaseSystem from '../Systems/PhaseSystem';
 import ScoreSystem from '../Systems/ScoreSystem';
+import SaveData from '../BackEnd/SaveData';
 
 export default class Gameplay extends Phaser.State
 {
@@ -133,12 +134,12 @@ export default class Gameplay extends Phaser.State
         this._userInterface.scoreBar.onEmpty.add( () => {
             if (this._phaseSystem.currentPhase === 1)
             {
-                this._userInterface.gameOver();
-                this.pause(false);
+                this.gameOver(this._userInterface.pickupCounter.score);
             }
         });
 
         this.resize();
+
     }
 
     public update(): void
@@ -157,6 +158,17 @@ export default class Gameplay extends Phaser.State
 
         this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.Value);
 
+    }
+
+    public gameOver(score: number): void
+    {
+        if (score > SaveData.Highscore)
+        {
+            SaveData.Highscore = score;
+        }
+
+        this._userInterface.gameOver(score, SaveData.Highscore);
+        this.pause(false);
     }
 
     public resize(): void

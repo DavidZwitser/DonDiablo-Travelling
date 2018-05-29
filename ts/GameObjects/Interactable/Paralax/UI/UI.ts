@@ -85,9 +85,9 @@ export default class UI extends ParalaxObject
         this.scoreBar.visible = !pause;
     }
 
-    public gameOver(): void
+    public gameOver(score: number, highscore: number): void
     {
-        this._gameOverScreen.visible = true;
+        this._gameOverScreen.show(score, highscore);
     }
 
     public resize(): void
