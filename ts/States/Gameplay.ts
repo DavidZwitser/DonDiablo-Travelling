@@ -85,12 +85,15 @@ export default class Gameplay extends Phaser.State
         this.spawnEditor.startRecording();
 
         /* Road */
-        this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
-
         this._road = new Road(this.game);
-        this.game.add.existing(this._road);
 
-        this._road.filters = [this._glowFilter];
+        if (Constants.USE_FILTERS === true)
+        {
+            this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
+            this._road.filters = [this._glowFilter];
+        }
+
+        this.game.add.existing(this._road);
 
         /* Visualizer */
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);

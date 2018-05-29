@@ -116,4 +116,11 @@ export default class Constants
             'gl_FragColor = sum * 0.025 + texture2D(uSampler, texcoord);',
         '}'
     ];
+
+    public static USE_FILTERS: boolean = true;
+
+    public static GPU_SHADER_BLACKLIST: string[] = [
+        'Adreno (TM) 630',
+        'Adreno (TM) 530'
+    ];
 }
