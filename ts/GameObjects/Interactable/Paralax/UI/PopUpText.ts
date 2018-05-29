@@ -10,7 +10,7 @@ export default class PickupCounter extends Phaser.BitmapText
 
     private _reactTween: Phaser.Tween;
 
-    private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!'];
+    private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!', 'Wonderfull!', 'Wow!'];
 
     constructor(game: Phaser.Game, x: number, y: number)
     {
@@ -46,8 +46,9 @@ export default class PickupCounter extends Phaser.BitmapText
         });
     }
 
-    public showText(): void
+    public showText(x: number, y: number): void
     {
+        this.position.setTo(x, y);
         this.fadeIn();
         this.text = this._coolPhrasesArray[Math.floor(Math.random() * this._coolPhrasesArray.length)];
     }
