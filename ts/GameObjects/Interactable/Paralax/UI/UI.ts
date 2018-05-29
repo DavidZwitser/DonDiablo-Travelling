@@ -90,7 +90,7 @@ export default class UI extends ParalaxObject
         this.addChild(this._popUpText);
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this._popUpText.showText();
+            this._popUpText.showText(PlayerCollisionChecker.getInstance().PlayerPos.x, PlayerCollisionChecker.getInstance().PlayerPos.y);
         });
     }
 
