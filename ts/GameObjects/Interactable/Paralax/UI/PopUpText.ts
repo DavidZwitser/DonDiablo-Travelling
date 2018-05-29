@@ -19,6 +19,8 @@ export default class PickupCounter extends Phaser.BitmapText
         this.anchor.set(.5);
         this.alpha = 0.0;
         this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
+
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add( this.reactToCollection.bind(this) );
     }
 
     private reactToCollection(): void

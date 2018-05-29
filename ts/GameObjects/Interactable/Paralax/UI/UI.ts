@@ -53,10 +53,10 @@ export default class UI extends ParalaxObject
     {
         this.scoreBar = new ScoreBar(this.game, 0, 0);
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.scoreBar.Value += 0.05;
+            this.scoreBar.value += 0.05;
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
-            this.scoreBar.Value -= 0.1;
+            this.scoreBar.value -= 0.1;
         });
         // this.scoreBar.onEmpty.add(() => {
         //     console.log('GAME OVER!');
