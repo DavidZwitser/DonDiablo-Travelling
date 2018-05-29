@@ -75,7 +75,6 @@ export default class Gameplay extends Phaser.State
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
         PlayerCollisionChecker.getInstance(this._player);
-        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
 
         this._player.setupReacting();
 
@@ -97,7 +96,6 @@ export default class Gameplay extends Phaser.State
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
-        PlayerCollisionChecker.getInstance(this._player);
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
@@ -251,8 +249,7 @@ export default class Gameplay extends Phaser.State
 
         super.shutdown(this.game);
 
-        PlayerCollisionChecker.getInstance().onColliding.removeAll();
-        PlayerCollisionChecker.getInstance().onMissing.removeAll();
+        PlayerCollisionChecker.getInstance().destroy();
 
         SoundManager.getInstance().onMusicEnd.removeAll();
 

@@ -20,15 +20,13 @@ export default class PickupCounter extends Phaser.BitmapText
         this.alpha = 0.0;
         this.scale.set(1, 1);
         this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
-
-        PlayerCollisionChecker.getInstance().onColliding.add(this.reactToCollection.bind(this), this);
     }
 
     private reactToCollection(): void
     {
         if (this._reactTween)
         {
-            this._reactTween.stop();
+            this._reactTween.stop(true);
             this._reactTween = null;
         }
 
@@ -53,6 +51,7 @@ export default class PickupCounter extends Phaser.BitmapText
         this.score += scoreIncrease;
         this.text = this.score.toString();
 
+        this.reactToCollection();
     }
 
     private fadeIn(): void
@@ -66,7 +65,7 @@ export default class PickupCounter extends Phaser.BitmapText
         );
 
         clearTimeout(this._timeOutID);
-        this._timeOutID = setTimeout(this.fadeOut.bind(this), 1000);
+        this._timeOutID = setTimeout(this.fadeOut.bind(this), 1200);
     }
 
     private fadeOut(): void
@@ -90,7 +89,7 @@ export default class PickupCounter extends Phaser.BitmapText
     {
         if (this._hideTween)
         {
-            this._hideTween.stop();
+            this._hideTween.stop(true);
             this._hideTween = null;
         }
     }

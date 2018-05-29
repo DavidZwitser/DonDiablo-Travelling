@@ -32,7 +32,7 @@ export default class Input
         if (!this.active) {
             return;
         }
-        console.log('input down');
+        // console.log('input down');
         this.onInputDown.dispatch();
     }
 
