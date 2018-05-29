@@ -64,6 +64,7 @@ export default class Gameplay extends Phaser.State
     /** Toggleable options */
     private _updatePhaseByBar: boolean = true;
     private _hideScoreBar: boolean = false;
+    private _useContinuesInput: boolean = true;
 
     private setToggealableOptions(): void
     {
@@ -77,6 +78,9 @@ export default class Gameplay extends Phaser.State
 
         /** Hide score bar */
         this._hideScoreBar = true;
+
+        /** Dont use continues input */
+        this._useContinuesInput = false;
     }
     /** End toggleable options */
 
@@ -130,7 +134,7 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._player);
 
         /* Input */
-        this._input = new Input(this.game);
+        this._input = new Input(this.game, this._useContinuesInput);
         this._input.onInputMove.add( (lane: Lanes) => this._player.changeLane(lane));
         this._input.onInputDown.add( () => this._player.tapping());
 
