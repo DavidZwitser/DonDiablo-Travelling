@@ -61,9 +61,24 @@ export default class Gameplay extends Phaser.State
         Constants.GAME_TIME = 0;
     }
 
+    /** Toggleable options */
+    private _updatePhaseByBar: boolean = true;
+
+    private setToggealableOptions(): void
+    {
+        /** Move the player back a bit */
+        Constants.PLAYER_Z_POSITION = 1.1;
+
+        /** Change phase per song and die when bar drains */
+        this._updatePhaseByBar = false;
+    }
+    /** End toggleable options */
+
     public create(): void
     {
         super.create(this.game);
+
+        this.setToggealableOptions();
 
         //focus/blur events setup
         window.addEventListener('blur', this.blur.bind(this));
@@ -127,7 +142,16 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
         this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
 
-        this._scoreSystem = new ScoreSystem(this._phaseSystem);
+        this._scoreSystem = new ScoreSystem();
+        if (this._updatePhaseByBar === true)
+        {
+            this._scoreSystem.onNextPhase.add( this._phaseSystem.startNextPhase.bind(this._phaseSystem) );
+            this._scoreSystem.onPreviousPhase.add( this._phaseSystem.startPreviousPhase.bind(this._phaseSystem) );
+        }
+        else
+        {
+            this._scoreSystem.onPreviousPhase.add( () => this.gameOver(this._userInterface.pickupCounter.score) );
+        }
 
         this._userInterface.scoreBar.onEmpty.add( () => {
             if (this._phaseSystem.currentPhase === 1)
@@ -149,6 +173,11 @@ export default class Gameplay extends Phaser.State
     {
         Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
+
+        if (this._updatePhaseByBar)
+        {
+            this._phaseSystem.startNextPhase();
+        }
     }
 
     /** starts the track (optinally with a delay) */
@@ -175,12 +204,14 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
 
+        if (this._phaseSystem.inTransition === true) { return; }
         this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.value);
 
     }
 
     public gameOver(score: number): void
     {
+        console.log('gameover');
         if (score > SaveData.Highscore)
         {
             SaveData.Highscore = score;
@@ -297,6 +328,9 @@ export default class Gameplay extends Phaser.State
 
         this._phaseSystem.destroy();
         this._phaseSystem = null;
+
+        this._scoreSystem.destroy();
+        this._scoreSystem = null;
 
         this._glowFilter = null;
 
