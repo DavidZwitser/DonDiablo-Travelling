@@ -53,4 +53,9 @@ export default class PlayerCollisionChecker
         return PlayerCollisionChecker.instance;
     }
 
+    public get PlayerPos(): {x: number, y: number}
+    {
+        return {x: this._player.x, y: this._player.y};
+    }
+
 }

@@ -1,8 +1,9 @@
 import { Lanes } from '../Enums/Lanes';
-import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
-import ObjectPool from './ObjectPool';
-import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
+import PickupContainer from './PickupContainer';
 import Constants from '../Data/Constants';
+import ObjectPool from './ObjectPool';
+import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
+import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 
 //interface that is the same of the json file it get recieved from
 interface ILevelData {
@@ -16,9 +17,8 @@ interface ITiming {
 
 // TODO: Seperate this in a pickup container and spawner
 /** Spawns pickups */
-export default class PickupManager extends Phaser.Group
+export default class PickupSpawner extends Phaser.Group
 {
-    private _pickupPool: ObjectPool;
 
     private _levelData: ILevelData;
     private _timeOut: any;
@@ -26,19 +26,18 @@ export default class PickupManager extends Phaser.Group
     private _startTime: number;
     private _passedTime: number;
 
-    private _perspectiveRenderer: PerspectiveRenderer;
+    private _pool: ObjectPool;
+    private _container: PickupContainer;
 
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    constructor(game: Phaser.Game, container: PickupContainer, renderer: PerspectiveRenderer)
     {
         super(game);
+        this._container = container;
 
-        this._perspectiveRenderer = renderer;
+        this._pool = new ObjectPool(() => {
 
-        // pickup pooling gets defined
-        this._pickupPool = new ObjectPool(() => {
-
-            let pickup: Pickup = new Pickup(game, this._perspectiveRenderer);
-            this.addChild(pickup);
+            let pickup: Pickup = new Pickup(game, renderer);
+            this._container.addPickup(pickup);
 
             return pickup;
         });
@@ -58,7 +57,7 @@ export default class PickupManager extends Phaser.Group
 
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
     {
-        let pickup: Pickup = <Pickup>this._pickupPool.getObject(true);
+        let pickup: Pickup = <Pickup>this._pool.getObject(true);
 
         if (pickup !== null)
         {
@@ -73,22 +72,6 @@ export default class PickupManager extends Phaser.Group
         }
 
         return pickup;
-    }
-
-    /** Reposition all the pickups, so they get alligned well after a road is added. */
-    public repositionAllPickups(): void
-    {
-        this._pickupPool.forEach( (pickup: Pickup) => {
-            pickup.reposition();
-        });
-    }
-
-    /** Make all the pickups call their react method */
-    public makeAllPickupsReact(): void
-    {
-        this._pickupPool.forEach( (pickup: Pickup) => {
-            pickup.react();
-        });
     }
 
     //level data is get from cache of a json file
@@ -143,10 +126,11 @@ export default class PickupManager extends Phaser.Group
     //destroy function
     public destroy(): void
     {
-        if (this._pickupPool) {
-            this._pickupPool.destroy();
+        if (this._pool) {
+            this._pool.destroy();
         }
-        this._pickupPool = null;
+        this._pool = null;
+
         this._levelData = null;
         clearTimeout(this._timeOut);
         this._spawnIndex = 0;

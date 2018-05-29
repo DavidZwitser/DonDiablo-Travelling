@@ -49,19 +49,19 @@ export default class PerspectiveObject extends Phaser.Group
 
     }
 
-    /** Reset lane, so the player moves to the nearest lane (used when a new lane is added). */
+    /** Reset lane, so the object moves to the nearest lane (used when a new lane is added). */
     public reposition(): void
     {
-        this.changeLane(this.lane);
+        this.changeLane(this.lane, true);
     }
 
-    public changeLane( lane: Lanes ): void
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
     {
         //only move when the lane is different that its own lane
-        if (this._lane === lane) {
+        if (this._lane === lane && overwriteOldPosition === false)
+        {
             return;
         }
-        this._lane = lane;
 
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */

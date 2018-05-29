@@ -19,7 +19,11 @@ export default class PickupCounter extends Phaser.BitmapText
         this.anchor.set(.5);
         this.alpha = 0.0;
         this.scale.set(1, 1);
-        this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
+
+        if (Constants.USE_FILTERS === true)
+        {
+            this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
+        }
     }
 
     private reactToCollection(): void
