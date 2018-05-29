@@ -38,10 +38,10 @@ export default class UI extends ParalaxObject
         this.createTrackText();
         this.createPopUpText();
 
-        this.pauseScreen = new PauseScreen(game, 1, 80, 80);
+        this.pauseScreen = new PauseScreen(game, 1);
         this.pauseScreen.onResume.add(() => this.onPause.dispatch(), this);
 
-        this._gameOverScreen = new GameOverScreen(game, 1, 80, 80);
+        this._gameOverScreen = new GameOverScreen(game, 1);
         this.addChild(this._gameOverScreen);
 
         this.addChild(this.pauseScreen);
