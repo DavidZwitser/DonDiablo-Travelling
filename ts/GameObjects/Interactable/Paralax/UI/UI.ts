@@ -9,6 +9,7 @@ import PauseScreen from './PauseScreen';
 import GameOverScreen from './GameOverScreen';
 
 import PickupCounter from '../UI/PickupCounter';
+import PopUpText from '../UI/PopUpText';
 
 /** The user interface */
 export default class UI extends ParalaxObject
@@ -21,6 +22,7 @@ export default class UI extends ParalaxObject
     public scoreBar: ScoreBar;
     public pickupCounter: PickupCounter;
     private _pauseButton: PauseButton;
+    private _popUpText: PopUpText;
     public pauseScreen: PauseScreen;
 
     private _gameOverScreen: GameOverScreen;
@@ -34,6 +36,7 @@ export default class UI extends ParalaxObject
         this.createScoreBar();
         this.createPickUpCounter();
         this.createTrackText();
+        this.createPopUpText();
 
         this.pauseScreen = new PauseScreen(game, 1, 80, 80);
         this.pauseScreen.onResume.add(() => this.onPause.dispatch(), this);
@@ -78,6 +81,16 @@ export default class UI extends ParalaxObject
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
             this.pickupCounter.updateScore(15);
+        });
+    }
+
+    private createPopUpText(): void
+    {
+        this._popUpText = new PopUpText(this.game, this.game.width / 2, 2 * (this.game.height / 5));
+        this.addChild(this._popUpText);
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
+        {
+            this._popUpText.showText();
         });
     }
 
