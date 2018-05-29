@@ -120,9 +120,10 @@ export default class Gameplay extends Phaser.State
 
         this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
         this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
-        this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.Value = .5 );
-        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
+        this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.reset() );
+
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
+        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
 
         this._scoreSystem = new ScoreSystem(this._phaseSystem);
 
@@ -172,7 +173,7 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
 
-        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.Value);
+        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.value);
 
     }
 

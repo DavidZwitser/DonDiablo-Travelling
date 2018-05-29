@@ -9,7 +9,6 @@ import PlayerCollisionChecker from '../../../Systems/PlayerCollisionChecker';
 /** A pickup you can pickup */
 export default class Pickup extends ReactivePerspectiveObject
 {
-    private _reactTween: Phaser.Tween;
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer) {
         super(game, renderer);
@@ -43,17 +42,7 @@ export default class Pickup extends ReactivePerspectiveObject
 
     public react(): void
     {
-        // if (Math.abs(this.zPos) > 4 || this.scale.x > .9) { return; }
-
-        if (this._reactTween)
-        {
-            this._reactTween.stop(true);
-            this._reactTween = null;
-        }
-
-        this._reactTween = this.game.add.tween(this)
-            .to({scaleMultiplier: this.scaleMultiplier * 1.1}, 200, Phaser.Easing.Cubic.Out, true, 0, 0, true)
-            .start();
+        super.react(1.2);
     }
 
     public updateObject(): void
