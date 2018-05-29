@@ -13,24 +13,25 @@ export default class GPUChecker
         catch (e)
         {
             console.log('no gl', e);
+            return;
         }
 
-        if (gl)
+        if (!gl) { return; }
+
+        let debugInfo: WEBGL_debug_renderer_info = gl.getExtension('WEBGL_debug_renderer_info');
+        let gpu: any = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+
+        /** Log the gpu used */
+        // console.log('Using a: ', gpu);
+
+        for (let i: number = Constants.GPU_SHADER_BLACKLIST.length; i--; )
         {
-            let debugInfo: WEBGL_debug_renderer_info = gl.getExtension('WEBGL_debug_renderer_info');
-            let gpu: any = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-
-            for (let i: number = Constants.GPU_SHADER_BLACKLIST.length; i--; )
+            if (Constants.GPU_SHADER_BLACKLIST[i] === gpu)
             {
-                if (Constants.GPU_SHADER_BLACKLIST[i] === gpu)
-                {
-                    Constants.USE_FILTERS = false;
-                    console.log('not using filters');
-                }
+                Constants.USE_FILTERS = false;
+                return;
             }
-
-            /** Log the gpu used */
-            console.log('Using a: ', gpu);
         }
+
     }
 }

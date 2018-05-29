@@ -120,7 +120,9 @@ export default class Constants
     public static USE_FILTERS: boolean = true;
 
     public static GPU_SHADER_BLACKLIST: string[] = [
+        /** Tested on a Oneplus 6 */
         'Adreno (TM) 630',
+        /** Tested on a Oneplus 3 */
         'Adreno (TM) 530'
     ];
 }
