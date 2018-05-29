@@ -58,17 +58,6 @@ export default class ObjectPool
         this._objects = [];
     }
 
-    public forEach(callback: (object: PerspectiveObject) => void): void
-    {
-        for (let i: number = this._objects.length; i--; )
-        {
-            let currentObject: PerspectiveObject = this._objects[i];
-            if (currentObject.visible === false) { continue; }
-
-            callback(currentObject);
-        }
-    }
-
     public destroy(): void
     {
         this.wipe();

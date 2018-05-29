@@ -9,7 +9,8 @@ export default class PhaseSystem
     public onPhaseChange: Phaser.Signal;
 
     /** Transition between phases duration */
-    private _phaseTransitionDuration: number = 2.5;
+    // private _phaseTransitionDuration: number = 2.5;
+    private _phaseTransitionDuration: number = 2;
 
     /** The private "currentPhase" varuable used by the get/setter */
     private _currentPhase: number = 0;

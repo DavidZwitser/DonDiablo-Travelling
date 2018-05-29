@@ -6,7 +6,7 @@ export default class ScoreSystem
     private _phaseSystem: PhaseSystem;
 
     private _comboCounter: number = 0;
-    private readonly _comboTimeBeforePhaseUp: number = 7;
+    private readonly _comboTimeBeforePhaseUp: number = 6;
 
     constructor(phaseSystem: PhaseSystem)
     {

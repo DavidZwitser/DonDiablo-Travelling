@@ -37,7 +37,7 @@ export default class PickupContianer extends Phaser.Group
     }
 
     /** Reposition all the pickups, so they get alligned well after a road is added. */
-    public repositionAllPickups(): void
+    public reposition(): void
     {
         this.forEach( (pickup: Pickup) => {
             pickup.reposition();

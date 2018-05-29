@@ -119,9 +119,7 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem = new PhaseSystem();
         this._phaseSystem.init();
 
-        this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
-        this._phaseSystem.onPhaseChange.add( this._pickupContainer.repositionAllPickups.bind(this._pickupSpawner) );
-        this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.reset() );
+        this._phaseSystem.onPhaseChange.add( this.worldReposition.bind(this) );
 
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
         this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
@@ -235,6 +233,7 @@ export default class Gameplay extends Phaser.State
         }
     }
 
+    /** Make the world move */
     public worldReact(): void {
         if (navigator.vibrate) {
             // vibration API supported
@@ -244,6 +243,14 @@ export default class Gameplay extends Phaser.State
         this._player.react();
         this._pickupContainer.makeAllPickupsReact();
         this._userInterface.react();
+    }
+
+    /** Reposition everything on the road so they are ready for the next phase */
+    public worldReposition(): void
+    {
+        this._player.reposition();
+        this._pickupContainer.reposition();
+        this._userInterface.scoreBar.reset();
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
