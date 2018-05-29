@@ -64,8 +64,8 @@ export default class Gameplay extends Phaser.State
         super.create(this.game);
 
         //focus/blur events setup
-        document.addEventListener('blur', this.blur.bind(this));
-        document.addEventListener('focus', this.focus.bind(this));
+        window.addEventListener('blur', this.blur.bind(this));
+        window.addEventListener('focus', this.focus.bind(this));
 
         this._worldMood = this._worldMood;
 
@@ -149,7 +149,7 @@ export default class Gameplay extends Phaser.State
     }
 
     /** starts the track (optinally with a delay) */
-    private startTrack(delay: number = 2000): void
+    private startTrack(delay: number = 1000): void
     {
         this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
         setTimeout(() => {
@@ -207,7 +207,7 @@ export default class Gameplay extends Phaser.State
     //called when window gets focused
     public focus(): void {
         if (this._gamePaused && this._blurred) {
-            this.pause();
+            this.pause(false);
             this._blurred = false;
         }
     }
@@ -283,7 +283,7 @@ export default class Gameplay extends Phaser.State
         this._glowFilter = null;
 
         //removing events
-        document.removeEventListener('blur', this.blur.bind(this));
-        document.removeEventListener('focus', this.focus.bind(this));
+        window.removeEventListener('blur', this.blur.bind(this));
+        window.removeEventListener('focus', this.focus.bind(this));
     }
 }

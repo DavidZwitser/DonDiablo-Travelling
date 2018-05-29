@@ -41,6 +41,7 @@ export default class PlayerCollisionChecker
     {
         PlayerCollisionChecker.getInstance().onColliding.removeAll();
         PlayerCollisionChecker.getInstance().onMissing.removeAll();
+        PlayerCollisionChecker.instance = null;
     }
 
     public static getInstance(player?: Player): PlayerCollisionChecker

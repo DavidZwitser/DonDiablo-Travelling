@@ -110,17 +110,10 @@ export default class PickupSpawner extends Phaser.Group
             }
             else
             {
-                this.noMoreJsonData();
                 return;
             }
 
         }, timeWaiting * 1000);
-    }
-
-    // TODO: This should be done by listening to the music manager, so a delay between songs can be added.
-    private noMoreJsonData(): void
-    {
-        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ++ ].json );
     }
 
     public pause(pause: boolean): void
@@ -128,10 +121,13 @@ export default class PickupSpawner extends Phaser.Group
         if (pause)
         {
             clearTimeout(this._timeOut);
-            this._passedTime = Date.now() - this._startTime;
+            this._timeOut = null;
+            this._passedTime = (Date.now() - this._startTime) / 1000;
+            console.log(this._passedTime);
         }
         else
         {
+            console.log(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
             this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
         }
     }
