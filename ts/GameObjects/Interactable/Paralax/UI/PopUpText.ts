@@ -18,6 +18,7 @@ export default class PickupCounter extends Phaser.BitmapText
         super(game, x, y, 'myfont', '0');
         this.anchor.set(.5);
         this.alpha = 0.0;
+        this.fontSize = 20;
         this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
     }
 
