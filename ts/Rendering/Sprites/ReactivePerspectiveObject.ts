@@ -7,17 +7,9 @@ export default abstract class ReactivePerspectiveObject extends PerspectiveObjec
 {
     private _reactTween: Phaser.Tween;
 
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer, setUpReactingAtStart: boolean = true)
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game, renderer);
-
-        if (setUpReactingAtStart === true) { this.setupReacting(); }
-    }
-
-    public setupReacting(): void
-    {
-        PlayerCollisionChecker.getInstance().onColliding.add(this.react, this);
-
     }
 
     public react(grothMultiplier: number = 1.1, duration: number = 200): void
