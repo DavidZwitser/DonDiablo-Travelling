@@ -63,6 +63,7 @@ export default class Gameplay extends Phaser.State
 
     /** Toggleable options */
     private _updatePhaseByBar: boolean = true;
+    private _hideScoreBar: boolean = false;
 
     private setToggealableOptions(): void
     {
@@ -71,6 +72,11 @@ export default class Gameplay extends Phaser.State
 
         /** Change phase per song and die when bar drains */
         this._updatePhaseByBar = false;
+
+        /** Is 6 lanes to much as the max difficulty? */
+
+        /** Hide score bar */
+        this._hideScoreBar = true;
     }
     /** End toggleable options */
 
@@ -159,6 +165,11 @@ export default class Gameplay extends Phaser.State
                 this.gameOver(this._userInterface.pickupCounter.score);
             }
         });
+
+        if (this._hideScoreBar)
+        {
+            this._userInterface.scoreBar.visible = false;
+        }
 
         SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
         this.startTrack();
