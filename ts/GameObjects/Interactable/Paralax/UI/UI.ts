@@ -24,6 +24,7 @@ export default class UI extends ParalaxObject
     public pauseScreen: PauseScreen;
 
     private _gameOverScreen: GameOverScreen;
+    private _trackText: Phaser.BitmapText;
 
     constructor(game: Phaser.Game)
     {
@@ -32,6 +33,7 @@ export default class UI extends ParalaxObject
         this.createPauseButton();
         this.createScoreBar();
         this.createPickUpCounter();
+        this.createTrackText();
 
         this.pauseScreen = new PauseScreen(game, 1, 80, 80);
         this.pauseScreen.onResume.add(() => this.onPause.dispatch(), this);
@@ -79,6 +81,14 @@ export default class UI extends ParalaxObject
         });
     }
 
+    /** creates a bitmap text object containing the title of the song */
+    private createTrackText(): void {
+        this._trackText = new Phaser.BitmapText(this.game, 0, 0, 'myfont', 'Song track', 30);
+        this._trackText.tint = 0xffffff;
+        this._trackText.anchor.set(0.5);
+        this.addChild(this._trackText);
+    }
+
     public Pause(pause: boolean): void {
         this.pauseScreen.visible = pause;
         this._pauseButton.pauseButton.visible = !pause;
@@ -88,6 +98,21 @@ export default class UI extends ParalaxObject
     public gameOver(score: number, highscore: number): void
     {
         this._gameOverScreen.show(score, highscore);
+    }
+
+    /** displays the title of the song using tween */
+    public displayTrackTitle(title: string): void {
+        this.resize();
+        this._trackText.text = title;
+        this._trackText.x -= 200;
+        this._trackText.alpha = 0;
+        this.game.add.tween(this._trackText).to({alpha: .5, x: this._trackText.position.x + 200}, 2000, Phaser.Easing.Cubic.Out, true)
+        .onComplete.addOnce(() => {
+            setTimeout( () => {
+                this.game.add.tween(this._trackText).to({alpha: 0, x: this._trackText.position.x + 200}, 1500, Phaser.Easing.Cubic.In, true);
+            }, 500);
+
+        });
     }
 
     public resize(): void
@@ -101,6 +126,9 @@ export default class UI extends ParalaxObject
         this._gameOverScreen.position.set(this.game.width / 2, this.game.height / 2);
         this._gameOverScreen.scale.set(vmin / GAME_WIDTH);
         this._gameOverScreen.resize();
+
+        this._trackText.scale.set(vmin / GAME_WIDTH, vmin / GAME_WIDTH);
+        this._trackText.position.set(this.game.width / 2, this.game.height / 2 + this.pickupCounter.height);
 
         this._pauseButton.resize();
         this.scoreBar.resize();

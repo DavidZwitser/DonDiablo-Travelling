@@ -85,9 +85,6 @@ export default class Gameplay extends Phaser.State
         //remove below comment to start recording the spawn editor.
         this.spawnEditor.startRecording();
 
-        /* Sounds */
-        SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music);
-
         /* Road */
         this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
 
@@ -138,8 +135,29 @@ export default class Gameplay extends Phaser.State
             }
         });
 
+        SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
+        this.startTrack();
+
+        //addEventListener('click', this.nextTrack.bind(this));
         this.resize();
 
+    }
+
+    /** sets up next track of the song list */
+    private nextTrack(): void
+    {
+        Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
+        this.startTrack();
+    }
+
+    /** starts the track (optinally with a delay) */
+    private startTrack(delay: number = 2000): void
+    {
+        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
+        setTimeout(() => {
+            SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
+            this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+        }, delay);
     }
 
     public update(): void
@@ -235,6 +253,8 @@ export default class Gameplay extends Phaser.State
 
         PlayerCollisionChecker.getInstance().onColliding.removeAll();
         PlayerCollisionChecker.getInstance().onMissing.removeAll();
+
+        SoundManager.getInstance().onMusicEnd.removeAll();
 
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
