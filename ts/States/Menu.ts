@@ -7,6 +7,8 @@ import LevelSelect from '../GameObjects/Interactable/Paralax/UI/LevelSelect/Leve
 import Atlases from '../Data/Atlases';
 import AtlasImages from '../Data/AtlasImages';
 import CreditsScreen from '../GameObjects/Interactable/Paralax/UI/CreditsScreen';
+import Sounds from '../Data/Sounds';
+import SoundManager from '../Systems/Sound/SoundManager';
 
 export default class Menu extends Phaser.State
 {
@@ -31,12 +33,15 @@ export default class Menu extends Phaser.State
 
     public init(): void
     {
-        //
+        SoundManager.getInstance(this.game);
+
     }
 
     public create(): void
     {
         super.create(this.game);
+
+        SoundManager.getInstance().play(Sounds.UI_MENU_MUSIC , 1, true);
 
         this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'UserInterface_Menu_Background');
 
@@ -182,5 +187,7 @@ export default class Menu extends Phaser.State
 
         this._worldEmitter.destroy();
         this._worldEmitter = null;
+        SoundManager.getInstance().stop(Sounds.UI_MENU_MUSIC);
+
     }
 }

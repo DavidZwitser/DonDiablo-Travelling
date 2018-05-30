@@ -22,7 +22,7 @@ export default class Constants
     /** How long the current game is running for */
     public static GAME_TIME: number = 0;
 
-    public static readonly SPAWN_DELAY: number = 3500;
+    public static readonly SPAWN_DELAY: number = 3.5;
 
     public static CURRENT_LEVEL: number = 0;
 

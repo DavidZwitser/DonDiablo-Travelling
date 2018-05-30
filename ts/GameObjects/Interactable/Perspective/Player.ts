@@ -3,6 +3,8 @@ import ReactivePerspectiveObject from '../../../Rendering/Sprites/ReactivePerspe
 import PerspectiveRenderer from '../../../Rendering/PerspectiveRenderer';
 import Constants from '../../../Data/Constants';
 import AtlasImages from '../../../Data/Atlases';
+import SoundManager from '../../../Systems/Sound/SoundManager';
+import Sounds from '../../../Data/Sounds';
 
 /** The player controlled by the user */
 export default class Player extends ReactivePerspectiveObject
@@ -68,7 +70,7 @@ export default class Player extends ReactivePerspectiveObject
         if (this._lane === lane) {
             return;
         }
-
+        SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
     }
 

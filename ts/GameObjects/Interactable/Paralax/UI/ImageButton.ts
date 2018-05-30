@@ -1,5 +1,7 @@
 import 'phaser-ce';
 import Atlases from '../../../../Data/Atlases';
+import SoundManager from '../../../../Systems/Sound/SoundManager';
+import Sounds from '../../../../Data/Sounds';
 
 export default class ImageButton extends Phaser.Button
 {
@@ -9,6 +11,11 @@ export default class ImageButton extends Phaser.Button
         super(game, x, y, Atlases.Interface, callback, callbackContext, backdropFrameName, backdropFrameName);
         this.anchor.set(.5);
 
+        this.inputEnabled = true;
+        this.events.onInputDown.add(() => {
+            console.log('click');
+            SoundManager.getInstance().play(Sounds.UI_CLICK);
+        });
         this.icon = new Phaser.Sprite(game, 0, 0, Atlases.Interface, iconFrameName);
         this.icon.anchor.set(.5);
         this.addChild(this.icon);

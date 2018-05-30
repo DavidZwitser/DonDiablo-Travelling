@@ -10,6 +10,8 @@ import GameOverScreen from './GameOverScreen';
 
 import PickupCounter from '../UI/PickupCounter';
 import PopUpText from '../UI/PopUpText';
+import SoundManager from '../../../../Systems/Sound/SoundManager';
+import Sounds from '../../../../Data/Sounds';
 
 /** The user interface */
 export default class UI extends ParalaxObject
@@ -115,6 +117,7 @@ export default class UI extends ParalaxObject
 
     public gameOver(score: number, highscore: number): void
     {
+        SoundManager.getInstance().play(Sounds.GAME_OVER, 1);
         this._gameOverScreen.show(score, highscore);
     }
 
