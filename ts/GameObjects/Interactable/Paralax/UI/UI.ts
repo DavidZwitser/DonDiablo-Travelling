@@ -78,11 +78,11 @@ export default class UI extends ParalaxObject
         this.pickupCounter = new PickupCounter(this.game, this.game.width / 2, this.game.height / 2);
         this.addChild(this.pickupCounter);
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.pickupCounter.updateScore(10);
+            this.pickupCounter.updateScore(10, false);
         });
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this.pickupCounter.updateScore(15);
+            this.pickupCounter.updateScore(15, true);
         });
     }
 
