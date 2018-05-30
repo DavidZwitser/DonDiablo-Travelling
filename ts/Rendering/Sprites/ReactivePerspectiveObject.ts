@@ -35,6 +35,9 @@ export default abstract class ReactivePerspectiveObject extends PerspectiveObjec
     {
         super.destroy(true);
 
+        if (this._reactTween) { this._reactTween.stop(true); }
+        this._reactTween = null;
+
         PlayerCollisionChecker.getInstance().onColliding.remove(this.react, this);
     }
 }
