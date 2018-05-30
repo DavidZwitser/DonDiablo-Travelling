@@ -9,7 +9,8 @@ export default class PhaseSystem
     public onPhaseChange: Phaser.Signal;
 
     /** Transition between phases duration */
-    private _phaseTransitionDuration: number = 2.5;
+    // private _phaseTransitionDuration: number = 2.5;
+    private _phaseTransitionDuration: number = 2;
 
     /** The private "currentPhase" varuable used by the get/setter */
     private _currentPhase: number = 0;
@@ -50,7 +51,7 @@ export default class PhaseSystem
         if (this.currentPhase > Constants.PHASES.length) { return; }
         this.currentPhase ++;
     }
-    public startLastPhase(): void
+    public startPreviousPhase(): void
     {
         if (this.currentPhase < 0) { return; }
         this.currentPhase --;
@@ -59,8 +60,6 @@ export default class PhaseSystem
     /** Start the transition from one phase to another */
     private startPhaseTransition(nextPhase: number): void
     {
-        this.inTransition = true;
-
         this.prePhaseChange.dispatch(this._phaseTransitionDuration * 1000);
 
         setTimeout( () => this.setPhase(nextPhase), this._phaseTransitionDuration * 1000 );
@@ -79,8 +78,6 @@ export default class PhaseSystem
         this._currentPhase = phase;
 
         this.onPhaseChange.dispatch();
-
-        this.inTransition = false;
     }
 
     /** Changes the current phase the game is in */

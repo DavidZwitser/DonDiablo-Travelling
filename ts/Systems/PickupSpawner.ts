@@ -1,8 +1,9 @@
 import { Lanes } from '../Enums/Lanes';
-import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
-import ObjectPool from './ObjectPool';
-import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
+import PickupContainer from './PickupContainer';
 import Constants from '../Data/Constants';
+import ObjectPool from './ObjectPool';
+import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
+import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 
 //interface that is the same of the json file it get recieved from
 interface ILevelData {
@@ -14,10 +15,10 @@ interface ITiming {
     lane: number;
 }
 
+// TODO: Seperate this in a pickup container and spawner
 /** Spawns pickups */
 export default class PickupSpawner extends Phaser.Group
 {
-    private _pickupPool: ObjectPool;
 
     private _levelData: ILevelData;
     private _timeOut: any;
@@ -25,28 +26,26 @@ export default class PickupSpawner extends Phaser.Group
     private _startTime: number;
     private _passedTime: number;
 
-    private _perspectiveRenderer: PerspectiveRenderer;
+    private _pool: ObjectPool;
+    private _container: PickupContainer;
 
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    constructor(game: Phaser.Game, container: PickupContainer, renderer: PerspectiveRenderer)
     {
         super(game);
+        this._container = container;
 
-        this._perspectiveRenderer = renderer;
+        this._pool = new ObjectPool(() => {
 
-        // pickup pooling gets defined
-        this._pickupPool = new ObjectPool(() => {
-
-            let pickup: Pickup = new Pickup(game, this._perspectiveRenderer);
-            this.addChild(pickup);
+            let pickup: Pickup = new Pickup(game, renderer);
+            this._container.addPickup(pickup);
 
             return pickup;
         });
-
-        this.setNewSong( Constants.LEVELS[Constants.CURRENT_LEVEL].json );
     }
 
     public setNewSong(json: string): void
     {
+        this.pause(true);
         this.getLevelData(this.game, json);
         this.waitForNextSpawning(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
     }
@@ -58,7 +57,7 @@ export default class PickupSpawner extends Phaser.Group
 
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
     {
-        let pickup: Pickup = <Pickup>this._pickupPool.getObject(true);
+        let pickup: Pickup = <Pickup>this._pool.getObject(true);
 
         if (pickup !== null)
         {
@@ -75,18 +74,10 @@ export default class PickupSpawner extends Phaser.Group
         return pickup;
     }
 
-    /** Reposition all the pickups, so they get alligned well after a road is added. */
-    public repositionAllPickups(): void
-    {
-        for (let i: number = this._pickupPool.objects.length; i--; )
-        {
-            this._pickupPool.objects[i].reposition();
-        }
-    }
-
     //level data is get from cache of a json file
     private getLevelData(game: Phaser.Game, key: string): void
     {
+        this._spawnIndex = 0;
         this._levelData = game.cache.getJSON(key);
         // let temp: ILevelData = this._levelData;
         // for (let i: number = 0; i < temp.timings.length; i++) {
@@ -110,17 +101,10 @@ export default class PickupSpawner extends Phaser.Group
             }
             else
             {
-                this.noMoreJsonData();
                 return;
             }
 
         }, timeWaiting * 1000);
-    }
-
-    // TODO: This should be done by listening to the music manager, so a delay between songs can be added.
-    private noMoreJsonData(): void
-    {
-        this.setNewSong( Constants.LEVELS[ Constants.CURRENT_LEVEL ++ ].json );
     }
 
     public pause(pause: boolean): void
@@ -128,10 +112,13 @@ export default class PickupSpawner extends Phaser.Group
         if (pause)
         {
             clearTimeout(this._timeOut);
-            this._passedTime = Date.now() - this._startTime;
+            this._timeOut = null;
+            this._passedTime = (Date.now() - this._startTime) / 1000;
+            console.log(this._passedTime);
         }
         else
         {
+            console.log(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
             this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
         }
     }
@@ -139,10 +126,11 @@ export default class PickupSpawner extends Phaser.Group
     //destroy function
     public destroy(): void
     {
-        if (this._pickupPool) {
-            this._pickupPool.destroy();
+        if (this._pool) {
+            this._pool.destroy();
         }
-        this._pickupPool = null;
+        this._pool = null;
+
         this._levelData = null;
         clearTimeout(this._timeOut);
         this._spawnIndex = 0;

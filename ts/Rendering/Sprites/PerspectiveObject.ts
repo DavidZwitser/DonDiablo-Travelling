@@ -14,7 +14,7 @@ export default class PerspectiveObject extends Phaser.Group
 
     protected _lane: Lanes = Lanes.bottomCenterLane;
 
-    public resizedScale: number = 1;
+    private _resizedScale: number = 1;
     public positionShouldBeUpdated: boolean = true;
 
     private laneTween: Phaser.Tween;
@@ -49,19 +49,19 @@ export default class PerspectiveObject extends Phaser.Group
 
     }
 
-    /** Reset lane, so the player moves to the nearest lane (used when a new lane is added). */
+    /** Reset lane, so the object moves to the nearest lane (used when a new lane is added). */
     public reposition(): void
     {
-        this.changeLane(this.lane);
+        this.changeLane(this.lane, true);
     }
 
-    public changeLane( lane: Lanes ): void
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
     {
         //only move when the lane is different that its own lane
-        if (this._lane === lane) {
+        if (this._lane === lane && overwriteOldPosition === false)
+        {
             return;
         }
-        this._lane = lane;
 
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
@@ -123,6 +123,19 @@ export default class PerspectiveObject extends Phaser.Group
         this.lane = lane;
     }
 
+    /** The object's scale, indipendent of the renderer. Use this to change the scale without interfearing with the perspective rendering */
+    public set scaleMultiplier(newSize: number)
+    {
+        this._resizedScale = newSize;
+
+        this.positionShouldBeUpdated = true;
+    }
+
+    public get scaleMultiplier(): number
+    {
+        return this._resizedScale;
+    }
+
     /** What z position the sprite is currently on */
     public get zPos(): number
     {
@@ -166,10 +179,10 @@ export default class PerspectiveObject extends Phaser.Group
     public resize(): void
     {
         this.positionShouldBeUpdated = true;
-        this.resizedScale = this.game.width / GAME_WIDTH;
+        this.scaleMultiplier = this.game.width / GAME_WIDTH;
     }
 
-    public updateObject(): void
+    public updatePosition(): void
     {
         //
     }
@@ -183,5 +196,8 @@ export default class PerspectiveObject extends Phaser.Group
 
         if (this.laneTween) { this.laneTween.pause(); }
         this.laneTween = null;
+
+        if (this.sprite) { this.sprite.destroy(true); }
+        this.sprite = null;
     }
 }

@@ -1,22 +1,21 @@
-import PhaseSystem from './PhaseSystem';
 import Constants from '../Data/Constants';
 
 export default class ScoreSystem
 {
-    private _phaseSystem: PhaseSystem;
-
     private _comboCounter: number = 0;
-    private readonly _comboTimeBeforePhaseUp: number = 7;
+    private readonly _comboTimeBeforePhaseUp: number = 6;
 
-    constructor(phaseSystem: PhaseSystem)
+    public onNextPhase: Phaser.Signal;
+    public onPreviousPhase: Phaser.Signal;
+
+    constructor()
     {
-        this._phaseSystem = phaseSystem;
+        this.onNextPhase = new Phaser.Signal();
+        this.onPreviousPhase = new Phaser.Signal();
     }
 
     public updateScoreSystem(currentScore: number): void
     {
-        if (this._phaseSystem.inTransition === true) { return; }
-
         if (currentScore >= .666)
         {
             this._comboCounter += Constants.DELTA_TIME;
@@ -32,14 +31,22 @@ export default class ScoreSystem
 
         if (this._comboCounter > this._comboTimeBeforePhaseUp)
         {
-            this._phaseSystem.startNextPhase();
+            this.onNextPhase.dispatch();
             this._comboCounter = 0;
         }
         else if (this._comboCounter < -this._comboTimeBeforePhaseUp / 2)
         {
-            this._phaseSystem.startLastPhase();
+            this.onPreviousPhase.dispatch();
             this._comboCounter = 0;
         }
     }
 
+    public destroy(): void
+    {
+        if (this.onNextPhase) { this.onNextPhase.removeAll(); }
+        this.onNextPhase = null;
+
+        if (this.onPreviousPhase) { this.onPreviousPhase.removeAll(); }
+        this.onPreviousPhase = null;
+    }
 }

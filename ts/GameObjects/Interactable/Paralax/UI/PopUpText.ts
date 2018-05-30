@@ -1,24 +1,23 @@
 import 'phaser-ce';
 import Constants from '../../../../Data/Constants';
 import { setTimeout, clearTimeout } from 'timers';
-import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
 export default class PickupCounter extends Phaser.BitmapText
 {
-    public score: number = 0;
-
     private _timeOutID: NodeJS.Timer;
 
     private _hideTween: Phaser.Tween;
 
     private _reactTween: Phaser.Tween;
 
+    private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!', 'Wonderfull!', 'Wow!'];
+
     constructor(game: Phaser.Game, x: number, y: number)
     {
         super(game, x, y, 'myfont', '0');
         this.anchor.set(.5);
         this.alpha = 0.0;
-        this.scale.set(1, 1);
+        this.fontSize = 20;
 
         if (Constants.USE_FILTERS === true)
         {
@@ -26,11 +25,11 @@ export default class PickupCounter extends Phaser.BitmapText
         }
     }
 
-    private reactToCollection(): void
+    public reactToCollection(): void
     {
         if (this._reactTween)
         {
-            this._reactTween.stop(true);
+            this._reactTween.stop();
             this._reactTween = null;
         }
 
@@ -51,13 +50,11 @@ export default class PickupCounter extends Phaser.BitmapText
         });
     }
 
-    public updateScore(scoreIncrease: number): void
+    public showText(x: number, y: number): void
     {
+        this.position.setTo(x, y);
         this.fadeIn();
-        this.score += scoreIncrease;
-        this.text = this.score.toString();
-
-        this.reactToCollection();
+        this.text = this._coolPhrasesArray[Math.floor(Math.random() * this._coolPhrasesArray.length)];
     }
 
     private fadeIn(): void
@@ -71,7 +68,7 @@ export default class PickupCounter extends Phaser.BitmapText
         );
 
         clearTimeout(this._timeOutID);
-        this._timeOutID = setTimeout(this.fadeOut.bind(this), 1200);
+        this._timeOutID = setTimeout(this.fadeOut.bind(this), 1000);
     }
 
     private fadeOut(): void
@@ -86,7 +83,7 @@ export default class PickupCounter extends Phaser.BitmapText
 
     private setScaleToAlpha(): void
     {
-        let desiredScale: number = 1 + this.alpha * 1.5 / 0.15;
+        let desiredScale: number = 1 + this.alpha * 1 / 0.1;
 
         this.scale.set(desiredScale, desiredScale);
     }
@@ -95,13 +92,8 @@ export default class PickupCounter extends Phaser.BitmapText
     {
         if (this._hideTween)
         {
-            this._hideTween.stop(true);
+            this._hideTween.stop();
             this._hideTween = null;
         }
-    }
-
-    public destroy(): void
-    {
-        PlayerCollisionChecker.getInstance().onColliding.remove(this.reactToCollection);
     }
 }

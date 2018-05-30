@@ -4,7 +4,7 @@ import PerspectiveObject from '../Rendering/Sprites/PerspectiveObject';
 /** Spawns pickups */
 export default class ObjectPool
 {
-    public objects: PerspectiveObject[];
+    private _objects: PerspectiveObject[];
 
     private _createInstance: () => PerspectiveObject;
     private _length: number;
@@ -13,26 +13,26 @@ export default class ObjectPool
     {
         this._createInstance = createInstanceFunction;
         this._length = length;
-        this.objects = [];
+        this._objects = [];
     }
 
     public getObject(forced: boolean = true): PerspectiveObject
     {
         let object: PerspectiveObject = null;
 
-        for (let i: number = this.objects.length; i--; )
+        for (let i: number = this._objects.length; i--; )
         {
-            if (!this.objects[i].visible)
+            if (!this._objects[i].visible)
             {
-                object = this.objects[i];
+                object = this._objects[i];
                 break;
             }
         }
 
-        if (object === null && (forced || this.objects.length < this._length))
+        if (object === null && (forced || this._objects.length < this._length))
         {
             object = this._createInstance();
-            this.objects.push(object);
+            this._objects.push(object);
         }
 
         if (object !== null)
@@ -50,18 +50,18 @@ export default class ObjectPool
 
     public wipe(): void
     {
-        for (let i: number = this.objects.length; i--; )
+        for (let i: number = this._objects.length; i--; )
         {
-            this.objects[i].destroy(true);
-            this.objects[i] = null;
+            this._objects[i].destroy(true);
+            this._objects[i] = null;
         }
-        this.objects = [];
+        this._objects = [];
     }
 
     public destroy(): void
     {
         this.wipe();
-        this.objects = null;
+        this._objects = null;
 
         this._createInstance = null;
     }

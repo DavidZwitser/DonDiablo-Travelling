@@ -60,12 +60,15 @@ export default class Player extends ReactivePerspectiveObject
     {
         this.spine.autoUpdate = !pause;
     }
-    public changeLane( lane: Lanes ): void
+
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
     {
+        super.changeLane(lane, overwriteOldPosition);
+
         if (this._lane === lane) {
             return;
         }
-        super.changeLane(lane);
+
         this.tapping();
     }
 
@@ -85,7 +88,7 @@ export default class Player extends ReactivePerspectiveObject
 
     public react(): void
     {
-        //
+        super.react(1.05, 160);
     }
 
     public destroy(): void

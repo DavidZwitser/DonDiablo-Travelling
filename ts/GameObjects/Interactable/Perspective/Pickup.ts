@@ -9,7 +9,8 @@ import PlayerCollisionChecker from '../../../Systems/PlayerCollisionChecker';
 /** A pickup you can pickup */
 export default class Pickup extends ReactivePerspectiveObject
 {
-    constructor(game: Phaser.Game, renderer: PerspectiveRenderer) {
+    constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
+    {
         super(game, renderer);
 
         //art assigning
@@ -17,51 +18,55 @@ export default class Pickup extends ReactivePerspectiveObject
         this.addChild(this.sprite);
     }
 
-    public reset(lane: Lanes): void {
+    /** Reset the pickup to its default values */
+    public reset(lane: Lanes): void
+    {
         this.lane = lane;
         this.position.set(0, 0);
     }
 
+    /** Tell the collision class that it should check if the pickup is colliding with the player */
     private initiateCollision(): void
     {
         let collissionResult: number = PlayerCollisionChecker.getInstance().isCollidingLanes(this.lane);
-        if (collissionResult)
-        {
-            this.visible = false;
-            if (collissionResult === 1)
-            {
-                console.log('puckup collect');
-            }
-            else {
-                console.log('puckup super collect');
-            }
-            //Colision events go here
-        }
+
+        if (collissionResult === 0) { return; }
+
+        this.visible = false;
+        //Colision events go here
     }
 
+    /** React to music */
     public react(): void
     {
-        //
+        super.react(1.2);
     }
 
-    //called when state is shutted down
-    public destroy(): void {
-        super.destroy();
-        this.sprite.destroy();
-        this.sprite = null;
-    }
-
-    public updateObject(): void
+    /** The internal update loop used for updating its logic */
+    public update(): void
     {
-        this.zPos -= Constants.DELTA_TIME * Constants.GLOBAL_SPEED;
-        if (this.scale.y < 0) {
+        if (this.visible === false) { return; }
+
+        /** If it is out of the screen, hide it */
+        if (this.scale.y < 0)
+        {
             //out of screen/field of view (FOV)
             this.visible = false;
+            // Call the "I am hidng" event
             PlayerCollisionChecker.getInstance().onMissing.dispatch();
         }
+
+        /** If it is on a z position where it could be colliding, call that event */
         if (this.zPos > 1 && this.zPos < 1.4)
         {
             this.initiateCollision();
         }
     }
+
+    /** Update the position of the pickup */
+    public updatePosition(): void
+    {
+        this.zPos -= Constants.DELTA_TIME * Constants.GLOBAL_SPEED;
+    }
+
 }

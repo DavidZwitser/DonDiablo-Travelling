@@ -17,6 +17,8 @@ import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 import PhaseSystem from '../Systems/PhaseSystem';
 import ScoreSystem from '../Systems/ScoreSystem';
+import SaveData from '../BackEnd/SaveData';
+import PickupContianer from '../Systems/PickupContainer';
 
 export default class Gameplay extends Phaser.State
 {
@@ -33,6 +35,7 @@ export default class Gameplay extends Phaser.State
 
     private _input: Input;
     private _pickupSpawner: PickupSpawner;
+    private _pickupContainer: PickupContianer;
 
     private _perspectiveRenderer: PerspectiveRenderer;
     private _road: Road;
@@ -58,13 +61,38 @@ export default class Gameplay extends Phaser.State
         Constants.GAME_TIME = 0;
     }
 
+    /** Toggleable options */
+    private _updatePhaseByBar: boolean = true;
+    private _hideScoreBar: boolean = false;
+    private _useContinuesInput: boolean = true;
+
+    private setToggealableOptions(): void
+    {
+        /** Move the player back a bit */
+        Constants.PLAYER_Z_POSITION = 1.1;
+
+        /** Change phase per song and die when bar drains */
+        this._updatePhaseByBar = false;
+
+        /** Is 6 lanes to much as the max difficulty? */
+
+        /** Hide score bar */
+        this._hideScoreBar = true;
+
+        /** Dont use continues input */
+        this._useContinuesInput = false;
+    }
+    /** End toggleable options */
+
     public create(): void
     {
         super.create(this.game);
 
+        this.setToggealableOptions();
+
         //focus/blur events setup
-        document.addEventListener('blur', this.blur.bind(this));
-        document.addEventListener('focus', this.focus.bind(this));
+        window.addEventListener('blur', this.blur.bind(this));
+        window.addEventListener('focus', this.focus.bind(this));
 
         this._worldMood = this._worldMood;
 
@@ -74,7 +102,6 @@ export default class Gameplay extends Phaser.State
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
         PlayerCollisionChecker.getInstance(this._player);
-        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
 
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
@@ -82,38 +109,32 @@ export default class Gameplay extends Phaser.State
         //remove below comment to start recording the spawn editor.
         this.spawnEditor.startRecording();
 
-        /* Sounds */
-        SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music);
-
         /* Road */
-        this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
-
         this._road = new Road(this.game);
-        this.game.add.existing(this._road);
 
-        this._road.filters = [this._glowFilter];
+        if (Constants.USE_FILTERS === true)
+        {
+            this._glowFilter = new Phaser.Filter(this.game, null, Constants.GLOW_FILTER);
+            this._road.filters = [this._glowFilter];
+        }
+
+        this.game.add.existing(this._road);
 
         /* Visualizer */
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
-        /* Rendering */
-        this._perspectiveRenderer = new PerspectiveRenderer(this.game);
-
-        /* Player */
-        this._player = new Player(this.game, this._perspectiveRenderer);
-
-        PlayerCollisionChecker.getInstance(this._player);
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
-        this._pickupSpawner = new PickupSpawner(this.game, this._perspectiveRenderer);
+        this._pickupContainer = new PickupContianer(this.game);
+        this._pickupSpawner = new PickupSpawner(this.game, this._pickupContainer, this._perspectiveRenderer);
 
         this.game.add.existing(this._player);
 
         /* Input */
-        this._input = new Input(this.game);
+        this._input = new Input(this.game, this._useContinuesInput);
         this._input.onInputMove.add( (lane: Lanes) => this._player.changeLane(lane));
         this._input.onInputDown.add( () => this._player.tapping());
 
@@ -126,23 +147,62 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem = new PhaseSystem();
         this._phaseSystem.init();
 
-        this._phaseSystem.onPhaseChange.add( this._player.reposition.bind(this._player) );
-        this._phaseSystem.onPhaseChange.add( this._pickupSpawner.repositionAllPickups.bind(this._pickupSpawner) );
-        this._phaseSystem.onPhaseChange.add( () => this._userInterface.scoreBar.Value = .5 );
-        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
-        this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
+        this._phaseSystem.onPhaseChange.add( this.worldReposition.bind(this) );
 
-        this._scoreSystem = new ScoreSystem(this._phaseSystem);
+        this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
+        this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
+
+        this._scoreSystem = new ScoreSystem();
+        if (this._updatePhaseByBar === true)
+        {
+            this._scoreSystem.onNextPhase.add( this._phaseSystem.startNextPhase.bind(this._phaseSystem) );
+            this._scoreSystem.onPreviousPhase.add( this._phaseSystem.startPreviousPhase.bind(this._phaseSystem) );
+        }
+        else
+        {
+            this._scoreSystem.onPreviousPhase.add( () => this.gameOver(this._userInterface.pickupCounter.score) );
+        }
 
         this._userInterface.scoreBar.onEmpty.add( () => {
             if (this._phaseSystem.currentPhase === 1)
             {
-                this._userInterface.gameOver();
-                this.pause(false);
+                this.gameOver(this._userInterface.pickupCounter.score);
             }
         });
 
+        if (this._hideScoreBar)
+        {
+            this._userInterface.scoreBar.visible = false;
+        }
+
+        SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
+        this.startTrack();
+
+        //addEventListener('click', this.nextTrack.bind(this));
         this.resize();
+
+    }
+
+    /** sets up next track of the song list */
+    private nextTrack(): void
+    {
+        Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
+        this.startTrack();
+
+        if (this._updatePhaseByBar)
+        {
+            this._phaseSystem.startNextPhase();
+        }
+    }
+
+    /** starts the track (optinally with a delay) */
+    private startTrack(delay: number = 1000): void
+    {
+        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
+        setTimeout(() => {
+            SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
+            this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+        }, delay);
     }
 
     public update(): void
@@ -159,8 +219,21 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
 
-        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.Value);
+        if (this._phaseSystem.inTransition === true) { return; }
+        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.value);
 
+    }
+
+    public gameOver(score: number): void
+    {
+        console.log('gameover');
+        if (score > SaveData.Highscore)
+        {
+            SaveData.Highscore = score;
+        }
+
+        this._userInterface.gameOver(score, SaveData.Highscore);
+        this.pause(false);
     }
 
     public resize(): void
@@ -183,7 +256,7 @@ export default class Gameplay extends Phaser.State
     //called when window gets focused
     public focus(): void {
         if (this._gamePaused && this._blurred) {
-            this.pause();
+            this.pause(false);
             this._blurred = false;
         }
     }
@@ -209,12 +282,24 @@ export default class Gameplay extends Phaser.State
         }
     }
 
+    /** Make the world move */
     public worldReact(): void {
         if (navigator.vibrate) {
             // vibration API supported
             window.navigator.vibrate(50);
         }
         this._audioVisualizer.react();
+        this._player.react();
+        this._pickupContainer.makeAllPickupsReact();
+        this._userInterface.react();
+    }
+
+    /** Reposition everything on the road so they are ready for the next phase */
+    public worldReposition(): void
+    {
+        this._player.reposition();
+        this._pickupContainer.reposition();
+        this._userInterface.scoreBar.reset();
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
@@ -225,8 +310,9 @@ export default class Gameplay extends Phaser.State
 
         super.shutdown(this.game);
 
-        PlayerCollisionChecker.getInstance().onColliding.removeAll();
-        PlayerCollisionChecker.getInstance().onMissing.removeAll();
+        PlayerCollisionChecker.getInstance().destroy();
+
+        SoundManager.getInstance().onMusicEnd.removeAll();
 
         this._audioVisualizer.destroy();
         this._audioVisualizer = null;
@@ -236,6 +322,9 @@ export default class Gameplay extends Phaser.State
 
         this._pickupSpawner.destroy();
         this._pickupSpawner = null;
+
+        this._pickupContainer.destroy();
+        this._pickupContainer = null;
 
         this._player.destroy();
         this._player = null;
@@ -255,10 +344,13 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.destroy();
         this._phaseSystem = null;
 
+        this._scoreSystem.destroy();
+        this._scoreSystem = null;
+
         this._glowFilter = null;
 
         //removing events
-        document.removeEventListener('blur', this.blur.bind(this));
-        document.removeEventListener('focus', this.focus.bind(this));
+        window.removeEventListener('blur', this.blur.bind(this));
+        window.removeEventListener('focus', this.focus.bind(this));
     }
 }

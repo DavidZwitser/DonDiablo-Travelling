@@ -7,9 +7,12 @@ export default class SoundManager
 {
     /** The instance of the sound manager used to handle the sounds */
     private static instance: SoundManager = null;
+    private _game: Phaser.Game;
 
     /** The manager that handles the sfx's */
     private _sound: Phaser.SoundManager;
+
+    public onMusicEnd: Phaser.Signal;
 
     /** The manager that handles the music */
     public music: Phaser.Sound = null;
@@ -25,8 +28,11 @@ export default class SoundManager
 
     private constructor(game: Phaser.Game)
     {
+        this._game = game;
         this._sound = game.sound;
         this._music = { element: <HTMLMediaElement>document.getElementById('musicPlayer'), key: ''};
+        this._music.element.addEventListener('ended', this.musicEnded.bind(this));
+        this.onMusicEnd = new Phaser.Signal;
     }
 
     /** Get an instance of the game to handle sounds with */
@@ -46,7 +52,18 @@ export default class SoundManager
     }
 
     public pause(pause: boolean): void {
-        pause ? this._music.element.pause() : this._music.element.play();
+        if (this._game.device.safari || this._game.device.mobileSafari)
+        {
+            pause ? this.music.pause() : this.music.resume();
+        }
+        else
+        {
+            pause ? this._music.element.pause() : this._music.element.play();
+        }
+    }
+
+    private musicEnded(): void {
+        this.onMusicEnd.dispatch();
     }
 
     /** Play a sfx */
@@ -76,29 +93,8 @@ export default class SoundManager
     }
 
     /** Start playing a background tune */
-    public playMusic(key: string, volume: number = 1): void
+    public playMusic(key: string, volume: number = 1, loop: boolean = true): void
     {
-        if (SaveGame.MusicMuted)
-        {
-            //Even though the music is currently turned off, keep track of the last music we wanted to play.
-            //This way, when we turn the music on again, we already know which song to play.
-            //this.music = this._sound.play(key, volume, true);
-            if ((typeof this._music.element.canPlayType === 'function' &&
-            this._music.element.canPlayType('audio/mpeg;codecs=ogg') !== '')) {
-                this._music.element.src = 'assets/music/' + key + '.ogg';
-            } else {
-                this._music.element.src = 'assets/music/' + key + '.mp3';
-            }
-            this._music.element.currentTime = 0;
-            this._music.element.loop = true;
-
-            //Stop the music right away. We just want to keep track of the song.
-            //this.music.stop();
-
-            console.error('Music, playing! Though muted :(');
-            return;
-        }
-
         // if (null === this.music || this.music.name !== key)
         // {
         //     if (null !== this.music && this.music.name !== key)
@@ -115,6 +111,18 @@ export default class SoundManager
         // }
 
         //this.music = this._sound.play(key, 1, true);
+        if (this._game.device.safari || this._game.device.mobileSafari) {
+                if (null !== this.music && this.music.name !== key)
+                {
+                    this.music.stop();
+                    console.error('sound already there!, stopping and playing again');
+                }
+                this.music = this._sound.play(key, 1, true);
+                this.music.resume();
+                console.error('playin ze muziek');
+                return;
+        } else {
+
         if (this._music.key !== key) {
             this._music.key = key;
             if ((typeof this._music.element.canPlayType === 'function' &&
@@ -126,9 +134,10 @@ export default class SoundManager
             this._music.element.currentTime = 0;
         }
         this._music.element.volume = volume;
+        this._music.element.load();
         this._music.element.play();
-        this._music.element.loop = true;
-
+        this._music.element.loop = loop;
+    }
         return;
 
         //console.error('doing nothing' );
@@ -150,9 +159,24 @@ export default class SoundManager
         // {
         //     return;
         // }
+        if (this._game.device.safari || this._game.device.mobileSafari)
+        {
+            if (null === this.music)
+        {
+            return;
+        }
 
+            if (this.music.isPlaying)
+            {
+            this.music.pause();
+            this.music.currentTime = 0;
+            }
+        }
+        else
+        {
         this._music.element.pause();
         this._music.element.currentTime = 0;
+        }
     }
 
     /** Toggle the sfx mute switch */

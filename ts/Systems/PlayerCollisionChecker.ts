@@ -20,23 +20,27 @@ export default class PlayerCollisionChecker
     }
     public isCollidingLanes(lane: Lanes): number
     {
-        if ( this._player.lane === lane)
+        if ( this._player.lane !== lane) { return 0; }
+
+        if (this._player.tapped)
         {
-            if (this._player.tapped)
-            {
-                //super pickup
-                this._player.unTap();
-                this.onCollidingPerfect.dispatch();
-                return 2;
-            }
-            else
-            {
-                //Regular pickup
-                this.onColliding.dispatch();
-                return 1;
-            }
+            //super pickup
+            this._player.unTap();
+            this.onCollidingPerfect.dispatch();
+            return 2;
         }
-        return 0;
+        else
+        {
+            //Regular pickup
+            this.onColliding.dispatch();
+            return 1;
+        }
+    }
+
+    public destroy(): void
+    {
+        PlayerCollisionChecker.getInstance().onColliding.removeAll();
+        PlayerCollisionChecker.getInstance().onMissing.removeAll();
     }
 
     public static getInstance(player?: Player): PlayerCollisionChecker
@@ -48,4 +52,10 @@ export default class PlayerCollisionChecker
 
         return PlayerCollisionChecker.instance;
     }
+
+    public get PlayerPos(): {x: number, y: number}
+    {
+        return {x: this._player.x, y: this._player.y};
+    }
+
 }

@@ -128,7 +128,7 @@ export default class BuildingVisualizer extends Phaser.Group
     public react(): void
     {
         if (this.reactTween) {
-            this.reactTween.pause();
+            this.reactTween.stop(true);
             this.reactTween.onComplete.removeAll();
         }
 

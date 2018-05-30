@@ -2,7 +2,10 @@ import Constants from '../Data/Constants';
 
 interface ISaveData
 {
-    sm: boolean; //sfx
+    /** Highscore */
+    hs: number;
+    /** Sound effects mute */
+    sm: boolean;
     sfx_vol: number; //sfx volume
     mm: boolean; //music
     q: number; //quality
@@ -20,21 +23,25 @@ export default class SaveData
 
     public static Init(): void
     {
-        if (this.data !== null) {
+        if (this.data !== null)
+        {
             return;
         }
 
         this.data = {
-            'sm': false,
-            'sfx_vol': 1,
-            'mm': false,
-            'q': 1,
-            'lvls': this.emplyLevelData()
+            hs: 0,
+            sm: false,
+            sfx_vol: 1,
+            mm: false,
+            q: 1,
+            lvls: this.emplyLevelData()
         };
 
     }
-    public static emplyLevelData(): ILevelData[] {
+    public static emplyLevelData(): ILevelData[]
+    {
         let levelData: ILevelData[] = [];
+
         levelData.push({un: true, hs: 0});
         for (let i: number = Constants.LEVELS.length - 1; i--;) {
             levelData.push({un: false, hs: 0});
@@ -108,6 +115,18 @@ export default class SaveData
     public static get Levels(): ILevelData[]
     {
         return this.data.lvls;
+    }
+
+    public static set Highscore(newHighscore: number)
+    {
+        let newData: ISaveData = this.data;
+        newData.hs = newHighscore;
+
+        this.data = newData;
+    }
+    public static get Highscore(): number
+    {
+        return this.data.hs;
     }
 
     /** Set or get the cached data */

@@ -116,4 +116,15 @@ export default class Constants
             'gl_FragColor = sum * 0.025 + texture2D(uSampler, texcoord);',
         '}'
     ];
+
+    /** Should shaders be applied */
+    public static USE_FILTERS: boolean = true;
+
+    /** All the GPU's that don't work with shaders */
+    public static GPU_SHADER_BLACKLIST: string[] = [
+        /** Tested on a Oneplus 6 */
+        'Adreno (TM) 630',
+        /** Tested on a Oneplus 3 */
+        'Adreno (TM) 530'
+    ];
 }

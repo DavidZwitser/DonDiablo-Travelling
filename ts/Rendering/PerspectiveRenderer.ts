@@ -39,13 +39,13 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 
         let targetTransform: IScreenTransform = PerspectiveRenderer.worldToScreenPosition(this.game, object.xPos, object.yPos, object.zPos);
 
-        object.scale.set(targetTransform.scale * object.resizedScale);
+        object.scale.set(targetTransform.scale * object.scaleMultiplier);
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
     private updateObject(object: PerspectiveObject): void {
         if (object.visible) {
-            object.updateObject();
+            object.updatePosition();
         }
     }
 

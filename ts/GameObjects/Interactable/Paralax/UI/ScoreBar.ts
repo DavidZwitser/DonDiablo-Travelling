@@ -40,7 +40,7 @@ export default class ScoreBar extends Phaser.Group
         this._backDropSprite.anchor.set(0, 1);
         this._foreGroundSprite.anchor.set(0, 1);
 
-        this.Value = .5;
+        this.value = .5;
 
         this.addChild(this._backDropSprite);
         this.addChild(this._valueSprite);
@@ -60,11 +60,11 @@ export default class ScoreBar extends Phaser.Group
         this.scaleTween.start();
     }
 
-    public get Value(): number {
+    public get value(): number {
         return this._value;
     }
 
-    public set Value(value: number) {
+    public set value(value: number) {
 
         this._value = value;
 
@@ -77,6 +77,11 @@ export default class ScoreBar extends Phaser.Group
             this.onEmpty.dispatch();
         }
         this.updateFill();
+    }
+
+    public reset(): void
+    {
+        this.value = .5;
     }
 
     public resize(): void
