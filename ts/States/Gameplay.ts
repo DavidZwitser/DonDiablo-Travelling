@@ -12,7 +12,7 @@ import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 import Constants from '../Data/Constants';
 import Input from '../Systems/Input';
 
-import { Lanes } from '../Enums/Lanes';
+import { Lanes, LaneConverter } from '../Enums/Lanes';
 import PlayerCollisionChecker from '../Systems/PlayerCollisionChecker';
 
 import PhaseSystem from '../Systems/PhaseSystem';
@@ -88,7 +88,7 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
-        this.setToggealableOptions();
+        // this.setToggealableOptions();
 
         //focus/blur events setup
         window.addEventListener('blur', this.blur.bind(this));
@@ -137,6 +137,17 @@ export default class Gameplay extends Phaser.State
         this._input = new Input(this.game, this._useContinuesInput);
         this._input.onInputMove.add( (lane: Lanes) => this._player.changeLane(lane));
         this._input.onInputDown.add( () => this._player.tapping());
+
+        this._input.onInputSwipe.add( (xDir: number, yDir: number) => {
+            console.log(this._player.changingLane);
+            if (this._player.changingLane === true) { return; }
+
+            let targetLane: Lanes = LaneConverter.GET_NEAREST_LANE_IN_DIRECTION(this._player.lane, xDir, yDir);
+
+            console.log(targetLane);
+
+            this._player.changeLane(targetLane);
+        });
 
         /* UI */
         this._userInterface = new UI(this.game);
@@ -218,6 +229,8 @@ export default class Gameplay extends Phaser.State
         this._road.render();
         this._perspectiveRenderer.updatePosition();
         this._perspectiveRenderer.render();
+
+        this._input.update();
 
         if (this._phaseSystem.inTransition === true) { return; }
         this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.value);

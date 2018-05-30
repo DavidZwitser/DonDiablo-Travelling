@@ -212,4 +212,51 @@ export class LaneConverter
         return LaneConverter.PERSPECTIVE_POSITION_TO_CLOSEST_LANE(xScreen, yScreen);
 
     }
+
+    public static GET_NEAREST_LANE_IN_DIRECTION(from: Lanes, xDir: number, yDir: number): Lanes
+    {
+        let useXDir: boolean = Math.abs(xDir) > Math.abs(yDir);
+
+        if (from === Lanes.topLeftLane || from === Lanes.topCenterLane || from === Lanes.topRightLane)
+        {
+            xDir = -xDir;
+        }
+
+        if (from === Lanes.topLeftLane)
+        {
+            if (xDir > 0 && useXDir) { return Lanes.topCenterLane; }
+            if (yDir > 0 && !useXDir) { return Lanes.bottomRightLane; }
+        }
+        else if (from === Lanes.topCenterLane)
+        {
+            if (xDir < 0 && useXDir) { return Lanes.topLeftLane; }
+            if (xDir > 0 && useXDir) { return Lanes.topRightLane; }
+            if (yDir > 0 && !useXDir) { return Lanes.bottomCenterLane; }
+        }
+        else if (from === Lanes.topRightLane)
+        {
+            if (xDir < 0 && useXDir) { return Lanes.topCenterLane; }
+            if (yDir > 0 && !useXDir) { return Lanes.bottomLeftLane; }
+        }
+        else if (from === Lanes.bottomLeftLane)
+        {
+            if (xDir > 0 && useXDir) { return Lanes.bottomCenterLane; }
+            if (yDir < 0 && !useXDir) { return Lanes.topRightLane; }
+        }
+        else if (from === Lanes.bottomCenterLane)
+        {
+            if (xDir < 0 && useXDir) { return Lanes.bottomLeftLane; }
+            if (xDir > 0 && useXDir) { return Lanes.bottomRightLane; }
+            if (yDir < 0 && !useXDir) { return Lanes.topCenterLane; }
+        }
+        else if (from === Lanes.bottomRightLane)
+        {
+            if (xDir < 0 && useXDir) { return Lanes.bottomCenterLane; }
+            if (yDir < 0 && !useXDir) { return Lanes.topLeftLane; }
+        }
+
+        return from;
+
+    }
+
 }
