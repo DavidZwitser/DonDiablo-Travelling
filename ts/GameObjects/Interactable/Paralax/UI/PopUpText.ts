@@ -10,14 +10,15 @@ export default class PickupCounter extends Phaser.BitmapText
 
     private _reactTween: Phaser.Tween;
 
-    private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!', 'Wonderfull!', 'Wow!'];
+    private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!', 'Wonderfull!', 'Wow!', 'Bazinga!',
+'Yeah!', 'Wooo!'];
 
     constructor(game: Phaser.Game, x: number, y: number)
     {
         super(game, x, y, 'myfont', '0');
         this.anchor.set(.5);
         this.alpha = 0.0;
-        this.fontSize = 20;
+        this.fontSize = 12;
 
         if (Constants.USE_FILTERS === true)
         {
@@ -60,13 +61,20 @@ export default class PickupCounter extends Phaser.BitmapText
     private fadeIn(): void
     {
         this.stopHide();
-
-        this._hideTween = this.game.add.tween(this).to( {alpha: 0.15}, 250, Phaser.Easing.Linear.None, true, 0, 0)
+        if (this.position.y > screen.width / 2)
+        {
+            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y - 300}, 250, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
                 this.setScaleToAlpha();
-            }
-        );
-
+            });
+        }
+        else
+        {
+            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y + 300}, 250, Phaser.Easing.Linear.None, true, 0, 0)
+            .onUpdateCallback(() => {
+                this.setScaleToAlpha();
+            });
+        }
         clearTimeout(this._timeOutID);
         this._timeOutID = setTimeout(this.fadeOut.bind(this), 1000);
     }
@@ -83,7 +91,7 @@ export default class PickupCounter extends Phaser.BitmapText
 
     private setScaleToAlpha(): void
     {
-        let desiredScale: number = 1 + this.alpha * 1 / 0.1;
+        let desiredScale: number = 1 + this.alpha * 1.5 / 0.15;
 
         this.scale.set(desiredScale, desiredScale);
     }
