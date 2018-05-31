@@ -67,7 +67,7 @@ export default class Gameplay extends Phaser.State
     private _hideScoreBar: boolean = false;
     private _useContinuesInput: boolean = true;
 
-    private setToggealableOptions(): void
+    public setToggealableOptions(): void
     {
         /** Move the player back a bit */
         Constants.PLAYER_Z_POSITION = 1.1;
