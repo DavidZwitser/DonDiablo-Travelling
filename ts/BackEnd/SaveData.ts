@@ -1,4 +1,5 @@
 import Constants from '../Data/Constants';
+import { IHexBodyPartsCollection, defaultHexPartsData } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 interface ISaveData
 {
@@ -10,6 +11,9 @@ interface ISaveData
     mm: boolean; //music
     q: number; //quality
     lvls: ILevelData[]; //array of leveldata
+
+    /** Hex's collection data */
+    hcd: IHexBodyPartsCollection;
 }
 interface ILevelData
 {
@@ -34,7 +38,8 @@ export default class SaveData
             sfx_vol: 1,
             mm: false,
             q: 1,
-            lvls: this.emplyLevelData()
+            lvls: this.emplyLevelData(),
+            hcd: defaultHexPartsData
         };
 
     }
@@ -127,6 +132,18 @@ export default class SaveData
     public static get Highscore(): number
     {
         return this.data.hs;
+    }
+
+    public static set HexCollectiblesData(data: IHexBodyPartsCollection)
+    {
+        let newData: ISaveData = this.data;
+        newData.hcd = data;
+
+        this.data = newData;
+    }
+    public static get HexCollectiblesData(): IHexBodyPartsCollection
+    {
+        return this.data.hcd;
     }
 
     /** Set or get the cached data */

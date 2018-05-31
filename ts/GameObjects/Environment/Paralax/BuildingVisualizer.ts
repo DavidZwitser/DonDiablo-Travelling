@@ -233,5 +233,43 @@ export default class BuildingVisualizer extends Phaser.Group
     public destroy(): void
     {
         super.destroy(true);
+
+        this._bottomHalf.destroy(true);
+        this._bottomHalf = null;
+
+        for (let i: number = this._buildings.length; i--; )
+        {
+            this._buildings[i].destroy();
+            this._buildings.splice(i, 1);
+        }
+        this._buildings = null;
+
+        this._glow.destroy(true);
+        this._glow = null;
+
+        this._backGlow.destroy(true);
+        this._backGlow = null;
+
+        this._topHalf.destroy(true);
+        this._topHalf = null;
+
+        for (let i: number = this._topBuildings.length; i--; )
+        {
+            this._topBuildings[i].destroy(true);
+            this._topBuildings.slice(i, i);
+        }
+        this._topBuildings = null;
+
+        this._topGlow.destroy(true);
+        this._topGlow = null;
+
+        this._topBackGlow.destroy(true);
+        this._topBackGlow = null;
+
+        this._maskGraphic.destroy(true);
+        this._maskGraphic = null;
+
+        this.reactTween.stop(true);
+        this.reactTween = null;
     }
 }

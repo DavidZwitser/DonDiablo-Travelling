@@ -10,6 +10,8 @@ import CreditsScreen from '../GameObjects/Interactable/Paralax/UI/CreditsScreen'
 import Sounds from '../Data/Sounds';
 import SoundManager from '../Systems/Sound/SoundManager';
 
+import Viewer from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsViewerScreen';
+
 export default class Menu extends Phaser.State
 {
     public static Name: string = 'menu';
@@ -23,6 +25,8 @@ export default class Menu extends Phaser.State
     private _settingGroup: SettingPopup;
     private _levelSelect: LevelSelect;
     private _creditsScreen: CreditsScreen;
+
+    private _hexViewer: Viewer;
 
     private _worldEmitter: Phaser.Particles.Arcade.Emitter;
 
@@ -67,6 +71,9 @@ export default class Menu extends Phaser.State
         });
         this.game.add.existing(this._creditsScreen);
 
+        this._hexViewer = new Viewer(this.game);
+        this.game.add.existing(this._hexViewer);
+        this._hexViewer.onBack.add(this.DisplayMenu.bind(this));
         this.resize();
     }
 
@@ -99,7 +106,7 @@ export default class Menu extends Phaser.State
         group.addChild(characterButton);
 
         let continueButton: TextButton = new TextButton(this.game, 200, 70, '', 40, 'UserInterface_Menu_ContinueButton', () => {
-            console.log('continue session');
+            this.DisplayObject(this._hexViewer);
         }, this);
         group.addChild(continueButton);
 
@@ -139,6 +146,7 @@ export default class Menu extends Phaser.State
         this._logoSprite.visible = false;
         this._levelSelect.visible = false;
         this._creditsScreen.visible = false;
+        this._hexViewer.visible = false;
 
         object.visible = true;
         if (object === this._mainButtonsGroup) {
