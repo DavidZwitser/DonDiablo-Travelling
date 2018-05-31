@@ -36,7 +36,7 @@ export default class CreditsScreen extends Phaser.Group
         this.creditsText.text = 'Art Director\n Bo Schutte\n\nDigital Artists\n Jidske Donkersloot\n Amber Kalverboer\n Amber Huiskes\n Eva Vrieze\n\nProgramming Director' +
         '\n Ferry Elbagdadi\n\nProgramming\n Sebastiaan Buwalda\n Nathan Nieuwenhuizen\n David Zwitser';
 
-        this.backButton = new ImageButton(this.game, -228, 445, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
+        this.backButton = new ImageButton(this.game, -228, 475, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
             callback();
         }, this);
         this.backButton.scale.x = -1;

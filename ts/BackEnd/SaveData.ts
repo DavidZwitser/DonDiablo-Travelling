@@ -10,6 +10,8 @@ interface ISaveData
     mm: boolean; //music
     q: number; //quality
     lvls: ILevelData[]; //array of leveldata
+    /** SelectedCarIndex */
+    scar: number;
 }
 interface ILevelData
 {
@@ -34,7 +36,8 @@ export default class SaveData
             sfx_vol: 1,
             mm: false,
             q: 1,
-            lvls: this.emplyLevelData()
+            lvls: this.emplyLevelData(),
+            scar: 0
         };
 
     }
@@ -102,6 +105,19 @@ export default class SaveData
     public static get Quality(): number
     {
         return this.data.q;
+    }
+
+    /** Save the quality in cache */
+    public static set SelectedCar(value: number)
+    {
+        let newData: ISaveData = this.data;
+        newData.scar = value;
+
+        this.data = newData;
+    }
+    public static get SelectedCar(): number
+    {
+        return this.data.scar;
     }
 
     /** Save the quality in cache */
