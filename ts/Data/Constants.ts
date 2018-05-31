@@ -52,17 +52,17 @@ export default class Constants
         {
             carName: 'D1-A8L0',
             spriteKey: 'ingame_vehicle_1_sideview_right',
-            description: 'Lexus model, number original.'
+            description: 'Lexus model, number original!'
         },
         {
             carName: 'Neon Drifter',
             spriteKey: 'ingame_vehicle_2_sideview_right',
-            description: 'Drift like the fastest tornados\n in Hexagonia!'
+            description: 'Drift like the fastest riders\n in Hexagonia!'
         },
         {
-            carName: 'Some other fast car',
+            carName: 'Phaser Noir',
             spriteKey: 'ingame_vehicle_3_sideview_right',
-            description: 'yeah... Im not really\n original... ;)'
+            description: 'Slick, swift and better in\n black!'
         }
     ];
 
