@@ -76,7 +76,7 @@ export default class Player extends ReactivePerspectiveObject
         this.tapping();
     }
 
-    public tapping(duration: number = 150): void
+    public tapping(duration: number = 200): void
     {
         if (this.tapped) { return; }
 

@@ -131,18 +131,19 @@ export default class Menu extends Phaser.State
         this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
         this._levelSelect.scale.set(vmin / GAME_WIDTH);
 
-        this._vehicleSelect.position.set(this.game.width / 2, this.game.height / 2);
-        this._vehicleSelect.scale.set(vmin / GAME_WIDTH);
-
         this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
         this._logoSprite.scale.set(vmin / GAME_WIDTH);
 
         this._worldEmitter.position.set(this.game.width / 2, this.game.height);
         this._worldEmitter.width = this.game.width;
 
+        vmin = Math.min(this.game.height * .6, this.game.width);
+
+        this._vehicleSelect.position.set(this.game.width / 2, this.game.height / 2);
+        this._vehicleSelect.scale.set(vmin / GAME_WIDTH);
+
         this._creditsScreen.position.set(this.game.width / 2, this.game.height / 2);
-        this._creditsScreen.width = this.game.width;
-        this._creditsScreen.height = this.game.height;
+        this._creditsScreen.scale.set(vmin / GAME_WIDTH);
     }
 
     public DisplayObject(object: Phaser.Group): void {

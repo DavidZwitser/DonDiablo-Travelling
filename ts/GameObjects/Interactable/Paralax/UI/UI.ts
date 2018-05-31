@@ -29,6 +29,8 @@ export default class UI extends ParalaxObject
 
     private _gameOverScreen: GameOverScreen;
     private _trackText: Phaser.BitmapText;
+    private _comboValue: number = 1;
+    private _streakCount: number = 0;
 
     constructor(game: Phaser.Game)
     {
@@ -79,11 +81,30 @@ export default class UI extends ParalaxObject
         this.addChild(this.pickupCounter);
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
             this.pickupCounter.updateScore(10, false);
+            this.resetCombo();
         });
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this.pickupCounter.updateScore(15, true);
+            this.increaseStreakCount();
+            this.pickupCounter.updateScore(15 * this._comboValue, true);
         });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => {
+            this.resetCombo();
+        });
+
+    }
+
+    private resetCombo(): void
+    {
+        this._streakCount = 0;
+        this._comboValue = 1;
+    }
+    private increaseStreakCount(): void
+    {
+        this._streakCount++;
+        if (this._streakCount % 5 === 0 && this._comboValue < 8) {
+            this._comboValue *= 2;
+        }
     }
 
     private createPopUpText(): void
@@ -92,7 +113,7 @@ export default class UI extends ParalaxObject
         this.addChild(this._popUpText);
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this._popUpText.showText(PlayerCollisionChecker.getInstance().PlayerPos.x, PlayerCollisionChecker.getInstance().PlayerPos.y);
+            this._popUpText.showText(PlayerCollisionChecker.getInstance().PlayerPos.x, PlayerCollisionChecker.getInstance().PlayerPos.y, this._comboValue);
         });
     }
 

@@ -67,8 +67,6 @@ export default class PerspectiveObject extends Phaser.Group
             return;
         }
 
-        console.log('changing lane');
-
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
 
