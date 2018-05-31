@@ -10,6 +10,8 @@ import GameOverScreen from './GameOverScreen';
 
 import PickupCounter from '../UI/PickupCounter';
 import PopUpText from '../UI/PopUpText';
+import SoundManager from '../../../../Systems/Sound/SoundManager';
+import Sounds from '../../../../Data/Sounds';
 
 /** User Interface
  *
@@ -43,10 +45,10 @@ export default class UI extends ParalaxObject
         this.createTrackText();
         this.createPopUpText();
 
-        this.pauseScreen = new PauseScreen(game, 1, 80, 80);
+        this.pauseScreen = new PauseScreen(game, 1);
         this.pauseScreen.onResume.add(() => this.onPause.dispatch(), this);
 
-        this._gameOverScreen = new GameOverScreen(game, 1, 80, 80);
+        this._gameOverScreen = new GameOverScreen(game, 1);
         this.addChild(this._gameOverScreen);
 
         this.addChild(this.pauseScreen);
@@ -81,11 +83,11 @@ export default class UI extends ParalaxObject
         this.pickupCounter = new PickupCounter(this.game, this.game.width / 2, this.game.height / 2);
         this.addChild(this.pickupCounter);
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.pickupCounter.updateScore(10);
+            this.pickupCounter.updateScore(10, false);
         });
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this.pickupCounter.updateScore(15);
+            this.pickupCounter.updateScore(15, true);
         });
     }
 
@@ -120,6 +122,7 @@ export default class UI extends ParalaxObject
 
     public gameOver(score: number, highscore: number): void
     {
+        SoundManager.getInstance().play(Sounds.GAME_OVER, 1);
         this._gameOverScreen.show(score, highscore);
     }
 

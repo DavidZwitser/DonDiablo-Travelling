@@ -51,12 +51,19 @@ export default class PickupCounter extends Phaser.BitmapText
         });
     }
 
-    public updateScore(scoreIncrease: number): void
+    public updateScore(scoreIncrease: number, changeColour: boolean): void
     {
         this.fadeIn();
         this.score += scoreIncrease;
         this.text = this.score.toString();
-
+        if (changeColour)
+        {
+            this.tint = Math.random() * 0xffffff;
+        }
+        else
+        {
+            this.tint = 0xffffff;
+        }
         this.reactToCollection();
     }
 

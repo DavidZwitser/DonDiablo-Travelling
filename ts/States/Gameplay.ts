@@ -19,6 +19,7 @@ import PhaseSystem from '../Systems/PhaseSystem';
 import ScoreSystem from '../Systems/ScoreSystem';
 import SaveData from '../BackEnd/SaveData';
 import PickupContianer from '../Systems/PickupContainer';
+import Sounds from '../Data/Sounds';
 
 export default class Gameplay extends Phaser.State
 {
@@ -88,7 +89,7 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
-        this.setToggealableOptions();
+        //this.setToggealableOptions();
 
         //focus/blur events setup
         window.addEventListener('blur', this.blur.bind(this));
@@ -262,6 +263,7 @@ export default class Gameplay extends Phaser.State
     }
 
     public onMissingpPickup(): void {
+        SoundManager.getInstance().play(Sounds.LOW_SOUND);
         this.game.camera.flash(0xff0000, 300, true, 0.1);
     }
 
@@ -288,6 +290,7 @@ export default class Gameplay extends Phaser.State
             // vibration API supported
             window.navigator.vibrate(50);
         }
+        SoundManager.getInstance().play(Sounds.HIGH_SOUND);
         this._audioVisualizer.react();
         this._player.react();
         this._pickupContainer.makeAllPickupsReact();

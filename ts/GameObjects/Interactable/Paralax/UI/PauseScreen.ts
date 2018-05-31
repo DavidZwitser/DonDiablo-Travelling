@@ -26,9 +26,9 @@ export default class PauseScreen extends BasePopUp
 
     public onContinue: Phaser.Signal;
 
-    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
+    constructor(game: Phaser.Game, scale: number)
     {
-        super(game, scale, buttonOffset, spaceBetweenButtons);
+        super(game, scale);
 
         this._titleText.text = 'Pause';
 

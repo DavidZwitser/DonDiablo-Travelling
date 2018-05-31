@@ -6,6 +6,9 @@ import SettingPopup from '../GameObjects/Interactable/Paralax/UI/SettingPopup';
 import LevelSelect from '../GameObjects/Interactable/Paralax/UI/LevelSelect/LevelSelect';
 import Atlases from '../Data/Atlases';
 import AtlasImages from '../Data/AtlasImages';
+import CreditsScreen from '../GameObjects/Interactable/Paralax/UI/CreditsScreen';
+import Sounds from '../Data/Sounds';
+import SoundManager from '../Systems/Sound/SoundManager';
 
 export default class Menu extends Phaser.State
 {
@@ -19,6 +22,8 @@ export default class Menu extends Phaser.State
 
     private _settingGroup: SettingPopup;
     private _levelSelect: LevelSelect;
+    private _creditsScreen: CreditsScreen;
+
     private _worldEmitter: Phaser.Particles.Arcade.Emitter;
 
     constructor()
@@ -28,12 +33,15 @@ export default class Menu extends Phaser.State
 
     public init(): void
     {
-        //
+        SoundManager.getInstance(this.game);
+
     }
 
     public create(): void
     {
         super.create(this.game);
+
+        SoundManager.getInstance().play(Sounds.UI_MENU_MUSIC , 1, true);
 
         this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'UserInterface_Menu_Background');
 
@@ -49,11 +57,15 @@ export default class Menu extends Phaser.State
         this._settingGroup = new SettingPopup(this.game);
         this.game.add.existing(this._settingGroup);
         this._settingGroup.onBack.add(this.DisplayMenu.bind(this));
-        this._settingGroup.onPlay.add(this.DisplayLevelSelect.bind(this));
 
         this._levelSelect = new LevelSelect(this.game);
         this.game.add.existing(this._levelSelect);
         this._levelSelect.onBack.add(this.DisplayMenu.bind(this));
+
+        this._creditsScreen = new CreditsScreen(this.game, () => {
+            this.DisplayObject(this._mainButtonsGroup);
+        });
+        this.game.add.existing(this._creditsScreen);
 
         this.resize();
     }
@@ -77,7 +89,7 @@ export default class Menu extends Phaser.State
         group.addChild(settingButton);
 
         let creditsButton: TextButton = new TextButton(this.game, 135, 180, '', 40, 'UserInterface_Menu_Credits', () => {
-            console.log('show credits');
+            this.DisplayObject(this._creditsScreen);
         }, this);
         group.addChild(creditsButton);
 
@@ -115,27 +127,34 @@ export default class Menu extends Phaser.State
 
         this._worldEmitter.position.set(this.game.width / 2, this.game.height);
         this._worldEmitter.width = this.game.width;
+
+        this._creditsScreen.position.set(this.game.width / 2, this.game.height / 2);
+        this._creditsScreen.width = this.game.width;
+        this._creditsScreen.height = this.game.height;
     }
 
-    public DisplaySetting(): void {
-        this._settingGroup.visible = true;
-        this._mainButtonsGroup.visible = false;
-        this._logoSprite.visible = true;
-        this._levelSelect.visible = false;
-    }
-
-    public DisplayMenu(): void {
-        this._settingGroup.visible = false;
-        this._mainButtonsGroup.visible = true;
-        this._logoSprite.visible = true;
-        this._levelSelect.visible = false;
-    }
-
-    public DisplayLevelSelect(): void {
+    public DisplayObject(object: Phaser.Group): void {
         this._settingGroup.visible = false;
         this._mainButtonsGroup.visible = false;
         this._logoSprite.visible = false;
-        this._levelSelect.visible = true;
+        this._levelSelect.visible = false;
+        this._creditsScreen.visible = false;
+
+        object.visible = true;
+        if (object === this._mainButtonsGroup) {
+            this._logoSprite.visible = true;
+        }
+    }
+    public DisplaySetting(): void {
+        this.DisplayObject(this._settingGroup);
+    }
+
+    public DisplayMenu(): void {
+        this.DisplayObject(this._mainButtonsGroup);
+    }
+
+    public DisplayLevelSelect(): void {
+        this.DisplayObject(this._levelSelect);
     }
 
     public createWorldEmitter(): Phaser.Particles.Arcade.Emitter {
@@ -168,5 +187,7 @@ export default class Menu extends Phaser.State
 
         this._worldEmitter.destroy();
         this._worldEmitter = null;
+        SoundManager.getInstance().stop(Sounds.UI_MENU_MUSIC);
+
     }
 }

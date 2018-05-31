@@ -16,13 +16,9 @@ export default class BasePopUp extends Phaser.Group
     private _menuBackground: Phaser.Image;
     private _blackPixel: Phaser.Sprite;
 
-    constructor(game: Phaser.Game, scale: number, buttonOffset: number, spaceBetweenButtons: number)
+    constructor(game: Phaser.Game, scale: number)
     {
         super(game);
-
-        // So there won't be a tslint errors
-        spaceBetweenButtons = spaceBetweenButtons;
-        buttonOffset = buttonOffset;
 
         this._blackPixel = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, AtlasImages.Black_Pixel);
         this._blackPixel.width = game.width;
