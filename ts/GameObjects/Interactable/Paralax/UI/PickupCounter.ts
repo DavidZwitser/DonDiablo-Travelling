@@ -58,7 +58,7 @@ export default class PickupCounter extends Phaser.BitmapText
         this.text = this.score.toString();
         if (changeColour)
         {
-            this.tint = 0x9900FF;
+            this.tint = Math.random() * 0xffffff;
         }
         else
         {
