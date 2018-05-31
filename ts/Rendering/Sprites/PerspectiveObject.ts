@@ -20,6 +20,8 @@ export default class PerspectiveObject extends Phaser.Group
     private laneTween: Phaser.Tween;
     private rotationTween: Phaser.Tween;
 
+    public changingLane: boolean = false;
+
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game);
@@ -47,6 +49,8 @@ export default class PerspectiveObject extends Phaser.Group
         this.yPos = targetPosition.y;
         this.xPos = targetPosition.x;
 
+        this.changingLane = false;
+
     }
 
     /** Reset lane, so the object moves to the nearest lane (used when a new lane is added). */
@@ -58,10 +62,12 @@ export default class PerspectiveObject extends Phaser.Group
     public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
     {
         //only move when the lane is different that its own lane
-        if (this._lane === lane && overwriteOldPosition === false)
+        if (this._lane === lane && overwriteOldPosition === false || this.changingLane === true)
         {
             return;
         }
+
+        console.log('changing lane');
 
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
@@ -116,6 +122,8 @@ export default class PerspectiveObject extends Phaser.Group
 
         // To quickly fix the tslint error
         this.rotationTween = this.rotationTween;
+
+        this.changingLane = true;
     }
 
     private laneEnd(lane: Lanes ): void

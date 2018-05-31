@@ -67,21 +67,24 @@ export default class Player extends ReactivePerspectiveObject
     {
         super.changeLane(lane, overwriteOldPosition);
 
-        if (this._lane === lane) {
+        if (this._lane === lane)
+        {
             return;
         }
+
         SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
     }
 
-    public tapping(duration: number = 150): void {
-        if (this.tapped) {
-            return;
-        }
+    public tapping(duration: number = 150): void
+    {
+        if (this.tapped) { return; }
+
         this.tapped = true;
         this.sprite.frameName = 'Spacecraft_Main_Blink';
         this.tappedTimeout = setTimeout(this.unTap.bind(this), duration);
     }
+
     public unTap(): void
     {
         this.sprite.frameName = 'Spacecraft_Main';
