@@ -9,6 +9,7 @@ import AtlasImages from '../Data/AtlasImages';
 import CreditsScreen from '../GameObjects/Interactable/Paralax/UI/CreditsScreen';
 import Sounds from '../Data/Sounds';
 import SoundManager from '../Systems/Sound/SoundManager';
+import VehicleSelect from '../GameObjects/Interactable/Paralax/UI/VehicleSelect';
 
 import Viewer from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsViewerScreen';
 
@@ -25,6 +26,7 @@ export default class Menu extends Phaser.State
     private _settingGroup: SettingPopup;
     private _levelSelect: LevelSelect;
     private _creditsScreen: CreditsScreen;
+    private _vehicleSelect: VehicleSelect;
 
     private _hexViewer: Viewer;
 
@@ -47,7 +49,7 @@ export default class Menu extends Phaser.State
 
         SoundManager.getInstance().play(Sounds.UI_MENU_MUSIC , 1, true);
 
-        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'UserInterface_Menu_Background');
+        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'bg');
 
         this._worldEmitter = this.createWorldEmitter();
         this.add.existing(this._worldEmitter);
@@ -74,6 +76,14 @@ export default class Menu extends Phaser.State
         this._hexViewer = new Viewer(this.game);
         this.game.add.existing(this._hexViewer);
         this._hexViewer.onBack.add(this.DisplayMenu.bind(this));
+        this._vehicleSelect = new VehicleSelect(this.game, () => {
+            this.DisplayObject(this._mainButtonsGroup);
+        });
+
+        this.game.add.existing(this._vehicleSelect);
+
+        this.DisplayObject(this._mainButtonsGroup);
+
         this.resize();
     }
 
@@ -101,14 +111,14 @@ export default class Menu extends Phaser.State
         group.addChild(creditsButton);
 
         let characterButton: TextButton = new TextButton(this.game, -200, 70, '', 40, 'UserInterface_Menu_CharacterSelect', () => {
-            console.log('show character selection');
+            this.DisplayObject(this._vehicleSelect);
         }, this);
         group.addChild(characterButton);
 
-        let continueButton: TextButton = new TextButton(this.game, 200, 70, '', 40, 'UserInterface_Menu_ContinueButton', () => {
+        let hexButton: TextButton = new TextButton(this.game, 200, 70, '', 40, 'UserInterface_Menu_HexButton', () => {
             this.DisplayObject(this._hexViewer);
         }, this);
-        group.addChild(continueButton);
+        group.addChild(hexButton);
 
         return group;
     }
@@ -123,7 +133,7 @@ export default class Menu extends Phaser.State
         this._mainButtonsGroup.position.set(this.game.width / 2, this.game.height / 2);
         this._mainButtonsGroup.scale.set(vmin / GAME_WIDTH);
 
-        this._settingGroup.position.set(this.game.width / 2, this.game.height * .6);
+        this._settingGroup.position.set(this.game.width / 2, this.game.height * .5);
         this._settingGroup.scale.set(vmin / GAME_WIDTH);
 
         this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
@@ -135,9 +145,13 @@ export default class Menu extends Phaser.State
         this._worldEmitter.position.set(this.game.width / 2, this.game.height);
         this._worldEmitter.width = this.game.width;
 
+        vmin = Math.min(this.game.height * .6, this.game.width);
+
+        this._vehicleSelect.position.set(this.game.width / 2, this.game.height / 2);
+        this._vehicleSelect.scale.set(vmin / GAME_WIDTH);
+
         this._creditsScreen.position.set(this.game.width / 2, this.game.height / 2);
-        this._creditsScreen.width = this.game.width;
-        this._creditsScreen.height = this.game.height;
+        this._creditsScreen.scale.set(vmin / GAME_WIDTH);
     }
 
     public DisplayObject(object: Phaser.Group): void {
@@ -147,6 +161,7 @@ export default class Menu extends Phaser.State
         this._levelSelect.visible = false;
         this._creditsScreen.visible = false;
         this._hexViewer.visible = false;
+        this._vehicleSelect.visible = false;
 
         object.visible = true;
         if (object === this._mainButtonsGroup) {
@@ -192,6 +207,9 @@ export default class Menu extends Phaser.State
 
         this._settingGroup.destroy();
         this._settingGroup = null;
+
+        this._vehicleSelect.destroy();
+        this._vehicleSelect = null;
 
         this._worldEmitter.destroy();
         this._worldEmitter = null;

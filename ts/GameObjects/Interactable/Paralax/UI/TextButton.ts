@@ -19,7 +19,6 @@ export default class TextButton extends Phaser.Button
 
         this.inputEnabled = true;
         this.events.onInputDown.add(() => {
-            console.log('click');
             SoundManager.getInstance().play(Sounds.UI_CLICK);
         });
     }

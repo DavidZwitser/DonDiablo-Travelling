@@ -14,6 +14,8 @@ interface ISaveData
 
     /** Hex's collection data */
     hcd: IHexBodyPartsCollection;
+    /** SelectedCarIndex */
+    scar: number;
 }
 interface ILevelData
 {
@@ -39,7 +41,8 @@ export default class SaveData
             mm: false,
             q: 1,
             lvls: this.emplyLevelData(),
-            hcd: defaultHexPartsData
+            hcd: defaultHexPartsData,
+            scar: 0
         };
 
     }
@@ -107,6 +110,19 @@ export default class SaveData
     public static get Quality(): number
     {
         return this.data.q;
+    }
+
+    /** Save the quality in cache */
+    public static set SelectedCar(value: number)
+    {
+        let newData: ISaveData = this.data;
+        newData.scar = value;
+
+        this.data = newData;
+    }
+    public static get SelectedCar(): number
+    {
+        return this.data.scar;
     }
 
     /** Save the quality in cache */

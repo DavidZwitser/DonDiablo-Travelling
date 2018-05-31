@@ -13,7 +13,6 @@ export default class ImageButton extends Phaser.Button
 
         this.inputEnabled = true;
         this.events.onInputDown.add(() => {
-            console.log('click');
             SoundManager.getInstance().play(Sounds.UI_CLICK);
         });
         this.icon = new Phaser.Sprite(game, 0, 0, Atlases.Interface, iconFrameName);

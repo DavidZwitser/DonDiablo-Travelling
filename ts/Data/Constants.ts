@@ -48,6 +48,24 @@ export default class Constants
         }
     ];
 
+    public static CARS: {carName: String, spriteKey: string, description: string}[] = [
+        {
+            carName: 'D1-A8L0',
+            spriteKey: 'ingame_vehicle_1_sideview_right',
+            description: 'Lexus model, number original!'
+        },
+        {
+            carName: 'Neon Drifter',
+            spriteKey: 'ingame_vehicle_2_sideview_right',
+            description: 'Drift like the fastest riders\n in Hexagonia!'
+        },
+        {
+            carName: 'Phaser Noir',
+            spriteKey: 'ingame_vehicle_3_sideview_right',
+            description: 'Slick, swift and better in\n black!'
+        }
+    ];
+
     /** All the phases saved in a Phase array */
     public static readonly PHASES: IGamePhase[] = [
         {

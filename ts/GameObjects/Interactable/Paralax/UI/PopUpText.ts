@@ -18,6 +18,7 @@ export default class PickupCounter extends Phaser.BitmapText
         super(game, x, y, 'myfont', '0');
         this.anchor.set(.5);
         this.alpha = 0.0;
+        this.align = 'center';
         this.fontSize = 12;
 
         if (Constants.USE_FILTERS === true)
@@ -51,11 +52,32 @@ export default class PickupCounter extends Phaser.BitmapText
         });
     }
 
-    public showText(x: number, y: number): void
+    public showText(x: number, y: number, comboValue: number): void
     {
         this.position.setTo(x, y);
         this.fadeIn();
+        switch (comboValue) {
+            case 1:
+            //white
+            this.tint = 0xffffff;
+            break;
+            case 2:
+            //light green
+            this.tint = 0x7cd67d;
+            break;
+            case 4:
+            //orange
+            this.tint = 0xce8f31;
+            break;
+            case 8:
+            //red
+            this.tint = 0xdd4242;
+            break;
+            default:
+            break;
+        }
         this.text = this._coolPhrasesArray[Math.floor(Math.random() * this._coolPhrasesArray.length)];
+        this.text += '\n' + comboValue + 'X';
     }
 
     private fadeIn(): void
@@ -63,14 +85,14 @@ export default class PickupCounter extends Phaser.BitmapText
         this.stopHide();
         if (this.position.y > screen.width / 2)
         {
-            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y - 300}, 250, Phaser.Easing.Linear.None, true, 0, 0)
+            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y - 300}, 350, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
                 this.setScaleToAlpha();
             });
         }
         else
         {
-            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y + 300}, 250, Phaser.Easing.Linear.None, true, 0, 0)
+            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y + 300}, 350, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
                 this.setScaleToAlpha();
             });
