@@ -5,6 +5,7 @@ import Constants from '../../../Data/Constants';
 import AtlasImages from '../../../Data/Atlases';
 import SoundManager from '../../../Systems/Sound/SoundManager';
 import Sounds from '../../../Data/Sounds';
+import SaveData from '../../../BackEnd/SaveData';
 
 /** The player controlled by the user */
 export default class Player extends ReactivePerspectiveObject
@@ -19,6 +20,8 @@ export default class Player extends ReactivePerspectiveObject
     public static ANIMATION_TURN: string = 'turn';
     public static ANIMATION_LOSE: string = 'defeat';
 
+    private typeCar: number;
+
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game, renderer);
@@ -29,6 +32,9 @@ export default class Player extends ReactivePerspectiveObject
         this.zPos = Constants.PLAYER_Z_POSITION;
 
         this.lane = Lanes.bottomLeftLane;
+
+        this.typeCar = SaveData.SelectedCar + 1;
+
         this.changeSprite();
        /*
        this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
@@ -110,15 +116,15 @@ export default class Player extends ReactivePerspectiveObject
     {
         if (this._lane === Lanes.bottomCenterLane || this._lane === Lanes.topCenterLane)
         {
-            this.sprite.frameName = 'ingame_vehicle_1_straight';
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_straight';
         }
         else if (this._lane === Lanes.bottomLeftLane || this._lane === Lanes.topLeftLane)
         {
-            this.sprite.frameName = 'ingame_vehicle_1_sideview_left';
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_left';
         }
         else if (this._lane === Lanes.bottomRightLane || this._lane === Lanes.topRightLane)
         {
-            this.sprite.frameName = 'ingame_vehicle_1_sideview_right';
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_right';
         }
     }
 
@@ -126,15 +132,15 @@ export default class Player extends ReactivePerspectiveObject
     {
         if (this._lane === Lanes.bottomCenterLane || this._lane === Lanes.topCenterLane)
         {
-            this.sprite.frameName = 'ingame_vehicle_1_straight_blink';
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_straight_blink';
         }
         else if (this._lane === Lanes.bottomLeftLane || this._lane === Lanes.topLeftLane)
         {
-            this.sprite.frameName = 'ingame_vehicle_1_sideview_left_blink';
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_left_blink';
         }
         else if (this._lane === Lanes.bottomRightLane || this._lane === Lanes.topRightLane)
         {
-            this.sprite.frameName = 'ingame_vehicle_1_sideview_right_blink';
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_right_blink';
         }
     }
 }
