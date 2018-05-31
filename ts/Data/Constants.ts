@@ -51,17 +51,17 @@ export default class Constants
     public static CARS: {carName: String, spriteKey: string, description: string}[] = [
         {
             carName: 'D1-A8L0',
-            spriteKey: 'Spacecraft_Main',
+            spriteKey: 'ingame_vehicle_1_sideview_right',
             description: 'Lexus model, number original.'
         },
         {
             carName: 'Neon Drifter',
-            spriteKey: 'InGame_Vehicle_Variation_02',
+            spriteKey: 'ingame_vehicle_2_sideview_right',
             description: 'Drift like the fastest tornados\n in Hexagonia!'
         },
         {
             carName: 'Some other fast car',
-            spriteKey: 'Spacecraft_Main_Blink',
+            spriteKey: 'ingame_vehicle_3_sideview_right',
             description: 'yeah... Im not really\n original... ;)'
         }
     ];

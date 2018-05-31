@@ -5,6 +5,7 @@ import Constants from '../../../Data/Constants';
 import AtlasImages from '../../../Data/Atlases';
 import SoundManager from '../../../Systems/Sound/SoundManager';
 import Sounds from '../../../Data/Sounds';
+import SaveData from '../../../BackEnd/SaveData';
 
 /** The player controlled by the user */
 export default class Player extends ReactivePerspectiveObject
@@ -19,6 +20,8 @@ export default class Player extends ReactivePerspectiveObject
     public static ANIMATION_TURN: string = 'turn';
     public static ANIMATION_LOSE: string = 'defeat';
 
+    private typeCar: number;
+
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game, renderer);
@@ -30,6 +33,9 @@ export default class Player extends ReactivePerspectiveObject
 
         this.lane = Lanes.bottomLeftLane;
 
+        this.typeCar = SaveData.SelectedCar + 1;
+
+        this.changeSprite();
        /*
        this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
        this.addChild(this.spine);
@@ -66,12 +72,11 @@ export default class Player extends ReactivePerspectiveObject
     public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
     {
         super.changeLane(lane, overwriteOldPosition);
-
         if (this._lane === lane)
         {
             return;
         }
-
+        requestAnimationFrame(this.changeSprite);
         SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
     }
@@ -81,13 +86,13 @@ export default class Player extends ReactivePerspectiveObject
         if (this.tapped) { return; }
 
         this.tapped = true;
-        this.sprite.frameName = 'Spacecraft_Main_Blink';
+        this.changeSpriteBlink();
         this.tappedTimeout = setTimeout(this.unTap.bind(this), duration);
     }
 
     public unTap(): void
     {
-        this.sprite.frameName = 'Spacecraft_Main';
+        this.changeSprite();
         this.tapped = false;
     }
 
@@ -105,5 +110,37 @@ export default class Player extends ReactivePerspectiveObject
 
         clearTimeout(this.tappedTimeout);
         this.tappedTimeout = null;
+    }
+
+    private changeSprite(): void
+    {
+        if (this._lane === Lanes.bottomCenterLane || this._lane === Lanes.topCenterLane)
+        {
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_straight';
+        }
+        else if (this._lane === Lanes.bottomLeftLane || this._lane === Lanes.topLeftLane)
+        {
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_left';
+        }
+        else if (this._lane === Lanes.bottomRightLane || this._lane === Lanes.topRightLane)
+        {
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_right';
+        }
+    }
+
+    private changeSpriteBlink(): void
+    {
+        if (this._lane === Lanes.bottomCenterLane || this._lane === Lanes.topCenterLane)
+        {
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_straight_blink';
+        }
+        else if (this._lane === Lanes.bottomLeftLane || this._lane === Lanes.topLeftLane)
+        {
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_left_blink';
+        }
+        else if (this._lane === Lanes.bottomRightLane || this._lane === Lanes.topRightLane)
+        {
+            this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_right_blink';
+        }
     }
 }
