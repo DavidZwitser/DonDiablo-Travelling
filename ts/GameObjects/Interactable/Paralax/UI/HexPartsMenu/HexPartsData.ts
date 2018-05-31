@@ -1,3 +1,8 @@
+export function getRandomHexPart(): HexParts
+{
+    return Math.floor(Math.random() * 15) + 1;
+}
+
 export enum HexParts
 {
     none = 0,
@@ -18,8 +23,8 @@ export enum HexParts
 
     /** Body parts */
     torso_hearth = 12,
-    torso_screws = 14,
-    torso_wires = 13,
+    torso_screws = 13,
+    torso_wires = 14,
 
     /** Booster parts */
     booster_battery = 15

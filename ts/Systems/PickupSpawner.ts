@@ -114,7 +114,6 @@ export default class PickupSpawner extends Phaser.Group
             clearTimeout(this._timeOut);
             this._timeOut = null;
             this._passedTime = (Date.now() - this._startTime) / 1000;
-            console.log(this._passedTime);
         }
         else
         {

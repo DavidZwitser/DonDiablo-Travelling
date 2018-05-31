@@ -20,12 +20,15 @@ import ScoreSystem from '../Systems/ScoreSystem';
 import SaveData from '../BackEnd/SaveData';
 import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
+import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 export default class Gameplay extends Phaser.State
 {
     public static Name: string = 'gameplay';
 
     public name: string = Gameplay.Name;
+
+    public score: number = 0;
 
     private _worldMood: number;
 
@@ -104,6 +107,17 @@ export default class Gameplay extends Phaser.State
         this._player = new Player(this.game, this._perspectiveRenderer);
         PlayerCollisionChecker.getInstance(this._player);
 
+        PlayerCollisionChecker.getInstance().onColliding.add(() => {
+            this.score += 5;
+        });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => {
+            this.score -= 0.1;
+        });
+
+        PlayerCollisionChecker.getInstance().onColliding.add( () => {
+            this._userInterface.scoreBar.value += 1;
+        });
+
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
 
@@ -144,6 +158,26 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._userInterface);
         this._userInterface.onPause.add(this.pause, this);
 
+        /** Collecting a new hex part! */
+        this._userInterface.scoreBar.onFull.add( () => {
+            let collectedPickup: HexParts = SaveData.NextHexPickup;
+            let currentData: IHexBodyPartsCollection = SaveData.HexCollectiblesData;
+
+            Object.keys(currentData).forEach( (partKey: any) => {
+                let currentSubParts: IHexPartsCollection = currentData[partKey].subParts;
+
+                Object.keys(currentSubParts).forEach( (subPartKey: any) => {
+                    if (+subPartKey === +collectedPickup)
+                    {
+                        currentData[partKey].subParts[subPartKey].collected = true;
+                    }
+                });
+            });
+
+            SaveData.HexCollectiblesData = currentData;
+            SaveData.NextHexPickup = getRandomHexPart();
+        });
+
         /* Phases! */
         this._phaseSystem = new PhaseSystem();
         this._phaseSystem.init();
@@ -161,13 +195,13 @@ export default class Gameplay extends Phaser.State
         }
         else
         {
-            this._scoreSystem.onPreviousPhase.add( () => this.gameOver(this._userInterface.pickupCounter.score) );
+            this._scoreSystem.onPreviousPhase.add( () => this.gameOver() );
         }
 
-        this._userInterface.scoreBar.onEmpty.add( () => {
-            if (this._phaseSystem.currentPhase === 1)
+        this._scoreSystem.onPreviousPhase.add( () => {
+            if (this._phaseSystem.currentPhase === 0)
             {
-                this.gameOver(this._userInterface.pickupCounter.score);
+                this.gameOver();
             }
         });
 
@@ -221,19 +255,18 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.render();
 
         if (this._phaseSystem.inTransition === true) { return; }
-        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.value);
+        this._scoreSystem.updateScoreSystem(this.score);
 
     }
 
-    public gameOver(score: number): void
+    public gameOver(): void
     {
-        console.log('gameover');
-        if (score > SaveData.Highscore)
+        if (this.score > SaveData.Highscore)
         {
-            SaveData.Highscore = score;
+            SaveData.Highscore = this.score;
         }
 
-        this._userInterface.gameOver(score, SaveData.Highscore);
+        this._userInterface.gameOver(this.score, SaveData.Highscore);
         this.pause(false);
     }
 
@@ -302,7 +335,6 @@ export default class Gameplay extends Phaser.State
     {
         this._player.reposition();
         this._pickupContainer.reposition();
-        this._userInterface.scoreBar.reset();
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*

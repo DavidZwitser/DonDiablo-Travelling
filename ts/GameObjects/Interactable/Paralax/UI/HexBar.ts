@@ -2,8 +2,10 @@ import 'phaser-ce';
 
 import Atlases from '../../../../Data/Atlases';
 import AtlasImages from '../../../../Data/AtlasImages';
+import Constants from '../../../../Data/Constants';
+import SaveData from '../../../../BackEnd/SaveData';
 
-export default class ScoreBar extends Phaser.Group
+export default class HexBar extends Phaser.Group
 {
 
     private _valueSprite: Phaser.Sprite;
@@ -12,7 +14,7 @@ export default class ScoreBar extends Phaser.Group
 
     private _fillMask: Phaser.Graphics;
     private _value: number = 0.5;
-    public onEmpty: Phaser.Signal;
+    public onFull: Phaser.Signal;
     private scaleTween: Phaser.Tween;
 
     constructor(game: Phaser.Game, x: number, y: number)
@@ -21,7 +23,7 @@ export default class ScoreBar extends Phaser.Group
         this.x = x;
         this.y = y;
 
-        this.onEmpty = new Phaser.Signal();
+        this.onFull = new Phaser.Signal();
 
         this._backDropSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, AtlasImages.ScoreBarBackground);
         this._valueSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, AtlasImages.ScoreBarFill);
@@ -40,7 +42,7 @@ export default class ScoreBar extends Phaser.Group
         this._backDropSprite.anchor.set(0, 1);
         this._foreGroundSprite.anchor.set(0, 1);
 
-        this.value = .5;
+        this.value = SaveData.HexBarValue;
 
         this.addChild(this._backDropSprite);
         this.addChild(this._valueSprite);
@@ -56,32 +58,32 @@ export default class ScoreBar extends Phaser.Group
             this.scaleTween.stop();
         }
 
-        this.scaleTween = this.game.add.tween(this._fillMask.scale).to({y: this._value}, 600, Phaser.Easing.Elastic.InOut);
+        this.scaleTween = this.game.add.tween(this._fillMask.scale).to({y: this._value / Constants.PICKUPS_BEFORE_HEX_PART}, 600, Phaser.Easing.Elastic.InOut);
         this.scaleTween.start();
     }
 
-    public get value(): number {
+    public get value(): number
+    {
         return this._value;
     }
-
-    public set value(value: number) {
-
+    public set value(value: number)
+    {
         this._value = value;
 
-        if (this._value > 1) {
-            this._value = 1;
-        }
-        else if (this._value < 0)
+        if (value / Constants.PICKUPS_BEFORE_HEX_PART >= 1)
         {
-            this._value = 0;
-            this.onEmpty.dispatch();
+            this.onFull.dispatch();
+            this.value = 0;
         }
+
+        if (value % 10 === 0) { SaveData.HexBarValue = value; }
+
         this.updateFill();
     }
 
     public reset(): void
     {
-        this.value = .5;
+        this.value = 0;
     }
 
     public resize(): void
@@ -95,10 +97,10 @@ export default class ScoreBar extends Phaser.Group
     public destroy(): void {
         super.destroy(true, true);
 
-        if (this.onEmpty) {
-            this.onEmpty.removeAll();
+        if (this.onFull) {
+            this.onFull.removeAll();
         }
-        this.onEmpty = null;
+        this.onFull = null;
 
         if (this.scaleTween) { this.scaleTween.stop(); }
         this.scaleTween = null;

@@ -1,7 +1,8 @@
 import 'phaser-ce';
 import PartsWindow from './Windows/HexPartViewerPartsWindow';
 import HexWindow from './Windows/HexPartViewerHexWindow';
-import { defaultHexPartsData, HexBodyParts } from './HexPartsData';
+import { HexBodyParts } from './HexPartsData';
+import SaveData from '../../../../../BackEnd/SaveData';
 
 export default class Viewer extends Phaser.Group
 {
@@ -37,7 +38,7 @@ export default class Viewer extends Phaser.Group
 
     private openPartsWindow(part: HexBodyParts): void
     {
-        this._partsWindow.showPart(defaultHexPartsData[part]);
+        this._partsWindow.showPart(SaveData.HexCollectiblesData[part]);
 
         this._partsWindow.x = this.game.width + this._partsWindow.width;
         this.game.add.tween(this._partsWindow.position)

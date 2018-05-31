@@ -52,41 +52,41 @@ export default class HexPiecedTogether extends Phaser.Group
     {
         let data: IHexBodyPartsCollection = SaveData.HexCollectiblesData;
 
-        if (this.hasACollectedSubPart(data[HexBodyParts.head].subParts) === true)
+        if (this.hasAllCollectedSubParts(data[HexBodyParts.head].subParts) === true)
         {
             this.head.frameName = 'Head';
         }
 
-        if (this.hasACollectedSubPart(data[HexBodyParts.torso].subParts) === true)
+        if (this.hasAllCollectedSubParts(data[HexBodyParts.torso].subParts) === true)
         {
             this.torso.frameName = 'Torso';
         }
 
-        if (this.hasACollectedSubPart(data[HexBodyParts.leftArm].subParts) === true)
+        if (this.hasAllCollectedSubParts(data[HexBodyParts.leftArm].subParts) === true)
         {
             this.leftArm.frameName = 'Left_arm';
         }
 
-        if (this.hasACollectedSubPart(data[HexBodyParts.rightArm].subParts) === true)
+        if (this.hasAllCollectedSubParts(data[HexBodyParts.rightArm].subParts) === true)
         {
             this.rightArm.frameName = 'Right_arm';
         }
 
-        if (this.hasACollectedSubPart(data[HexBodyParts.booster].subParts) === true)
+        if (this.hasAllCollectedSubParts(data[HexBodyParts.booster].subParts) === true)
         {
             this.booster.frameName = 'Booster';
         }
     }
 
-    private hasACollectedSubPart(parts: IHexPartsCollection): boolean
+    private hasAllCollectedSubParts(parts: IHexPartsCollection): boolean
     {
-        let hasACollectedPart: boolean = false;
+        let hasAllCollectedSubParts: boolean = true;
 
         Object.keys(parts).forEach((key: any) => {
-            if (parts[key].collected) { hasACollectedPart = true; }
+            if (parts[key].collected === false) { hasAllCollectedSubParts = false; }
         });
 
-        return hasACollectedPart;
+        return hasAllCollectedSubParts;
     }
 
     public resize(): void

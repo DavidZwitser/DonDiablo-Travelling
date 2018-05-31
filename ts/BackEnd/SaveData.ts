@@ -1,5 +1,5 @@
 import Constants from '../Data/Constants';
-import { IHexBodyPartsCollection, defaultHexPartsData } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
+import { IHexBodyPartsCollection, defaultHexPartsData, HexParts, getRandomHexPart } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 interface ISaveData
 {
@@ -14,6 +14,10 @@ interface ISaveData
 
     /** Hex's collection data */
     hcd: IHexBodyPartsCollection;
+    /** Hex bar value */
+    hbv: number;
+    /** Next hex part */
+    nhp: HexParts;
     /** SelectedCarIndex */
     scar: number;
 }
@@ -41,7 +45,9 @@ export default class SaveData
             mm: false,
             q: 1,
             lvls: this.emplyLevelData(),
+            hbv: 0,
             hcd: defaultHexPartsData,
+            nhp: getRandomHexPart(),
             scar: 0
         };
 
@@ -148,6 +154,30 @@ export default class SaveData
     public static get Highscore(): number
     {
         return this.data.hs;
+    }
+
+    public static set HexBarValue(data: number)
+    {
+        let newData: ISaveData = this.data;
+        newData.hbv = data;
+
+        this.data = newData;
+    }
+    public static get HexBarValue(): number
+    {
+        return this.data.hbv;
+    }
+
+    public static set NextHexPickup(data: HexParts)
+    {
+        let newData: ISaveData = this.data;
+        newData.nhp = data;
+
+        this.data = newData;
+    }
+    public static get NextHexPickup(): HexParts
+    {
+        return this.data.nhp;
     }
 
     public static set HexCollectiblesData(data: IHexBodyPartsCollection)

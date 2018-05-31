@@ -1,6 +1,6 @@
 import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
 // import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
-import ScoreBar from '../../Paralax/UI/ScoreBar';
+import HexBar from '../../Paralax/UI/HexBar';
 
 import PauseButton from '../../Paralax/UI/PauseButton';
 import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
@@ -21,7 +21,7 @@ export default class UI extends ParalaxObject
 
     public onPause: Phaser.Signal;
 
-    public scoreBar: ScoreBar;
+    public scoreBar: HexBar;
     public pickupCounter: PickupCounter;
     private _pauseButton: PauseButton;
     private _popUpText: PopUpText;
@@ -55,16 +55,7 @@ export default class UI extends ParalaxObject
 
     private createScoreBar(): void
     {
-        this.scoreBar = new ScoreBar(this.game, 0, 0);
-        PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.scoreBar.value += 0.05;
-        });
-        PlayerCollisionChecker.getInstance().onMissing.add(() => {
-            this.scoreBar.value -= 0.1;
-        });
-        // this.scoreBar.onEmpty.add(() => {
-        //     console.log('GAME OVER!');
-        // });
+        this.scoreBar = new HexBar(this.game, 0, 0);
         this.game.add.existing(this.scoreBar);
     }
 
@@ -113,7 +104,11 @@ export default class UI extends ParalaxObject
         this.addChild(this._popUpText);
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this._popUpText.showText(PlayerCollisionChecker.getInstance().PlayerPos.x, PlayerCollisionChecker.getInstance().PlayerPos.y, this._comboValue);
+            this._popUpText.showText(
+                PlayerCollisionChecker.getInstance().PlayerPos.x,
+                PlayerCollisionChecker.getInstance().PlayerPos.y,
+                this._comboValue
+            );
         });
     }
 

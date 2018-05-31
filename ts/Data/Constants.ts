@@ -26,6 +26,8 @@ export default class Constants
 
     public static CURRENT_LEVEL: number = 0;
 
+    public static readonly PICKUPS_BEFORE_HEX_PART: number = 250;
+
     /** The levels */
     public static readonly LEVELS: {title: string, artist: string, json: string, music: string}[] = [
         {
