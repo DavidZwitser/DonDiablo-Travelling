@@ -63,14 +63,14 @@ export default class PickupCounter extends Phaser.BitmapText
         this.stopHide();
         if (this.position.y > screen.width / 2)
         {
-            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y - 300}, 250, Phaser.Easing.Linear.None, true, 0, 0)
+            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y - 300}, 350, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
                 this.setScaleToAlpha();
             });
         }
         else
         {
-            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y + 300}, 250, Phaser.Easing.Linear.None, true, 0, 0)
+            this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y + 300}, 350, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
                 this.setScaleToAlpha();
             });
