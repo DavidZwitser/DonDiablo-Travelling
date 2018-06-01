@@ -269,7 +269,10 @@ export default class BuildingVisualizer extends Phaser.Group
         this._maskGraphic.destroy(true);
         this._maskGraphic = null;
 
-        this.reactTween.stop(true);
+        if (this.reactTween)
+        {
+            this.reactTween.stop(true);
+        }
         this.reactTween = null;
     }
 }

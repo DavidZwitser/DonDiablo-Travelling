@@ -76,7 +76,7 @@ export default class Player extends ReactivePerspectiveObject
         {
             return;
         }
-        requestAnimationFrame(this.changeSprite);
+        requestAnimationFrame(this.changeSprite.bind(this));
         SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
     }

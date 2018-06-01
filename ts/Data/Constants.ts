@@ -26,7 +26,32 @@ export default class Constants
 
     public static CURRENT_LEVEL: number = 0;
 
-    public static readonly PICKUPS_BEFORE_HEX_PART: number = 250;
+    public static readonly PICKUPS_BEFORE_HEX_PART: number = 10;
+
+    /** road colors list with their own color schemes */
+    public static readonly ROAD_COLORS: {
+        _bottomMiddleColor: number,
+        _bottomOuterColor: number,
+        _topMiddleColor: number,
+        _topOuterColor: number
+    }[] = [
+        {
+            //red
+            _bottomMiddleColor: 0x8bf2d6,
+            _bottomOuterColor: 0x66090f,
+            //blue
+            _topMiddleColor: 0xf4091a,
+            _topOuterColor: 0x148694
+        },
+        {
+            //blue
+            _bottomMiddleColor: 0xf99ff4,
+            _bottomOuterColor: 0x6f87f0,
+            //purple
+            _topMiddleColor: 0xc7e5f4,
+            _topOuterColor: 0xd13df1
+        }
+    ];
 
     /** The levels */
     public static readonly LEVELS: {title: string, artist: string, json: string, music: string}[] = [
@@ -147,4 +172,31 @@ export default class Constants
         /** Tested on a Oneplus 3 */
         'Adreno (TM) 530'
     ];
+
+    public static hexToRGB(color: string): {r: number, g: number, b: number} {
+        /* Check for # infront of the value, if it's there, strip it */
+
+        console.log('before substring', color);
+        if (color.substring(0, 2) === '0x') {
+           color = color.substring(2);
+        }
+        console.log('after substring', color);
+        /* Grab each pair (channel) of hex values and parse them to ints using hexadecimal decoding */
+        let r: number = parseInt(color.substring(0, 2), 16);
+        let g: number = parseInt(color.substring(2, 4), 16);
+        let b: number = parseInt(color.substring(4), 16);
+
+        return {r: r, g: g, b: b};
+       }
+    public static componentToHex(c: number): string
+    {
+        let hex: string = c.toString(16);
+        return hex.charAt(1) === '.' || hex.length === 1 ? '0' +  hex.substring(0, 1) : hex = hex.substring(0, 2);
+    }
+
+    public static rgbToHex(r: number, g: number, b: number): any
+    {
+        return '0x' + Constants.componentToHex(r) + Constants.componentToHex(g) + Constants.componentToHex(b);
+    }
+
 }

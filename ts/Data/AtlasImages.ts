@@ -39,8 +39,8 @@ export default class AtlasImages
     //coins
     public static Hex_Coins: string = 'Hex_Coins';
 
-    public static ScoreBarBackground: string = 'UserInterface_ScoreBar_Backdrop';
-    public static ScoreBarFill: string = 'UserInterface_ScoreBar_Filling';
-    public static ScoreBarForeground: string = 'UserInterface_ScoreBar_Edges';
+    public static ScoreBarBackground: string = 'Collection_Bar';
+    public static ScoreBarFill: string = 'Hex_Collectbar_Colored';
+    public static ScoreBarForeground: string = 'Hex_Collectbar_Outline';
     public static Black_Pixel: string = 'Pixel_black';
 }

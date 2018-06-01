@@ -17,6 +17,8 @@ export default class HexBar extends Phaser.Group
     public onFull: Phaser.Signal;
     private scaleTween: Phaser.Tween;
 
+    private hexPartToCollect: Phaser.Sprite;
+
     constructor(game: Phaser.Game, x: number, y: number)
     {
         super(game);
@@ -26,13 +28,10 @@ export default class HexBar extends Phaser.Group
         this.onFull = new Phaser.Signal();
 
         this._backDropSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, AtlasImages.ScoreBarBackground);
-        this._valueSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, AtlasImages.ScoreBarFill);
-        this._foreGroundSprite = new Phaser.Sprite(this.game, 0, 0,  Atlases.Interface, AtlasImages.ScoreBarForeground);
+        this._valueSprite = new Phaser.Sprite(this.game, 10, -55, Atlases.Interface, AtlasImages.ScoreBarFill);
+        this._foreGroundSprite = new Phaser.Sprite(this.game, this._valueSprite.x - 2, this._valueSprite.y + 2,  Atlases.Interface, AtlasImages.ScoreBarForeground);
 
-        this._valueSprite.y -= (this._backDropSprite.height - this._valueSprite.height) / 2;
-        this._valueSprite.x += (this._backDropSprite.width - this._valueSprite.width) / 2;
-
-        this._fillMask = new Phaser.Graphics(game, x, this._valueSprite.y);
+        this._fillMask = new Phaser.Graphics(game, this._valueSprite.x, this._valueSprite.y);
         this._fillMask.beginFill(0xFF3300);
         this._fillMask.drawRect(0, 0, this._valueSprite.width, -this._valueSprite.height);
         this._fillMask.endFill();
@@ -42,12 +41,17 @@ export default class HexBar extends Phaser.Group
         this._backDropSprite.anchor.set(0, 1);
         this._foreGroundSprite.anchor.set(0, 1);
 
+        this.hexPartToCollect = new Phaser.Sprite(game, 20, -320, Atlases.Interface, 'Hearth_silhouette');
+        this.hexPartToCollect.anchor.set(.5);
+        this.hexPartToCollect.scale.set(.3);
+
         this.value = SaveData.HexBarValue;
 
         this.addChild(this._backDropSprite);
         this.addChild(this._valueSprite);
         this.addChild(this._foreGroundSprite);
         this.addChild(this._fillMask);
+        this.addChild(this.hexPartToCollect);
 
         this.resize();
     }
@@ -89,8 +93,7 @@ export default class HexBar extends Phaser.Group
     public resize(): void
     {
         let vmin: number = Math.min(this.game.width, this.game.height / 2);
-
-        this.position.set(0, this.game.height / 1.25);
+        this.position.set(0, this.game.height / 2 + this.height / 2);
         this.scale.set(vmin / GAME_WIDTH);
     }
 
