@@ -5,6 +5,7 @@ import Atlases from '../../../../../../Data/Atlases';
 export default class PartsWindow extends Window
 {
     private _centerImage: Phaser.Sprite;
+    private _breathingTween: Phaser.Tween;
 
     private _mask: Phaser.Graphics;
 
@@ -19,6 +20,12 @@ export default class PartsWindow extends Window
         this._centerImage = new Phaser.Sprite(game, 0, 0, Atlases.Interface, '');
         this._centerImage.anchor.set(.5);
         this.addChild(this._centerImage);
+
+        this._centerImage.y = this.game.height * -.005;
+
+        this._breathingTween = this.game.add.tween(this._centerImage)
+            .to({y: this.game.height * .005}, 1800, Phaser.Easing.Cubic.InOut, true, 0, Infinity, true)
+            .start();
 
         this._mask = new Phaser.Graphics(this.game);
         this.addChild(this._mask);
