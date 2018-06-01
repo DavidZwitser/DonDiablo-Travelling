@@ -73,18 +73,18 @@ export default class Gameplay extends Phaser.State
     public setToggealableOptions(): void
     {
         /** Move the player back a bit */
-        Constants.PLAYER_Z_POSITION = 1.1;
+        // Constants.PLAYER_Z_POSITION = 1.1;
 
         /** Change phase per song and die when bar drains */
-        this._updatePhaseByBar = false;
+        // this._updatePhaseByBar = false;
 
         /** Is 6 lanes to much as the max difficulty? */
 
         /** Hide score bar */
-        this._hideScoreBar = true;
+        // this._hideScoreBar = true;
 
         /** Dont use continues input */
-        this._useContinuesInput = false;
+        // this._useContinuesInput = false;
     }
     /** End toggleable options */
 
@@ -92,7 +92,7 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
-        //this.setToggealableOptions();
+        this.setToggealableOptions();
 
         //focus/blur events setup
         window.addEventListener('blur', this.blur.bind(this));
