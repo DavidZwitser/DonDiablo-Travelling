@@ -26,7 +26,7 @@ export default class Constants
 
     public static CURRENT_LEVEL: number = 0;
 
-    public static readonly PICKUPS_BEFORE_HEX_PART: number = 10;
+    public static readonly PICKUPS_BEFORE_HEX_PART: number = 150;
 
     /** road colors list with their own color schemes */
     public static readonly ROAD_COLORS: {

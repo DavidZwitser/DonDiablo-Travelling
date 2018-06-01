@@ -69,16 +69,20 @@ export default class Player extends ReactivePerspectiveObject
         this.spine.autoUpdate = !pause;
     }
 
-    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): Phaser.Signal
     {
-        super.changeLane(lane, overwriteOldPosition);
-        if (this._lane === lane)
-        {
-            return;
-        }
+        let changeLaneTweenOnComplete: Phaser.Signal = super.changeLane(lane, overwriteOldPosition);
+
+        if (!changeLaneTweenOnComplete) { return; }
+
+        changeLaneTweenOnComplete.addOnce( () => {
+            this.changeSprite();
+        });
         requestAnimationFrame(this.changeSprite.bind(this));
         SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
+
+        return changeLaneTweenOnComplete;
     }
 
     public tapping(duration: number = 200): void

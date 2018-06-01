@@ -54,12 +54,12 @@ export default class PerspectiveObject extends Phaser.Group
     }
 
     /** Reset lane, so the object moves to the nearest lane (used when a new lane is added). */
-    public reposition(): void
+    public reposition(): Phaser.Signal
     {
-        this.changeLane(this.lane, true);
+        return this.changeLane(this.lane, true);
     }
 
-    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): Phaser.Signal
     {
         //only move when the lane is different that its own lane
         if (this._lane === lane && overwriteOldPosition === false || this.changingLane === true)
@@ -122,6 +122,8 @@ export default class PerspectiveObject extends Phaser.Group
         this.rotationTween = this.rotationTween;
 
         this.changingLane = true;
+
+        return this.laneTween.onComplete;
     }
 
     private laneEnd(lane: Lanes ): void
