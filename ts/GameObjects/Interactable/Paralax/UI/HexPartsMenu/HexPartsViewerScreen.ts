@@ -50,7 +50,7 @@ export default class Viewer extends Phaser.Sprite
             });
 
         this.game.add.tween(this.hexWindow.position)
-            .to({x: -this.game.width}, 600, Phaser.Easing.Cubic.InOut)
+            .to({x: -this.game.width + -this.hexWindow.width}, 600, Phaser.Easing.Cubic.InOut)
             .start();
     }
 
@@ -59,7 +59,7 @@ export default class Viewer extends Phaser.Sprite
         this.hexWindow.visible = true;
 
         this.game.add.tween(this._partsWindow.position)
-            .to({x: this.game.width}, 600, Phaser.Easing.Cubic.Out)
+            .to({x: this.game.width + this._partsWindow.width}, 600, Phaser.Easing.Cubic.Out)
             .start();
 
         this.game.add.tween(this.hexWindow.position)
