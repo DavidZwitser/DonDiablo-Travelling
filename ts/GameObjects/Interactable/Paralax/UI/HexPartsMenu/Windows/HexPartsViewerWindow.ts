@@ -29,11 +29,20 @@ export default class Window extends Phaser.Sprite
         this.addChild(this._closeButton);
 
         /** Content name */
-        this.contentName = new Phaser.BitmapText(this.game, 0, 0, 'myfont', contentName, 55);
+        this.contentName = new Phaser.BitmapText(this.game, 0, 0, 'myfont', contentName, 40);
         this.contentName.tint = 0xffffff;
         this.contentName.anchor.set(.5, 0);
         this.addChild(this.contentName);
 
+    }
+
+    public animateScale(targetScale: number, duration: number): Phaser.Signal
+    {
+        let contentHideTween: Phaser.Tween = this.game.add.tween(this.contentName)
+            .to({alpha: targetScale}, duration, Phaser.Easing.Cubic.Out)
+            .start();
+
+        return contentHideTween.onComplete;
     }
 
     public onXButton(): void
@@ -47,6 +56,6 @@ export default class Window extends Phaser.Sprite
         this._closeButton.y = -this.height * .46;
 
         this.contentName.x = 0;
-        this.contentName.y = -this.height * .455;
+        this.contentName.y = -this.height * .44;
     }
 }

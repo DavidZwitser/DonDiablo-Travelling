@@ -7,7 +7,7 @@ import Atlases from '../../../../../Data/Atlases';
 
 export default class Viewer extends Phaser.Sprite
 {
-    public hexWindow: HexWindow;
+    private _hexWindow: HexWindow;
     private _partsWindow: PartsWindow;
 
     public onBack: Phaser.Signal;
@@ -18,12 +18,12 @@ export default class Viewer extends Phaser.Sprite
 
         this.onBack = new Phaser.Signal();
 
-        this.hexWindow = new HexWindow(this.game);
-        this.hexWindow.anchor.set(.5);
-        this.addChild(this.hexWindow);
-        this.hexWindow.onWindowClose.add( () => this.onBack.dispatch() );
+        this._hexWindow = new HexWindow(this.game);
+        this._hexWindow.anchor.set(.5);
+        this.addChild(this._hexWindow);
+        this._hexWindow.onWindowClose.add( () => this.onBack.dispatch() );
 
-        this.hexWindow.onPartClick.add( this.openPartsWindow.bind(this) );
+        this._hexWindow.onPartClick.add( this.openPartsWindow.bind(this) );
 
         this._partsWindow = new PartsWindow(this.game);
         this._partsWindow.anchor.set(.5);
@@ -41,36 +41,25 @@ export default class Viewer extends Phaser.Sprite
     {
         this._partsWindow.showPart(SaveData.HexCollectiblesData[part]);
 
-        this._partsWindow.x = this.game.width + this._partsWindow.width;
-        this.game.add.tween(this._partsWindow.position)
-            .to({x: 0}, 600, Phaser.Easing.Cubic.InOut)
-            .start()
-            .onComplete.addOnce( () => {
-                this.hexWindow.visible = false;
-            });
+        this._hexWindow.animateScale(0, 300).addOnce( () => {
+            this._partsWindow.animateScale(1, 300);
+        });
 
-        this.game.add.tween(this.hexWindow.position)
-            .to({x: -this.game.width + -this.hexWindow.width}, 600, Phaser.Easing.Cubic.InOut)
-            .start();
     }
 
     private closePartsWindow(): void
     {
-        this.hexWindow.visible = true;
+        this._partsWindow.animateScale(0, 300).addOnce( () => {
+            this._partsWindow.visible = false;
+            this._hexWindow.animateScale(1, 300);
+        });
 
-        this.game.add.tween(this._partsWindow.position)
-            .to({x: this.game.width + this._partsWindow.width}, 600, Phaser.Easing.Cubic.Out)
-            .start();
-
-        this.game.add.tween(this.hexWindow.position)
-            .to({x: 0}, 600, Phaser.Easing.Cubic.Out)
-            .start();
     }
 
     public resize(): void
     {
-        this.hexWindow.y = -this.game.height * .1;
-        this.hexWindow.resize();
+        this._hexWindow.y = -this.game.height * .1;
+        this._hexWindow.resize();
 
         this._partsWindow.y = -this.game.height * .1;
         this._partsWindow.resize();

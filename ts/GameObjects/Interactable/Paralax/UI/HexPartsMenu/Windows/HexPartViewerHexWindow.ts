@@ -7,6 +7,7 @@ import HexPiecedTogether from './Content/HexPiecedTogether';
 export default class HexWindow extends Window
 {
     private _hex: HexPiecedTogether;
+    private _breathingTween: Phaser.Tween;
 
     public onPartClick: Phaser.Signal;
 
@@ -17,7 +18,12 @@ export default class HexWindow extends Window
         this.onPartClick = new Phaser.Signal();
 
         this._hex = new HexPiecedTogether(game);
+        this._hex.y = this.game.height * .025;
         this.addChild(this._hex);
+
+        this._breathingTween = this.game.add.tween(this._hex)
+            .to({y: this.game.height * .035}, 1800, Phaser.Easing.Cubic.InOut, true, 0, Infinity, true)
+            .start();
 
         /** Setting up inputs! */
 
@@ -42,6 +48,15 @@ export default class HexWindow extends Window
         this.resize();
     }
 
+    public animateScale(targetScale: number, duration: number): Phaser.Signal
+    {
+        this.game.add.tween(this._hex.scale)
+            .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
+            .start();
+
+        return super.animateScale(targetScale, duration);
+    }
+
     public recheckCollectedParts(): void
     {
         this._hex.recheckCollectedParts();
@@ -51,6 +66,7 @@ export default class HexWindow extends Window
     {
         super.resize();
 
+        this._hex.y = this.game.height * .05;
         this._hex.resize();
     }
 }
