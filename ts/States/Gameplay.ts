@@ -108,10 +108,10 @@ export default class Gameplay extends Phaser.State
         PlayerCollisionChecker.getInstance(this._player);
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.score += 5;
+            this.score += 1;
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
-            this.score -= 0.1;
+            this.score -= 1;
         });
 
         PlayerCollisionChecker.getInstance().onColliding.add( () => {
