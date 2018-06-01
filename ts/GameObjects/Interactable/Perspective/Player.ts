@@ -78,7 +78,7 @@ export default class Player extends ReactivePerspectiveObject
         changeLaneTweenOnComplete.addOnce( () => {
             this.changeSprite();
         });
-        requestAnimationFrame(this.changeSprite);
+        requestAnimationFrame(this.changeSprite.bind(this));
         SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
 

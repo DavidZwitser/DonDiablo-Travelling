@@ -225,6 +225,7 @@ export default class Gameplay extends Phaser.State
         Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
 
+        this._road.nextColor();
         if (this._updatePhaseByBar)
         {
             this._phaseSystem.startNextPhase();
