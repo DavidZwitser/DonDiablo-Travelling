@@ -42,6 +42,15 @@ export default class HexWindow extends Window
         this.resize();
     }
 
+    public animateScale(targetScale: number, duration: number): Phaser.Signal
+    {
+        this.game.add.tween(this._hex.scale)
+            .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
+            .start();
+
+        return super.animateScale(targetScale, duration);
+    }
+
     public recheckCollectedParts(): void
     {
         this._hex.recheckCollectedParts();
