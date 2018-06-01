@@ -140,6 +140,7 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._audioVisualizer);
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.worldReact(); });
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
