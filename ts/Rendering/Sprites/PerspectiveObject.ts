@@ -48,7 +48,6 @@ export default class PerspectiveObject extends Phaser.Group
 
         this.yPos = targetPosition.y;
         this.xPos = targetPosition.x;
-
         this.changingLane = false;
 
     }

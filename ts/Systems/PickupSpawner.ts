@@ -69,6 +69,7 @@ export default class PickupSpawner extends Phaser.Group
             this.game.add.tween(pickup).to({alpha: 1}, 500,  Phaser.Easing.Linear.None, true);
 
             this.sendToBack(pickup);
+            pickup.changeSprite();
         }
 
         return pickup;

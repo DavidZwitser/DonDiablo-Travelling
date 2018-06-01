@@ -18,13 +18,6 @@ export default class Pickup extends ReactivePerspectiveObject
         this.addChild(this.sprite);
     }
 
-    /** Reset the pickup to its default values */
-    public reset(lane: Lanes): void
-    {
-        this.lane = lane;
-        this.position.set(0, 0);
-    }
-
     /** Tell the collision class that it should check if the pickup is colliding with the player */
     private initiateCollision(): void
     {
@@ -60,6 +53,32 @@ export default class Pickup extends ReactivePerspectiveObject
         if (this.zPos > 1 && this.zPos < 1.4)
         {
             this.initiateCollision();
+        }
+    }
+
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false): Phaser.Signal
+    {
+        let changeLaneTweenOnComplete: Phaser.Signal = super.changeLane(lane, overwriteOldPosition);
+
+        if (!changeLaneTweenOnComplete) { return; }
+
+        changeLaneTweenOnComplete.addOnce( () => {
+            this.changeSprite();
+        });
+
+        return changeLaneTweenOnComplete;
+    }
+    public changeSprite(): void {
+        if (this.lane === Lanes.topCenterLane || this.lane === Lanes.bottomCenterLane)
+        {
+            this.sprite.frameName = 'laying hexagon';
+        } else if (this.lane === Lanes.topRightLane || this.lane === Lanes.bottomRightLane)
+        {
+            this.sprite.frameName = 'laying hexagon_side';
+        } else
+        {
+            this.sprite.frameName = 'laying hexagon_side';
+            this.sprite.scale.x = -this.sprite.scale.x;
         }
     }
 
