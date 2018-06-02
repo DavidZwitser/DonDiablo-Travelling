@@ -10,8 +10,10 @@ export enum HexParts
     none = 0,
 
     /** Head parts */
-    head_chip = 2,
-    head_wires = 3,
+    head_chip = 1,
+    head_wires = 2,
+    head_metal = 3,
+    head_screws = 4,
 
     /** Left arm parts */
     left_arm_screws = 5,
@@ -23,13 +25,17 @@ export enum HexParts
     right_arm_metal = 9,
     right_arm_wires = 10,
 
-    /** Body parts */
-    torso_hearth = 12,
+    /** Torso parts */
+    torso_hearth = 11,
+    torso_metal = 12,
     torso_screws = 13,
     torso_wires = 14,
 
     /** Booster parts */
-    booster_battery = 15
+    booster_battery = 15,
+    booster_metal = 16,
+    booster_screws = 17,
+    booster_wires = 18
 
 }
 
@@ -93,6 +99,14 @@ export let defaultHexPartsData: IHexBodyPartsCollection = {
             [HexParts.head_wires]: {
                 frameName: 'Wires',
                 collected: false
+            },
+            [HexParts.head_metal]: {
+                frameName: 'Metal',
+                collected: false
+            },
+            [HexParts.head_screws]: {
+                frameName: 'Screws',
+                collected: false
             }
 
         }
@@ -152,6 +166,10 @@ export let defaultHexPartsData: IHexBodyPartsCollection = {
                 frameName: 'Hearth',
                 collected: false
             },
+            [HexParts.torso_metal]: {
+                frameName: 'Metal',
+                collected: false
+            },
             [HexParts.torso_screws]: {
                 frameName: 'Screws',
                 collected: false
@@ -172,6 +190,18 @@ export let defaultHexPartsData: IHexBodyPartsCollection = {
 
             [HexParts.booster_battery]: {
                 frameName: 'Battery',
+                collected: false
+            },
+            [HexParts.booster_metal]: {
+                frameName: 'Metal',
+                collected: false
+            },
+            [HexParts.booster_screws]: {
+                frameName: 'Screws',
+                collected: false
+            },
+            [HexParts.booster_wires]: {
+                frameName: 'Wires',
                 collected: false
             }
 

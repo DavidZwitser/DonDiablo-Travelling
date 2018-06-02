@@ -12,12 +12,8 @@ export default class PartsWindow extends Window
     /** The mask for the sub parts so they can disapear below the window nicely */
     private _mask: Phaser.Graphics;
 
-    /** The 1st sub pickup */
-    private _subPickup1: Phaser.Sprite;
-    /** The 2nd sub pickup */
-    private _subPickup2: Phaser.Sprite;
-    /** The 3rd sub pickup */
-    private _subPickup3: Phaser.Sprite;
+    /** The pickups */
+    private _subParts: Phaser.Sprite[];
 
     constructor(game: Phaser.Game)
     {
@@ -38,21 +34,21 @@ export default class PartsWindow extends Window
         this._mask = new Phaser.Graphics(this.game);
         this.addChild(this._mask);
 
-        /* Creating the sub pickups */
-        this._subPickup1 = new Phaser.Sprite(game, 0, 0, Atlases.Interface, '');
-        this._subPickup1.anchor.set(.5);
-        this._subPickup1.mask = this._mask;
-        this.addChild(this._subPickup1);
+        this._subParts = [];
 
-        this._subPickup2 = new Phaser.Sprite(game, 0, 0, Atlases.Interface, '');
-        this._subPickup2.anchor.set(.5);
-        this._subPickup2.mask = this._mask;
-        this.addChild(this._subPickup2);
+        /* Adding all the sub pickups */
+        for (let i: number = 0; i < 4; i++ )
+        {
+            console.log(i);
+            this._subParts.push(new Phaser.Sprite(game, 0, 0, Atlases.Interface, ''));
 
-        this._subPickup3 = new Phaser.Sprite(game, 0, 0, Atlases.Interface, '');
-        this._subPickup3.anchor.set(.5);
-        this._subPickup3.mask = this._mask;
-        this.addChild(this._subPickup3);
+            let currentPickup: Phaser.Sprite = this._subParts[i];
+
+            currentPickup.anchor.set(.5);
+            currentPickup.mask = this._mask;
+            this.addChild(currentPickup);
+
+        }
 
         /* Hiding the window by default */
         this.visible = false;
@@ -77,21 +73,15 @@ export default class PartsWindow extends Window
         /* Starting the sub pickups hide tween */
         let targetY: number = targetScale > 0 ? this.height * .38 : this.height * .6;
 
-        this.tweens.push(
+        for (let i: number = this._subParts.length; i--; )
+        {
+            this.tweens.push(
 
-            this.game.add.tween(this._subPickup1)
-                .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
-                .start(),
-
-            this.game.add.tween(this._subPickup2)
-                .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
-                .start(),
-
-            this.game.add.tween(this._subPickup3)
-                .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
-                .start()
-
-        );
+                this.game.add.tween(this._subParts[i])
+                    .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
+                    .start()
+            );
+        }
 
         /* Returning the super tween */
         return superTween;
@@ -100,47 +90,35 @@ export default class PartsWindow extends Window
     /** Pre load the part that you want to show */
     public loadPart(data: IHexBodyPart): void
     {
-        /* Hiding all the sub pickups by default */
-        this._subPickup1.visible = false;
-        this._subPickup2.visible = false;
-        this._subPickup3.visible = false;
-
-        /** The boolean noting if all the pickups are collected */
+        /** The boolean noting if all the sub parts are collected */
         let allSubPartsAreCollected: boolean = true;
 
-        /* Looping through the sub pickups to set their frame names and or showing them or not */
-        Object.keys(data.subParts).forEach( (key: any, index: number) => {
+        /* Looping through all the sub parts */
+        for (let i: number = this._subParts.length; i--; )
+        {
+            /* Saving the sub part */
+            let currentSubPart: Phaser.Sprite = this._subParts[i];
+            currentSubPart.visible = false;
 
-            let currentPart: IHexPart = data.subParts[key];
-            /* If it is collected, show the full image, otherwise only show the silhouette */
-            let newFrameName: string = currentPart.frameName + (currentPart.collected ? '' :  '_silhouette');
-
-            /* If it is not collected, set the "everything collected" boolean to false */
-            if (currentPart.collected === false) { allSubPartsAreCollected = false; }
-
-            /** Check which sub pickups it is and set the according sprite in the class to its values */
-            switch (index)
+            /* Checking if the sub part data exists */
+            let subPartData: IHexPart = null;
+            try
             {
-                case 0:
-                    this._subPickup1.frameName = newFrameName;
-                    this._subPickup1.visible = true;
-                    break;
+                subPartData = data.subParts[ <any>Object.keys( data.subParts )[i] ];
+            } catch (e) { console.log('did not find sub part: ' + i); }
 
-                case 1:
-                    this._subPickup2.frameName = newFrameName;
-                    this._subPickup2.visible = true;
-                    break;
+            /* If not, go to next part */
+            if (!subPartData) { continue; }
 
-                case 2:
-                    this._subPickup3.frameName = newFrameName;
-                    this._subPickup3.visible = true;
-                    break;
+            /* If a part is not collected, set all parts as not collected */
+            if (subPartData.collected === false) { allSubPartsAreCollected = false; }
 
-                default:
-                    break;
-            }
+            /* If it is collected, show the full image, otherwise only show the silhouette */
+            currentSubPart.frameName = subPartData.frameName + (subPartData.collected ? '' :  '_silhouette');
 
-        });
+            /* Show this sub part */
+            currentSubPart.visible = true;
+        }
 
         /* Set the name to the name of the center image */
         this.contentName.text = data.name;
@@ -167,13 +145,13 @@ export default class PartsWindow extends Window
         this._centerImage.scale.set(0);
 
         /* Reposition the sub pickups to their default position */
-        this._subPickup1.x = this.width * -.3;
-        this._subPickup1.y = this.game.height * .6;
+        for (let i: number = this._subParts.length; i--; )
+        {
+            let currentPart: Phaser.Sprite = this._subParts[i];
 
-        this._subPickup2.y = this.game.height * .6;
-
-        this._subPickup3.x = this.width * .3;
-        this._subPickup3.y = this.game.height * .6;
+            currentPart.x = this.game.width * (-.3 + (2 * i / 10) );
+            currentPart.y = this.game.height * 6;
+        }
 
     }
 
@@ -195,13 +173,13 @@ export default class PartsWindow extends Window
         this._mask = null;
 
         /* Destroy the sub pickups */
-        if (this._subPickup1) { this._subPickup1.destroy(true); }
-        this._subPickup1 = null;
+        for (let i: number = this._subParts.length; i--; )
+        {
+            let currentPart: Phaser.Sprite = this._subParts[i];
 
-        if (this._subPickup2) { this._subPickup2.destroy(true); }
-        this._subPickup2 = null;
-
-        if (this._subPickup3) { this._subPickup3.destroy(true); }
-        this._subPickup3 = null;
+            currentPart.destroy(true);
+            currentPart = null;
+        }
+        this._subParts = null;
     }
 }
