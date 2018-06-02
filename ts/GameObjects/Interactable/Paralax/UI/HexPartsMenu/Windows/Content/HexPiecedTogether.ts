@@ -48,6 +48,7 @@ export default class HexPiecedTogether extends Phaser.Group
         this.recheckCollectedParts();
     }
 
+    /* Go through the hex data and recheck if any parts are collected in which case hex should display the sprite which is not the silouette */
     public recheckCollectedParts(): void
     {
         let data: IHexBodyPartsCollection = SaveData.HexCollectiblesData;

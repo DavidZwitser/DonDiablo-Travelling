@@ -77,7 +77,6 @@ export default class Menu extends Phaser.State
         this.game.add.existing(this._hexViewer);
 
         this._hexViewer.onBack.add(this.DisplayMenu.bind(this));
-        this._hexViewer.anchor.set(.5);
 
         this._vehicleSelect = new VehicleSelect(this.game, () => {
             this.DisplayObject(this._mainButtonsGroup);
@@ -160,7 +159,7 @@ export default class Menu extends Phaser.State
         this._creditsScreen.scale.set(vmin / GAME_WIDTH);
     }
 
-    public DisplayObject(object: Phaser.Group | Phaser.Sprite): void {
+    public DisplayObject(object: Phaser.Group): void {
         this._settingGroup.visible = false;
         this._mainButtonsGroup.visible = false;
         this._logoSprite.visible = false;

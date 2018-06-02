@@ -1,9 +1,10 @@
-/** Return a random part of hex */
+/** Return a random part of hex (used for ) */
 export function getRandomHexPart(): HexParts
 {
     return Math.floor(Math.random() * 15) + 1;
 }
 
+/** All the sub parts of hex residing in the body parts */
 export enum HexParts
 {
     none = 0,
@@ -32,6 +33,7 @@ export enum HexParts
 
 }
 
+/** All the body parts of hex */
 export enum HexBodyParts
 {
     none = 0,
@@ -48,12 +50,14 @@ export enum HexBodyParts
     booster = 6
 }
 
+/** A sub part of hex */
 export interface IHexPart
 {
     frameName: string;
     collected: boolean;
 }
 
+/** A body part of hex */
 export interface IHexBodyPart
 {
     name: string;
@@ -61,16 +65,19 @@ export interface IHexBodyPart
     subParts: IHexPartsCollection;
 }
 
+/** A collection of sub parts of hex */
 export interface IHexPartsCollection
 {
     [key: number]: IHexPart;
 }
 
+/** A collection of body parts of hex */
 export interface IHexBodyPartsCollection
 {
     [key: number]: IHexBodyPart;
 }
 
+/** The default hex parts data, collecting all the values  */
 export let defaultHexPartsData: IHexBodyPartsCollection = {
 
     /** Head */
