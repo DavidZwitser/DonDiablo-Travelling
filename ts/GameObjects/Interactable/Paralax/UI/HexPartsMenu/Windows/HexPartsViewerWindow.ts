@@ -80,6 +80,8 @@ export default class Window extends Phaser.Sprite
 
     public destroy(): void
     {
+        super.destroy(true);
+
         if (this._closeButton) { this._closeButton.destroy(true); }
         this._closeButton = null;
 
@@ -89,7 +91,7 @@ export default class Window extends Phaser.Sprite
         if (this.onWindowClose) { this.onWindowClose.removeAll(); }
         this.onWindowClose = null;
 
-        this.clearAllTweens();
+        if (this.tweens) { this.clearAllTweens(); }
         this.tweens = null;
     }
 

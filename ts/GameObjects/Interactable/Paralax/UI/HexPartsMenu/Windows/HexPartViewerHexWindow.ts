@@ -52,9 +52,11 @@ export default class HexWindow extends Window
     {
         let superTween: Phaser.Tween = super.animateScale(targetScale, duration);
 
-        this.game.add.tween(this._hex.scale)
-            .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
-            .start();
+        this.tweens.push(
+            this.game.add.tween(this._hex.scale)
+                .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
+                .start()
+        );
 
         return superTween;
     }

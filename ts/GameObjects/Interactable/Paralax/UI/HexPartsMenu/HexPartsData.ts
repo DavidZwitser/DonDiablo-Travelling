@@ -1,3 +1,4 @@
+/** Return a random part of hex */
 export function getRandomHexPart(): HexParts
 {
     return Math.floor(Math.random() * 15) + 1;
