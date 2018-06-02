@@ -41,7 +41,7 @@ export default class Viewer extends Phaser.Sprite
     {
         this._partsWindow.showPart(SaveData.HexCollectiblesData[part]);
 
-        this._hexWindow.animateScale(0, 300).addOnce( () => {
+        this._hexWindow.animateScale(0, 300).onComplete.addOnce( () => {
             this._partsWindow.animateScale(1, 300);
         });
 
@@ -49,7 +49,7 @@ export default class Viewer extends Phaser.Sprite
 
     private closePartsWindow(): void
     {
-        this._partsWindow.animateScale(0, 300).addOnce( () => {
+        this._partsWindow.animateScale(0, 300).onComplete.addOnce( () => {
             this._partsWindow.visible = false;
             this._hexWindow.animateScale(1, 300);
         });
@@ -63,6 +63,20 @@ export default class Viewer extends Phaser.Sprite
 
         this._partsWindow.y = -this.game.height * .1;
         this._partsWindow.resize();
+    }
+
+    public destroy(): void
+    {
+        super.destroy(true);
+
+        if (this._hexWindow) { this._hexWindow.destroy(); }
+        this._hexWindow = null;
+
+        if (this._partsWindow) { this._partsWindow.destroy(); }
+        this._partsWindow = null;
+
+        this.onBack.removeAll();
+        this.onBack =  null;
     }
 
 }

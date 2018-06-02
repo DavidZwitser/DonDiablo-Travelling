@@ -48,29 +48,37 @@ export default class PartsWindow extends Window
         this.visible = false;
     }
 
-    public animateScale(targetScale: number, duration: number): Phaser.Signal
+    public animateScale(targetScale: number, duration: number): Phaser.Tween
     {
         this.visible = true;
 
-        this.game.add.tween(this._centerImage.scale)
-            .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
-            .start();
+        let superTween: Phaser.Tween = super.animateScale(targetScale, duration);
+
+        this.tweens.push(
+            this.game.add.tween(this._centerImage.scale)
+                .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
+                .start()
+        );
 
         let targetY: number = targetScale > 0 ? this.height * .38 : this.height * .6;
 
-        this.game.add.tween(this._subPickup1)
-            .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
-            .start();
+        this.tweens.push(
 
-        this.game.add.tween(this._subPickup2)
-            .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
-            .start();
+            this.game.add.tween(this._subPickup1)
+                .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
+                .start(),
 
-        this.game.add.tween(this._subPickup3)
-            .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
-            .start();
+            this.game.add.tween(this._subPickup2)
+                .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
+                .start(),
 
-        return super.animateScale(targetScale, duration);
+            this.game.add.tween(this._subPickup3)
+                .to({y: targetY}, duration, Phaser.Easing.Cubic.Out)
+                .start()
+
+        );
+
+        return superTween;
     }
 
     public showPart(data: IHexBodyPart): void
@@ -137,5 +145,28 @@ export default class PartsWindow extends Window
         this._subPickup3.x = this.width * .3;
         this._subPickup3.y = this.game.height * .6;
 
+    }
+
+    public destroy(): void
+    {
+        super.destroy();
+
+        if (this._centerImage) { this._centerImage.destroy(true); }
+        this._centerImage = null;
+
+        if (this._breathingTween) { this._breathingTween.stop(true); }
+        this._breathingTween = null;
+
+        if (this._mask) { this._mask.destroy(true); }
+        this._mask = null;
+
+        if (this._subPickup1) { this._subPickup1.destroy(true); }
+        this._subPickup1 = null;
+
+        if (this._subPickup2) { this._subPickup2.destroy(true); }
+        this._subPickup2 = null;
+
+        if (this._subPickup3) { this._subPickup3.destroy(true); }
+        this._subPickup3 = null;
     }
 }

@@ -114,6 +114,25 @@ export default class HexPiecedTogether extends Phaser.Group
     public destroy(): void
     {
         //TODO: you know what to do here
+        super.destroy(true);
+
+        if (this.head) { this.head.destroy(true); }
+        this.head = null;
+
+        if (this.neck) { this.neck.destroy(true); }
+        this.neck = null;
+
+        if (this.torso) { this.torso.destroy(true); }
+        this.torso = null;
+
+        if (this.leftArm) { this.leftArm.destroy(true); }
+        this.leftArm = null;
+
+        if (this.rightArm) { this.rightArm.destroy(true); }
+        this.rightArm = null;
+
+        if (this.booster) { this.booster.destroy(true); }
+        this.booster = null;
     }
 
 }

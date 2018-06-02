@@ -48,13 +48,15 @@ export default class HexWindow extends Window
         this.resize();
     }
 
-    public animateScale(targetScale: number, duration: number): Phaser.Signal
+    public animateScale(targetScale: number, duration: number): Phaser.Tween
     {
+        let superTween: Phaser.Tween = super.animateScale(targetScale, duration);
+
         this.game.add.tween(this._hex.scale)
             .to({x: targetScale, y: targetScale}, duration, Phaser.Easing.Cubic.Out)
             .start();
 
-        return super.animateScale(targetScale, duration);
+        return superTween;
     }
 
     public recheckCollectedParts(): void
@@ -68,5 +70,19 @@ export default class HexWindow extends Window
 
         this._hex.y = this.game.height * .05;
         this._hex.resize();
+    }
+
+    public destroy(): void
+    {
+        super.destroy();
+
+        if (this._hex) { this._hex.destroy(); }
+        this._hex = null;
+
+        if (this._breathingTween) { this._breathingTween.stop(true); }
+        this._breathingTween = null;
+
+        if (this.onPartClick) { this.onPartClick.removeAll(); }
+        this.onPartClick = null;
     }
 }

@@ -9,9 +9,13 @@ export default class Window extends Phaser.Sprite
 
     public onWindowClose: Phaser.Signal;
 
+    protected tweens: Phaser.Tween[];
+
     constructor(game: Phaser.Game, contentName: string, frame: string)
     {
         super(game, 0, 0, Atlases.Interface, frame);
+
+        this.tweens = [];
 
         this.onWindowClose = new Phaser.Signal();
 
@@ -36,18 +40,33 @@ export default class Window extends Phaser.Sprite
 
     }
 
-    public animateScale(targetScale: number, duration: number): Phaser.Signal
+    public animateScale(targetScale: number, duration: number): Phaser.Tween
     {
+        this.clearAllTweens();
+
         let contentHideTween: Phaser.Tween = this.game.add.tween(this.contentName)
             .to({alpha: targetScale}, duration, Phaser.Easing.Cubic.Out)
             .start();
 
-        return contentHideTween.onComplete;
+        this.tweens.push(contentHideTween);
+
+        return contentHideTween;
     }
 
     public onXButton(): void
     {
         this.onWindowClose.dispatch();
+    }
+
+    protected clearAllTweens(): void
+    {
+        for (let i: number = this.tweens.length; i--; )
+        {
+            let tween: Phaser.Tween = this.tweens[i];
+
+            tween.stop(true);
+            tween = null;
+        }
     }
 
     public resize(): void
@@ -58,4 +77,20 @@ export default class Window extends Phaser.Sprite
         this.contentName.x = 0;
         this.contentName.y = -this.height * .44;
     }
+
+    public destroy(): void
+    {
+        if (this._closeButton) { this._closeButton.destroy(true); }
+        this._closeButton = null;
+
+        if (this.contentName) { this.contentName.destroy(true); }
+        this.contentName = null;
+
+        if (this.onWindowClose) { this.onWindowClose.removeAll(); }
+        this.onWindowClose = null;
+
+        this.clearAllTweens();
+        this.tweens = null;
+    }
+
 }
