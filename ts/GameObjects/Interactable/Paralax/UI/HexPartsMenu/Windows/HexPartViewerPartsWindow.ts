@@ -172,13 +172,16 @@ export default class PartsWindow extends Window
         if (this._mask) { this._mask.destroy(true); }
         this._mask = null;
 
-        /* Destroy the sub pickups */
-        for (let i: number = this._subParts.length; i--; )
+        if (this._subParts)
         {
-            let currentPart: Phaser.Sprite = this._subParts[i];
+            /* Destroy the sub pickups */
+            for (let i: number = this._subParts.length; i--; )
+            {
+                let currentPart: Phaser.Sprite = this._subParts[i];
 
-            currentPart.destroy(true);
-            currentPart = null;
+                currentPart.destroy(true);
+                currentPart = null;
+            }
         }
         this._subParts = null;
     }
