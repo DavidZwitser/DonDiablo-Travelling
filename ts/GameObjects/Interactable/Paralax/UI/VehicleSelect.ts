@@ -7,131 +7,226 @@ import AtlasImages from '../../../../Data/AtlasImages';
 import SaveData from '../../../../BackEnd/SaveData';
 import Constants from '../../../../Data/Constants';
 
+/** The vehicle select menu where you can select which car you want to play with */
 export default class VehicleSelect extends Phaser.Group
 {
-    private background: Phaser.Sprite;
-    private vehicleSelectGroup: Phaser.Group;
-    private closeButton: ImageButton;
-    private headerText: Phaser.BitmapText;
+    /** The background */
+    private _background: Phaser.Sprite;
+    /** The group where the car and navigation images are added to */
+    private _vehicleSelectGroup: Phaser.Group;
+    /** The button for closing the menu */
+    private _closeButton: ImageButton;
+    /** The text on the top ofe window */
+    private _headerText: Phaser.BitmapText;
 
-    //text
-    private carText: Phaser.BitmapText;
-    private descriptionText: Phaser.BitmapText;
+    /** The text displaying the name of the current car */
+    private _carName: Phaser.BitmapText;
+    /** The text describing what makes this car unique */
+    private _descriptionText: Phaser.BitmapText;
 
-    //backdrops
-    private middleBackdrop: Phaser.Sprite;
-    private leftBackdrop: Phaser.Sprite;
-    private rightBackdrop: Phaser.Sprite;
+    /** Backdrop image for center car */
+    private _middleBackdrop: Phaser.Sprite;
+    /** Backdrop imager for the left car */
+    private _leftBackdrop: Phaser.Sprite;
+    /** Backrop image for the right car */
+    private _rightBackdrop: Phaser.Sprite;
 
-    //arrows
-    private leftArrow: ImageButton;
-    private rightArrow: ImageButton;
+    /** The button for rotating the car selection wheel to the left */
+    private _leftArrow: ImageButton;
+    /** The button for rotating the car selection wheel to the right */
+    private _rightArrow: ImageButton;
 
-    //car sprites
-    private selectedCarSprite: Phaser.Sprite;
-    private leftCarSprite: Phaser.Sprite;
-    private rightCarSprite: Phaser.Sprite;
+    /** The image of the center car */
+    private _selectedCarSprite: Phaser.Sprite;
+    /** The image of the left car */
+    private _leftCarSprite: Phaser.Sprite;
+    /** The image of the right car */
+    private _rightCarSprite: Phaser.Sprite;
 
-    private carIndex: number = 0;
+    /** What car is currently selected */
+    private _carIndex: number = 0;
 
     constructor(game: Phaser.Game, callback: Function)
     {
         super(game);
 
-        this.background = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'UserInterface_Credits_Background');
-        this.background.anchor.set(.5);
+        /* Setting up the background */
+        this._background = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'UserInterface_Credits_Background');
+        this._background.anchor.set(.5);
 
-        this.closeButton = new ImageButton(this.game, -228, 475, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
+        /* Setting up the close button */
+        this._closeButton = new ImageButton(this.game, -228, 475, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
             callback();
         }, this);
-        this.closeButton.scale.x = -1;
+        this._closeButton.scale.x = -1;
 
-        this.headerText =  new Phaser.BitmapText(game, 0, -510, 'myfont', 'VEHICLE SELECT', 60);
-        this.headerText.tint = 0xffffff;
-        this.headerText.anchor.set(.5);
-        this.addChild(this.headerText);
+        /* Setting up the header text */
+        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'myfont', 'VEHICLE SELECT', 60);
+        this._headerText.tint = 0xffffff;
+        this._headerText.anchor.set(.5);
+        this.addChild(this._headerText);
 
-        this.carText =  new Phaser.BitmapText(game, 0, -280, 'myfont', 'car text', 50);
-        this.carText.tint = 0xffffff;
-        this.carText.anchor.set(.5);
-        this.addChild(this.carText);
+        /* Setting up the car name text */
+        this._carName =  new Phaser.BitmapText(game, 0, -280, 'myfont', 'car text', 50);
+        this._carName.tint = 0xffffff;
+        this._carName.anchor.set(.5);
+        this.addChild(this._carName);
 
-        this.descriptionText =  new Phaser.BitmapText(game, 0, -200, 'myfont', 'description text', 30);
-        this.descriptionText.tint = 0xffffff;
-        this.descriptionText.align = 'center';
-        this.descriptionText.anchor.set(.5);
-        this.addChild(this.descriptionText);
+        /* Setting up the description text */
+        this._descriptionText =  new Phaser.BitmapText(game, 0, -200, 'myfont', 'description text', 30);
+        this._descriptionText.tint = 0xffffff;
+        this._descriptionText.align = 'center';
+        this._descriptionText.anchor.set(.5);
+        this.addChild(this._descriptionText);
 
-        this.vehicleSelectGroup = new Phaser.Group(game);
-        this.vehicleSelectGroup.x = 10;
-        this.vehicleSelectGroup.y = 100;
+        /* Setting up the vehicle select group */
+        this._vehicleSelectGroup = new Phaser.Group(game);
+        this._vehicleSelectGroup.x = 10;
+        this._vehicleSelectGroup.y = 100;
 
-        this.middleBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'ui_middle_hexagon');
-        this.middleBackdrop.anchor.set(.5);
-        this.leftBackdrop = new Phaser.Sprite(game, -200, 85, Atlases.Interface, 'hexagon_small_left');
-        this.leftBackdrop.anchor.set(.5);
-        this.rightBackdrop = new Phaser.Sprite(game, 200, 85, Atlases.Interface, 'hexagon_small_right');
-        this.rightBackdrop.anchor.set(.5);
+        /* Setting up the middle selection sprite backdrop */
+        this._middleBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'ui_middle_hexagon');
+        this._middleBackdrop.anchor.set(.5);
+        /* Setting up the left selection sprite backdrop */
+        this._leftBackdrop = new Phaser.Sprite(game, -200, 85, Atlases.Interface, 'hexagon_small_left');
+        this._leftBackdrop.anchor.set(.5);
+        /* Setting up the right selection sprite backdrop */
+        this._rightBackdrop = new Phaser.Sprite(game, 200, 85, Atlases.Interface, 'hexagon_small_right');
+        this._rightBackdrop.anchor.set(.5);
 
-        this.selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.Interface, 'Spacecraft_Main');
-        this.selectedCarSprite.anchor.set(.5);
-        this.selectedCarSprite.scale.set(1.5);
+        /* Setting up the sprite which displayes the middle car */
+        this._selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.Interface, 'Spacecraft_Main');
+        this._selectedCarSprite.anchor.set(.5);
+        this._selectedCarSprite.scale.set(1.5);
 
-        this.leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.Interface, 'Spacecraft_Main');
-        this.leftCarSprite.anchor.set(.5);
-        this.leftCarSprite.tint = 0x222222;
+        /* Setting up the sprite which displays the left car */
+        this._leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.Interface, 'Spacecraft_Main');
+        this._leftCarSprite.anchor.set(.5);
+        this._leftCarSprite.tint = 0x222222;
 
-        this.rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.Interface, 'Spacecraft_Main');
-        this.rightCarSprite.anchor.set(.5);
-        this.rightCarSprite.tint = 0x222222;
+        /* Setting up the sprite which displays the right car */
+        this._rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.Interface, 'Spacecraft_Main');
+        this._rightCarSprite.anchor.set(.5);
+        this._rightCarSprite.tint = 0x222222;
 
-        this.leftArrow = new ImageButton(game, -250, -70, 'ui_pijltje',  'ui_pijltje', () => {
+        /* Setting up the left arrow */
+        this._leftArrow = new ImageButton(game, -250, -70, 'ui_pijltje',  'ui_pijltje', () => {
             this.moveVehicleTo(false);
         }, this);
-        this.leftArrow.anchor.set(.5);
+        this._leftArrow.anchor.set(.5);
 
-        this.rightArrow = new ImageButton(game, 220, -70, 'ui_pijltje', 'ui_pijltje', () => {
+        /* Setting up the right arrow */
+        this._rightArrow = new ImageButton(game, 220, -70, 'ui_pijltje', 'ui_pijltje', () => {
             this.moveVehicleTo(true);
         }, this);
-        this.rightArrow.anchor.set(.5);
-        this.rightArrow.scale.x = -1;
+        this._rightArrow.anchor.set(.5);
+        this._rightArrow.scale.x = -1;
 
-        this.addChild(this.background);
-        this.addChild(this.closeButton);
-        this.addChild(this.headerText);
-        this.addChild(this.carText);
-        this.addChild(this.descriptionText);
-        this.addChild(this.vehicleSelectGroup);
+        /* Adding all the needed elements to this group */
+        this.addChild(this._background);
+        this.addChild(this._closeButton);
+        this.addChild(this._headerText);
+        this.addChild(this._carName);
+        this.addChild(this._descriptionText);
+        this.addChild(this._vehicleSelectGroup);
 
-        this.vehicleSelectGroup.addChild(this.leftBackdrop);
-        this.vehicleSelectGroup.addChild(this.leftCarSprite);
+        /* Adding all the vehicle select elements to the vehicle select group */
+        this._vehicleSelectGroup.addChild(this._leftBackdrop);
+        this._vehicleSelectGroup.addChild(this._leftCarSprite);
 
-        this.vehicleSelectGroup.addChild(this.rightBackdrop);
-        this.vehicleSelectGroup.addChild(this.rightCarSprite);
+        this._vehicleSelectGroup.addChild(this._rightBackdrop);
+        this._vehicleSelectGroup.addChild(this._rightCarSprite);
 
-        this.vehicleSelectGroup.addChild(this.middleBackdrop);
-        this.vehicleSelectGroup.addChild(this.selectedCarSprite);
-        this.vehicleSelectGroup.addChild(this.leftArrow);
-        this.vehicleSelectGroup.addChild(this.rightArrow);
+        this._vehicleSelectGroup.addChild(this._middleBackdrop);
+        this._vehicleSelectGroup.addChild(this._selectedCarSprite);
+        this._vehicleSelectGroup.addChild(this._leftArrow);
+        this._vehicleSelectGroup.addChild(this._rightArrow);
 
-        this.vehicleSelectGroup.scale.set(.85);
+        /* Setting the group scale */
+        this._vehicleSelectGroup.scale.set(.85);
 
-        this.carIndex = SaveData.SelectedCar;
+        /* Setting the default value */
+        this._carIndex = SaveData.SelectedCar;
         this.updateSrites();
 
     }
-    private moveVehicleTo(left: boolean): void {
-        this.carIndex = (this.carIndex + (left ? -1 : 1) + Constants.CARS.length) % Constants.CARS.length;
-        SaveData.SelectedCar = this.carIndex;
+
+    /** Move the vehicle selection wheel */
+    private moveVehicleTo(left: boolean): void
+    {
+        this._carIndex = (this._carIndex + (left ? -1 : 1) + Constants.CARS.length) % Constants.CARS.length;
+        SaveData.SelectedCar = this._carIndex;
+
         this.updateSrites();
     }
-    private updateSrites(): void {
-        this.selectedCarSprite.frameName = Constants.CARS[this.carIndex].spriteKey;
-        this.leftCarSprite.frameName = Constants.CARS[(this.carIndex + 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
-        this.rightCarSprite.frameName = Constants.CARS[(this.carIndex - 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
 
-        this.carText.text = '' + Constants.CARS[this.carIndex].carName;
-        this.descriptionText.text = '' + Constants.CARS[this.carIndex].description;
+    /** Update the car images to the currently correct images */
+    private updateSrites(): void
+    {
+        /* Setting the frameNames */
+        this._selectedCarSprite.frameName = Constants.CARS[this._carIndex].spriteKey;
+        this._leftCarSprite.frameName = Constants.CARS[(this._carIndex + 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
+        this._rightCarSprite.frameName = Constants.CARS[(this._carIndex - 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
+
+        /* Setting the information texts */
+        this._carName.text = '' + Constants.CARS[this._carIndex].carName;
+        this._descriptionText.text = '' + Constants.CARS[this._carIndex].description;
+    }
+
+    public destroy(): void
+    {
+        super.destroy(true);
+
+        /* Destroying the background */
+        if (this._background) { this._background.destroy(true); }
+        this._background = null;
+
+        /* Destroying the vehicle select group */
+        if (this._vehicleSelectGroup) { this._vehicleSelectGroup.destroy(true); }
+        this._vehicleSelectGroup = null;
+
+        /* Destroying close button */
+        if (this._closeButton) { this._closeButton.destroy(); }
+        this._closeButton = null;
+
+        /* Destroying header text */
+        if (this._headerText) { this._headerText.destroy(true); }
+        this._headerText = null;
+
+        /* Destroying car name text */
+        if (this._carName) { this._carName.destroy(true); }
+        this._carName = null;
+        /* Destroying description text */
+        if (this._descriptionText) { this._descriptionText.destroy(true); }
+        this._descriptionText = null;
+
+        /* Destroing the left backdrop */
+        if (this._leftBackdrop) { this._leftBackdrop.destroy(true); }
+        this._leftBackdrop = null;
+        /* Destroying the center backdrop */
+        if (this._middleBackdrop) { this._middleBackdrop.destroy(true); }
+        this._middleBackdrop = null;
+        /* Destroying the right backdrop */
+        if (this._rightBackdrop) { this._rightBackdrop.destroy(true); }
+        this._rightBackdrop = null;
+
+        /* Destroying the left arrow button */
+        if (this._leftArrow) { this._leftArrow.destroy(); }
+        this._leftArrow = null;
+        /* Destroying the right arrow button */
+        if (this._rightArrow) { this._rightArrow.destroy(); }
+        this._rightArrow = null;
+
+        /* Destroying left car sprite */
+        if (this._leftCarSprite) { this._leftCarSprite.destroy(true); }
+        this._leftCarSprite = null;
+        /* Destroying the selected car sprite */
+        if (this._selectedCarSprite) { this._selectedCarSprite.destroy(true); }
+        this._selectedCarSprite = null;
+        /* Destroying the right car sprite */
+        if (this._rightCarSprite) { this._rightCarSprite.destroy(true); }
+        this._rightCarSprite = null;
+
     }
 
 }

@@ -126,7 +126,7 @@ export default class Menu extends Phaser.State
 
         /* Creating the settings button */
         let settingButton: TextButton = new TextButton(this.game, -135, 180, '', 40, 'UserInterface_Menu_Options', () => {
-            this.showAMenu(this._settingGroup)
+            this.showAMenu(this._settingGroup);
         }, this);
         group.addChild(settingButton);
 
@@ -260,31 +260,39 @@ export default class Menu extends Phaser.State
         super.shutdown(this.game);
 
         /* Destroy the main button group */
-        this._mainButtonsGroup.destroy(true);
+        if (this._mainButtonsGroup) { this._mainButtonsGroup.destroy(true); }
         this._mainButtonsGroup = null;
 
-        /* Destroythe background sprite */
-        this._backgroundSprite.destroy(true);
+        /* Destroying logo */
+        if (this._logoSprite) { this._logoSprite.destroy(true); }
+        this._logoSprite = null;
+
+        /* Destroy the background sprite */
+        if (this._backgroundSprite) { this._backgroundSprite.destroy(true); }
         this._backgroundSprite = null;
 
+        /* Destroy the credits screen */
+        if (this._creditsScreen) { this._creditsScreen.destroy(); }
+        this._creditsScreen = null;
+
         /* Destroy the level select */
-        this._levelSelect.destroy();
+        if (this._levelSelect) { this._levelSelect.destroy(); }
         this._levelSelect = null;
 
         /* Destroy the settings group */
-        this._settingGroup.destroy();
+        if (this._settingGroup) { this._settingGroup.destroy(); }
         this._settingGroup = null;
 
         /* Destroy the vehicle select */
-        this._vehicleSelect.destroy();
+        if (this._vehicleSelect) { this._vehicleSelect.destroy(); }
         this._vehicleSelect = null;
 
         /* Destroy the hex viewer */
-        this._hexViewer.destroy();
+        if (this._hexViewer) { this._hexViewer.destroy(); }
         this._hexViewer = null;
 
         /* Destoy the world emitter */
-        this._worldEmitter.destroy();
+        if (this._worldEmitter) { this._worldEmitter.destroy(); }
         this._worldEmitter = null;
 
         /* Stop the music */
