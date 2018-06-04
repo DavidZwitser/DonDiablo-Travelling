@@ -35,6 +35,8 @@ export default class UI extends ParalaxObject
 
     private _fullCountdown: number = 3;
 
+    private _countDownFade: Phaser.Tween;
+
     constructor(game: Phaser.Game)
     {
         super(game);
@@ -64,22 +66,23 @@ export default class UI extends ParalaxObject
         this.Pause(false);
         this._countdownText.visible = true;
         this._countdownText.text = '3';
-        this.timeCount(2);
+        this.timeCount(3);
     }
     private timeCount(index: number): void
     {
-        setTimeout(() => {
             this._countdownText.text = index.toString();
             if (index >= 1)
             {
-                this.timeCount(index - 1 );
+                this._countdownText.alpha = 1;
+                this._countDownFade = this.game.add.tween(this._countdownText)
+                .to({alpha: 0}, 1000, Phaser.Easing.Cubic.Out, true).start();
+                this._countDownFade.onComplete.addOnce(() => this.timeCount(index - 1 ));
             }
             else
             {
                 this._countdownText.visible = false;
                 this.onPause.dispatch();
             }
-        }, 1000 );
     }
 
     private createScoreBar(): void
@@ -154,7 +157,7 @@ export default class UI extends ParalaxObject
         this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'myfont', this._fullCountdown.toString(), 30);
         this._countdownText.tint = 0xffffff;
         this._countdownText.anchor.set(0.5);
-        this._countdownText.fontSize = 60;
+        this._countdownText.fontSize = 90;
         this.addChild(this._countdownText);
     }
 
