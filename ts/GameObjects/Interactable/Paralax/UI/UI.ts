@@ -29,8 +29,11 @@ export default class UI extends ParalaxObject
 
     private _gameOverScreen: GameOverScreen;
     private _trackText: Phaser.BitmapText;
+    private _countdownText: Phaser.BitmapText;
     private _comboValue: number = 1;
     private _streakCount: number = 0;
+
+    private _fullCountdown: number = 3;
 
     constructor(game: Phaser.Game)
     {
@@ -41,9 +44,12 @@ export default class UI extends ParalaxObject
         this.createPickUpCounter();
         this.createTrackText();
         this.createPopUpText();
+        this.createCountDownText();
+
+        this._countdownText.visible = false;
 
         this.pauseScreen = new PauseScreen(game, 1);
-        this.pauseScreen.onResume.add(() => this.onPause.dispatch(), this);
+        this.pauseScreen.onResume.add(() => this.unpauseDelay(), this);
 
         this._gameOverScreen = new GameOverScreen(game, 1);
         this.addChild(this._gameOverScreen);
@@ -51,6 +57,29 @@ export default class UI extends ParalaxObject
         this.addChild(this.pauseScreen);
 
         this.onPause = new Phaser.Signal();
+
+    }
+    private unpauseDelay(): void
+    {
+        this.Pause(false);
+        this._countdownText.visible = true;
+        this._countdownText.text = '3';
+        this.timeCount(2);
+    }
+    private timeCount(index: number): void
+    {
+        setTimeout(() => {
+            this._countdownText.text = index.toString();
+            if (index >= 1)
+            {
+                this.timeCount(index - 1 );
+            }
+            else
+            {
+                this._countdownText.visible = false;
+                this.onPause.dispatch();
+            }
+        }, 1000 );
     }
 
     private createScoreBar(): void
@@ -120,6 +149,15 @@ export default class UI extends ParalaxObject
         this.addChild(this._trackText);
     }
 
+    private createCountDownText(): void
+    {
+        this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'myfont', this._fullCountdown.toString(), 30);
+        this._countdownText.tint = 0xffffff;
+        this._countdownText.anchor.set(0.5);
+        this._countdownText.fontSize = 60;
+        this.addChild(this._countdownText);
+    }
+
     public Pause(pause: boolean): void {
         this.pauseScreen.visible = pause;
         this._pauseButton.pauseButton.visible = !pause;
@@ -166,6 +204,9 @@ export default class UI extends ParalaxObject
 
         this._trackText.scale.set(vmin / GAME_WIDTH, vmin / GAME_WIDTH);
         this._trackText.position.set(this.game.width / 2, this.game.height / 2 + this.pickupCounter.height);
+
+        this._countdownText.scale.set(vmin / GAME_WIDTH, vmin / GAME_WIDTH);
+        this._countdownText.position.set(this.game.width / 2, this.game.height / 2 + this.pickupCounter.height);
 
         this._pauseButton.resize();
         this.scoreBar.resize();
