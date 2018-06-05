@@ -20,6 +20,7 @@ import ScoreSystem from '../Systems/ScoreSystem';
 import SaveData from '../BackEnd/SaveData';
 import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
+import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
 import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 export default class Gameplay extends Phaser.State
@@ -36,6 +37,7 @@ export default class Gameplay extends Phaser.State
 
     private _userInterface: UI;
     private _player: Player;
+    private _lightning: Lightning;
 
     private _input: Input;
     private _pickupSpawner: PickupSpawner;
@@ -118,6 +120,7 @@ export default class Gameplay extends Phaser.State
             this._userInterface.scoreBar.value += 1;
         });
 
+        this._lightning = new Lightning(this.game, this._perspectiveRenderer);
         /* Level creation */
         this.spawnEditor = new SpawnEditor();
 
@@ -140,7 +143,7 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._audioVisualizer);
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
-        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.worldSuperReact(); });
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
@@ -148,6 +151,7 @@ export default class Gameplay extends Phaser.State
         this._pickupSpawner = new PickupSpawner(this.game, this._pickupContainer, this._perspectiveRenderer);
 
         this.game.add.existing(this._player);
+        this.game.add.existing(this._lightning);
 
         /* Input */
         this._input = new Input(this.game, this._useContinuesInput);
@@ -310,6 +314,7 @@ export default class Gameplay extends Phaser.State
         SoundManager.getInstance().pause(this._gamePaused);
 
         this._input.active = !this._gamePaused;
+        this._lightning.pause(this._gamePaused);
 
         if (showPauseScreen === false) { return; }
         this._userInterface.pauseScreen.visible = this._gamePaused;
@@ -317,6 +322,11 @@ export default class Gameplay extends Phaser.State
         if (!this._blurred) {
             this._userInterface.Pause(this._gamePaused);
         }
+    }
+
+    public worldSuperReact(): void {
+        this._lightning.initiateThunder(this._player.lane);
+        this.worldReact();
     }
 
     /** Make the world move */
@@ -371,6 +381,9 @@ export default class Gameplay extends Phaser.State
 
         this._perspectiveRenderer.destroy(true);
         this._perspectiveRenderer = null;
+
+        this._lightning.destroy();
+        this._lightning = null;
 
         this._road.destroy(true);
         this._road = null;
