@@ -38,7 +38,7 @@ export default class Window extends Phaser.Sprite
         this.addChild(this._closeButton);
 
         /** Content name */
-        this.contentName = new Phaser.BitmapText(this.game, 0, 0, 'myfont', contentName, 40);
+        this.contentName = new Phaser.BitmapText(this.game, 0, 0, 'ailerons', contentName, 40);
         this.contentName.tint = 0xffffff;
         this.contentName.anchor.set(.5, 0);
         this.addChild(this.contentName);

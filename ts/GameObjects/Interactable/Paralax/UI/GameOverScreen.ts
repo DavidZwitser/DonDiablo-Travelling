@@ -13,13 +13,13 @@ export default class GameOverScreen extends BasePopUp
 
         this._titleText.text = 'GAME OVER';
 
-        this._highScoreText = new Phaser.BitmapText(game, 0, -20, 'myfont', 'highscore: ', 45);
+        this._highScoreText = new Phaser.BitmapText(game, 0, -20, 'futura', 'highscore: ', 45);
         this._highScoreText.tint = 0x181137;
         this._highScoreText.anchor.set(.5);
         this._highScoreText.scale.set(scale, scale);
         this.addChild(this._highScoreText);
 
-        this._scoreText = new Phaser.BitmapText(game, 0, 50, 'myfont', 'score: ', 45);
+        this._scoreText = new Phaser.BitmapText(game, 0, 50, 'futura', 'score: ', 45);
         this._scoreText.tint = 0x181137;
         this._scoreText.anchor.set(.5);
         this._scoreText.scale.set(scale, scale);

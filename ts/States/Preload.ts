@@ -41,7 +41,8 @@ export default class Preload extends Phaser.State
         this._preloadImage.width = this.game.width;
         this._preloadImage.height = this.game.height;
 
-        this.game.load.bitmapFont('myfont', 'assets/fonts/font.png', 'assets/fonts/font.xml');
+        this.game.load.bitmapFont('futura', 'assets/fonts/futura.png', 'assets/fonts/futura.xml');
+        this.game.load.bitmapFont('ailerons', 'assets/fonts/ailerons.png', 'assets/fonts/ailerons.xml');
 
         SpriteSheets.List.forEach((sheet: {name: string, frameWidth: number, frameHeight: number, amountOfFrames: number}) => {
             this.game.load.spritesheet(sheet.name, 'assets/spritesheets/' + sheet.name + '.png', sheet.frameWidth, sheet.frameHeight, sheet.amountOfFrames);

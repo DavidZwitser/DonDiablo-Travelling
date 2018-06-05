@@ -44,7 +44,7 @@ export default class BasePopUp extends Phaser.Group
         this._backToMenuButton.label.fontSize = 40;
         this.addChild(this._backToMenuButton);
 
-        this._titleText = new Phaser.BitmapText(game, 0, -150, 'myfont', 'Pause', 60);
+        this._titleText = new Phaser.BitmapText(game, 0, -150, 'ailerons', 'Pause', 60);
         this._titleText.tint = 0xffffff;
         this._titleText.anchor.set(0.5);
         this._titleText.scale.set(scale, scale);

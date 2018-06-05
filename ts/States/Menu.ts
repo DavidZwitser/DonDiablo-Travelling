@@ -126,7 +126,7 @@ export default class Menu extends Phaser.State
 
         /* Creating the settings button */
         let settingButton: TextButton = new TextButton(this.game, -135, 180, '', 40, 'UserInterface_Menu_Options', () => {
-            this.showAMenu(this._settingGroup)
+            this.showAMenu(this._settingGroup);
         }, this);
         group.addChild(settingButton);
 

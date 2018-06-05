@@ -15,7 +15,7 @@ export default class PickupCounter extends Phaser.BitmapText
 
     constructor(game: Phaser.Game, x: number, y: number)
     {
-        super(game, x, y, 'myfont', '0');
+        super(game, x, y, 'futura', '0');
         this.anchor.set(.5);
         this.alpha = 0.0;
         this.align = 'center';

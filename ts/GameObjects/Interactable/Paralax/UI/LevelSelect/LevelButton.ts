@@ -18,15 +18,15 @@ export default class LevelButton extends Phaser.Button
         this.icon.anchor.set(.5);
         this.addChild(this.icon);
 
-        this._titleLabel = new Phaser.BitmapText(game, -300, -30, 'myfont', level.title, 40);
+        this._titleLabel = new Phaser.BitmapText(game, -300, -30, 'futura', level.title, 40);
         this._titleLabel.anchor.set(0, .5);
         this.addChild(this._titleLabel);
 
-        this._artistLabel = new Phaser.BitmapText(game, -300, -0, 'myfont', level.artist, 30);
+        this._artistLabel = new Phaser.BitmapText(game, -300, -0, 'futura', level.artist, 30);
         this._artistLabel.anchor.set(0, .5);
         this.addChild(this._artistLabel);
 
-        this._highscoreLabel = new Phaser.BitmapText(game, -300, 40, 'myfont', 'highscore: ' + score, 40);
+        this._highscoreLabel = new Phaser.BitmapText(game, -300, 40, 'futura', 'highscore: ' + score, 40);
         this._highscoreLabel.anchor.set(0, .5);
         this.addChild(this._highscoreLabel);
     }

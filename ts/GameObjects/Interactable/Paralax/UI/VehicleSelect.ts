@@ -32,6 +32,8 @@ export default class VehicleSelect extends Phaser.Group
     private leftCarSprite: Phaser.Sprite;
     private rightCarSprite: Phaser.Sprite;
 
+    private selectedTween: Phaser.Tween;
+
     private carIndex: number = 0;
 
     constructor(game: Phaser.Game, callback: Function)
@@ -46,17 +48,17 @@ export default class VehicleSelect extends Phaser.Group
         }, this);
         this.closeButton.scale.x = -1;
 
-        this.headerText =  new Phaser.BitmapText(game, 0, -510, 'myfont', 'VEHICLE SELECT', 60);
+        this.headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'VEHICLE SELECT', 50);
         this.headerText.tint = 0xffffff;
         this.headerText.anchor.set(.5);
         this.addChild(this.headerText);
 
-        this.carText =  new Phaser.BitmapText(game, 0, -280, 'myfont', 'car text', 50);
+        this.carText =  new Phaser.BitmapText(game, 0, -280, 'futura', 'car text', 50);
         this.carText.tint = 0xffffff;
         this.carText.anchor.set(.5);
         this.addChild(this.carText);
 
-        this.descriptionText =  new Phaser.BitmapText(game, 0, -200, 'myfont', 'description text', 30);
+        this.descriptionText =  new Phaser.BitmapText(game, 0, -200, 'futura', 'description text', 30);
         this.descriptionText.tint = 0xffffff;
         this.descriptionText.align = 'center';
         this.descriptionText.anchor.set(.5);
@@ -126,6 +128,13 @@ export default class VehicleSelect extends Phaser.Group
         this.updateSrites();
     }
     private updateSrites(): void {
+        if (this.selectedTween) {
+            if (this.selectedTween.isRunning) {
+                this.selectedTween.stop();
+            }
+        }
+        this.selectedCarSprite.y = -70;
+        this.selectedTween = this.game.add.tween(this.selectedCarSprite).to({y: -90}, 250, Phaser.Easing.Cubic.InOut, true, 0, 0, true);
         this.selectedCarSprite.frameName = Constants.CARS[this.carIndex].spriteKey;
         this.leftCarSprite.frameName = Constants.CARS[(this.carIndex + 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
         this.rightCarSprite.frameName = Constants.CARS[(this.carIndex - 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
