@@ -1,6 +1,7 @@
 import 'phaser-ce';
 import AudioAnalyser from '../../../Systems/Sound/AudioAnalyser';
 import Atlases from '../../../Data/Atlases';
+import Constants from '../../../Data/Constants';
 
 /** Visualizes songs */
 /** Visualizes music */
@@ -64,33 +65,36 @@ export default class BuildingVisualizer extends Phaser.Group
     private setUp(): void
     {
         //bottom half
-        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'building_glow');
         this._backGlow.anchor.set(0, 1);
         this._backGlow.alpha = 0;
         this._bottomHalf.addChild(this._backGlow);
 
-        this.setUpBuildings(false);
+        this.setUpBuildings(false, 'Blue');
 
-        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'building_glow');
         this._glow.anchor.set(0, 1);
         this._bottomHalf.addChild(this._glow);
 
         //top half
-        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'dark_glow_top');
+        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'building_glow');
         this._topBackGlow.anchor.set(0, 1);
         this._topHalf.addChild(this._topBackGlow);
 
-        this.setUpBuildings(true);
+        this.setUpBuildings(true, 'Red');
 
-        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'glowunder');
+        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'building_glow');
         this._topGlow.anchor.set(0, 1);
         this._topHalf.addChild(this._topGlow);
         this._topHalf.y = -this._maxHeight * 1;
         this._topHalf.scale.set(1, -1);
 
+        this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[0]._bottomOuterColor;
+        this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[0]._topOuterColor;
+
     }
 
-    private setUpBuildings(top: boolean): void
+    private setUpBuildings(top: boolean, type: string): void
     {
         let pos: number = 0;
         while (pos < this._maxWidth)
@@ -98,16 +102,9 @@ export default class BuildingVisualizer extends Phaser.Group
             let building: Phaser.Sprite;
             let index: number;
 
-            if (top)
-            {
-                index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
-            }
-            else
-            {
-                index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
-            }
+            index = Math.ceil(Math.random() * 11);
+            building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_' + type + '_' + (index < 10 ? '0' + index : index));
+
             building.anchor.set(0);
             building.scale.set((this.game.width / GAME_WIDTH) * .5);
 
@@ -223,11 +220,27 @@ export default class BuildingVisualizer extends Phaser.Group
 
     public resize(): void
     {
-        //needs more things!
         this.y = this.game.height * .6;
         requestAnimationFrame(() => {
             this.scale.set(this.game.width / this._maskGraphic.width, this.game.height * .2 / this._maskGraphic.height);
         });
+    }
+
+    public setColor(index: number): void {
+        let random: number = Math.ceil(Math.random() * 11);
+
+        for (let i: number = this._buildings.length; i--; )
+        {
+            random = Math.ceil(Math.random() * 11);
+            this._buildings[i].frameName = 'Background_Building_' + Constants.ROAD_COLORS[index]._bottomSprite + '_' + (random < 10 ? '0' + random : random);
+        }
+        for (let i: number = this._topBuildings.length; i--; )
+        {
+            random = Math.ceil(Math.random() * 11);
+            this._topBuildings[i].frameName = 'Background_Building_' + Constants.ROAD_COLORS[index]._topSprite + '_' + (random < 10 ? '0' + random : random);
+        }
+        this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[index]._bottomOuterColor;
+        this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[index]._topOuterColor;
     }
 
     public destroy(): void
@@ -255,8 +268,8 @@ export default class BuildingVisualizer extends Phaser.Group
 
         for (let i: number = this._topBuildings.length; i--; )
         {
-            this._topBuildings[i].destroy(true);
-            this._topBuildings.slice(i, i);
+            this._topBuildings[i].destroy();
+            this._topBuildings.slice(i, 1);
         }
         this._topBuildings = null;
 

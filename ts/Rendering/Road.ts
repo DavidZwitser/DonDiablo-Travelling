@@ -46,8 +46,9 @@ export default class Road extends Phaser.Group
         this.setRoadColors(this.colorIndex);
     }
 
-    public nextColor(): void {
-        this.setColors((this.colorIndex + 1 + Constants.ROAD_COLORS.length) % Constants.ROAD_COLORS.length);
+    public setColor(index: number): void {
+        this.colorIndex = index;
+        this.setColors(this.colorIndex);
     }
 
     public render(redrawEverything: boolean = false): void
@@ -208,7 +209,7 @@ export default class Road extends Phaser.Group
         this._roadLinesLayer.endFill();
 
     }
-    private setColors(index: number, time: number = 1000): void {
+    public setColors(index: number, time: number = 1000): void {
         let colorBlend: any = {step: 0};
         // create the tween on this object and tween its step property to 100
         let colorTween: Phaser.Tween = this.game.add.tween(colorBlend).to({step: 100}, time).start();

@@ -53,6 +53,7 @@ export default class Gameplay extends Phaser.State
     private _scoreSystem: ScoreSystem;
 
     private _blurred: boolean = false;
+    private _colorIndex: number = 0;
     private _phaseSystem: PhaseSystem;
 
     constructor()
@@ -229,7 +230,9 @@ export default class Gameplay extends Phaser.State
         Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
 
-        this._road.nextColor();
+        this._colorIndex = (this._colorIndex + 1 + Constants.ROAD_COLORS.length) % Constants.ROAD_COLORS.length;
+        this._road.setColors(this._colorIndex);
+        this._audioVisualizer.setColor(this._colorIndex);
         if (this._updatePhaseByBar)
         {
             this._phaseSystem.startNextPhase();

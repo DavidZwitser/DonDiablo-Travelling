@@ -33,7 +33,9 @@ export default class Constants
         _bottomMiddleColor: number,
         _bottomOuterColor: number,
         _topMiddleColor: number,
-        _topOuterColor: number
+        _topOuterColor: number,
+        _topSprite: string,
+        _bottomSprite: string
     }[] = [
         {
             //red
@@ -41,7 +43,10 @@ export default class Constants
             _bottomOuterColor: 0x66090f,
             //blue
             _topMiddleColor: 0xf4091a,
-            _topOuterColor: 0x148694
+            _topOuterColor: 0x148694,
+
+            _topSprite: 'Red',
+            _bottomSprite: 'Blue'
         },
         {
             //blue
@@ -49,7 +54,11 @@ export default class Constants
             _bottomOuterColor: 0x6f87f0,
             //purple
             _topMiddleColor: 0xc7e5f4,
-            _topOuterColor: 0xd13df1
+            _topOuterColor: 0xd13df1,
+
+            _topSprite: 'DarkBlue',
+            _bottomSprite: 'Purple'
+
         }
     ];
 

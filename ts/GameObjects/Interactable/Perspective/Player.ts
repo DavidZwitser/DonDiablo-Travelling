@@ -26,7 +26,7 @@ export default class Player extends ReactivePerspectiveObject
     {
         super(game, renderer);
 
-        this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
+        this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'ingame_vehicle_1_straight');
         this.addChild(this.sprite);
 
         this.zPos = Constants.PLAYER_Z_POSITION;

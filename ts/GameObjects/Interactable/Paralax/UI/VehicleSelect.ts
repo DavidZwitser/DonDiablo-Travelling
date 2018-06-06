@@ -75,15 +75,15 @@ export default class VehicleSelect extends Phaser.Group
         this.rightBackdrop = new Phaser.Sprite(game, 200, 85, Atlases.Interface, 'hexagon_small_right');
         this.rightBackdrop.anchor.set(.5);
 
-        this.selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.Interface, 'Spacecraft_Main');
+        this.selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.Interface, 'ingame_vehicle_1_straight');
         this.selectedCarSprite.anchor.set(.5);
         this.selectedCarSprite.scale.set(1.5);
 
-        this.leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.Interface, 'Spacecraft_Main');
+        this.leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.Interface, 'ingame_vehicle_1_straight');
         this.leftCarSprite.anchor.set(.5);
         this.leftCarSprite.tint = 0x222222;
 
-        this.rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.Interface, 'Spacecraft_Main');
+        this.rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.Interface, 'ingame_vehicle_1_straight');
         this.rightCarSprite.anchor.set(.5);
         this.rightCarSprite.tint = 0x222222;
 
