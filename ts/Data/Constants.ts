@@ -81,7 +81,38 @@ export default class Constants
             artist: 'Don Diablo',
             json: JSON.GIVE_ME_YOUR_LOVE,
             music: Sounds.GIVE_ME_YOUR_LOVE
+        },
+        {
+            title: 'Dont let go',
+            artist: 'Don Diablo',
+            json: JSON.DONT_LET_GO,
+            music: Sounds.DONT_LET_GO
+        },
+        {
+            title: 'You cant change me',
+            artist: 'Don Diablo',
+            json: JSON.YOU_CANT_CHANGE_ME,
+            music: Sounds.YOU_CANT_CHANGE_ME
+        },
+        {
+            title: 'Save a little love',
+            artist: 'Don Diablo',
+            json: JSON.SAVE_A_LITTLE_LOVE,
+            music: Sounds.SAVE_A_LITTLE_LOVE
+        },
+        {
+            title: 'Reflections',
+            artist: 'Don Diablo',
+            json: JSON.REFLECTIONS,
+            music: Sounds.REFLECTIONS
+        },
+        {
+            title: 'Satalite',
+            artist: 'Don Diablo',
+            json: JSON.SATALITE,
+            music: Sounds.SATALITES
         }
+
     ];
 
     public static CARS: {carName: String, spriteKey: string, description: string}[] = [

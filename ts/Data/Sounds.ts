@@ -3,8 +3,6 @@
  */
 export default class Sounds
 {
-    public static testMusic: string = 'test';
-
     //menu track
     public static UI_MENU_MUSIC: string = 'Menu';
 
@@ -12,6 +10,16 @@ export default class Sounds
     public static HEAD_UP: string = 'head_up';
     public static PEOPLE_SAY: string = 'People_Say';
     public static GIVE_ME_YOUR_LOVE: string = 'Give_Me_Your_Love';
+
+    public static BELIEVE: string = 'Believe';
+    public static EVERYBODY_SOMEBODY: string = 'Everybody_Somebody';
+    public static PUT_IT_ON_FOR_ME: string = 'Put_It_On';
+    public static HIGHER: string = 'higher';
+    public static SAVE_A_LITTLE_LOVE: string = 'Save_A_Little_Love';
+    public static REFLECTIONS: string = 'reflections';
+    public static YOU_CANT_CHANGE_ME: string = 'You_Cant_Change_Me';
+    public static DONT_LET_GO: string = 'Dont_Let_Go';
+    public static SATALITES: string = 'satalites';
 
     //sound effects
     public static HIGH_SOUND: string = 'high_sound';
