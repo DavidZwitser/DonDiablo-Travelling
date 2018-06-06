@@ -43,13 +43,13 @@ export default class SettingPopup extends Phaser.Group
         this.addChild(this._backdrop);
 
         /* Creating title text */
-        this._titleText = new Phaser.BitmapText(game, 0, -150, 'myfont', 'Settings', 50);
+        this._titleText = new Phaser.BitmapText(game, 0, -150, 'ailerons', 'Settings', 50);
         this._titleText.tint = 0xffffff;
         this._titleText.anchor.set(0.5);
         this.addChild(this._titleText);
 
         /* Creating sfx text */
-        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'myfont', 'SFX', 40);
+        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'futura', 'SFX', 40);
         this._sfxText.tint = 0xffffff;
         this._sfxText.anchor.set(0.5);
         this.addChild(this._sfxText);
@@ -63,7 +63,7 @@ export default class SettingPopup extends Phaser.Group
         this.addChild(this._sfxSlider);
 
         /* Creating the quality text */
-        this._quallityText = new Phaser.BitmapText(game, 0 , 80, 'myfont', 'Quality', 40);
+        this._quallityText = new Phaser.BitmapText(game, 0 , 80, 'futura', 'Quality', 40);
         this._quallityText.tint = 0xffffff;
         this._quallityText.anchor.set(0.5);
         this.addChild(this._quallityText);

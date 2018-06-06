@@ -61,19 +61,19 @@ export default class VehicleSelect extends Phaser.Group
         this._closeButton.scale.x = -1;
 
         /* Setting up the header text */
-        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'myfont', 'VEHICLE SELECT', 60);
+        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'VEHICLE SELECT', 60);
         this._headerText.tint = 0xffffff;
         this._headerText.anchor.set(.5);
         this.addChild(this._headerText);
 
         /* Setting up the car name text */
-        this._carName =  new Phaser.BitmapText(game, 0, -280, 'myfont', 'car text', 50);
+        this._carName =  new Phaser.BitmapText(game, 0, -280, 'futura', 'car text', 50);
         this._carName.tint = 0xffffff;
         this._carName.anchor.set(.5);
         this.addChild(this._carName);
 
         /* Setting up the description text */
-        this._descriptionText =  new Phaser.BitmapText(game, 0, -200, 'myfont', 'description text', 30);
+        this._descriptionText =  new Phaser.BitmapText(game, 0, -200, 'futura', 'description text', 30);
         this._descriptionText.tint = 0xffffff;
         this._descriptionText.align = 'center';
         this._descriptionText.anchor.set(.5);
@@ -95,17 +95,17 @@ export default class VehicleSelect extends Phaser.Group
         this._rightBackdrop.anchor.set(.5);
 
         /* Setting up the sprite which displayes the middle car */
-        this._selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.INTERFACE, 'Spacecraft_Main');
+        this._selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.INTERFACE, '');
         this._selectedCarSprite.anchor.set(.5);
         this._selectedCarSprite.scale.set(1.5);
 
         /* Setting up the sprite which displays the left car */
-        this._leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.INTERFACE, 'Spacecraft_Main');
+        this._leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.INTERFACE, '');
         this._leftCarSprite.anchor.set(.5);
         this._leftCarSprite.tint = 0x222222;
 
         /* Setting up the sprite which displays the right car */
-        this._rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.INTERFACE, 'Spacecraft_Main');
+        this._rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.INTERFACE, '');
         this._rightCarSprite.anchor.set(.5);
         this._rightCarSprite.tint = 0x222222;
 

@@ -27,13 +27,13 @@ export default class CreditsScreen extends Phaser.Group
         this.addChild(this._creditsBackdrop);
 
         /* Setting up the header text */
-        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'myfont', 'Credits', 60);
+        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'Credits', 60);
         this._headerText.tint = 0xffffff;
         this._headerText.anchor.set(.5);
         this.addChild(this._headerText);
 
         /* Setting up the credits text */
-        this._creditsText =  new Phaser.BitmapText(game, 0, 0, 'myfont', '', 40);
+        this._creditsText =  new Phaser.BitmapText(game, 0, 0, 'futura', '', 40);
         this._creditsText.tint = 0xffffff;
         this._creditsText.anchor.set(.5);
         this.addChild(this._creditsText);

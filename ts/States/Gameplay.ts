@@ -50,6 +50,7 @@ export default class Gameplay extends Phaser.State
 
     private _gamePaused: boolean = false;
     private _blurred: boolean = false;
+    private _colorIndex: number = 0;
 
     public init(): void
     {
@@ -217,7 +218,9 @@ export default class Gameplay extends Phaser.State
         Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
 
-        this._road.nextColor();
+        this._colorIndex = (this._colorIndex + 1) % Constants.ROAD_COLORS.length;
+        this._road.nextColor(this._colorIndex);
+        this._audioVisualizer.setColor(this._colorIndex);
         if (this._updatePhaseByBar)
         {
             this._phaseSystem.startNextPhase();
@@ -225,13 +228,22 @@ export default class Gameplay extends Phaser.State
     }
 
     /** starts the track (optinally with a delay) */
-    private startTrack(delay: number = 1000): void
+    private startTrack(): void
     {
-        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
-        setTimeout(() => {
-            SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
+        let songAsset: string = Constants.LEVELS[Constants.CURRENT_LEVEL].music;
+        if (this.game.cache.checkSoundKey(songAsset)) {
+            SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
-        }, delay);
+            console.log('already there');
+        } else {
+            this.game.load.audio(songAsset, ['assets/music/' + songAsset + '.ogg' , 'assets/music/' + songAsset + '.mp3']);
+            this.game.load.start();
+            this.game.load.onFileComplete.addOnce(() => {
+                SoundManager.getInstance().playMusic(songAsset, 1, false);
+                this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+            });
+        }
+        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
     }
 
     public update(): void
