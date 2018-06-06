@@ -13,6 +13,7 @@ export default class Road extends Phaser.Group
     private _offset: number = 0;
 
     /** The colors for the lines */
+    private colorIndex: number = 0;
     private _roadColors: IRoadColors;
 
     /** The layers where the lines on the horion are drawn */
@@ -38,7 +39,7 @@ export default class Road extends Phaser.Group
         this._highlightLayer = new Phaser.Graphics(game);
         this.addChild(this._highlightLayer);
 
-        this.setRoadColors(0);
+        this.setRoadColors(this.colorIndex);
     }
 
     public render(redrawEverything: boolean = false): void
@@ -280,6 +281,8 @@ export default class Road extends Phaser.Group
             topSprite: '',
             bottomSprite: ''
         };
+        this.colorIndex = index;
+
     }
 
     /** Get a road line for the top side of the screen */
