@@ -6,7 +6,6 @@ export default class Spines
 
     public static List: string[] = [
         //Add spines to load
-        Spines.Lightning,
-        Spines.Chips
+        Spines.Lightning
     ];
 }

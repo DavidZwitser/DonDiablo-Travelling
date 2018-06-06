@@ -239,15 +239,23 @@ export default class Gameplay extends Phaser.State
         }
     }
 
-    /** starts the track (optinally with a delay) */
-    private startTrack(delay: number = 1000): void
+    /** starts the track and loads the song in if it isn't loaded yet. */
+    private startTrack(): void
     {
         let songAsset: string = Constants.LEVELS[Constants.CURRENT_LEVEL].music;
-        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
-        setTimeout(() => {
+        if (this.game.cache.checkSoundKey(songAsset)) {
             SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
-        }, delay);
+            console.log('already there');
+        } else {
+            this.game.load.audio(songAsset, ['assets/music/' + songAsset + '.ogg' , 'assets/music/' + songAsset + '.mp3']);
+            this.game.load.start();
+            this.game.load.onFileComplete.addOnce(() => {
+                SoundManager.getInstance().playMusic(songAsset, 1, false);
+                this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+            });
+        }
+        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
     }
 
     public update(): void
