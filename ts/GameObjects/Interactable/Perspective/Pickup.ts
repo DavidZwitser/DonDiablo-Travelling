@@ -14,7 +14,7 @@ export default class Pickup extends ReactivePerspectiveObject
         super(game, renderer);
 
         //art assigning
-        this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'laying hexagon');
+        this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'laying hexagon');
         this.addChild(this.sprite);
     }
 

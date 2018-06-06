@@ -12,9 +12,9 @@ export default class Player extends ReactivePerspectiveObject
 {
     public spine: any;
     public speed: number;
-    public collectedPickup: Phaser.Signal;
+    public onPickupCollect: Phaser.Signal;
     public tapped: boolean = false;
-    private tappedTimeout: any;
+    private tappedTimeoutID: number;
 
     public static ANIMATION_DRIVE: string = 'drive';
     public static ANIMATION_TURN: string = 'turn';
@@ -26,7 +26,7 @@ export default class Player extends ReactivePerspectiveObject
     {
         super(game, renderer);
 
-        this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.Interface, 'Spacecraft_Main');
+        this.sprite = new Phaser.Sprite(this.game, 0, 0, AtlasImages.INTERFACE, 'Spacecraft_Main');
         this.addChild(this.sprite);
 
         this.zPos = Constants.PLAYER_Z_POSITION;
@@ -91,7 +91,7 @@ export default class Player extends ReactivePerspectiveObject
 
         this.tapped = true;
         this.changeSpriteBlink();
-        this.tappedTimeout = setTimeout(this.unTap.bind(this), duration);
+        this.tappedTimeoutID = setTimeout(this.unTap.bind(this), duration);
     }
 
     public unTap(): void
@@ -103,17 +103,6 @@ export default class Player extends ReactivePerspectiveObject
     public react(): void
     {
         super.react(1.05, 160);
-    }
-
-    public destroy(): void
-    {
-        super.destroy();
-
-        if (this.spine) { this.spine.destroy(true); }
-        this.spine = null;
-
-        clearTimeout(this.tappedTimeout);
-        this.tappedTimeout = null;
     }
 
     private changeSprite(): void
@@ -147,4 +136,16 @@ export default class Player extends ReactivePerspectiveObject
             this.sprite.frameName = 'ingame_vehicle_' + this.typeCar + '_sideview_right_blink';
         }
     }
+
+    public destroy(): void
+    {
+        super.destroy();
+
+        if (this.spine) { this.spine.destroy(true); }
+        this.spine = null;
+
+        clearTimeout(this.tappedTimeoutID);
+        this.tappedTimeoutID = null;
+    }
+
 }

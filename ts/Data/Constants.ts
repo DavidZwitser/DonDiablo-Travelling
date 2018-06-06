@@ -4,6 +4,29 @@ import IGamePhase from '../Enums/GamePhase';
 import JSON from './JSON';
 import Sounds from './Sounds';
 
+export interface IRoadColors
+{
+    bottomMiddleColor: number;
+    bottomOuterColor: number;
+    topMiddleColor: number;
+    topOuterColor: number;
+}
+
+interface ILevel
+{
+    title: string;
+    artist: string;
+    json: string;
+    music: string;
+}
+
+interface ICar
+{
+    carName: string;
+    spriteKey: string;
+    description: string;
+}
+
 /**
  * All the information that should be accassible from anywhere
  */
@@ -29,32 +52,27 @@ export default class Constants
     public static readonly PICKUPS_BEFORE_HEX_PART: number = 150;
 
     /** road colors list with their own color schemes */
-    public static readonly ROAD_COLORS: {
-        _bottomMiddleColor: number,
-        _bottomOuterColor: number,
-        _topMiddleColor: number,
-        _topOuterColor: number
-    }[] = [
+    public static readonly ROAD_COLORS: IRoadColors[] = [
         {
             //red
-            _bottomMiddleColor: 0x8bf2d6,
-            _bottomOuterColor: 0x66090f,
+            bottomMiddleColor: 0x8bf2d6,
+            bottomOuterColor: 0x66090f,
             //blue
-            _topMiddleColor: 0xf4091a,
-            _topOuterColor: 0x148694
+            topMiddleColor: 0xf4091a,
+            topOuterColor: 0x148694
         },
         {
             //blue
-            _bottomMiddleColor: 0xf99ff4,
-            _bottomOuterColor: 0x6f87f0,
+            bottomMiddleColor: 0xf99ff4,
+            bottomOuterColor: 0x6f87f0,
             //purple
-            _topMiddleColor: 0xc7e5f4,
-            _topOuterColor: 0xd13df1
+            topMiddleColor: 0xc7e5f4,
+            topOuterColor: 0xd13df1
         }
     ];
 
     /** The levels */
-    public static readonly LEVELS: {title: string, artist: string, json: string, music: string}[] = [
+    public static readonly LEVELS: ILevel[] = [
         {
             title: 'Head Up',
             artist: 'Don Diablo',
@@ -75,7 +93,7 @@ export default class Constants
         }
     ];
 
-    public static CARS: {carName: String, spriteKey: string, description: string}[] = [
+    public static readonly CARS: ICar[] = [
         {
             carName: 'D1-A8L0',
             spriteKey: 'ingame_vehicle_1_sideview_right',
@@ -137,7 +155,7 @@ export default class Constants
         }
     ];
 
-    public static readonly GLOW_FILTER: any = [
+    public static readonly GLOW_FILTER: string[] = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',
         'varying vec4 vColor;',
@@ -173,7 +191,8 @@ export default class Constants
         'Adreno (TM) 530'
     ];
 
-    public static hexToRGB(color: string): {r: number, g: number, b: number} {
+    public static HEX_TO_RGB(color: string): {r: number, g: number, b: number}
+    {
         /* Check for # infront of the value, if it's there, strip it */
 
         console.log('before substring', color);
@@ -187,16 +206,17 @@ export default class Constants
         let b: number = parseInt(color.substring(4), 16);
 
         return {r: r, g: g, b: b};
-       }
-    public static componentToHex(c: number): string
+    }
+
+    public static COMPONENT_TO_HEX(c: number): string
     {
         let hex: string = c.toString(16);
         return hex.charAt(1) === '.' || hex.length === 1 ? '0' +  hex.substring(0, 1) : hex = hex.substring(0, 2);
     }
 
-    public static rgbToHex(r: number, g: number, b: number): any
+    public static RGB_TO_HEX(r: number, g: number, b: number): string
     {
-        return '0x' + Constants.componentToHex(r) + Constants.componentToHex(g) + Constants.componentToHex(b);
+        return '0x' + Constants.COMPONENT_TO_HEX(r) + Constants.COMPONENT_TO_HEX(g) + Constants.COMPONENT_TO_HEX(b);
     }
 
 }

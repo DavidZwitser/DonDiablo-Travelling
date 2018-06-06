@@ -29,32 +29,32 @@ export default class HexPiecedTogether extends Phaser.Group
         super(game);
 
         /** Creating his neck */
-        this.neck = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Neck_silhouette');
+        this.neck = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Neck_silhouette');
         this.neck.anchor.set(.5, 0);
         this.addChild(this.neck);
 
         /** Creating his torso */
-        this.torso = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Torso_silhouette');
+        this.torso = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Torso_silhouette');
         this.torso.anchor.set(.5, 0);
         this.addChild(this.torso);
 
         /** Creating his head */
-        this.head = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Head_silhouette');
+        this.head = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Head_silhouette');
         this.head.anchor.set(.5, 0);
         this.addChild(this.head);
 
         /** Creating his left arm */
-        this.leftArm = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Left_arm_silhouette');
+        this.leftArm = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Left_arm_silhouette');
         this.leftArm.anchor.set(1, 0);
         this.addChild(this.leftArm);
 
         /** Creating his right arm */
-        this.rightArm = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Right_arm_silhouette');
+        this.rightArm = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Right_arm_silhouette');
         this.rightArm.anchor.set(0, 0);
         this.addChild(this.rightArm);
 
         /** Creating his booster */
-        this.booster = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Booster_silhouette');
+        this.booster = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Booster_silhouette');
         this.booster.anchor.set(.5, .5);
         this.addChild(this.booster);
 

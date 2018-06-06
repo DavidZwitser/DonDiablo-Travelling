@@ -66,7 +66,7 @@ export default class EditorEmitter extends Phaser.Particles.Arcade.Emitter
             });
         } else {
             this.code += 'emitter.makeParticles(Atlases.Interface, \'' + this.editorValues.spriteName.split(', ') + '\');';
-            this.makeParticles(Atlases.Interface, this.editorValues.spriteName.split(', '));
+            this.makeParticles(Atlases.INTERFACE, this.editorValues.spriteName.split(', '));
         }
 
         this.code += 'emitter.setXSpeed(' + this.editorValues.minXSpeed + ', ' + this.editorValues.maxXSpeed + ');' +

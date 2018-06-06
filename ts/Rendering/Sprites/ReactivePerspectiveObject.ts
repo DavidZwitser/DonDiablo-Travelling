@@ -1,5 +1,4 @@
 import PerspectiveObject from './PerspectiveObject';
-import PlayerCollisionChecker from '../../Systems/PlayerCollisionChecker';
 import PerspectiveRenderer from '../PerspectiveRenderer';
 
 /** A sprite that get's rendered in a perspective and has the ability to react to music */
@@ -37,7 +36,5 @@ export default abstract class ReactivePerspectiveObject extends PerspectiveObjec
 
         if (this._reactTween) { this._reactTween.stop(true); }
         this._reactTween = null;
-
-        PlayerCollisionChecker.getInstance().onColliding.remove(this.react, this);
     }
 }

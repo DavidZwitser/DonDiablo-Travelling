@@ -12,7 +12,7 @@ export default class ImageButton extends Phaser.Button
     constructor(game: Phaser.Game, x: number, y: number, backdropFrameName: string, iconFrameName: string, callback: Function, callbackContext: any)
     {
         /* Creating the button with the backdrop as framename */
-        super(game, x, y, Atlases.Interface, callback, callbackContext, backdropFrameName, backdropFrameName);
+        super(game, x, y, Atlases.INTERFACE, callback, callbackContext, backdropFrameName, backdropFrameName);
         this.anchor.set(.5);
 
         /* Setting up input */
@@ -22,7 +22,7 @@ export default class ImageButton extends Phaser.Button
         });
 
         /* Adding icon */
-        this.icon = new Phaser.Sprite(game, 0, 0, Atlases.Interface, iconFrameName);
+        this.icon = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, iconFrameName);
         this.icon.anchor.set(.5);
         this.addChild(this.icon);
     }

@@ -20,7 +20,7 @@ export default class AudioAnalyser
     }
 
     //music get's assigned and some data gets calculated needed for the visualizer before rendering
-    public Setup(): boolean
+    public setup(): boolean
     {
         // let files: any = file.files;
         // audio.src = URL.createObjectURL(files[0]);

@@ -108,11 +108,6 @@ export default class Boot extends Phaser.State
 
     }
 
-    public resize(): void
-    {
-        //
-    }
-
     public create(): void
     {
         super.create(this.game);

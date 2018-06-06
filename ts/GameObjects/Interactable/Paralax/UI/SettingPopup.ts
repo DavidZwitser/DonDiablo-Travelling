@@ -38,7 +38,7 @@ export default class SettingPopup extends Phaser.Group
         this.onBack = new Phaser.Signal();
 
         /* Creating settings backdrop */
-        this._backdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'Pausemenu_Background');
+        this._backdrop = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Pausemenu_Background');
         this._backdrop.anchor.set(.5);
         this.addChild(this._backdrop);
 

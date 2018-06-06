@@ -11,10 +11,10 @@ export default class LevelButton extends Phaser.Button
 
     constructor(game: Phaser.Game, x: number, y: number, level: {title: string, artist: string}, score: number, unlocked: boolean, callback: Function, callbackContext: any)
     {
-        super(game, x, y, Atlases.Interface, callback, callbackContext, AtlasImages.Level_Select_Background, AtlasImages.Level_Select_Background, AtlasImages.Level_Select_Background);
+        super(game, x, y, Atlases.INTERFACE, callback, callbackContext, AtlasImages.Level_Select_Background, AtlasImages.Level_Select_Background, AtlasImages.Level_Select_Background);
 
         this.anchor.set(.5);
-        this.icon = new Phaser.Sprite(game, 200, 0, Atlases.Interface, unlocked ? AtlasImages.Open_Level : AtlasImages.Locked_Level);
+        this.icon = new Phaser.Sprite(game, 200, 0, Atlases.INTERFACE, unlocked ? AtlasImages.Open_Level : AtlasImages.Locked_Level);
         this.icon.anchor.set(.5);
         this.addChild(this.icon);
 

@@ -20,7 +20,7 @@ export default class PartsWindow extends Window
         super(game, 'a part', 'Hex_Collecting_UI_Screen');
 
         /* Initializeing the center image */
-        this._centerImage = new Phaser.Sprite(game, 0, 0, Atlases.Interface, '');
+        this._centerImage = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, '');
         this._centerImage.anchor.set(.5);
         this.addChild(this._centerImage);
 
@@ -40,7 +40,7 @@ export default class PartsWindow extends Window
         for (let i: number = 0; i < 4; i++ )
         {
             console.log(i);
-            this._subParts.push(new Phaser.Sprite(game, 0, 0, Atlases.Interface, ''));
+            this._subParts.push(new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, ''));
 
             let currentPickup: Phaser.Sprite = this._subParts[i];
 

@@ -4,7 +4,7 @@ import {LaneConverter} from '../Enums/Lanes';
 //** Handles reading input */
 export default class Input
 {
-    public game: Phaser.Game;
+    private game: Phaser.Game;
 
     public onInputMove: Phaser.Signal;
     public onInputDown: Phaser.Signal;

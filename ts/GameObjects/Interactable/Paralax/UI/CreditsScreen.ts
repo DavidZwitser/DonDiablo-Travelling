@@ -22,7 +22,7 @@ export default class CreditsScreen extends Phaser.Group
         super(game);
 
         /* Setting up the backdrop */
-        this._creditsBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'UserInterface_Credits_Background');
+        this._creditsBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'UserInterface_Credits_Background');
         this._creditsBackdrop.anchor.set(.5);
         this.addChild(this._creditsBackdrop);
 

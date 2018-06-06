@@ -2,6 +2,7 @@
 import Player from '../GameObjects/Interactable/Perspective/Player';
 //import PickupCounter from '../GameObjects/Interactable/Paralax/UI/PickupCounter';
 import { Lanes } from '../Enums/Lanes';
+
 export default class PlayerCollisionChecker
 {
     private _player: Player;
@@ -18,6 +19,7 @@ export default class PlayerCollisionChecker
         this.onCollidingPerfect = new Phaser.Signal();
         this.onMissing = new Phaser.Signal();
     }
+
     public isCollidingLanes(lane: Lanes): number
     {
         if ( this._player.lane !== lane) { return 0; }

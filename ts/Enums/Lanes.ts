@@ -24,6 +24,11 @@ export interface ILane
     enabled: boolean;
 }
 
+interface ILaneCollection
+{
+    [index: number]: ILane;
+}
+
 /** Has the data of each individual lane */
 export class LanesInfo
 {
@@ -83,7 +88,7 @@ export class LanesInfo
     };
 
     /** A list of all the lanes */
-    public static readonly LIST: {[index: number]: ILane} = {
+    public static readonly LIST: ILaneCollection = {
         [Lanes.none]: LanesInfo.NONE_LANE,
 
         [Lanes.topLeftLane]: LanesInfo.TOP_LEFT_LANE,

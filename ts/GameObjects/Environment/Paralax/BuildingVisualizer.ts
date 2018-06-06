@@ -38,7 +38,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._buildings = [];
         this._topBuildings = [];
 
-        this._contextAvailable = AudioAnalyser.getInstance().Setup();
+        this._contextAvailable = AudioAnalyser.getInstance().setup();
         this._maxWidth = maxWidth;
         this._maxHeight = maxHeight;
 
@@ -64,25 +64,25 @@ export default class BuildingVisualizer extends Phaser.Group
     private setUp(): void
     {
         //bottom half
-        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'Upper_glow_utopia');
         this._backGlow.anchor.set(0, 1);
         this._backGlow.alpha = 0;
         this._bottomHalf.addChild(this._backGlow);
 
         this.setUpBuildings(false);
 
-        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'Upper_glow_utopia');
         this._glow.anchor.set(0, 1);
         this._bottomHalf.addChild(this._glow);
 
         //top half
-        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'dark_glow_top');
+        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'dark_glow_top');
         this._topBackGlow.anchor.set(0, 1);
         this._topHalf.addChild(this._topBackGlow);
 
         this.setUpBuildings(true);
 
-        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'glowunder');
+        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'glowunder');
         this._topGlow.anchor.set(0, 1);
         this._topHalf.addChild(this._topGlow);
         this._topHalf.y = -this._maxHeight * 1;
@@ -101,12 +101,12 @@ export default class BuildingVisualizer extends Phaser.Group
             if (top)
             {
                 index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.INTERFACE, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
             }
             else
             {
                 index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.INTERFACE, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
             }
             building.anchor.set(0);
             building.scale.set((this.game.width / GAME_WIDTH) * .5);

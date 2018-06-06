@@ -19,16 +19,16 @@ export default class SlideBar extends Phaser.Group
         super(game);
 
         /* Creating the back drop */
-        this._scrollBackdrop = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Pausemenu_Slider_Balk');
+        this._scrollBackdrop = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'Pausemenu_Slider_Balk');
         this._scrollBackdrop.anchor.set(.5);
 
         /* Creating the fill */
-        this._scrollFill = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Pausemenu_Slider_Fill');
+        this._scrollFill = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'Pausemenu_Slider_Fill');
         this._scrollFill.x = -this._scrollBackdrop.width / 2 + ((this._scrollBackdrop.width - this._scrollFill.width) / 2);
         this._scrollFill.anchor.set(0, .5);
 
         /* Creating the arrow */
-        this._arrow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Pausemenu_slider_button');
+        this._arrow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'Pausemenu_slider_button');
         this._arrow.anchor.set(.5);
 
         /* Adding them to the world */

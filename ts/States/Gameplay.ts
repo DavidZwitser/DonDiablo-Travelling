@@ -30,8 +30,6 @@ export default class Gameplay extends Phaser.State
 
     public score: number = 0;
 
-    private _worldMood: number;
-
     private _audioVisualizer: BuildingVisualizer;
 
     private _userInterface: UI;
@@ -45,18 +43,13 @@ export default class Gameplay extends Phaser.State
     private _road: Road;
     private _glowFilter: Phaser.Filter;
 
-    private _gamePaused: boolean = false;
-    private spawnEditor: SpawnEditor;
+    private _spawnEditor: SpawnEditor;
 
     private _scoreSystem: ScoreSystem;
-
-    private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
 
-    constructor()
-    {
-        super();
-    }
+    private _gamePaused: boolean = false;
+    private _blurred: boolean = false;
 
     public init(): void
     {
@@ -70,6 +63,7 @@ export default class Gameplay extends Phaser.State
     private _hideScoreBar: boolean = false;
     private _useContinuesInput: boolean = true;
 
+    // TODO: remove all the toggleble functionality in the game
     public setToggealableOptions(): void
     {
         /** Move the player back a bit */
@@ -95,10 +89,8 @@ export default class Gameplay extends Phaser.State
         this.setToggealableOptions();
 
         //focus/blur events setup
-        window.addEventListener('blur', this.blur.bind(this));
-        window.addEventListener('focus', this.focus.bind(this));
-
-        this._worldMood = this._worldMood;
+        window.addEventListener('blur', this.onBlur.bind(this));
+        window.addEventListener('focus', this.onFocus.bind(this));
 
         /* Rendering */
         this._perspectiveRenderer = new PerspectiveRenderer(this.game);
@@ -119,10 +111,10 @@ export default class Gameplay extends Phaser.State
         });
 
         /* Level creation */
-        this.spawnEditor = new SpawnEditor();
+        this._spawnEditor = new SpawnEditor();
 
         //remove below comment to start recording the spawn editor.
-        this.spawnEditor.startRecording();
+        this._spawnEditor.startRecording();
 
         /* Road */
         this._road = new Road(this.game);
@@ -139,8 +131,8 @@ export default class Gameplay extends Phaser.State
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
-        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
-        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.makeWorldReact(); });
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.makeWorldReact(); });
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
@@ -183,7 +175,7 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem = new PhaseSystem();
         this._phaseSystem.init();
 
-        this._phaseSystem.onPhaseChange.add( this.worldReposition.bind(this) );
+        this._phaseSystem.onPhaseChange.add( this.repositionWorld.bind(this) );
 
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
         this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
@@ -261,7 +253,7 @@ export default class Gameplay extends Phaser.State
 
     }
 
-    public gameOver(): void
+    private gameOver(): void
     {
         if (this.score > SaveData.Highscore)
         {
@@ -272,32 +264,25 @@ export default class Gameplay extends Phaser.State
         this.pause(false);
     }
 
-    public resize(): void
-    {
-        this._audioVisualizer.resize();
-        this._userInterface.resize();
-        this._road.render(true);
-        this._perspectiveRenderer.resize();
-    }
-
     //called when window gets blurred
-    public blur(): void {
-        if (this._gamePaused) {
-            return;
-        }
+    private onBlur(): void
+    {
+        if (this._gamePaused) { return; }
         this._blurred = true;
         this.pause(false);
     }
 
     //called when window gets focused
-    public focus(): void {
-        if (this._gamePaused && this._blurred) {
-            this.pause(false);
-            this._blurred = false;
-        }
+    private onFocus(): void
+    {
+        if (!this._gamePaused || !this._blurred) { return; }
+
+        this.pause(false);
+        this._blurred = false;
     }
 
-    public onMissingpPickup(): void {
+    private onMissingpPickup(): void
+    {
         SoundManager.getInstance().play(Sounds.LOW_SOUND);
         this.game.camera.flash(0xff0000, 300, true, 0.1);
     }
@@ -320,8 +305,10 @@ export default class Gameplay extends Phaser.State
     }
 
     /** Make the world move */
-    public worldReact(): void {
-        if (navigator.vibrate) {
+    private makeWorldReact(): void
+    {
+        if (navigator.vibrate)
+        {
             // vibration API supported
             window.navigator.vibrate(50);
         }
@@ -333,10 +320,18 @@ export default class Gameplay extends Phaser.State
     }
 
     /** Reposition everything on the road so they are ready for the next phase */
-    public worldReposition(): void
+    private repositionWorld(): void
     {
         this._player.reposition();
         this._pickupContainer.reposition();
+    }
+
+    public resize(): void
+    {
+        this._audioVisualizer.resize();
+        this._userInterface.resize();
+        this._road.render(true);
+        this._perspectiveRenderer.resize();
     }
 
     // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
@@ -375,8 +370,8 @@ export default class Gameplay extends Phaser.State
         this._road.destroy(true);
         this._road = null;
 
-        this.spawnEditor.destroy();
-        this.spawnEditor = null;
+        this._spawnEditor.destroy();
+        this._spawnEditor = null;
 
         this._phaseSystem.destroy();
         this._phaseSystem = null;
@@ -387,7 +382,7 @@ export default class Gameplay extends Phaser.State
         this._glowFilter = null;
 
         //removing events
-        window.removeEventListener('blur', this.blur.bind(this));
-        window.removeEventListener('focus', this.focus.bind(this));
+        window.removeEventListener('blur', this.onBlur.bind(this));
+        window.removeEventListener('focus', this.onFocus.bind(this));
     }
 }

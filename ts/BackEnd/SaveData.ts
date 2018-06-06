@@ -29,22 +29,22 @@ interface ILevelData
 
 export default class SaveData
 {
-    private static _StorageKey: string = 'traveling';
+    private static _STORAGE_KEY: string = 'traveling';
 
-    public static Init(): void
+    public static INIT(): void
     {
-        if (this.data !== null)
+        if (this._DATA !== null)
         {
             return;
         }
 
-        this.data = {
+        this._DATA = {
             hs: 0,
             sm: false,
             sfx_vol: 1,
             mm: false,
             q: 1,
-            lvls: this.emplyLevelData(),
+            lvls: this.EMPTY_LEVEL_DATA(),
             hbv: 0,
             hcd: defaultHexPartsData,
             nhp: getRandomHexPart(),
@@ -52,7 +52,7 @@ export default class SaveData
         };
 
     }
-    public static emplyLevelData(): ILevelData[]
+    public static EMPTY_LEVEL_DATA(): ILevelData[]
     {
         let levelData: ILevelData[] = [];
 
@@ -65,141 +65,141 @@ export default class SaveData
     }
 
     /** Set if the sfx are muted in cache */
-    public static set SFXMuted(value: boolean)
+    public static set SFX_MUTED(value: boolean)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.sm = value;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get SFXMuted(): boolean
+    public static get SFX_MUTED(): boolean
     {
-        return this.data.sm;
+        return this._DATA.sm;
     }
 
     /** Set if the sfx are muted in cache */
     public static set SFX_VOLUME(value: number)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.sfx_vol = value;
-        this.data = newData;
+        this._DATA = newData;
 
         //check if sfx should be muted if volume is 0
-        SaveData.SFXMuted = (value === 0 ? true : false);
+        SaveData.SFX_MUTED = (value === 0 ? true : false);
     }
     public static get SFX_VOLUME(): number
     {
-        return this.data.sfx_vol;
+        return this._DATA.sfx_vol;
     }
 
     /** Save if the sound is muted in cache */
-    public static set MusicMuted(value: boolean)
+    public static set MUSIC_MUTED(value: boolean)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.mm = value;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get MusicMuted(): boolean
+    public static get MUSIC_MUTED(): boolean
     {
-        return this.data.mm;
+        return this._DATA.mm;
     }
 
     /** Save the quality in cache */
-    public static set Quality(value: number)
+    public static set QUALITY(value: number)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.q = value;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get Quality(): number
+    public static get QUALITY(): number
     {
-        return this.data.q;
+        return this._DATA.q;
     }
 
     /** Save the quality in cache */
-    public static set SelectedCar(value: number)
+    public static set SELECTED_CAR(value: number)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.scar = value;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get SelectedCar(): number
+    public static get SELECTED_CAR(): number
     {
-        return this.data.scar;
+        return this._DATA.scar;
     }
 
     /** Save the quality in cache */
-    public static set Levels(value: ILevelData[])
+    public static set LEVELS(value: ILevelData[])
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.lvls = value;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get Levels(): ILevelData[]
+    public static get LEVELS(): ILevelData[]
     {
-        return this.data.lvls;
+        return this._DATA.lvls;
     }
 
-    public static set Highscore(newHighscore: number)
+    public static set HIGHSCORE(newHighscore: number)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.hs = newHighscore;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get Highscore(): number
+    public static get HIGHSCORE(): number
     {
-        return this.data.hs;
+        return this._DATA.hs;
     }
 
-    public static set HexBarValue(data: number)
+    public static set HEX_BAR_VALUE(data: number)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.hbv = data;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get HexBarValue(): number
+    public static get HEX_BAR_VALUE(): number
     {
-        return this.data.hbv;
+        return this._DATA.hbv;
     }
 
-    public static set NextHexPickup(data: HexParts)
+    public static set NEXT_HEX_PICKUP(data: HexParts)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.nhp = data;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get NextHexPickup(): HexParts
+    public static get NEXT_HEX_PICKUP(): HexParts
     {
-        return this.data.nhp;
+        return this._DATA.nhp;
     }
 
-    public static set HexCollectiblesData(data: IHexBodyPartsCollection)
+    public static set HEX_COLLECTIBLES_DATA(data: IHexBodyPartsCollection)
     {
-        let newData: ISaveData = this.data;
+        let newData: ISaveData = this._DATA;
         newData.hcd = data;
 
-        this.data = newData;
+        this._DATA = newData;
     }
-    public static get HexCollectiblesData(): IHexBodyPartsCollection
+    public static get HEX_COLLECTIBLES_DATA(): IHexBodyPartsCollection
     {
-        return this.data.hcd;
+        return this._DATA.hcd;
     }
 
     /** Set or get the cached data */
-    private static set data(data: ISaveData)
+    private static set _DATA(data: ISaveData)
     {
-        localStorage.setItem(SaveData._StorageKey, JSON.stringify(data));
+        localStorage.setItem(SaveData._STORAGE_KEY, JSON.stringify(data));
     }
-    private static get data(): ISaveData
+    private static get _DATA(): ISaveData
     {
-        return JSON.parse(localStorage.getItem(SaveData._StorageKey));
+        return JSON.parse(localStorage.getItem(SaveData._STORAGE_KEY));
     }
 
 }

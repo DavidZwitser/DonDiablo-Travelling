@@ -20,14 +20,14 @@ export default class BasePopUp extends Phaser.Group
     {
         super(game);
 
-        this._blackPixel = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, AtlasImages.Black_Pixel);
+        this._blackPixel = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, AtlasImages.Black_Pixel);
         this._blackPixel.width = game.width;
         this._blackPixel.height = game.height;
         this.addChild(this._blackPixel);
         this._blackPixel.anchor.setTo(0.5);
         this._blackPixel.alpha = 0.5;
 
-        this._menuBackground = new Phaser.Image(game, 0, 0, Atlases.Interface, 'Pausemenu_Background');
+        this._menuBackground = new Phaser.Image(game, 0, 0, Atlases.INTERFACE, 'Pausemenu_Background');
         this._menuBackground.anchor.set(0.5);
         this._menuBackground.alpha = 1;
         this.addChild(this._menuBackground);

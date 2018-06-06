@@ -19,9 +19,8 @@ interface ITiming {
 /** Spawns pickups */
 export default class PickupSpawner extends Phaser.Group
 {
-
     private _levelData: ILevelData;
-    private _timeOut: any;
+    private _timeOut: NodeJS.Timer;
     private _spawnIndex: number = 0;
     private _startTime: number;
     private _passedTime: number;
@@ -47,12 +46,24 @@ export default class PickupSpawner extends Phaser.Group
     {
         this.pause(true);
         this.getLevelData(this.game, json);
-        this.waitForNextSpawning(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
+        this.waitForNextSpawn(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
     }
 
     private getRandomLane(): Lanes
     {
         return Math.floor(Math.random() * Object.keys(Lanes).length / 2);
+    }
+
+    //level data is get from cache of a json file
+    private getLevelData(game: Phaser.Game, key: string): void
+    {
+        this._spawnIndex = 0;
+        this._levelData = game.cache.getJSON(key);
+        // let temp: ILevelData = this._levelData;
+        // for (let i: number = 0; i < temp.timings.length; i++) {
+        //     temp.timings[i].lane ++;
+        // }
+        // console.log(JSON.stringify(temp));
     }
 
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
@@ -75,20 +86,8 @@ export default class PickupSpawner extends Phaser.Group
         return pickup;
     }
 
-    //level data is get from cache of a json file
-    private getLevelData(game: Phaser.Game, key: string): void
-    {
-        this._spawnIndex = 0;
-        this._levelData = game.cache.getJSON(key);
-        // let temp: ILevelData = this._levelData;
-        // for (let i: number = 0; i < temp.timings.length; i++) {
-        //     temp.timings[i].lane ++;
-        // }
-        // console.log(JSON.stringify(temp));
-    }
-
     //this is the loop the spawning takes place from the leveldata
-    private waitForNextSpawning(timeWaiting: number): void
+    private waitForNextSpawn(delay: number): void
     {
         this._startTime = Date.now();
         this._timeOut = setTimeout(() => {
@@ -98,14 +97,14 @@ export default class PickupSpawner extends Phaser.Group
 
             if (this._spawnIndex < this._levelData.timings.length)
             {
-                this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - this._levelData.timings[this._spawnIndex - 1].time);
+                this.waitForNextSpawn(this._levelData.timings[this._spawnIndex].time - this._levelData.timings[this._spawnIndex - 1].time);
             }
             else
             {
                 return;
             }
 
-        }, timeWaiting * 1000);
+        }, delay * 1000);
     }
 
     public pause(pause: boolean): void
@@ -119,7 +118,7 @@ export default class PickupSpawner extends Phaser.Group
         else
         {
             console.log(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
-            this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
+            this.waitForNextSpawn(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
         }
     }
 

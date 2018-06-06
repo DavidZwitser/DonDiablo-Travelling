@@ -51,7 +51,7 @@ export default class VehicleSelect extends Phaser.Group
         super(game);
 
         /* Setting up the background */
-        this._background = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'UserInterface_Credits_Background');
+        this._background = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'UserInterface_Credits_Background');
         this._background.anchor.set(.5);
 
         /* Setting up the close button */
@@ -85,39 +85,39 @@ export default class VehicleSelect extends Phaser.Group
         this._vehicleSelectGroup.y = 100;
 
         /* Setting up the middle selection sprite backdrop */
-        this._middleBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'ui_middle_hexagon');
+        this._middleBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'ui_middle_hexagon');
         this._middleBackdrop.anchor.set(.5);
         /* Setting up the left selection sprite backdrop */
-        this._leftBackdrop = new Phaser.Sprite(game, -200, 85, Atlases.Interface, 'hexagon_small_left');
+        this._leftBackdrop = new Phaser.Sprite(game, -200, 85, Atlases.INTERFACE, 'hexagon_small_left');
         this._leftBackdrop.anchor.set(.5);
         /* Setting up the right selection sprite backdrop */
-        this._rightBackdrop = new Phaser.Sprite(game, 200, 85, Atlases.Interface, 'hexagon_small_right');
+        this._rightBackdrop = new Phaser.Sprite(game, 200, 85, Atlases.INTERFACE, 'hexagon_small_right');
         this._rightBackdrop.anchor.set(.5);
 
         /* Setting up the sprite which displayes the middle car */
-        this._selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.Interface, 'Spacecraft_Main');
+        this._selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.INTERFACE, 'Spacecraft_Main');
         this._selectedCarSprite.anchor.set(.5);
         this._selectedCarSprite.scale.set(1.5);
 
         /* Setting up the sprite which displays the left car */
-        this._leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.Interface, 'Spacecraft_Main');
+        this._leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.INTERFACE, 'Spacecraft_Main');
         this._leftCarSprite.anchor.set(.5);
         this._leftCarSprite.tint = 0x222222;
 
         /* Setting up the sprite which displays the right car */
-        this._rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.Interface, 'Spacecraft_Main');
+        this._rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.INTERFACE, 'Spacecraft_Main');
         this._rightCarSprite.anchor.set(.5);
         this._rightCarSprite.tint = 0x222222;
 
         /* Setting up the left arrow */
         this._leftArrow = new ImageButton(game, -250, -70, 'ui_pijltje',  'ui_pijltje', () => {
-            this.moveVehicleTo(false);
+            this.rotateVehicleWheel(false);
         }, this);
         this._leftArrow.anchor.set(.5);
 
         /* Setting up the right arrow */
         this._rightArrow = new ImageButton(game, 220, -70, 'ui_pijltje', 'ui_pijltje', () => {
-            this.moveVehicleTo(true);
+            this.rotateVehicleWheel(true);
         }, this);
         this._rightArrow.anchor.set(.5);
         this._rightArrow.scale.x = -1;
@@ -147,21 +147,21 @@ export default class VehicleSelect extends Phaser.Group
 
         /* Setting the default value */
         this._carIndex = SaveData.SelectedCar;
-        this.updateSrites();
+        this.updateSprites();
 
     }
 
     /** Move the vehicle selection wheel */
-    private moveVehicleTo(left: boolean): void
+    private rotateVehicleWheel(left: boolean): void
     {
         this._carIndex = (this._carIndex + (left ? -1 : 1) + Constants.CARS.length) % Constants.CARS.length;
         SaveData.SelectedCar = this._carIndex;
 
-        this.updateSrites();
+        this.updateSprites();
     }
 
     /** Update the car images to the currently correct images */
-    private updateSrites(): void
+    private updateSprites(): void
     {
         /* Setting the frameNames */
         this._selectedCarSprite.frameName = Constants.CARS[this._carIndex].spriteKey;

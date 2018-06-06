@@ -22,7 +22,7 @@ export default class LevelSelect extends Phaser.Group
 
         this.onBack = new Phaser.Signal();
 
-        this.levelText = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'level select');
+        this.levelText = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'level select');
         this.levelText.anchor.set(.5);
         this.addChild(this.levelText);
 

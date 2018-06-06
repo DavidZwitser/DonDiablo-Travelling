@@ -16,7 +16,7 @@ export default class Window extends Phaser.Sprite
 
     constructor(game: Phaser.Game, contentName: string, frame: string)
     {
-        super(game, 0, 0, Atlases.Interface, frame);
+        super(game, 0, 0, Atlases.INTERFACE, frame);
 
         /** Setting tweens to a value */
         this.tweens = [];
@@ -27,7 +27,7 @@ export default class Window extends Phaser.Sprite
         /** Setting up close button */
         this._closeButton = new Phaser.Button(
             this.game, 0, 0,
-            Atlases.Interface,
+            Atlases.INTERFACE,
             this.onCloseButtonPressed.bind(this), this,
             'X_Knop',
             'X_Knop',
@@ -75,7 +75,7 @@ export default class Window extends Phaser.Sprite
     }
 
     /** When the close button is pressed */
-    public onCloseButtonPressed(): void
+    private  onCloseButtonPressed(): void
     {
         this.onWindowClose.dispatch();
     }

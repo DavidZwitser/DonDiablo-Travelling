@@ -60,14 +60,14 @@ export default class Menu extends Phaser.State
         SoundManager.getInstance().play(Sounds.UI_MENU_MUSIC , 1, true);
 
         /* Create the background sprite */
-        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.Interface, 'bg');
+        this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, 'bg');
 
         /* Create the world emitter */
         this._worldEmitter = this.createWorldEmitter();
         this.add.existing(this._worldEmitter);
 
         /* Create the logo sprite */
-        this._logoSprite = this.game.add.sprite(0, 0, Atlases.Interface, AtlasImages.Logo);
+        this._logoSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, AtlasImages.Logo);
         this._logoSprite.anchor.set(.5);
 
         /* Create the main buttons group */
@@ -109,7 +109,7 @@ export default class Menu extends Phaser.State
     }
 
     /* Create all the main buttons for the main menu */
-    public createMainButtons(): Phaser.Group {
+    private createMainButtons(): Phaser.Group {
 
         let group: Phaser.Group = new Phaser.Group(this.game);
 
@@ -150,6 +150,62 @@ export default class Menu extends Phaser.State
 
         /* Returning this new group */
         return group;
+    }
+
+    /* Show any menu whilse hiding the others */
+    private showAMenu(object: Phaser.Group): void
+    {
+        /* Hide all the other menus */
+        this._settingGroup.visible = false;
+        this._mainButtonsGroup.visible = false;
+        this._logoSprite.visible = false;
+        this._levelSelect.visible = false;
+        this._creditsScreen.visible = false;
+        this._hexViewer.visible = false;
+        this._vehicleSelect.visible = false;
+
+        /* Show the specific menu */
+        object.visible = true;
+
+        /* Show the logo if it is the main menu */
+        if (object === this._mainButtonsGroup)
+        {
+            this._logoSprite.visible = true;
+        }
+    }
+
+    /** Show the main menu */
+    private showMainMenu(): void {
+        this.showAMenu(this._mainButtonsGroup);
+    }
+
+    /** Show the level select */
+    private showLevelSelect(): void {
+        this.showAMenu(this._levelSelect);
+    }
+
+    /** Create the emitter in the main menu */
+    private createWorldEmitter(): Phaser.Particles.Arcade.Emitter
+    {
+        /* Creating the emitter */
+        let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
+
+        /* Setting its default values */
+        emitter.makeParticles(Atlases.INTERFACE, 'test_particle');
+        emitter.setXSpeed(-10, 10);
+        emitter.setYSpeed(0, -100);
+        emitter.setRotation(0, 0);
+        emitter.setAlpha(-1, 1, 2000);
+        emitter.setScale(0, .5, 0, .5, 4000);
+
+        emitter.gravity.y = -30;
+        emitter.width = 740;
+
+        /* Starting it */
+        emitter.start(false, 10000, 400);
+
+        /* And returning it */
+        return emitter;
     }
 
     /* Resize all the menus */
@@ -196,62 +252,6 @@ export default class Menu extends Phaser.State
         /* Offsetting the credits screen */
         this._creditsScreen.position.set(this.game.width / 2, this.game.height / 2);
         this._creditsScreen.scale.set(vmin / GAME_WIDTH);
-    }
-
-    /* Show any menu whilse hiding the others */
-    public showAMenu(object: Phaser.Group): void
-    {
-        /* Hide all the other menus */
-        this._settingGroup.visible = false;
-        this._mainButtonsGroup.visible = false;
-        this._logoSprite.visible = false;
-        this._levelSelect.visible = false;
-        this._creditsScreen.visible = false;
-        this._hexViewer.visible = false;
-        this._vehicleSelect.visible = false;
-
-        /* Show the specific menu */
-        object.visible = true;
-
-        /* Show the logo if it is the main menu */
-        if (object === this._mainButtonsGroup)
-        {
-            this._logoSprite.visible = true;
-        }
-    }
-
-    /** Show the main menu */
-    public showMainMenu(): void {
-        this.showAMenu(this._mainButtonsGroup);
-    }
-
-    /** Show the level select */
-    public showLevelSelect(): void {
-        this.showAMenu(this._levelSelect);
-    }
-
-    /** Create the emitter in the main menu */
-    public createWorldEmitter(): Phaser.Particles.Arcade.Emitter
-    {
-        /* Creating the emitter */
-        let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
-
-        /* Setting its default values */
-        emitter.makeParticles(Atlases.Interface, 'test_particle');
-        emitter.setXSpeed(-10, 10);
-        emitter.setYSpeed(0, -100);
-        emitter.setRotation(0, 0);
-        emitter.setAlpha(-1, 1, 2000);
-        emitter.setScale(0, .5, 0, .5, 4000);
-
-        emitter.gravity.y = -30;
-        emitter.width = 740;
-
-        /* Starting it */
-        emitter.start(false, 10000, 400);
-
-        /* And returning it */
-        return emitter;
     }
 
     /* Shut down this state and destroy everything in it */
