@@ -20,6 +20,7 @@ import ScoreSystem from '../Systems/ScoreSystem';
 import SaveData from '../BackEnd/SaveData';
 import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
+import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
 import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 export default class Gameplay extends Phaser.State
@@ -34,6 +35,7 @@ export default class Gameplay extends Phaser.State
 
     private _userInterface: UI;
     private _player: Player;
+    private _lightning: Lightning;
 
     private _input: Input;
     private _pickupSpawner: PickupSpawner;
@@ -46,6 +48,12 @@ export default class Gameplay extends Phaser.State
     private _spawnEditor: SpawnEditor;
 
     private _scoreSystem: ScoreSystem;
+<<<<<<< HEAD
+=======
+
+    private _blurred: boolean = false;
+    private _colorIndex: number = 0;
+>>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
     private _phaseSystem: PhaseSystem;
 
     private _gamePaused: boolean = false;
@@ -110,6 +118,7 @@ export default class Gameplay extends Phaser.State
             this._userInterface.scoreBar.value += 1;
         });
 
+        this._lightning = new Lightning(this.game, this._perspectiveRenderer);
         /* Level creation */
         this._spawnEditor = new SpawnEditor();
 
@@ -131,8 +140,13 @@ export default class Gameplay extends Phaser.State
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
+<<<<<<< HEAD
         PlayerCollisionChecker.getInstance().onColliding.add(() => { this.makeWorldReact(); });
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.makeWorldReact(); });
+=======
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.worldSuperReact(); });
+>>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
@@ -140,6 +154,7 @@ export default class Gameplay extends Phaser.State
         this._pickupSpawner = new PickupSpawner(this.game, this._pickupContainer, this._perspectiveRenderer);
 
         this.game.add.existing(this._player);
+        this.game.add.existing(this._lightning);
 
         /* Input */
         this._input = new Input(this.game, this._useContinuesInput);
@@ -217,21 +232,31 @@ export default class Gameplay extends Phaser.State
         Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
 
-        this._road.nextColor();
+        this._colorIndex = (this._colorIndex + 1 + Constants.ROAD_COLORS.length) % Constants.ROAD_COLORS.length;
+        this._road.setColors(this._colorIndex);
+        this._audioVisualizer.setColor(this._colorIndex);
         if (this._updatePhaseByBar)
         {
             this._phaseSystem.startNextPhase();
         }
     }
 
-    /** starts the track (optinally with a delay) */
-    private startTrack(delay: number = 1000): void
+    /** starts the track and loads the song in if it isn't loaded yet. */
+    private startTrack(): void
     {
-        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
-        setTimeout(() => {
-            SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
+        let songAsset: string = Constants.LEVELS[Constants.CURRENT_LEVEL].music;
+        if (this.game.cache.checkSoundKey(songAsset)) {
+            SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
-        }, delay);
+        } else {
+            this.game.load.audio(songAsset, ['assets/music/' + songAsset + '.ogg' , 'assets/music/' + songAsset + '.mp3']);
+            this.game.load.start();
+            this.game.load.onFileComplete.addOnce(() => {
+                SoundManager.getInstance().playMusic(songAsset, 1, false);
+                this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+            });
+        }
+        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
     }
 
     public update(): void
@@ -295,6 +320,7 @@ export default class Gameplay extends Phaser.State
         SoundManager.getInstance().pause(this._gamePaused);
 
         this._input.active = !this._gamePaused;
+        this._lightning.pause(this._gamePaused);
 
         if (showPauseScreen === false) { return; }
         this._userInterface.pauseScreen.visible = this._gamePaused;
@@ -302,6 +328,11 @@ export default class Gameplay extends Phaser.State
         if (!this._blurred) {
             this._userInterface.Pause(this._gamePaused);
         }
+    }
+
+    public worldSuperReact(): void {
+        this._lightning.initiateThunder(this._player.lane);
+        this.worldReact();
     }
 
     /** Make the world move */
@@ -366,6 +397,9 @@ export default class Gameplay extends Phaser.State
 
         this._perspectiveRenderer.destroy(true);
         this._perspectiveRenderer = null;
+
+        this._lightning.destroy();
+        this._lightning = null;
 
         this._road.destroy(true);
         this._road = null;

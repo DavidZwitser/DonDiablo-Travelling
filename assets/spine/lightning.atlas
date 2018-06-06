@@ -1,0 +1,180 @@
+
+lightning.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+lighting_animation0001
+  rotate: false
+  xy: 1268, 20
+  size: 473, 544
+  orig: 1000, 2000
+  offset: 259, 1143
+  index: -1
+lighting_animation0002
+  rotate: false
+  xy: 1268, 20
+  size: 473, 544
+  orig: 1000, 2000
+  offset: 259, 1143
+  index: -1
+lighting_animation0003
+  rotate: true
+  xy: 570, 1064
+  size: 502, 1437
+  orig: 1000, 2000
+  offset: 219, 188
+  index: -1
+lighting_animation0004
+  rotate: true
+  xy: 570, 1568
+  size: 467, 1473
+  orig: 1000, 2000
+  offset: 210, 214
+  index: -1
+lighting_animation0005
+  rotate: true
+  xy: 2045, 1222
+  size: 382, 1351
+  orig: 1000, 2000
+  offset: 220, 336
+  index: -1
+lighting_animation0006
+  rotate: true
+  xy: 2045, 1606
+  size: 429, 1314
+  orig: 1000, 2000
+  offset: 220, 336
+  index: -1
+lighting_animation0007
+  rotate: true
+  xy: 3297, 1061
+  size: 159, 97
+  orig: 1000, 2000
+  offset: 413, 336
+  index: -1
+lighting_animation0008
+  rotate: false
+  xy: 3131, 700
+  size: 93, 61
+  orig: 1000, 2000
+  offset: 454, 367
+  index: -1
+lighting_animation0009
+  rotate: false
+  xy: 3131, 700
+  size: 93, 61
+  orig: 1000, 2000
+  offset: 454, 367
+  index: -1  
+lighting_animation0010
+  rotate: false
+  xy: 3131, 700
+  size: 93, 61
+  orig: 1000, 2000
+  offset: 454, 367
+  index: -1  
+lighting_animation0011
+  rotate: false
+  xy: 3131, 700
+  size: 93, 61
+  orig: 1000, 2000
+  offset: 454, 367
+  index: -1  
+lighting_animation0012
+  rotate: true
+  xy: 3361, 1650
+  size: 385, 489
+  orig: 1000, 2000
+  offset: 308, 1171
+  index: -1
+lighting_animation0013
+  rotate: true
+  xy: 3361, 1650
+  size: 385, 489
+  orig: 1000, 2000
+  offset: 308, 1171
+  index: -1
+lighting_animation0014
+  rotate: false
+  xy: 2, 592
+  size: 566, 1443
+  orig: 1000, 2000
+  offset: 203, 185
+  index: -1
+lighting_animation0015
+  rotate: true
+  xy: 570, 566
+  size: 496, 1291
+  orig: 1000, 2000
+  offset: 246, 332
+  index: -1
+lighting_animation0016
+  rotate: true
+  xy: 2009, 763
+  size: 457, 1286
+  orig: 1000, 2000
+  offset: 230, 334
+  index: -1
+lighting_animation0017
+  rotate: true
+  xy: 2, 2
+  size: 562, 1264
+  orig: 1000, 2000
+  offset: 182, 335
+  index: -1
+lighting_animation0018
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0019
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0020
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0021
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0022
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0023
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0024
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1
+lighting_animation0025
+  rotate: true
+  xy: 1863, 208
+  size: 553, 1266
+  orig: 1000, 2000
+  offset: 179, 335
+  index: -1

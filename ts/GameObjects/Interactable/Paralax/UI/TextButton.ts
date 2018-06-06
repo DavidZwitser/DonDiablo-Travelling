@@ -11,7 +11,7 @@ export default class TextButton extends Phaser.Button
         super(game, x, y, Atlases.INTERFACE, callback, callbackContext, imageKey, imageKey, imageKey);
         this.anchor.set(.5);
 
-        this.label = new Phaser.BitmapText(game, 0, 0, 'myfont', text, fontSize);
+        this.label = new Phaser.BitmapText(game, 0, 0, 'futura', text, fontSize);
         this.label.anchor.set(.5);
         this.label.align = 'center';
 

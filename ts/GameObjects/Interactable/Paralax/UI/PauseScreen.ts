@@ -23,7 +23,7 @@ export default class PauseScreen extends BasePopUp
 
         this.onResume = new Phaser.Signal();
 
-        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'myfont', 'SFX', 40);
+        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'futura', 'SFX', 40);
         this._sfxText.tint = 0xffffff;
         this._sfxText.anchor.set(0.5);
         this._sfxText.scale.set(scale, scale);

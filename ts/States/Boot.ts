@@ -1,16 +1,19 @@
 import 'phaser-ce';
 
 import Preload from './Preload';
+import IGame from '../PluginManagers/IGame';
 
 export default class Boot extends Phaser.State
 {
     public static Name: string = 'boot';
 
     public name: string = Boot.Name;
+    public game: IGame;
 
-    constructor()
+    constructor(game: IGame)
     {
         super();
+        this.game = game;
     }
 
     public init(): void
@@ -104,7 +107,8 @@ export default class Boot extends Phaser.State
     public preload(): void
     {
         super.preload(this.game);
-        this.game.load.image('load_screen', 'assets/sprites/load_screen.jpg');
+        this.game.load.image('load_screen', 'assets/sprites/UserInterface_SplashScreen.jpg');
+        this.game.load.image('load_screen_text', 'assets/sprites/UserInterface_SplashScreen_Loading.png');
 
     }
 

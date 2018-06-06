@@ -152,6 +152,55 @@ export default class Menu extends Phaser.State
         return group;
     }
 
+<<<<<<< HEAD
+=======
+    /* Resize all the menus */
+    public resize(): void
+    {
+        /* Calculating the smallest screen dimension */
+        let vmin: number = Math.min(this.game.height, this.game.width);
+
+        /* Resize the background image */
+        this._backgroundSprite.width = this.game.width;
+        this._backgroundSprite.height = this.game.height;
+
+        /* Resizing the main buttons group */
+        this._mainButtonsGroup.position.set(this.game.width / 2, this.game.height / 2);
+        this._mainButtonsGroup.scale.set(vmin / GAME_WIDTH);
+
+        /* Creating the settings group */
+        this._settingGroup.position.set(this.game.width / 2, this.game.height * .5);
+        this._settingGroup.scale.set(vmin / GAME_WIDTH);
+
+        /* Resizing the level select menu */
+        this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
+        this._levelSelect.scale.set(vmin / GAME_WIDTH * 0.5);
+
+        /* Resizing the logo sprite */
+        this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
+        this._logoSprite.scale.set(vmin / GAME_WIDTH);
+
+        /* Resizing the word emitter */
+        this._worldEmitter.position.set(this.game.width / 2, this.game.height);
+        this._worldEmitter.width = this.game.width;
+
+        /* Offsetting the height of a bit */
+        vmin = Math.min(this.game.height * .6, this.game.width);
+
+        /* Resizing the vehicle select */
+        this._vehicleSelect.position.set(this.game.width / 2, this.game.height / 2);
+        this._vehicleSelect.scale.set(vmin / GAME_WIDTH);
+
+        /* Offsetting the hex viewer */
+        this._hexViewer.position.set(this.game.width / 2, this.game.height / 2);
+        this._hexViewer.scale.set(vmin / GAME_WIDTH);
+
+        /* Offsetting the credits screen */
+        this._creditsScreen.position.set(this.game.width / 2, this.game.height / 2);
+        this._creditsScreen.scale.set(vmin / GAME_WIDTH);
+    }
+
+>>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
     /* Show any menu whilse hiding the others */
     private showAMenu(object: Phaser.Group): void
     {

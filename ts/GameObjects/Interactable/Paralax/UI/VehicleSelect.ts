@@ -10,6 +10,7 @@ import Constants from '../../../../Data/Constants';
 /** The vehicle select menu where you can select which car you want to play with */
 export default class VehicleSelect extends Phaser.Group
 {
+<<<<<<< HEAD
     /** The background */
     private _background: Phaser.Sprite;
     /** The group where the car and navigation images are added to */
@@ -45,6 +46,34 @@ export default class VehicleSelect extends Phaser.Group
 
     /** What car is currently selected */
     private _carIndex: number = 0;
+=======
+    private background: Phaser.Sprite;
+    private vehicleSelectGroup: Phaser.Group;
+    private closeButton: ImageButton;
+    private headerText: Phaser.BitmapText;
+
+    //text
+    private carText: Phaser.BitmapText;
+    private descriptionText: Phaser.BitmapText;
+
+    //backdrops
+    private middleBackdrop: Phaser.Sprite;
+    private leftBackdrop: Phaser.Sprite;
+    private rightBackdrop: Phaser.Sprite;
+
+    //arrows
+    private leftArrow: ImageButton;
+    private rightArrow: ImageButton;
+
+    //car sprites
+    private selectedCarSprite: Phaser.Sprite;
+    private leftCarSprite: Phaser.Sprite;
+    private rightCarSprite: Phaser.Sprite;
+
+    private selectedTween: Phaser.Tween;
+
+    private carIndex: number = 0;
+>>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
 
     constructor(game: Phaser.Game, callback: Function)
     {
@@ -58,6 +87,7 @@ export default class VehicleSelect extends Phaser.Group
         this._closeButton = new ImageButton(this.game, -228, 475, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
             callback();
         }, this);
+<<<<<<< HEAD
         this._closeButton.scale.x = -1;
 
         /* Setting up the header text */
@@ -112,6 +142,51 @@ export default class VehicleSelect extends Phaser.Group
         /* Setting up the left arrow */
         this._leftArrow = new ImageButton(game, -250, -70, 'ui_pijltje',  'ui_pijltje', () => {
             this.rotateVehicleWheel(false);
+=======
+        this.closeButton.scale.x = -1;
+
+        this.headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'VEHICLE SELECT', 50);
+        this.headerText.tint = 0xffffff;
+        this.headerText.anchor.set(.5);
+        this.addChild(this.headerText);
+
+        this.carText =  new Phaser.BitmapText(game, 0, -280, 'futura', 'car text', 50);
+        this.carText.tint = 0xffffff;
+        this.carText.anchor.set(.5);
+        this.addChild(this.carText);
+
+        this.descriptionText =  new Phaser.BitmapText(game, 0, -200, 'futura', 'description text', 30);
+        this.descriptionText.tint = 0xffffff;
+        this.descriptionText.align = 'center';
+        this.descriptionText.anchor.set(.5);
+        this.addChild(this.descriptionText);
+
+        this.vehicleSelectGroup = new Phaser.Group(game);
+        this.vehicleSelectGroup.x = 10;
+        this.vehicleSelectGroup.y = 100;
+
+        this.middleBackdrop = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'ui_middle_hexagon');
+        this.middleBackdrop.anchor.set(.5);
+        this.leftBackdrop = new Phaser.Sprite(game, -200, 85, Atlases.Interface, 'hexagon_small_left');
+        this.leftBackdrop.anchor.set(.5);
+        this.rightBackdrop = new Phaser.Sprite(game, 200, 85, Atlases.Interface, 'hexagon_small_right');
+        this.rightBackdrop.anchor.set(.5);
+
+        this.selectedCarSprite = new Phaser.Sprite(game, -23, -70, Atlases.Interface, 'ingame_vehicle_1_straight');
+        this.selectedCarSprite.anchor.set(.5);
+        this.selectedCarSprite.scale.set(1.5);
+
+        this.leftCarSprite = new Phaser.Sprite(game, -225, 70, Atlases.Interface, 'ingame_vehicle_1_straight');
+        this.leftCarSprite.anchor.set(.5);
+        this.leftCarSprite.tint = 0x222222;
+
+        this.rightCarSprite = new Phaser.Sprite(game, 185, 70, Atlases.Interface, 'ingame_vehicle_1_straight');
+        this.rightCarSprite.anchor.set(.5);
+        this.rightCarSprite.tint = 0x222222;
+
+        this.leftArrow = new ImageButton(game, -250, -70, 'ui_pijltje',  'ui_pijltje', () => {
+            this.moveVehicleTo(false);
+>>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
         }, this);
         this._leftArrow.anchor.set(.5);
 
@@ -172,6 +247,20 @@ export default class VehicleSelect extends Phaser.Group
         this._carName.text = '' + Constants.CARS[this._carIndex].carName;
         this._descriptionText.text = '' + Constants.CARS[this._carIndex].description;
     }
+<<<<<<< HEAD
+=======
+    private updateSrites(): void {
+        if (this.selectedTween) {
+            if (this.selectedTween.isRunning) {
+                this.selectedTween.stop();
+            }
+        }
+        this.selectedCarSprite.y = -70;
+        this.selectedTween = this.game.add.tween(this.selectedCarSprite).to({y: -90}, 250, Phaser.Easing.Cubic.InOut, true, 0, 0, true);
+        this.selectedCarSprite.frameName = Constants.CARS[this.carIndex].spriteKey;
+        this.leftCarSprite.frameName = Constants.CARS[(this.carIndex + 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
+        this.rightCarSprite.frameName = Constants.CARS[(this.carIndex - 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
+>>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
 
     public destroy(): void
     {

@@ -146,7 +146,7 @@ export default class UI extends ParalaxObject
 
     /** creates a bitmap text object containing the title of the song */
     private createTrackText(): void {
-        this._trackText = new Phaser.BitmapText(this.game, 0, 0, 'myfont', 'Song track', 30);
+        this._trackText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Song track', 30);
         this._trackText.tint = 0xffffff;
         this._trackText.anchor.set(0.5);
         this.addChild(this._trackText);
@@ -154,7 +154,7 @@ export default class UI extends ParalaxObject
 
     private createCountDownText(): void
     {
-        this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'myfont', this._fullCountdown.toString(), 30);
+        this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'ailerons', this._fullCountdown.toString(), 30);
         this._countdownText.tint = 0xffffff;
         this._countdownText.anchor.set(0.5);
         this._countdownText.fontSize = 90;

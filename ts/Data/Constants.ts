@@ -10,6 +10,8 @@ export interface IRoadColors
     bottomOuterColor: number;
     topMiddleColor: number;
     topOuterColor: number;
+    topSprite: string;
+    bottomSprite: string;
 }
 
 interface ILevel
@@ -59,7 +61,10 @@ export default class Constants
             bottomOuterColor: 0x66090f,
             //blue
             topMiddleColor: 0xf4091a,
-            topOuterColor: 0x148694
+            topOuterColor: 0x148694,
+
+            topSprite: 'Red',
+            bottomSprite: 'Blue'
         },
         {
             //blue
@@ -67,7 +72,11 @@ export default class Constants
             bottomOuterColor: 0x6f87f0,
             //purple
             topMiddleColor: 0xc7e5f4,
-            topOuterColor: 0xd13df1
+            topOuterColor: 0xd13df1,
+
+            topSprite: 'DarkBlue',
+            bottomSprite: 'Purple'
+
         }
     ];
 
@@ -90,7 +99,38 @@ export default class Constants
             artist: 'Don Diablo',
             json: JSON.GIVE_ME_YOUR_LOVE,
             music: Sounds.GIVE_ME_YOUR_LOVE
+        },
+        {
+            title: 'Dont let go',
+            artist: 'Don Diablo',
+            json: JSON.DONT_LET_GO,
+            music: Sounds.DONT_LET_GO
+        },
+        {
+            title: 'You cant change me',
+            artist: 'Don Diablo',
+            json: JSON.YOU_CANT_CHANGE_ME,
+            music: Sounds.YOU_CANT_CHANGE_ME
+        },
+        {
+            title: 'Save a little love',
+            artist: 'Don Diablo',
+            json: JSON.SAVE_A_LITTLE_LOVE,
+            music: Sounds.SAVE_A_LITTLE_LOVE
+        },
+        {
+            title: 'Reflections',
+            artist: 'Don Diablo',
+            json: JSON.REFLECTIONS,
+            music: Sounds.REFLECTIONS
+        },
+        {
+            title: 'Satalite',
+            artist: 'Don Diablo',
+            json: JSON.SATALITE,
+            music: Sounds.SATALITES
         }
+
     ];
 
     public static readonly CARS: ICar[] = [
@@ -141,17 +181,17 @@ export default class Constants
         {
             phaseDuration: 40,
             amountOfLanes: 6,
+            pickupSpeed: 3.7
+        },
+        {
+            phaseDuration: 40,
+            amountOfLanes: 6,
             pickupSpeed: 4
         },
         {
             phaseDuration: 40,
             amountOfLanes: 6,
-            pickupSpeed: 4.5
-        },
-        {
-            phaseDuration: 40,
-            amountOfLanes: 6,
-            pickupSpeed: 5
+            pickupSpeed: 4.2
         }
     ];
 
@@ -190,33 +230,4 @@ export default class Constants
         /** Tested on a Oneplus 3 */
         'Adreno (TM) 530'
     ];
-
-    public static HEX_TO_RGB(color: string): {r: number, g: number, b: number}
-    {
-        /* Check for # infront of the value, if it's there, strip it */
-
-        console.log('before substring', color);
-        if (color.substring(0, 2) === '0x') {
-           color = color.substring(2);
-        }
-        console.log('after substring', color);
-        /* Grab each pair (channel) of hex values and parse them to ints using hexadecimal decoding */
-        let r: number = parseInt(color.substring(0, 2), 16);
-        let g: number = parseInt(color.substring(2, 4), 16);
-        let b: number = parseInt(color.substring(4), 16);
-
-        return {r: r, g: g, b: b};
-    }
-
-    public static COMPONENT_TO_HEX(c: number): string
-    {
-        let hex: string = c.toString(16);
-        return hex.charAt(1) === '.' || hex.length === 1 ? '0' +  hex.substring(0, 1) : hex = hex.substring(0, 2);
-    }
-
-    public static RGB_TO_HEX(r: number, g: number, b: number): string
-    {
-        return '0x' + Constants.COMPONENT_TO_HEX(r) + Constants.COMPONENT_TO_HEX(g) + Constants.COMPONENT_TO_HEX(b);
-    }
-
 }

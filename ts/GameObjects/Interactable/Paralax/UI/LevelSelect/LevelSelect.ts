@@ -26,7 +26,7 @@ export default class LevelSelect extends Phaser.Group
         this.levelText.anchor.set(.5);
         this.addChild(this.levelText);
 
-        let _titleText: Phaser.BitmapText = new Phaser.BitmapText(game, 0, 0, 'myfont', 'select level', 40);
+        let _titleText: Phaser.BitmapText = new Phaser.BitmapText(game, 0, 0, 'futura', 'select level', 40);
         _titleText.anchor.set(.5);
         this.addChild(_titleText);
 

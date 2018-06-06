@@ -25,7 +25,7 @@ export default class AtlasImages
     public static BACKGROUND: string = 'bg';
     public static MAINMENU_OVERLAY: string = 'background_overlay';
     public static MENU_BUTTON: string = 'button_menu';
-    public static LOGO: string = 'logo';
+    public static LOGO: string = 'logo_upside_don_final';
 
     //settings
     public static SETTINGS_OVERLAY: string = 'backgroundoverlay';
