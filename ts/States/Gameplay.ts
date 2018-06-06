@@ -242,9 +242,10 @@ export default class Gameplay extends Phaser.State
     /** starts the track (optinally with a delay) */
     private startTrack(delay: number = 1000): void
     {
+        let songAsset: string = Constants.LEVELS[Constants.CURRENT_LEVEL].music;
         this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
         setTimeout(() => {
-            SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
+            SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
         }, delay);
     }

@@ -20,11 +20,12 @@ export default class Sounds
     public static WOOSH: string = 'woosh';
     public static GAME_OVER: string = 'game_over';
 
+    /** list of sound files that gets loaded when the game boots up */
     public static List: string[] = [
         Sounds.UI_MENU_MUSIC,
-        Sounds.HEAD_UP,
-        Sounds.GIVE_ME_YOUR_LOVE,
-        Sounds.PEOPLE_SAY,
+        //Sounds.HEAD_UP,
+        //Sounds.GIVE_ME_YOUR_LOVE,
+        //Sounds.PEOPLE_SAY,
         Sounds.HIGH_SOUND,
         Sounds.LOW_SOUND,
         Sounds.UI_CLICK,
