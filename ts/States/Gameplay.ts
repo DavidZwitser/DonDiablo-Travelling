@@ -246,7 +246,6 @@ export default class Gameplay extends Phaser.State
         if (this.game.cache.checkSoundKey(songAsset)) {
             SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
-            console.log('already there');
         } else {
             this.game.load.audio(songAsset, ['assets/music/' + songAsset + '.ogg' , 'assets/music/' + songAsset + '.mp3']);
             this.game.load.start();

@@ -29,20 +29,17 @@ export default class Lightning extends ReactivePerspectiveObject
 
         this.zPos = Constants.PLAYER_Z_POSITION;
         this.lane = Lanes.bottomLeftLane;
-        this.visible = false;
+        this.alpha = 0;
+        this.setAnimation(Lightning.ANIMATION_LIGHTNING, false);
+        setTimeout(() => {
+            this.alpha = 1;
+        }, 500);
     }
 
     /** Animation is set for the character spine */
     private setAnimation(animation: string, loop: boolean = false): void
     {
-        this.visible = true;
-        this.spine.onComplete.removeAll();
         this.spine.setAnimationByName(0, animation, loop);
-
-        //if the animation doesn't loop, it reverts into its idle animation
-        this.spine.onComplete.addOnce( () => { if (!loop) {
-            //this.visible = false;
-        }});
     }
 
     public initiateThunder(lane: Lanes): void {

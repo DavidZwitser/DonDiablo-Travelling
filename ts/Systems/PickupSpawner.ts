@@ -118,7 +118,6 @@ export default class PickupSpawner extends Phaser.Group
         }
         else
         {
-            console.log(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
             this.waitForNextSpawning(this._levelData.timings[this._spawnIndex].time - (this._spawnIndex !== 0 ? this._levelData.timings[this._spawnIndex - 1].time : 0) - this._passedTime);
         }
     }

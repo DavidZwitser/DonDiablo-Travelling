@@ -212,31 +212,4 @@ export default class Constants
         /** Tested on a Oneplus 3 */
         'Adreno (TM) 530'
     ];
-
-    public static hexToRGB(color: string): {r: number, g: number, b: number} {
-        /* Check for # infront of the value, if it's there, strip it */
-
-        console.log('before substring', color);
-        if (color.substring(0, 2) === '0x') {
-           color = color.substring(2);
-        }
-        console.log('after substring', color);
-        /* Grab each pair (channel) of hex values and parse them to ints using hexadecimal decoding */
-        let r: number = parseInt(color.substring(0, 2), 16);
-        let g: number = parseInt(color.substring(2, 4), 16);
-        let b: number = parseInt(color.substring(4), 16);
-
-        return {r: r, g: g, b: b};
-       }
-    public static componentToHex(c: number): string
-    {
-        let hex: string = c.toString(16);
-        return hex.charAt(1) === '.' || hex.length === 1 ? '0' +  hex.substring(0, 1) : hex = hex.substring(0, 2);
-    }
-
-    public static rgbToHex(r: number, g: number, b: number): any
-    {
-        return '0x' + Constants.componentToHex(r) + Constants.componentToHex(g) + Constants.componentToHex(b);
-    }
-
 }
