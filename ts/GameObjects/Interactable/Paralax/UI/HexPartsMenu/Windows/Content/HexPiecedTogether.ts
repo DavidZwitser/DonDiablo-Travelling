@@ -66,7 +66,7 @@ export default class HexPiecedTogether extends Phaser.Group
     public recheckCollectedParts(): void
     {
         /** Getting the data */
-        let data: IHexBodyPartsCollection = SaveData.HexCollectiblesData;
+        let data: IHexBodyPartsCollection = SaveData.HEX_COLLECTIBLES_DATA;
 
         /* Checking head */
         if (this.hasAllCollectedSubParts(data[HexBodyParts.head].subParts) === true)

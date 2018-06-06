@@ -29,7 +29,7 @@ namespace WebPackGame
             });
             this.clearBeforeRender = false;
 
-            SaveData.Init();
+            SaveData.INIT();
 
             this.state.add('game', {
                 create: this.stateCreator.bind(this),

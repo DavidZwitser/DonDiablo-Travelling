@@ -47,7 +47,7 @@ export default class Viewer extends Phaser.Group
     private animateToPartsWindow(part: HexBodyParts): void
     {
         /* Load the part in the window */
-        this._partsWindow.loadPart(SaveData.HexCollectiblesData[part]);
+        this._partsWindow.loadPart(SaveData.HEX_COLLECTIBLES_DATA[part]);
 
         /* Animate from the hex window to the part window */
         this._hexWindow.animateWindow(0, 300).onComplete.addOnce( () => {

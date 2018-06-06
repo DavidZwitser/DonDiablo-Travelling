@@ -27,9 +27,9 @@ export default class HexBar extends Phaser.Group
 
         this.onFull = new Phaser.Signal();
 
-        this._backDropSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, AtlasImages.ScoreBarBackground);
-        this._valueSprite = new Phaser.Sprite(this.game, 10, -55, Atlases.INTERFACE, AtlasImages.ScoreBarFill);
-        this._foreGroundSprite = new Phaser.Sprite(this.game, this._valueSprite.x - 2, this._valueSprite.y + 2,  Atlases.INTERFACE, AtlasImages.ScoreBarForeground);
+        this._backDropSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, AtlasImages.SCORE_BAR_BACKGROUND);
+        this._valueSprite = new Phaser.Sprite(this.game, 10, -55, Atlases.INTERFACE, AtlasImages.SCORE_BAR_FILL);
+        this._foreGroundSprite = new Phaser.Sprite(this.game, this._valueSprite.x - 2, this._valueSprite.y + 2,  Atlases.INTERFACE, AtlasImages.SCORE_BAR_FOREGROUND);
 
         this._fillMask = new Phaser.Graphics(game, this._valueSprite.x, this._valueSprite.y);
         this._fillMask.beginFill(0xFF3300);
@@ -45,7 +45,7 @@ export default class HexBar extends Phaser.Group
         this.hexPartToCollect.anchor.set(.5);
         this.hexPartToCollect.scale.set(.3);
 
-        this.value = SaveData.HexBarValue;
+        this.value = SaveData.HEX_BAR_VALUE;
 
         this.addChild(this._backDropSprite);
         this.addChild(this._valueSprite);
@@ -80,7 +80,7 @@ export default class HexBar extends Phaser.Group
             this.value = 0;
         }
 
-        if (value % 10 === 0) { SaveData.HexBarValue = value; }
+        if (value % 10 === 0) { SaveData.HEX_BAR_VALUE = value; }
 
         this.updateFill();
     }

@@ -16,7 +16,7 @@ export default class AudioAnalyser
 
     constructor ()
     {
-        this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
+    this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
     }
 
     //music get's assigned and some data gets calculated needed for the visualizer before rendering

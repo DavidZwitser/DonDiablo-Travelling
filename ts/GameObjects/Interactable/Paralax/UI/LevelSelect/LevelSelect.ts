@@ -26,11 +26,11 @@ export default class LevelSelect extends Phaser.Group
         this.levelText.anchor.set(.5);
         this.addChild(this.levelText);
 
-        let _titleText: Phaser.BitmapText = new Phaser.BitmapText(game, 0, 0, 'futura', 'select level', 40);
+        let _titleText: Phaser.BitmapText = new Phaser.BitmapText(game, 0, 0, 'myfont', 'select level', 40);
         _titleText.anchor.set(.5);
         this.addChild(_titleText);
 
-        this._backButton = new ImageButton(this.game, -250, 0, AtlasImages.Close_X_Button, AtlasImages.Close_X_Button, () => {
+        this._backButton = new ImageButton(this.game, -250, 0, AtlasImages.CLOSE_X_BUTTON, AtlasImages.CLOSE_X_BUTTON, () => {
             this.onBack.dispatch();
         }, this);
         this._backButton.anchor.set(.5);
@@ -40,8 +40,8 @@ export default class LevelSelect extends Phaser.Group
 
         for (let i: number = 0; i < Constants.LEVELS.length; i++) {
 
-            let button: LevelButton = new LevelButton(game, 0, 200 + i * 300, Constants.LEVELS[i], SaveData.Levels[i].hs, true, () => {
-                if (SaveData.Levels[i].un || true) {
+            let button: LevelButton = new LevelButton(game, 0, 200 + i * 300, Constants.LEVELS[i], SaveData.LEVELS[i].hs, true, () => {
+                if (SaveData.LEVELS[i].un || true) {
                     Constants.CURRENT_LEVEL = i;
                     this.game.state.start(Gameplay.Name);
                 }

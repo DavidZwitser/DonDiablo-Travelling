@@ -69,7 +69,7 @@ export default class SoundManager
     /** Play a sfx */
     public play(key: string, volume: number = 1, loop: boolean = false): Phaser.Sound
     {
-        if (SaveGame.SFXMuted)
+        if (SaveGame.SFX_MUTED)
         {
             return null;
         }
@@ -182,15 +182,15 @@ export default class SoundManager
     /** Toggle the sfx mute switch */
     public toggleSfx(): void
     {
-        SaveGame.SFXMuted = !SaveGame.SFXMuted;
+        SaveGame.SFX_MUTED = !SaveGame.SFX_MUTED;
     }
 
     /** Toggle the music mute switch */
     public toggleMusic(): void
     {
-        SaveGame.MusicMuted = !SaveGame.MusicMuted;
+        SaveGame.MUSIC_MUTED = !SaveGame.MUSIC_MUTED;
 
-        if (!SaveGame.MusicMuted)
+        if (!SaveGame.MUSIC_MUTED)
         {
             if (this.music && this.music.isPlaying)
             {
