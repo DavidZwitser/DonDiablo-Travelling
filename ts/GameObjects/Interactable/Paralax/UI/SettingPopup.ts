@@ -42,22 +42,14 @@ export default class SettingPopup extends Phaser.Group
         this._backdrop.anchor.set(.5);
         this.addChild(this._backdrop);
 
-<<<<<<< HEAD
         /* Creating title text */
         this._titleText = new Phaser.BitmapText(game, 0, -150, 'myfont', 'Settings', 50);
-=======
-        this._titleText = new Phaser.BitmapText(game, 0, -150, 'ailerons', 'Settings', 50);
->>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
         this._titleText.tint = 0xffffff;
         this._titleText.anchor.set(0.5);
         this.addChild(this._titleText);
 
-<<<<<<< HEAD
         /* Creating sfx text */
         this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'myfont', 'SFX', 40);
-=======
-        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'futura', 'SFX', 40);
->>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
         this._sfxText.tint = 0xffffff;
         this._sfxText.anchor.set(0.5);
         this.addChild(this._sfxText);
@@ -70,29 +62,22 @@ export default class SettingPopup extends Phaser.Group
         this._sfxSlider.y = 0;
         this.addChild(this._sfxSlider);
 
-<<<<<<< HEAD
         /* Creating the quality text */
         this._quallityText = new Phaser.BitmapText(game, 0 , 80, 'myfont', 'Quality', 40);
         this._quallityText.tint = 0xffffff;
         this._quallityText.anchor.set(0.5);
         this.addChild(this._quallityText);
-=======
-        this.quallityText = new Phaser.BitmapText(game, 0 , 80, 'futura', 'Quality', 40);
-        this.quallityText.tint = 0xffffff;
-        this.quallityText.anchor.set(0.5);
-        this.addChild(this.quallityText);
->>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
 
         /* Creating the quality slider */
-        this._qualitySlider = new SlideBar(this.game, SaveData.Quality, () => {
-            SaveData.Quality = this._qualitySlider.value;
+        this._qualitySlider = new SlideBar(this.game, SaveData.QUALITY, () => {
+            SaveData.QUALITY = this._qualitySlider.value;
         });
         this._qualitySlider.x = 0;
         this._qualitySlider.y = 130;
         this.addChild(this._qualitySlider);
 
         /* Creating the back button */
-        this._backToMenuButton = new ImageButton(this.game, -200, 300, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
+        this._backToMenuButton = new ImageButton(this.game, -200, 300, AtlasImages.EXIT_BUTTON, 'UserInterface_Menu_ContinueButton', () => {
             this.onBack.dispatch();
         }, this);
         this._backToMenuButton.scale.x = -1;

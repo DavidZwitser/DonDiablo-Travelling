@@ -26,7 +26,6 @@ export default class CreditsScreen extends Phaser.Group
         this._creditsBackdrop.anchor.set(.5);
         this.addChild(this._creditsBackdrop);
 
-<<<<<<< HEAD
         /* Setting up the header text */
         this._headerText =  new Phaser.BitmapText(game, 0, -510, 'myfont', 'Credits', 60);
         this._headerText.tint = 0xffffff;
@@ -40,22 +39,10 @@ export default class CreditsScreen extends Phaser.Group
         this.addChild(this._creditsText);
         /* Filling in the credits text, text */
         this._creditsText.text = 'Art Director\n Bo Schutte\n\nDigital Artists\n Jidske Donkersloot\n Amber Kalverboer\n Amber Huiskes\n Eva Vrieze\n\nProgramming Director' +
-=======
-        this.headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'Credits', 60);
-        this.headerText.tint = 0xffffff;
-        this.headerText.anchor.set(.5);
-        this.addChild(this.headerText);
-
-        this.creditsText =  new Phaser.BitmapText(game, 0, 0, 'futura', '', 40);
-        this.creditsText.tint = 0xffffff;
-        this.creditsText.anchor.set(.5);
-        this.addChild(this.creditsText);
-        this.creditsText.text = 'Art Director\n Bo Schutte\n\nDigital Artists\n Jidske Donkersloot\n Amber Kalverboer\n Amber Huiskes\n Eva Vrieze\n\nProgramming Director' +
->>>>>>> ca24d2859dc32e2b211f91d5fa1bc62c957eba9b
         '\n Ferry Elbagdadi\n\nProgramming\n Sebastiaan Buwalda\n Nathan Nieuwenhuizen\n David Zwitser';
 
         /* Setting up the back button */
-        this._backButton = new ImageButton(this.game, -228, 475, AtlasImages.Exit_Button, 'UserInterface_Menu_ContinueButton', () => {
+        this._backButton = new ImageButton(this.game, -228, 475, AtlasImages.EXIT_BUTTON, 'UserInterface_Menu_ContinueButton', () => {
             callback();
         }, this);
         this._backButton.scale.x = -1;
