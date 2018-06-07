@@ -46,6 +46,9 @@ export default class VehicleSelect extends Phaser.Group
     /** What car is currently selected */
     private _carIndex: number = 0;
 
+    /** tween that pllays when a car is selected */
+    private _selectedTween: Phaser.Tween;
+
     constructor(game: Phaser.Game, callback: Function)
     {
         super(game);
@@ -163,6 +166,15 @@ export default class VehicleSelect extends Phaser.Group
     /** Update the car images to the currently correct images */
     private updateSprites(): void
     {
+        /* Setting the tween */
+        if (this._selectedTween) {
+            if (this._selectedTween.isRunning) {
+                this._selectedTween.stop();
+            }
+        }
+        this._selectedCarSprite.y = -70;
+        this._selectedTween = this.game.add.tween(this._selectedCarSprite).to({y: -90}, 250, Phaser.Easing.Cubic.InOut, true, 0, 0, true);
+
         /* Setting the frameNames */
         this._selectedCarSprite.frameName = Constants.CARS[this._carIndex].spriteKey;
         this._leftCarSprite.frameName = Constants.CARS[(this._carIndex + 1 + Constants.CARS.length) % Constants.CARS.length].spriteKey;
