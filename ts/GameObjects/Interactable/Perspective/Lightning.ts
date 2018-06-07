@@ -26,6 +26,7 @@ export default class Lightning extends ReactivePerspectiveObject
         this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), Spines.Lightning);
         this.spine.alpha = 0.8;
         this.addChild(this.spine);
+        this.spine.scale.set(.5);
 
         this.zPos = Constants.PLAYER_Z_POSITION;
         this.lane = Lanes.bottomLeftLane;
@@ -45,11 +46,11 @@ export default class Lightning extends ReactivePerspectiveObject
     public initiateThunder(lane: Lanes): void {
         this.lane = lane;
         if (this.lane === Lanes.topLeftLane || this.lane === Lanes.topCenterLane || this.lane === Lanes.topRightLane) {
-            this.spine.scale.y = -1;
+            this.spine.scale.y = -.5;
             this.spine.y = 100;
 
         } else {
-            this.spine.scale.y = 1;
+            this.spine.scale.y = .5;
             this.spine.y = -100;
         }
         let str: string = Math.random() > 0.5 ? Lightning.ANIMATION_LIGHTNING : Lightning.ANIMATION_LIGHTNING2;

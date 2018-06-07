@@ -41,7 +41,7 @@ export default class Constants
 
     public static GLOBAL_SPEED: number = 2.5;
 
-    public static PLAYER_Z_POSITION: number = 1.2;
+    public static PLAYER_Z_POSITION: number = 1.05;
 
     public static DELTA_TIME: number = 1;
     /** How long the current game is running for */
