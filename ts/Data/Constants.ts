@@ -129,6 +129,30 @@ export default class Constants
             artist: 'Don Diablo',
             json: JSON.SATALITE,
             music: Sounds.SATALITES
+        },
+        {
+            title: 'Everbody is somebody',
+            artist: 'Don Diablo',
+            json: JSON.EVERYBODY_SOMEBODY,
+            music: Sounds.EVERYBODY_SOMEBODY
+        },
+        {
+            title: 'Believe',
+            artist: 'Don Diablo',
+            json: JSON.BELIEVE,
+            music: Sounds.BELIEVE
+        },
+        {
+            title: 'Higher',
+            artist: 'Don Diablo',
+            json: JSON.HIGHER,
+            music: Sounds.HIGHER
+        },
+        {
+            title: 'Put it on for me',
+            artist: 'Don Diablo',
+            json: JSON.PUT_IT_ON,
+            music: Sounds.PUT_IT_ON_FOR_ME
         }
 
     ];
