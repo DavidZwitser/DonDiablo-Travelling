@@ -133,6 +133,25 @@ export default class Constants
 
     ];
 
+    /** Gets a random list of indexes of each level with optional a starting point */
+    public static GET_RANDOM_TRACKLIST(initial?: number): number[]{
+        let list: number[] = [];
+        let tracklist: number[] = [];
+        for (let i: number = 0; i < Constants.LEVELS.length; i++) {
+            list.push(i);
+        }
+        if (initial) {
+            tracklist.push(list[initial]);
+            list.splice(initial, 1);
+        }
+        while (list.length !== 0) {
+            let random: number = Math.floor(Math.random() * list.length);
+            tracklist.push(list[random]);
+            list.splice(random, 1);
+        }
+        return tracklist;
+    }
+
     public static readonly CARS: ICar[] = [
         {
             carName: 'D1-A8L0',

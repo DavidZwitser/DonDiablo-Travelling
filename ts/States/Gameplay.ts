@@ -54,6 +54,9 @@ export default class Gameplay extends Phaser.State
     private _blurred: boolean = false;
     private _colorIndex: number = 0;
 
+    private _trackList: number[];
+    private _trackIndex: number = 0;
+
     public init(): void
     {
         SoundManager.getInstance(this.game);
@@ -97,6 +100,9 @@ export default class Gameplay extends Phaser.State
 
         /* Rendering */
         this._perspectiveRenderer = new PerspectiveRenderer(this.game);
+
+        /* tracklist setup */
+        this._trackList = Constants.GET_RANDOM_TRACKLIST(Constants.CURRENT_LEVEL);
 
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
@@ -220,10 +226,10 @@ export default class Gameplay extends Phaser.State
     /** sets up next track of the song list */
     private nextTrack(): void
     {
-        Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
 
         this._colorIndex = (this._colorIndex + 1) % Constants.ROAD_COLORS.length;
+        this._trackIndex = (this._trackIndex + 1) % this._trackList.length;
         this._road.nextColor(this._colorIndex);
         this._audioVisualizer.setColor(this._colorIndex);
         if (this._updatePhaseByBar)
@@ -235,6 +241,7 @@ export default class Gameplay extends Phaser.State
     /** starts the track (optinally with a delay) */
     private startTrack(): void
     {
+        Constants.CURRENT_LEVEL = this._trackList[this._trackIndex];
         let songAsset: string = Constants.LEVELS[Constants.CURRENT_LEVEL].music;
         if (this.game.cache.checkSoundKey(songAsset)) {
             SoundManager.getInstance().playMusic(songAsset, 1, false);
