@@ -228,7 +228,7 @@ export default class Menu extends Phaser.State
 
         /* Resizing the level select menu */
         this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
-        this._levelSelect.scale.set(vmin / GAME_WIDTH);
+        this._levelSelect.scale.set(vmin / GAME_WIDTH * .3);
 
         /* Resizing the logo sprite */
         this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);

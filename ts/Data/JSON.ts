@@ -30,6 +30,7 @@ export default class JSON
         JSON.EVERYBODY_SOMEBODY,
         JSON.BELIEVE,
         JSON.HIGHER,
-        JSON.PUT_IT_ON
+        JSON.PUT_IT_ON,
+        JSON.REFLECTIONS
     ];
 }

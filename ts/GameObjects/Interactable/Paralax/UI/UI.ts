@@ -170,6 +170,7 @@ export default class UI extends ParalaxObject
     public react(): void
     {
         this._popUpText.reactToCollection();
+        this.scoreBar.value++;
     }
 
     public gameOver(score: number, highscore: number): void

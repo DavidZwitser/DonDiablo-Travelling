@@ -51,7 +51,7 @@ export default class Constants
 
     public static CURRENT_LEVEL: number = 0;
 
-    public static readonly PICKUPS_BEFORE_HEX_PART: number = 150;
+    public static PICKUPS_BEFORE_HEX_PART: number; //gets really declard in hexbar.ts
 
     /** road colors list with their own color schemes */
     public static readonly ROAD_COLORS: IRoadColors[] = [
