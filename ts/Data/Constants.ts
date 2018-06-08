@@ -77,7 +77,53 @@ export default class Constants
             topSprite: 'DarkBlue',
             bottomSprite: 'Purple'
 
-        }
+        },
+        {
+            //purple
+            bottomMiddleColor: 0xc7e5f4,
+            bottomOuterColor: 0xd13df1,
+            //blue
+            topMiddleColor: 0xf99ff4,
+            topOuterColor: 0x6f87f0,
+
+            topSprite: 'Purple',
+            bottomSprite: 'DarkBlue'
+
+        },
+        {
+            //blue
+            bottomMiddleColor: 0xf4091a,
+            bottomOuterColor: 0x148694,
+            //red
+            topMiddleColor: 0x8bf2d6,
+            topOuterColor: 0x66090f,
+
+            topSprite: 'Blue',
+            bottomSprite: 'Red'
+        },
+        {
+           //purple
+           bottomMiddleColor: 0xc7e5f4,
+           bottomOuterColor: 0xd13df1,
+            //red
+            topMiddleColor: 0x8bf2d6,
+            topOuterColor: 0x66090f,
+
+            topSprite: 'Purple',
+            bottomSprite: 'Red'
+        },
+        {
+            //red
+            bottomMiddleColor: 0x8bf2d6,
+            bottomOuterColor: 0x66090f,
+             //purple
+             topMiddleColor: 0xc7e5f4,
+             topOuterColor: 0xd13df1,
+
+             topSprite: 'Red',
+             bottomSprite: 'Purple'
+         }
+
     ];
 
     /** The levels */
