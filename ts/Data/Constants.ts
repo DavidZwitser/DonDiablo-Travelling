@@ -245,21 +245,26 @@ export default class Constants
         {
             phaseDuration: 10,
             amountOfLanes: 2,
-            pickupSpeed: 2.5
+            pickupSpeed: 2
         },
         {
             phaseDuration: 20,
             amountOfLanes: 3,
-            pickupSpeed: 2.8
+            pickupSpeed: 2.5
         },
         {
             phaseDuration: 25,
             amountOfLanes: 4,
-            pickupSpeed: 3
+            pickupSpeed: 2.8
         },
         {
             phaseDuration: 25,
             amountOfLanes: 5,
+            pickupSpeed: 3
+        },
+        {
+            phaseDuration: 40,
+            amountOfLanes: 6,
             pickupSpeed: 3.2
         },
         {
@@ -276,11 +281,6 @@ export default class Constants
             phaseDuration: 40,
             amountOfLanes: 6,
             pickupSpeed: 4
-        },
-        {
-            phaseDuration: 40,
-            amountOfLanes: 6,
-            pickupSpeed: 4.2
         }
     ];
 

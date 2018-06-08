@@ -16,11 +16,12 @@ export default class ScoreSystem
 
     public updateScoreSystem(currentScore: number): void
     {
-        if (currentScore >= .666)
+        //console.log(currentScore, this._comboCounter);
+        if (currentScore > 0)
         {
             this._comboCounter += Constants.DELTA_TIME;
         }
-        else if (currentScore <= .333)
+        else if (currentScore < 0)
         {
             this._comboCounter -= Constants.DELTA_TIME;
         }

@@ -4,7 +4,7 @@ import Atlases from '../../../../Data/Atlases';
 import AtlasImages from '../../../../Data/AtlasImages';
 import Constants from '../../../../Data/Constants';
 import SaveData from '../../../../BackEnd/SaveData';
-import { HexBodyParts, HexParts, defaultHexPartsData, IHexBodyPart } from './HexPartsMenu/HexPartsData';
+import { HexParts, defaultHexPartsData, IHexBodyPart } from './HexPartsMenu/HexPartsData';
 
 export default class HexBar extends Phaser.Group
 {
@@ -13,9 +13,14 @@ export default class HexBar extends Phaser.Group
     private _backDropSprite: Phaser.Sprite;
     private _foreGroundSprite: Phaser.Sprite;
 
+    private _healthIndicators: Phaser.Sprite[];
+    private _maxHealth: number = 5;
+    private _currentHealth: number = 5;
+
     private _fillMask: Phaser.Graphics;
     private _value: number = 0.5;
     public onFull: Phaser.Signal;
+    public onHealthEmpty: Phaser.Signal;
     private scaleTween: Phaser.Tween;
 
     private _hexPartTween: Phaser.Tween;
@@ -34,9 +39,10 @@ export default class HexBar extends Phaser.Group
         Constants.PICKUPS_BEFORE_HEX_PART = 100 + this.PrecentHexCollected() * 300;
 
         this.onFull = new Phaser.Signal();
+        this.onHealthEmpty = new Phaser.Signal();
 
         this._backDropSprite = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, AtlasImages.SCORE_BAR_BACKGROUND);
-        this._valueSprite = new Phaser.Sprite(this.game, 10, -55, Atlases.INTERFACE, AtlasImages.SCORE_BAR_FILL);
+        this._valueSprite = new Phaser.Sprite(this.game, 10, -30, Atlases.INTERFACE, AtlasImages.SCORE_BAR_FILL);
         this._foreGroundSprite = new Phaser.Sprite(this.game, this._valueSprite.x - 2, this._valueSprite.y + 2,  Atlases.INTERFACE, AtlasImages.SCORE_BAR_FOREGROUND);
 
         this._fillMask = new Phaser.Graphics(game, this._valueSprite.x, this._valueSprite.y);
@@ -51,7 +57,7 @@ export default class HexBar extends Phaser.Group
         this._backDropSprite.anchor.set(0, 1);
         this._foreGroundSprite.anchor.set(0, 1);
 
-        this._hexPartToCollect = new Phaser.Sprite(game, 20, -320, Atlases.INTERFACE, this.getNextPickup() + '_silhouette');
+        this._hexPartToCollect = new Phaser.Sprite(game, 30, -335, Atlases.INTERFACE, this.getNextPickup() + '_silhouette');
         this._hexPartToCollect.anchor.set(.5);
         this._hexPartToCollect.scale.set(.3);
 
@@ -67,6 +73,16 @@ export default class HexBar extends Phaser.Group
         this.addChild(this._foreGroundSprite);
         this.addChild(this._fillMask);
         this.addChild(this._hexPartToCollect);
+
+        this._healthIndicators = [];
+        for (let i: number = 0; i < 5; i++) {
+            let indicator: Phaser.Sprite = new Phaser.Sprite(this.game, 40, -100 - i * 40, Atlases.INTERFACE, 'Knop_Full');
+            indicator.anchor.set(.5);
+            this.addChild(indicator);
+            this._healthIndicators.push(indicator);
+        }
+
+        this.Health = this._maxHealth;
 
         this.resize();
     }
@@ -123,7 +139,7 @@ export default class HexBar extends Phaser.Group
         this._hexPartSecondTween = this.game.add.tween(this._hexPartToCollect).to({x: -200, y: -400}, 1500, Phaser.Easing.Cubic.InOut);
         this._hexPartTween.chain(this._hexPartSecondTween);
         this._hexPartSecondTween.onComplete.addOnce(() => {
-            this._hexPartToCollect.position.set(20, -320);
+            this._hexPartToCollect.position.set(30, -335);
             this._hexPartToCollect.frameName = this.getNextPickup() + '_silhouette';
             this._unlockedText.text = '';
 
@@ -148,6 +164,28 @@ export default class HexBar extends Phaser.Group
         return value;
     }
 
+    public get Health(): number {
+        return this._currentHealth;
+    }
+    public set Health(value: number) {
+        this._currentHealth = Math.max(0, Math.min(this._maxHealth, value));
+        this.updateHealthIndicators();
+        if (this.Health === 0) {
+            this.onHealthEmpty.dispatch();
+        }
+
+    }
+
+    private updateHealthIndicators(): void {
+        for (let i: number = 0; i < this._healthIndicators.length; i++) {
+            if (this.Health / this._maxHealth > i / this._healthIndicators.length) {
+                this._healthIndicators[i].frameName = 'Knop_Full';
+            } else {
+                this._healthIndicators[i].frameName = 'Knop_Empty';
+            }
+        }
+    }
+
     public destroy(): void {
         SaveData.HEX_BAR_VALUE = this.value;
         super.destroy(true, true);
@@ -156,6 +194,11 @@ export default class HexBar extends Phaser.Group
             this.onFull.removeAll();
         }
         this.onFull = null;
+
+        if (this.onHealthEmpty) {
+            this.onHealthEmpty.removeAll();
+        }
+        this.onHealthEmpty = null;
 
         if (this.scaleTween) { this.scaleTween.stop(); }
         this.scaleTween = null;

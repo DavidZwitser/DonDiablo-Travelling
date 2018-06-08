@@ -109,10 +109,11 @@ export default class Gameplay extends Phaser.State
         PlayerCollisionChecker.getInstance(this._player);
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.score += 1;
+
+            this.score = Math.min(5, this.score + 1);
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
-            this.score -= 1;
+            this.score = Math.max(-5, this.score - 5);
         });
 
         PlayerCollisionChecker.getInstance().onColliding.add( () => {
@@ -202,12 +203,8 @@ export default class Gameplay extends Phaser.State
         {
             this._scoreSystem.onPreviousPhase.add( () => this.gameOver() );
         }
-
-        this._scoreSystem.onPreviousPhase.add( () => {
-            if (this._phaseSystem.currentPhase === 0)
-            {
-                this.gameOver();
-            }
+        this._userInterface.scoreBar.onHealthEmpty.add( () => {
+            this.gameOver();
         });
 
         if (this._hideScoreBar)
@@ -246,7 +243,6 @@ export default class Gameplay extends Phaser.State
         if (this.game.cache.checkSoundKey(songAsset)) {
             SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
-            console.log('already there');
         } else {
             this.game.load.audio(songAsset, ['assets/music/' + songAsset + '.ogg' , 'assets/music/' + songAsset + '.mp3']);
             this.game.load.start();
@@ -309,6 +305,7 @@ export default class Gameplay extends Phaser.State
     {
         SoundManager.getInstance().play(Sounds.LOW_SOUND);
         this.game.camera.flash(0xff0000, 300, true, 0.1);
+        this._userInterface.scoreBar.Health--;
     }
 
     public pause(showPauseScreen: boolean = true): void
@@ -332,6 +329,7 @@ export default class Gameplay extends Phaser.State
     /** Make the world react perfeclty */
     public makeWorldReactPerfect(): void {
         this._lightning.initiateThunder(this._player.lane);
+        this._userInterface.scoreBar.Health++;
         this.makeWorldReact();
     }
 
@@ -412,6 +410,7 @@ export default class Gameplay extends Phaser.State
 
         this._scoreSystem.destroy();
         this._scoreSystem = null;
+        this.score = 0;
 
         this._glowFilter = null;
 
