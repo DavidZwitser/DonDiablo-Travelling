@@ -1,6 +1,5 @@
 import 'phaser-ce';
 
-import Test from './Test';
 import TextButton from '../GameObjects/Interactable/Paralax/UI/TextButton';
 import SettingPopup from '../GameObjects/Interactable/Paralax/UI/SettingPopup';
 import LevelSelect from '../GameObjects/Interactable/Paralax/UI/LevelSelect/LevelSelect';
@@ -38,9 +37,6 @@ export default class Menu extends Phaser.State
     /** The hex screen */
     private _hexViewer: Viewer;
 
-    /** The particle emitter for the menu particles */
-    private _worldEmitter: Phaser.Particles.Arcade.Emitter;
-
     constructor()
     {
         super();
@@ -61,10 +57,6 @@ export default class Menu extends Phaser.State
 
         /* Create the background sprite */
         this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, 'bg');
-
-        /* Create the world emitter */
-        this._worldEmitter = this.createWorldEmitter();
-        this.add.existing(this._worldEmitter);
 
         /* Create the logo sprite */
         this._logoSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, AtlasImages.LOGO);
@@ -116,13 +108,6 @@ export default class Menu extends Phaser.State
         /* Creating the play button */
         let playButton: TextButton = new TextButton(this.game, 0, 0, '', 40, 'UserInterface_Menu_PlayButton', this.showLevelSelect, this);
         group.addChild(playButton);
-
-        /* Creating the test button */
-        let testButton: TextButton = new TextButton(this.game, 0, 300, 'particle editor', 40, AtlasImages.MENU_BUTTON, () => {
-            this.state.start(Test.Name);
-        }, this);
-        testButton.scale.set(.5);
-        group.addChild(testButton);
 
         /* Creating the settings button */
         let settingButton: TextButton = new TextButton(this.game, -135, 180, '', 40, 'UserInterface_Menu_Options', () => {
@@ -184,30 +169,6 @@ export default class Menu extends Phaser.State
         this.showAMenu(this._levelSelect);
     }
 
-    /** Create the emitter in the main menu */
-    private createWorldEmitter(): Phaser.Particles.Arcade.Emitter
-    {
-        /* Creating the emitter */
-        let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
-
-        /* Setting its default values */
-        emitter.makeParticles(Atlases.INTERFACE, 'test_particle');
-        emitter.setXSpeed(-10, 10);
-        emitter.setYSpeed(0, -100);
-        emitter.setRotation(0, 0);
-        emitter.setAlpha(-1, 1, 2000);
-        emitter.setScale(0, .5, 0, .5, 4000);
-
-        emitter.gravity.y = -30;
-        emitter.width = 740;
-
-        /* Starting it */
-        emitter.start(false, 10000, 400);
-
-        /* And returning it */
-        return emitter;
-    }
-
     /* Resize all the menus */
     public resize(): void
     {
@@ -233,10 +194,6 @@ export default class Menu extends Phaser.State
         /* Resizing the logo sprite */
         this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
         this._logoSprite.scale.set(vmin / GAME_WIDTH);
-
-        /* Resizing the word emitter */
-        this._worldEmitter.position.set(this.game.width / 2, this.game.height);
-        this._worldEmitter.width = this.game.width;
 
         /* Offsetting the height of a bit */
         vmin = Math.min(this.game.height * .6, this.game.width);
@@ -290,10 +247,6 @@ export default class Menu extends Phaser.State
         /* Destroy the hex viewer */
         if (this._hexViewer) { this._hexViewer.destroy(); }
         this._hexViewer = null;
-
-        /* Destoy the world emitter */
-        if (this._worldEmitter) { this._worldEmitter.destroy(); }
-        this._worldEmitter = null;
 
         /* Stop the music */
         SoundManager.getInstance().stop(Sounds.UI_MENU_MUSIC);
