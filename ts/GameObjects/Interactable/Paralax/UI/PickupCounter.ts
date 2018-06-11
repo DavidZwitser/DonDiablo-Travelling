@@ -52,7 +52,7 @@ export default class PickupCounter extends PopupText
 
         this._hideTween = this.game.add.tween(this).to( {alpha: 0.15}, 250, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
-                this.setScaleToAlpha();
+                this.setScaleToAlpha(10);
             }
         );
     }
@@ -63,7 +63,7 @@ export default class PickupCounter extends PopupText
 
         this._hideTween = this.game.add.tween(this).to( {alpha: 0}, 1000, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
-                this.setScaleToAlpha();
+                this.setScaleToAlpha(10);
             }
         );
     }

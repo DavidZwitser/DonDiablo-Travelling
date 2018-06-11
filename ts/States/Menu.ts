@@ -123,6 +123,7 @@ export default class Menu extends Phaser.State
         }, this);
         testButton.scale.set(.5);
         group.addChild(testButton);
+        testButton.visible = false;
 
         /* Creating the settings button */
         let settingButton: TextButton = new TextButton(this.game, -135, 180, '', 40, 'UserInterface_Menu_Options', () => {

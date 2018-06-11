@@ -38,9 +38,9 @@ export default abstract class PopupText extends Phaser.BitmapText
         this.stopHide();
     }
 
-    protected setScaleToAlpha(): void
+    protected setScaleToAlpha(scaleMultiplier: number = 1): void
     {
-        let desiredScale: number = 1 + this.alpha;
+        let desiredScale: number = 1 + this.alpha * scaleMultiplier;
 
         this.scale.set(desiredScale, desiredScale);
     }
