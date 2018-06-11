@@ -50,7 +50,7 @@ export default class Pickup extends ReactivePerspectiveObject
         }
 
         /** If it is on a z position where it could be colliding, call that event */
-        if (this.zPos > 1 && this.zPos < 1.4)
+        if (this.zPos > Constants.PLAYER_Z_POSITION - .2 && this.zPos < Constants.PLAYER_Z_POSITION + .2)
         {
             this.initiateCollision();
         }

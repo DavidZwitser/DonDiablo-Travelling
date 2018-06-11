@@ -41,7 +41,7 @@ export default class Constants
 
     public static GLOBAL_SPEED: number = 2.5;
 
-    public static PLAYER_Z_POSITION: number = 1.2;
+    public static PLAYER_Z_POSITION: number = 1.05;
 
     public static DELTA_TIME: number = 1;
     /** How long the current game is running for */
@@ -51,7 +51,7 @@ export default class Constants
 
     public static CURRENT_LEVEL: number = 0;
 
-    public static readonly PICKUPS_BEFORE_HEX_PART: number = 150;
+    public static PICKUPS_BEFORE_HEX_PART: number; //gets really declard in hexbar.ts
 
     /** road colors list with their own color schemes */
     public static readonly ROAD_COLORS: IRoadColors[] = [
@@ -77,7 +77,53 @@ export default class Constants
             topSprite: 'DarkBlue',
             bottomSprite: 'Purple'
 
-        }
+        },
+        {
+            //purple
+            bottomMiddleColor: 0xc7e5f4,
+            bottomOuterColor: 0xd13df1,
+            //blue
+            topMiddleColor: 0xf99ff4,
+            topOuterColor: 0x6f87f0,
+
+            topSprite: 'Purple',
+            bottomSprite: 'DarkBlue'
+
+        },
+        {
+            //blue
+            bottomMiddleColor: 0xf4091a,
+            bottomOuterColor: 0x148694,
+            //red
+            topMiddleColor: 0x8bf2d6,
+            topOuterColor: 0x66090f,
+
+            topSprite: 'Blue',
+            bottomSprite: 'Red'
+        },
+        {
+           //purple
+           bottomMiddleColor: 0xc7e5f4,
+           bottomOuterColor: 0xd13df1,
+            //red
+            topMiddleColor: 0x8bf2d6,
+            topOuterColor: 0x66090f,
+
+            topSprite: 'Purple',
+            bottomSprite: 'Red'
+        },
+        {
+            //red
+            bottomMiddleColor: 0x8bf2d6,
+            bottomOuterColor: 0x66090f,
+             //purple
+             topMiddleColor: 0xc7e5f4,
+             topOuterColor: 0xd13df1,
+
+             topSprite: 'Red',
+             bottomSprite: 'Purple'
+         }
+
     ];
 
     /** The levels */
@@ -129,9 +175,52 @@ export default class Constants
             artist: 'Don Diablo',
             json: JSON.SATALITE,
             music: Sounds.SATALITES
+        },
+        {
+            title: 'Everbody is somebody',
+            artist: 'Don Diablo',
+            json: JSON.EVERYBODY_SOMEBODY,
+            music: Sounds.EVERYBODY_SOMEBODY
+        },
+        {
+            title: 'Believe',
+            artist: 'Don Diablo',
+            json: JSON.BELIEVE,
+            music: Sounds.BELIEVE
+        },
+        {
+            title: 'Higher',
+            artist: 'Don Diablo',
+            json: JSON.HIGHER,
+            music: Sounds.HIGHER
+        },
+        {
+            title: 'Put it on for me',
+            artist: 'Don Diablo',
+            json: JSON.PUT_IT_ON,
+            music: Sounds.PUT_IT_ON_FOR_ME
         }
 
     ];
+
+    /** Gets a random list of indexes of each level with optional a starting point */
+    public static GET_RANDOM_TRACKLIST(initial?: number): number[]{
+        let list: number[] = [];
+        let tracklist: number[] = [];
+        for (let i: number = 0; i < Constants.LEVELS.length; i++) {
+            list.push(i);
+        }
+        if (initial) {
+            tracklist.push(list[initial]);
+            list.splice(initial, 1);
+        }
+        while (list.length !== 0) {
+            let random: number = Math.floor(Math.random() * list.length);
+            tracklist.push(list[random]);
+            list.splice(random, 1);
+        }
+        return tracklist;
+    }
 
     public static readonly CARS: ICar[] = [
         {
@@ -155,18 +244,22 @@ export default class Constants
     public static readonly PHASES: IGamePhase[] = [
         {
             amountOfLanes: 2,
-            pickupSpeed: 2.5
+            pickupSpeed: 2
         },
         {
             amountOfLanes: 3,
-            pickupSpeed: 2.8
+            pickupSpeed: 2.5
         },
         {
             amountOfLanes: 4,
-            pickupSpeed: 3
+            pickupSpeed: 2.8
         },
         {
             amountOfLanes: 5,
+            pickupSpeed: 3
+        },
+        {
+            amountOfLanes: 6,
             pickupSpeed: 3.2
         },
         {
@@ -180,10 +273,6 @@ export default class Constants
         {
             amountOfLanes: 6,
             pickupSpeed: 4
-        },
-        {
-            amountOfLanes: 6,
-            pickupSpeed: 4.2
         }
     ];
 
@@ -214,7 +303,6 @@ export default class Constants
 
     /** Should shaders be applied */
     public static USE_FILTERS: boolean = true;
-
     /** All the GPU's that don't work with shaders */
     public static GPU_SHADER_BLACKLIST: string[] = [
         /** Tested on a Oneplus 6 */

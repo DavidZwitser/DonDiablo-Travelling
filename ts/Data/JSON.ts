@@ -13,6 +13,10 @@ export default class JSON
     public static readonly SAVE_A_LITTLE_LOVE: string = 'Save_A_Little_Love';
     public static readonly REFLECTIONS: string = 'Reflections';
     public static readonly SATALITE: string = 'Satalite';
+    public static readonly EVERYBODY_SOMEBODY: string = 'Everybody_Somebody';
+    public static readonly BELIEVE: string = 'Believe';
+    public static readonly HIGHER: string = 'Higher';
+    public static readonly PUT_IT_ON: string = 'Put_It_On';
 
     public static readonly LIST: string[] = [
         JSON.TEST,
@@ -22,6 +26,11 @@ export default class JSON
         JSON.DONT_LET_GO,
         JSON.YOU_CANT_CHANGE_ME,
         JSON.SAVE_A_LITTLE_LOVE,
-        JSON.SATALITE
+        JSON.SATALITE,
+        JSON.EVERYBODY_SOMEBODY,
+        JSON.BELIEVE,
+        JSON.HIGHER,
+        JSON.PUT_IT_ON,
+        JSON.REFLECTIONS
     ];
 }

@@ -239,9 +239,9 @@ export default class Road extends Phaser.Group
         this._highlightLayer.endFill();
     }
 
-    public nextColor(): void
+    public nextColor(index: number): void
     {
-        this.setColors((this.colorIndex + 1 + Constants.ROAD_COLORS.length) % Constants.ROAD_COLORS.length);
+        this.setColors(index);
     }
 
     private setColors(index: number, time: number = 1000): void
@@ -277,7 +277,9 @@ export default class Road extends Phaser.Group
             bottomMiddleColor: Number(Constants.ROAD_COLORS[index].bottomMiddleColor),
             bottomOuterColor: Number(Constants.ROAD_COLORS[index].bottomOuterColor),
             topMiddleColor: Number(Constants.ROAD_COLORS[index].topMiddleColor),
-            topOuterColor: Number(Constants.ROAD_COLORS[index].topOuterColor)
+            topOuterColor: Number(Constants.ROAD_COLORS[index].topOuterColor),
+            topSprite: '',
+            bottomSprite: ''
         };
         this.colorIndex = index;
 

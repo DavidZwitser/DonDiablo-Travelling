@@ -176,6 +176,7 @@ export default class UI extends Phaser.Group
     public react(): void
     {
         this._motivationalPopupText.react();
+        this.scoreBar.value++;
     }
 
     public gameOver(score: number, highscore: number): void
