@@ -14,9 +14,11 @@ export default class ScoreSystem
         this.onPreviousPhase = new Phaser.Signal();
     }
 
+    /**
+     *  updates the score and checks if the user goes to the next state!
+     */
     public updateScoreSystem(currentScore: number): void
     {
-        //console.log(currentScore, this._comboCounter);
         if (currentScore > 0)
         {
             this._comboCounter += Constants.DELTA_TIME;
@@ -42,6 +44,9 @@ export default class ScoreSystem
         }
     }
 
+    /**
+     * Destroys the scoresystem
+     */
     public destroy(): void
     {
         if (this.onNextPhase) { this.onNextPhase.removeAll(); }

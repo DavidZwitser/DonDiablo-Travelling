@@ -6,6 +6,7 @@ import Constants from '../../../../Data/Constants';
 import SaveData from '../../../../BackEnd/SaveData';
 import { HexParts, defaultHexPartsData, IHexBodyPart } from './HexPartsMenu/HexPartsData';
 
+/** A UI element that contains the hex value, the lockable hex part and the healthpoints. */
 export default class HexBar extends Phaser.Group
 {
     private _valueSprite: Phaser.Sprite;
@@ -48,6 +49,8 @@ export default class HexBar extends Phaser.Group
         this._fillMask.beginFill(0xFF3300);
         this._fillMask.drawRect(0, 0, this._valueSprite.width, -this._valueSprite.height);
         this._fillMask.endFill();
+
+        //fix for the mask that sometimes doesn't get aplied.
         requestAnimationFrame (() => {
             this._valueSprite.mask = this._fillMask;
         });
@@ -86,6 +89,7 @@ export default class HexBar extends Phaser.Group
         this.resize();
     }
 
+    /** Updates the hex bar */
     public updateFill(): void
     {
         if (this.scaleTween) {
@@ -96,6 +100,7 @@ export default class HexBar extends Phaser.Group
         this.scaleTween.start();
     }
 
+    /** The value of the hex bar */
     public get value(): number
     {
         return this._value;
@@ -115,11 +120,13 @@ export default class HexBar extends Phaser.Group
         this.updateFill();
     }
 
+    /** Resets the hexbar to zero */
     public reset(): void
     {
         this.value = 0;
     }
 
+    /** Resizes the object to fit in the devices sizes */
     public resize(): void
     {
         let vmin: number = Math.min(this.game.width, this.game.height / 2);
@@ -127,6 +134,7 @@ export default class HexBar extends Phaser.Group
         this.scale.set(vmin / GAME_WIDTH);
     }
 
+    /** Displays the collected hexpart by tweening and changing the framename of the lockable hex part */
     public ShowCollectedHexPart(): void {
         this._hexPartToCollect.frameName = this.getNextPickup();
 
@@ -145,6 +153,7 @@ export default class HexBar extends Phaser.Group
         });
     }
 
+    /** Gets the lockable pickup framename */
     private getNextPickup(): string
     {
         let desiredPickup: HexParts = SaveData.NEXT_HEX_PICKUP;
@@ -163,6 +172,7 @@ export default class HexBar extends Phaser.Group
         return value;
     }
 
+    /** The health of the player */
     public get Health(): number {
         return this._currentHealth;
     }
@@ -175,6 +185,7 @@ export default class HexBar extends Phaser.Group
 
     }
 
+    /** Updates the health indicators depeding on how much health the player has */
     private updateHealthIndicators(): void {
         for (let i: number = 0; i < this._healthIndicators.length; i++) {
             if (this.Health / this._maxHealth > i / this._healthIndicators.length) {
@@ -212,6 +223,7 @@ export default class HexBar extends Phaser.Group
         this._hexPartSecondTween = null;
     }
 
+    /** Returns the precentage of how many hex parts are collected between 0 and 1. */
     public PrecentHexCollected(): number
     {
         let total: number = 0;

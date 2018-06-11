@@ -23,6 +23,10 @@ import Sounds from '../Data/Sounds';
 import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
 import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
+/**
+ * This is the state where the main gameplay is played at.
+ * It only moves back to menu state when in the pause/result menu the user wants to go back to the menu.
+ */
 export default class Gameplay extends Phaser.State
 {
     public static Name: string = 'gameplay';
@@ -69,30 +73,9 @@ export default class Gameplay extends Phaser.State
     private _hideScoreBar: boolean = false;
     private _useContinuesInput: boolean = true;
 
-    // TODO: remove all the toggleble functionality in the game
-    public setToggealableOptions(): void
-    {
-        /** Move the player back a bit */
-        // Constants.PLAYER_Z_POSITION = 1.1;
-
-        /** Change phase per song and die when bar drains */
-        // this._updatePhaseByBar = false;
-
-        /** Is 6 lanes to much as the max difficulty? */
-
-        /** Hide score bar */
-        // this._hideScoreBar = true;
-
-        /** Dont use continues input */
-        // this._useContinuesInput = false;
-    }
-    /** End toggleable options */
-
     public create(): void
     {
         super.create(this.game);
-
-        this.setToggealableOptions();
 
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
@@ -273,6 +256,7 @@ export default class Gameplay extends Phaser.State
 
     }
 
+    /** Game over widow is activated */
     private gameOver(): void
     {
         if (this.score > SaveData.HIGHSCORE)
@@ -284,7 +268,7 @@ export default class Gameplay extends Phaser.State
         this.pause(false);
     }
 
-    //called when window gets blurred
+    /** called when window gets blurred */
     private onBlur(): void
     {
         if (this._gamePaused) { return; }
@@ -292,7 +276,7 @@ export default class Gameplay extends Phaser.State
         this.pause(false);
     }
 
-    //called when window gets focused
+    /** called when window gets focused */
     private onFocus(): void
     {
         if (!this._gamePaused || !this._blurred) { return; }
@@ -301,6 +285,7 @@ export default class Gameplay extends Phaser.State
         this._blurred = false;
     }
 
+    /** Reacts negativly when a pickup is missed by the player */
     private onMissingpPickup(): void
     {
         SoundManager.getInstance().play(Sounds.LOW_SOUND);
@@ -308,6 +293,9 @@ export default class Gameplay extends Phaser.State
         this._userInterface.scoreBar.Health--;
     }
 
+    /** Pgauses/resumes the game.
+     * Gets called when the pausebutton is clicked or the browser is blurred
+     */
     public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
@@ -363,7 +351,6 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.resize();
     }
 
-    // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
     public shutdown(): void
     {
         this.pause();
@@ -402,7 +389,6 @@ export default class Gameplay extends Phaser.State
         this._road.destroy(true);
         this._road = null;
 
-        this._spawnEditor.destroy();
         this._spawnEditor = null;
 
         this._phaseSystem.destroy();

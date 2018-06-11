@@ -11,7 +11,7 @@ import MotivationalPopupText from '../UI/MotivationalPopupText';
 import SoundManager from '../../../../Systems/Sound/SoundManager';
 import Sounds from '../../../../Data/Sounds';
 
-/** The user interface */
+/** The user interface group in the gameplay state */
 export default class UI extends Phaser.Group
 {
     // private _titleText: Phaser.Text;
@@ -60,6 +60,7 @@ export default class UI extends Phaser.Group
 
     }
 
+    /** unpauses the game after the countdown */
     private unpauseDelay(): void
     {
         this.pause(false);
@@ -68,6 +69,7 @@ export default class UI extends Phaser.Group
         this.timeCount(3);
     }
 
+    /** Counts down a timer before the game gets unpaused */
     private timeCount(index: number): void
     {
         this._countdownText.text = index.toString();
@@ -75,7 +77,7 @@ export default class UI extends Phaser.Group
         {
             this._countdownText.alpha = 1;
             this._countDownFade = this.game.add.tween(this._countdownText)
-            .to({alpha: 0}, 1000, Phaser.Easing.Cubic.Out, true).start();
+            .to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true).start();
             this._countDownFade.onComplete.addOnce(() => this.timeCount(index - 1 ));
         }
         else
@@ -85,12 +87,14 @@ export default class UI extends Phaser.Group
         }
     }
 
+    /** Creates and declares the score/hex bar */
     private createScoreBar(): void
     {
         this.scoreBar = new HexBar(this.game, 0, 0);
         this.game.add.existing(this.scoreBar);
     }
 
+    /** Creates and declares the pause button */
     private createPauseButton(): void
     {
         this._pauseButton = new PauseButton(this.game);
@@ -98,6 +102,7 @@ export default class UI extends Phaser.Group
         this._pauseButton.onPause.add(() => this.onPause.dispatch(), this);
     }
 
+    /** Creates and declares the Pickup counter */
     private createPickUpCounter(): void
     {
         this.pickupCounter = new PickupCounter(this.game, this.game.width / 2, this.game.height / 2);
@@ -118,12 +123,14 @@ export default class UI extends Phaser.Group
 
     }
 
+    /** Sets the combo to zero */
     private resetCombo(): void
     {
         this._streakCount = 0;
         this._comboValue = 1;
     }
 
+    /** Increases the streak count and updates the combo */
     private increaseStreakCount(): void
     {
         this._streakCount++;
@@ -132,6 +139,7 @@ export default class UI extends Phaser.Group
         }
     }
 
+    /** Creates and declares the Popup text */
     private createPopUpText(): void
     {
         this._motivationalPopupText = new MotivationalPopupText(this.game, this.game.width / 2, 2 * (this.game.height / 5));
@@ -155,7 +163,7 @@ export default class UI extends Phaser.Group
         this.addChild(this._trackText);
 
     }
-
+    /** Creates and declares the count down text */
     private createCountDownText(): void
     {
         this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'ailerons', this._fullCountdown.toString(), 30);
@@ -165,6 +173,7 @@ export default class UI extends Phaser.Group
         this.addChild(this._countdownText);
     }
 
+    /** (un)pauses the ui */
     public pause(pause: boolean): void {
 
         this.pauseScreen.visible = pause;
@@ -173,12 +182,14 @@ export default class UI extends Phaser.Group
 
     }
 
+    /** Reacts when the player picks up a pickup */
     public react(): void
     {
         this._motivationalPopupText.react();
         this.scoreBar.value++;
     }
 
+    /** So=hows game over screen */
     public gameOver(score: number, highscore: number): void
     {
         SoundManager.getInstance().play(Sounds.GAME_OVER, 1);
@@ -200,6 +211,7 @@ export default class UI extends Phaser.Group
         });
     }
 
+    /** Resizes the ui to match the device sizes */
     public resize(): void
     {
         let vmin: number = Math.min(this.game.height, this.game.width);

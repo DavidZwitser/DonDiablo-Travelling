@@ -3,6 +3,7 @@ import 'phaser-ce';
 //import Atlases from '../../../../Data/Atlases';
 import ImageButton from './ImageButton';
 
+/** Pausebutton used in the ingame ui of the gameplay state */
 export default class PauseButton extends Phaser.Group
 {
     public onPause: Phaser.Signal;
@@ -31,6 +32,7 @@ export default class PauseButton extends Phaser.Group
         this.resize();
     }
 
+    /** Resizes the object to fit in the devices sizes */
     public resize(): void
     {
         let vmin: number = Math.min(this.game.width, this.game.height / 2);

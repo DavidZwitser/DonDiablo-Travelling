@@ -16,10 +16,6 @@ export default class Player extends ReactivePerspectiveObject
     public tapped: boolean = false;
     private tappedTimeoutID: number;
 
-    public static ANIMATION_DRIVE: string = 'drive';
-    public static ANIMATION_TURN: string = 'turn';
-    public static ANIMATION_LOSE: string = 'defeat';
-
     private typeCar: number;
 
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
@@ -35,38 +31,7 @@ export default class Player extends ReactivePerspectiveObject
 
         this.typeCar = SaveData.SELECTED_CAR + 1;
 
-        this.changeSprite();
-       /*
-       this.spine = new PhaserSpine.Spine(<PhaserSpine.SpineGame>(this.game), 'Character');
-       this.addChild(this.spine);
-
-        SPINE / ANIMATIONS TEMPORARILY DISABLED.
-        NO ANIMATIONS AVAILABLE
-      */
-    }
-
-    private setAnimation(animation: string, loop: boolean = false): void
-    {
-        this.spine.setAnimationByName(0, animation, loop);
-
-        this.spine.onComplete.addOnce( () => { if (!loop) {
-            this.setAnimation(Player.ANIMATION_DRIVE, true);
-        }});
-    }
-
-    public turn(): void
-    {
-        this.setAnimation(Player.ANIMATION_TURN, false);
-    }
-
-    public lose(): void
-    {
-        this.setAnimation(Player.ANIMATION_LOSE, false);
-    }
-
-    public pause( pause: boolean): void
-    {
-        this.spine.autoUpdate = !pause;
+        this.updateSprite();
     }
 
     public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): Phaser.Signal
@@ -76,15 +41,18 @@ export default class Player extends ReactivePerspectiveObject
         if (!changeLaneTweenOnComplete) { return; }
 
         changeLaneTweenOnComplete.addOnce( () => {
-            this.changeSprite();
+            this.updateSprite();
         });
-        requestAnimationFrame(this.changeSprite.bind(this));
+        requestAnimationFrame(this.updateSprite.bind(this));
         SoundManager.getInstance().play(Sounds.WOOSH);
         this.tapping();
 
         return changeLaneTweenOnComplete;
     }
 
+    /** Called when tapping, this function let the car be in a special state where it can collect a pickup perfectly for duration miliseconds,
+     * after that the untap() gets called
+     */
     public tapping(duration: number = 200): void
     {
         if (this.tapped) { return; }
@@ -94,18 +62,21 @@ export default class Player extends ReactivePerspectiveObject
         this.tappedTimeoutID = setTimeout(this.unTap.bind(this), duration);
     }
 
+    /** The car is in its normal state */
     public unTap(): void
     {
-        this.changeSprite();
+        this.updateSprite();
         this.tapped = false;
     }
 
+    /** React to music */
     public react(): void
     {
         super.react(1.05, 160);
     }
 
-    private changeSprite(): void
+    /** Updates the car sprite to match it state and surroundings */
+    private updateSprite(): void
     {
         if (this._lane === Lanes.bottomCenterLane || this._lane === Lanes.topCenterLane)
         {
@@ -121,6 +92,7 @@ export default class Player extends ReactivePerspectiveObject
         }
     }
 
+    /** Blinks the car sprite to blink */
     private changeSpriteBlink(): void
     {
         if (this._lane === Lanes.bottomCenterLane || this._lane === Lanes.topCenterLane)

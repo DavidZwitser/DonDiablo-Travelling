@@ -3,6 +3,9 @@ import Atlases from '../../../../Data/Atlases';
 import SoundManager from '../../../../Systems/Sound/SoundManager';
 import Sounds from '../../../../Data/Sounds';
 
+/**
+ * Phaser button with a bitmap text object at the center of the button.
+ */
 export default class TextButton extends Phaser.Button
 {
     public label: Phaser.BitmapText;

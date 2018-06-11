@@ -3,8 +3,7 @@ import AudioAnalyser from '../../../Systems/Sound/AudioAnalyser';
 import Atlases from '../../../Data/Atlases';
 import Constants from '../../../Data/Constants';
 
-/** Visualizes songs */
-/** Visualizes music */
+/** Visualizes the music using building assets as bars */
 export default class BuildingVisualizer extends Phaser.Group
 {
     private _maxWidth: number;
@@ -62,6 +61,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this.mask = this._maskGraphic;
     }
 
+    /** Sets up the visualizer */
     private setUp(): void
     {
         //bottom half
@@ -93,6 +93,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[0].topOuterColor;
     }
 
+    /** Sets up the building assets needed for the visualizer */
     private setUpBuildings(top: boolean): void
     {
         let pos: number = 0;
@@ -128,6 +129,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
     }
 
+    /** React function when the player collects a pickup */
     public react(): void
     {
         if (this.reactTween) {
@@ -178,6 +180,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
     }
 
+    /** Renders the building if there is no context by just setting their height normal from side to side */
     private renderBuildingWithoutContext(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void
     {
         for (let i: number = Math.floor(array.length / 2); i--;)
@@ -191,6 +194,7 @@ export default class BuildingVisualizer extends Phaser.Group
         glow.alpha = backGlow.alpha = -array[1].y / array[1].height;
     }
 
+    /** Renders the buildings based on the frquency volume of the volume. */
     private renderBuilding(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void
     {
         for (let i: number = Math.floor(array.length / 2); i--;)
@@ -204,12 +208,14 @@ export default class BuildingVisualizer extends Phaser.Group
         glow.alpha = backGlow.alpha = -array[1].y / array[1].height;
     }
 
+    /** Switches from the onde building group to the other */
     public switch(): void
     {
         this._topIsActive = !this._topIsActive;
         this.deactivateHalf();
     }
 
+    /** Deactivate on of the buidling group */
     private deactivateHalf(): void
     {
         if (!this._topIsActive)
@@ -224,6 +230,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
     }
 
+    /** resizes the size of the object to match the devices sizes. */
     public resize(): void
     {
         //needs more things!
@@ -233,6 +240,7 @@ export default class BuildingVisualizer extends Phaser.Group
         });
     }
 
+    /** Sets the framenames of the building based on the color palet */
     public setColor(index: number): void {
         let random: number = Math.ceil(Math.random() * 11);
 
@@ -250,6 +258,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[index].topOuterColor;
     }
 
+    /** Destroys all the building assets/ sprites and tweens */
     public destroy(): void
     {
         super.destroy(true);

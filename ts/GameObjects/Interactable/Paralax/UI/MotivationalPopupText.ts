@@ -1,6 +1,9 @@
 import 'phaser-ce';
 import PopupText from './PopupText';
 
+/**
+ * This text is an extra UI popup that motivates the player and let them know they're doing great!
+ */
 export default class MotivationalPopupText extends PopupText
 {
     private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!', 'Wonderfull!', 'Wow!', 'Bazinga!',
@@ -31,6 +34,7 @@ export default class MotivationalPopupText extends PopupText
         });
     }
 
+    /** Shows the text with a specific tint depending on the combovalue of the player */
     public showText(x: number, y: number, comboValue: number): void
     {
         this.position.setTo(x, y);

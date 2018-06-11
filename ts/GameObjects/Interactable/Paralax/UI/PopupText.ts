@@ -2,6 +2,9 @@ import 'phaser-ce';
 import Constants from '../../../../Data/Constants';
 import { setTimeout, clearTimeout } from 'timers';
 
+/**
+ * This text is an bitmatext that can react to the music by using tweens
+ */
 export default abstract class PopupText extends Phaser.BitmapText
 {
     protected _timeOutID: NodeJS.Timer;
@@ -23,8 +26,12 @@ export default abstract class PopupText extends Phaser.BitmapText
         }
     }
 
+    /** Called when the world reacts */
     public abstract react(): void;
 
+    /**
+     * Fades in the popuptext temporary
+     */
     protected fadeIn(): void
     {
         this.stopHide();
@@ -33,6 +40,9 @@ export default abstract class PopupText extends Phaser.BitmapText
         this._timeOutID = setTimeout(this.fadeOut.bind(this), 1200);
     }
 
+    /**
+     * Fades out de the text object
+     */
     protected fadeOut(): void
     {
         this.stopHide();
@@ -45,6 +55,7 @@ export default abstract class PopupText extends Phaser.BitmapText
         this.scale.set(desiredScale, desiredScale);
     }
 
+    /** Stops the hidetween for a good reset and reusing the tween. */
     private stopHide(): void
     {
         if (this._hideTween)
