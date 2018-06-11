@@ -35,7 +35,7 @@ export default class HexBar extends Phaser.Group
         this.x = x;
         this.y = y;
 
-        Constants.PICKUPS_BEFORE_HEX_PART = 100 + this.PrecentHexCollected() * 300;
+        Constants.PICKUPS_BEFORE_HEX_PART = 300 + this.PrecentHexCollected() * 300;
 
         this.onFull = new Phaser.Signal();
         this.onHealthEmpty = new Phaser.Signal();
