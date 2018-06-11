@@ -4,6 +4,7 @@ import IGamePhase from '../Enums/GamePhase';
 import JSON from './JSON';
 import Sounds from './Sounds';
 
+/** List of the color set for the road and sprites for the buiolding sprites. */
 export interface IRoadColors
 {
     bottomMiddleColor: number;
@@ -14,6 +15,7 @@ export interface IRoadColors
     bottomSprite: string;
 }
 
+/** Interface of the level info containing  */
 interface ILevel
 {
     title: string;
@@ -222,6 +224,7 @@ export default class Constants
         return tracklist;
     }
 
+    /** List of the info per car like name, sprite and description */
     public static readonly CARS: ICar[] = [
         {
             carName: 'D1-A8L0',
@@ -276,6 +279,7 @@ export default class Constants
         }
     ];
 
+    /** Filter to make the colors difuse to give it a glow effect */
     public static readonly GLOW_FILTER: string[] = [
         'precision lowp float;',
         'varying vec2 vTextureCoord;',

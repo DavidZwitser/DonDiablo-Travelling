@@ -4,7 +4,7 @@ import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
 import {IRoadColors} from '../Data/Constants';
 
-/** Renders a road */
+/** Renders the road */
 export default class Road extends Phaser.Group
 {
     /** How thick the lines should be */
@@ -42,6 +42,9 @@ export default class Road extends Phaser.Group
         this.setRoadColors(this.colorIndex);
     }
 
+    /** Renders the road lines and if it redraws everything also the road itself
+     * Gets called evey frame to update the road lines.
+     */
     public render(redrawEverything: boolean = false): void
     {
         /* The road lines */
@@ -105,6 +108,7 @@ export default class Road extends Phaser.Group
         this._horizonLinesLayer.endFill();
     }
 
+    /** Hides existing road lines */
     public hideExistingRoadLines(transitionDuration?: number): void
     {
         this._roadLineAlpha = 1;
@@ -119,7 +123,7 @@ export default class Road extends Phaser.Group
         });
 
     }
-
+    /** Transitions between different road lines */
     public fadeInNewRoadLines(): void
     {
         this._roadLineAlpha = 0;
@@ -239,12 +243,18 @@ export default class Road extends Phaser.Group
         this._highlightLayer.endFill();
     }
 
+    /** Goes to the next color of the road color set */
     public nextColor(index: number): void
     {
-        this.setColors(index);
+        this.animateToColor(index);
     }
 
-    private setColors(index: number, time: number = 1000): void
+    /**
+     * Animates the road colors to the index in time amout ont time.
+     * @param index the destination of the new color set
+     * @param time time of the anmiation
+     */
+    private animateToColor(index: number, time: number = 1000): void
     {
         let colorBlend: any = {step: 0};
         // create the tween on this object and tween its step property to 100
@@ -271,6 +281,7 @@ export default class Road extends Phaser.Group
         });
     }
 
+    /** Sets the colors of the road hard */
     private setRoadColors(index: number): void
     {
         this._roadColors = {

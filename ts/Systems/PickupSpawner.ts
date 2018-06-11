@@ -5,17 +5,16 @@ import ObjectPool from './ObjectPool';
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 import PerspectiveRenderer from '../Rendering/PerspectiveRenderer';
 
-//interface that is the same of the json file it get recieved from
-interface ILevelData {
+/** interface that is the same of the json file it get recieved from */
+export default interface ILevelData {
     timings: ITiming[];
 }
-
+/** Interface for each timing with an according lane */
 interface ITiming {
     time: number;
     lane: number;
 }
 
-// TODO: Seperate this in a pickup container and spawner
 /** Spawns pickups */
 export default class PickupSpawner extends Phaser.Group
 {
@@ -42,6 +41,7 @@ export default class PickupSpawner extends Phaser.Group
         });
     }
 
+    /** Sets a new song */
     public setNewSong(json: string): void
     {
         this.pause(true);
@@ -49,12 +49,13 @@ export default class PickupSpawner extends Phaser.Group
         this.waitForNextSpawn(this._levelData.timings[0].time - Constants.SPAWN_DELAY / Constants.GLOBAL_SPEED);
     }
 
+    /** returns a random line */
     private getRandomLane(): Lanes
     {
         return Math.floor(Math.random() * Object.keys(Lanes).length / 2);
     }
 
-    //level data is get from cache of a json file
+    /** level data is get from cache of a json file */
     private getLevelData(game: Phaser.Game, key: string): void
     {
         this._spawnIndex = 0;
@@ -66,6 +67,7 @@ export default class PickupSpawner extends Phaser.Group
         // console.log(JSON.stringify(temp));
     }
 
+    /** Spawns a pickup on the lane, if no lane is defined, it will pick a random lane instead */
     private spawnPickup(lanePos: Lanes = this.getRandomLane()): Pickup
     {
         let pickup: Pickup = <Pickup>this._pool.getObject(true);
@@ -86,7 +88,7 @@ export default class PickupSpawner extends Phaser.Group
         return pickup;
     }
 
-    //this is the loop the spawning takes place from the leveldata
+    /** this is the loop the spawning takes place from the leveldata */
     private waitForNextSpawn(delay: number): void
     {
         this._startTime = Date.now();
@@ -107,6 +109,7 @@ export default class PickupSpawner extends Phaser.Group
         }, delay * 1000);
     }
 
+    /** Pauses/resumes the pickupspawner */
     public pause(pause: boolean): void
     {
         if (pause)
@@ -121,7 +124,7 @@ export default class PickupSpawner extends Phaser.Group
         }
     }
 
-    //destroy function
+    /** destroys the pickupspawner and sets it values 0 and clears it timeouts. */
     public destroy(): void
     {
         if (this._pool) {

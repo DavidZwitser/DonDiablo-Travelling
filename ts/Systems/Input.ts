@@ -29,6 +29,7 @@ export default class Input
         this.game.input.onDown.add(this.inputDown, this);
     }
 
+    /** Is called when the input mouse/touch has moved position */
     private inputMove(): void
     {
         if (!this.game.input.activePointer.isDown || !this.active) { return; }
@@ -36,13 +37,14 @@ export default class Input
         this.onInputMove.dispatch(LaneConverter.SCREENPOSITION_TO_CLOSEST_LANE(this.game, this.game.input.position.x, this.game.input.position.y));
     }
 
+    /** Called when the inpout is down */
     private inputDown(): void {
         if (!this.active) { return; }
 
-        // console.log('input down');
         this.onInputDown.dispatch();
     }
 
+    /** Destroys the class by removing the signal */
     public destroy(): void
     {
         this.onInputMove.removeAll();

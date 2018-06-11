@@ -68,6 +68,7 @@ export default class Pickup extends ReactivePerspectiveObject
 
         return changeLaneTweenOnComplete;
     }
+    /** Updates the sprite to match it surroundings */
     public changeSprite(): void {
         if (this.lane === Lanes.topCenterLane || this.lane === Lanes.bottomCenterLane)
         {

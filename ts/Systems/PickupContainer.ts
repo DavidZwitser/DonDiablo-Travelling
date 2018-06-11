@@ -1,6 +1,8 @@
 import Pickup from '../GameObjects/Interactable/Perspective/Pickup';
 
-/** A class which is a group where all the pickups are contained in and which has functionality for changing something with them */
+/**
+ * A class which is a group where all the pickups are contained in and which has functionality for changing something with them
+ */
 export default class PickupContianer extends Phaser.Group
 {
     private _pickups: Pickup[];
@@ -11,12 +13,14 @@ export default class PickupContianer extends Phaser.Group
         this._pickups = [];
     }
 
+    /** Adds the pickup to the group and array */
     public addPickup(pickup: Pickup): void
     {
         this._pickups.push(pickup);
         this.addChild(pickup);
     }
 
+    /** Removes the pickup from the group and array */
     public removePickup(pickup: Pickup): void
     {
         this.forEach( (currentPickup: Pickup, index: number) => {
@@ -28,6 +32,7 @@ export default class PickupContianer extends Phaser.Group
         });
     }
 
+    /** For each call for this function */
     public forEach(callback: (pickup: Pickup, index: number) => void): void
     {
         for (let i: number = this._pickups.length; i--; )
@@ -52,6 +57,7 @@ export default class PickupContianer extends Phaser.Group
         });
     }
 
+    /** Destroys the container and the pickups witin it */
     public destroy(): void
     {
         this.forEach( (pickup: Pickup, index: number) => {

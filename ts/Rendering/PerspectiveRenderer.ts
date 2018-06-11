@@ -37,6 +37,7 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
+    /** Updates the object position */
     private updateObject(object: PerspectiveObject): void {
         if (object.visible) {
             object.updatePosition();

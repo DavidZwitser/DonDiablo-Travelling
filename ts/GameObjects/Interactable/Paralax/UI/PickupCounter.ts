@@ -1,6 +1,7 @@
 import 'phaser-ce';
 import PopupText from './PopupText';
 
+/** Displays the score */
 export default class PickupCounter extends PopupText
 {
     public score: number = 0;
@@ -30,6 +31,7 @@ export default class PickupCounter extends PopupText
         });
     }
 
+    /** Updates the score text by scoreincrease and randomnise its tint */
     public updateScore(scoreIncrease: number, changeColour: boolean): void
     {
         this.fadeIn();

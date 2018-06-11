@@ -41,8 +41,6 @@ export default class PauseScreen extends BasePopUp
         this.addChild(this._closeButton);
     }
 
-    /** Update the highscore text */
-
     public destroy(): void
     {
         super.destroy();

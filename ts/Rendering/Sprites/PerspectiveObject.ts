@@ -3,7 +3,7 @@ import 'phaser-ce';
 import PerspectiveRenderer from '../PerspectiveRenderer';
 import { Lanes, ILane, LaneConverter, LaneIndexer } from '../../Enums/Lanes';
 
-/** A sprite that get's rendered by the pseudo3d renderer */
+/** A group that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
 {
     protected sprite: Phaser.Sprite;
@@ -28,6 +28,9 @@ export default class PerspectiveObject extends Phaser.Group
         renderer.addObject(this);
     }
 
+    /**
+     * Gets the lane position of the object
+     */
     public get lane(): Lanes
     {
         return this._lane;
@@ -58,6 +61,7 @@ export default class PerspectiveObject extends Phaser.Group
         return this.changeLane(this.lane, true);
     }
 
+    /** Animates from one lane to the other */
     public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): Phaser.Signal
     {
         //only move when the lane is different that its own lane
@@ -125,6 +129,7 @@ export default class PerspectiveObject extends Phaser.Group
         return this.laneTween.onComplete;
     }
 
+    /** Called when the lane animation has ended */
     private laneEnd(lane: Lanes ): void
     {
         this.lane = lane;
@@ -189,11 +194,13 @@ export default class PerspectiveObject extends Phaser.Group
         this.scaleMultiplier = this.game.width / GAME_WIDTH;
     }
 
+    /** Updates the position of the object */
     public updatePosition(): void
     {
         //
     }
 
+    /** destroys the object and its children since its a phaser group */
     public destroy(destroyChildren: boolean = true): void
     {
         super.destroy(destroyChildren);

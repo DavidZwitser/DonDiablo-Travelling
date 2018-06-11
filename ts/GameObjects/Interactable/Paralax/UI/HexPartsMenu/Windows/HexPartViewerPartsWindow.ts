@@ -2,6 +2,7 @@ import Window from './HexPartsViewerWindow';
 import {IHexBodyPart, IHexPart} from '../HexPartsData';
 import Atlases from '../../../../../../Data/Atlases';
 
+/** Shows the window of the parts */
 export default class PartsWindow extends Window
 {
     /** The part displayed in the center of the window */

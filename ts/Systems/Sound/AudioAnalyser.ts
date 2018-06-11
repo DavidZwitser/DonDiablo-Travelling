@@ -1,5 +1,6 @@
 //use strict;
 
+/** Analyses the sound in the audio html object for frequency */
 export default class AudioAnalyser
 {
 
@@ -19,13 +20,9 @@ export default class AudioAnalyser
         this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
     }
 
-    //music get's assigned and some data gets calculated needed for the visualizer before rendering
+    /** music get's assigned and some data gets calculated needed for the visualizer before rendering */
     public setup(): boolean
     {
-        // let files: any = file.files;
-        // audio.src = URL.createObjectURL(files[0]);
-        //this._audioElement.load();
-
         try
         {
             console.log('its true!');
@@ -54,6 +51,7 @@ export default class AudioAnalyser
         return true;
     }
 
+    /** Instance of tje object to make sure there is only one declaered and available in every class */
     public static getInstance(): AudioAnalyser
     {
         if (null === AudioAnalyser.instance)

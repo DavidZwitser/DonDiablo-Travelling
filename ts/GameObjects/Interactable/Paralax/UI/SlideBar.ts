@@ -2,6 +2,10 @@ import 'phaser-ce';
 
 import Atlases from '../../../../Data/Atlases';
 
+/**
+ * Slide bar with a arrow button.
+ * This has a value that ranges between one and 0.
+ */
 export default class SlideBar extends Phaser.Group
 {
     /** The filled in part of the slider */

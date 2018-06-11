@@ -1,6 +1,7 @@
 import Constants from '../Data/Constants';
 import { IHexBodyPartsCollection, defaultHexPartsData, HexParts, getRandomHexPart } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
+/** Inteface of the local cache data */
 interface ISaveData
 {
     /** Highscore */
@@ -21,16 +22,19 @@ interface ISaveData
     /** SelectedCarIndex */
     scar: number;
 }
+/** level data */
 interface ILevelData
 {
     un: boolean; //unlocked
     hs: number; //highscore
 }
 
+/** Holds and organizes the save data of the game */
 export default class SaveData
 {
     private static _STORAGE_KEY: string = 'traveling';
 
+    /** Initial function */
     public static INIT(): void
     {
         if (this._DATA !== null)
@@ -52,6 +56,7 @@ export default class SaveData
         };
 
     }
+    /** Empty level data for the game */
     public static EMPTY_LEVEL_DATA(): ILevelData[]
     {
         let levelData: ILevelData[] = [];
@@ -144,6 +149,7 @@ export default class SaveData
         return this._DATA.lvls;
     }
 
+    /** Save the highscore in cache */
     public static set HIGHSCORE(newHighscore: number)
     {
         let newData: ISaveData = this._DATA;
@@ -156,6 +162,7 @@ export default class SaveData
         return this._DATA.hs;
     }
 
+    /** Save the hex bar value in cache */
     public static set HEX_BAR_VALUE(data: number)
     {
         let newData: ISaveData = this._DATA;
@@ -168,6 +175,7 @@ export default class SaveData
         return this._DATA.hbv;
     }
 
+    /** Save the next pick up in cache */
     public static set NEXT_HEX_PICKUP(data: HexParts)
     {
         let newData: ISaveData = this._DATA;
@@ -180,6 +188,7 @@ export default class SaveData
         return this._DATA.nhp;
     }
 
+    /** Save the hex collectibles in cache */
     public static set HEX_COLLECTIBLES_DATA(data: IHexBodyPartsCollection)
     {
         let newData: ISaveData = this._DATA;

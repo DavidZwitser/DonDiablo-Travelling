@@ -1,3 +1,6 @@
+/**
+ * All the images, for preloading and accessing later.
+ */
 export default class Images
 {
 

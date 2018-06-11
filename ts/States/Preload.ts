@@ -10,6 +10,10 @@ import Spines from '../Data/Spines';
 import SpriteSheets from '../Data/SpriteSheets';
 import JSON from '../Data/JSON';
 
+/** The preload state handles the following:
+ * -Making sure all the assets are loaded in (with exception of the music played in the gameplay state)
+ * -Handles the loading screen
+ */
 export default class Preload extends Phaser.State
 {
     public static Name: string = 'preload';
@@ -83,6 +87,7 @@ export default class Preload extends Phaser.State
         });
     }
 
+    /** Goes to the menu state */
     private goToMenu(): void
     {
         this.state.start(Menu.Name);

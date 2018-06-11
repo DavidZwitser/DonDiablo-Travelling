@@ -1,6 +1,7 @@
 import 'phaser-ce';
 import BasePopUp from './BasePopUp';
 
+/** The game over screen shows the scre the player has achieved and is displayed in the uUI class. */
 export default class GameOverScreen extends BasePopUp
 {
     /** The text that shows the highscore */
@@ -26,12 +27,14 @@ export default class GameOverScreen extends BasePopUp
         this.addChild(this._scoreText);
     }
 
+    /** THe game over screen gets displayed */
     public show(score: number, highscore: number): void
     {
         this.visible = true;
         this.updateText(score, highscore);
     }
 
+    /** THe game over screen is hidden */
     public hide(): void
     {
         this.visible = false;

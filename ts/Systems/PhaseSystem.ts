@@ -46,11 +46,14 @@ export default class PhaseSystem
         // this.currentPhase ++;
     }
 
+    /** Starts the next phase in the constants phase list if there are any */
     public startNextPhase(): void
     {
         if (this.currentPhase > Constants.PHASES.length) { return; }
         this.currentPhase ++;
     }
+
+    /** Starts the previous phase in the constants phase list if there are any */
     public startPreviousPhase(): void
     {
         if (this.currentPhase < 0) { return; }
