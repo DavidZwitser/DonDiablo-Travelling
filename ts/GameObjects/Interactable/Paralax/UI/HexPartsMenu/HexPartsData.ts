@@ -2,6 +2,7 @@
 export function getRandomHexPart(): HexParts
 {
     return Math.floor(Math.random() * 15) + 1;
+
 }
 
 /** All the sub parts of hex residing in the body parts */

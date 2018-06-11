@@ -17,7 +17,8 @@ export default class Spawner
     private startTime: number;
     public spawnedLevelData: ILevelData;
 
-    constructor() {
+    constructor()
+    {
         this.spawnedLevelData = {timings: []};
     }
 
@@ -27,7 +28,9 @@ export default class Spawner
         this.startTime = Date.now();
         window.addEventListener('keypress', this.keyFunction.bind(this));
     }
-    public keyFunction(e: KeyboardEvent): void {
+
+    public keyFunction(e: KeyboardEvent): void
+    {
         console.log(e.key);
         switch (e.key) {
             case 'q':
@@ -53,6 +56,7 @@ export default class Spawner
             break;
         }
     }
+
     public addPickup(lane: Lanes): void {
         console.log(Lanes[lane]);
         let time: number = (Date.now() - this.startTime) / 1000;

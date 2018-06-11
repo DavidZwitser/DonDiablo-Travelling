@@ -1,5 +1,3 @@
-import ParalaxObject from '../../../../Rendering/Sprites/ParalaxObject';
-// import MusicVisualizer from '../../../Environment/Paralax/MusicVisualizer';
 import HexBar from '../../Paralax/UI/HexBar';
 
 import PauseButton from '../../Paralax/UI/PauseButton';
@@ -9,12 +7,12 @@ import PauseScreen from './PauseScreen';
 import GameOverScreen from './GameOverScreen';
 
 import PickupCounter from '../UI/PickupCounter';
-import PopUpText from '../UI/PopUpText';
+import MotivationalPopupText from '../UI/MotivationalPopupText';
 import SoundManager from '../../../../Systems/Sound/SoundManager';
 import Sounds from '../../../../Data/Sounds';
 
 /** The user interface */
-export default class UI extends ParalaxObject
+export default class UI extends Phaser.Group
 {
     // private _titleText: Phaser.Text;
     // private _visualizer: MusicVisualizer;
@@ -24,7 +22,7 @@ export default class UI extends ParalaxObject
     public scoreBar: HexBar;
     public pickupCounter: PickupCounter;
     private _pauseButton: PauseButton;
-    private _popUpText: PopUpText;
+    private _motivationalPopupText: MotivationalPopupText;
     public pauseScreen: PauseScreen;
 
     private _gameOverScreen: GameOverScreen;
@@ -61,28 +59,30 @@ export default class UI extends ParalaxObject
         this.onPause = new Phaser.Signal();
 
     }
+
     private unpauseDelay(): void
     {
-        this.Pause(false);
+        this.pause(false);
         this._countdownText.visible = true;
         this._countdownText.text = '3';
         this.timeCount(3);
     }
+
     private timeCount(index: number): void
     {
-            this._countdownText.text = index.toString();
-            if (index >= 1)
-            {
-                this._countdownText.alpha = 1;
-                this._countDownFade = this.game.add.tween(this._countdownText)
-                .to({alpha: 0}, 1000, Phaser.Easing.Cubic.Out, true).start();
-                this._countDownFade.onComplete.addOnce(() => this.timeCount(index - 1 ));
-            }
-            else
-            {
-                this._countdownText.visible = false;
-                this.onPause.dispatch();
-            }
+        this._countdownText.text = index.toString();
+        if (index >= 1)
+        {
+            this._countdownText.alpha = 1;
+            this._countDownFade = this.game.add.tween(this._countdownText)
+            .to({alpha: 0}, 1000, Phaser.Easing.Cubic.Out, true).start();
+            this._countDownFade.onComplete.addOnce(() => this.timeCount(index - 1 ));
+        }
+        else
+        {
+            this._countdownText.visible = false;
+            this.onPause.dispatch();
+        }
     }
 
     private createScoreBar(): void
@@ -102,6 +102,7 @@ export default class UI extends ParalaxObject
     {
         this.pickupCounter = new PickupCounter(this.game, this.game.width / 2, this.game.height / 2);
         this.addChild(this.pickupCounter);
+
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
             this.pickupCounter.updateScore(10, false);
             this.resetCombo();
@@ -122,6 +123,7 @@ export default class UI extends ParalaxObject
         this._streakCount = 0;
         this._comboValue = 1;
     }
+
     private increaseStreakCount(): void
     {
         this._streakCount++;
@@ -132,11 +134,11 @@ export default class UI extends ParalaxObject
 
     private createPopUpText(): void
     {
-        this._popUpText = new PopUpText(this.game, this.game.width / 2, 2 * (this.game.height / 5));
-        this.addChild(this._popUpText);
+        this._motivationalPopupText = new MotivationalPopupText(this.game, this.game.width / 2, 2 * (this.game.height / 5));
+        this.addChild(this._motivationalPopupText);
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() =>
         {
-            this._popUpText.showText(
+            this._motivationalPopupText.showText(
                 PlayerCollisionChecker.getInstance().PlayerPos.x,
                 PlayerCollisionChecker.getInstance().PlayerPos.y,
                 this._comboValue
@@ -146,10 +148,12 @@ export default class UI extends ParalaxObject
 
     /** creates a bitmap text object containing the title of the song */
     private createTrackText(): void {
+
         this._trackText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Song track', 30);
         this._trackText.tint = 0xffffff;
         this._trackText.anchor.set(0.5);
         this.addChild(this._trackText);
+
     }
 
     private createCountDownText(): void
@@ -161,15 +165,17 @@ export default class UI extends ParalaxObject
         this.addChild(this._countdownText);
     }
 
-    public Pause(pause: boolean): void {
+    public pause(pause: boolean): void {
+
         this.pauseScreen.visible = pause;
         this._pauseButton.pauseButton.visible = !pause;
         this.scoreBar.visible = !pause;
+
     }
 
     public react(): void
     {
-        this._popUpText.reactToCollection();
+        this._motivationalPopupText.react();
     }
 
     public gameOver(score: number, highscore: number): void

@@ -1,33 +1,12 @@
 import 'phaser-ce';
-import Constants from '../../../../Data/Constants';
-import { setTimeout, clearTimeout } from 'timers';
+import PopupText from './PopupText';
 
-export default class PickupCounter extends Phaser.BitmapText
+export default class MotivationalPopupText extends PopupText
 {
-    private _timeOutID: NodeJS.Timer;
-
-    private _hideTween: Phaser.Tween;
-
-    private _reactTween: Phaser.Tween;
-
     private _coolPhrasesArray: string[] = ['Cool!', 'Dontastic!', 'Awesome!', 'Crazy!', 'Epic!', 'Rad!', 'Go Diablo!', 'Wonderfull!', 'Wow!', 'Bazinga!',
 'Yeah!', 'Wooo!'];
 
-    constructor(game: Phaser.Game, x: number, y: number)
-    {
-        super(game, x, y, 'futura', '0');
-        this.anchor.set(.5);
-        this.alpha = 0.0;
-        this.align = 'center';
-        this.fontSize = 12;
-
-        if (Constants.USE_FILTERS === true)
-        {
-            this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
-        }
-    }
-
-    public reactToCollection(): void
+    public react(): void
     {
         if (this._reactTween)
         {
@@ -80,9 +59,10 @@ export default class PickupCounter extends Phaser.BitmapText
         this.text += '\n' + comboValue + 'X';
     }
 
-    private fadeIn(): void
+    protected fadeIn(): void
     {
-        this.stopHide();
+        super.fadeIn();
+
         if (this.position.y > screen.width / 2)
         {
             this._hideTween = this.game.add.tween(this).to( {alpha: 0.30, y: this.position.y - 300}, 350, Phaser.Easing.Linear.None, true, 0, 0)
@@ -97,33 +77,16 @@ export default class PickupCounter extends Phaser.BitmapText
                 this.setScaleToAlpha();
             });
         }
-        clearTimeout(this._timeOutID);
-        this._timeOutID = setTimeout(this.fadeOut.bind(this), 1000);
     }
 
-    private fadeOut(): void
+    protected fadeOut(): void
     {
-        this.stopHide();
+        super.fadeOut();
+
         this._hideTween = this.game.add.tween(this).to( {alpha: 0}, 1000, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
                 this.setScaleToAlpha();
             }
         );
-    }
-
-    private setScaleToAlpha(): void
-    {
-        let desiredScale: number = 1 + this.alpha * 1.5 / 0.15;
-
-        this.scale.set(desiredScale, desiredScale);
-    }
-
-    private stopHide(): void
-    {
-        if (this._hideTween)
-        {
-            this._hideTween.stop();
-            this._hideTween = null;
-        }
     }
 }

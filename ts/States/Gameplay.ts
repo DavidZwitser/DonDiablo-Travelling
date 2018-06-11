@@ -300,7 +300,7 @@ export default class Gameplay extends Phaser.State
         this._userInterface.pauseScreen.visible = this._gamePaused;
 
         if (!this._blurred) {
-            this._userInterface.Pause(this._gamePaused);
+            this._userInterface.pause(this._gamePaused);
         }
     }
 

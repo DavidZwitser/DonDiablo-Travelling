@@ -7,7 +7,6 @@ import SaveData from '../../../../BackEnd/SaveData';
 
 export default class HexBar extends Phaser.Group
 {
-
     private _valueSprite: Phaser.Sprite;
     private _backDropSprite: Phaser.Sprite;
     private _foreGroundSprite: Phaser.Sprite;

@@ -7,7 +7,7 @@ export default class AudioAnalyser
 
     public audioElement: HTMLMediaElement;
     public analyser: AnalyserNode;
-    public dataArray: any;
+    public dataArray: Uint8Array;
     public bufferLength: number;
     public context: AudioContext;
     private _src: MediaElementAudioSourceNode;
@@ -16,7 +16,7 @@ export default class AudioAnalyser
 
     constructor ()
     {
-    this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
+        this.audioElement = <HTMLMediaElement>document.getElementById('musicPlayer');
     }
 
     //music get's assigned and some data gets calculated needed for the visualizer before rendering

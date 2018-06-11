@@ -1,9 +1,9 @@
 import 'phaser-ce';
 import TextButton from '../UI/TextButton';
+import Atlases from '../../../../Data/Atlases';
 import AtlasImages from '../../../../Data/AtlasImages';
 import Gameplay from '../../../../States/Gameplay';
 import Menu from '../../../../States/Menu';
-import Atlases from '../../../../Data/Atlases';
 
 /** The based class for any popup in the game */
 export default class BasePopUp extends Phaser.Group

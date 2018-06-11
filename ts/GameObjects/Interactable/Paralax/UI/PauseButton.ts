@@ -5,7 +5,6 @@ import ImageButton from './ImageButton';
 
 export default class PauseButton extends Phaser.Group
 {
-
     public onPause: Phaser.Signal;
 
     public pauseButton: ImageButton;
