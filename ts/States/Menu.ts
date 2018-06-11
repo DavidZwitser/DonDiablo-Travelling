@@ -2,7 +2,6 @@ import 'phaser-ce';
 
 import TextButton from '../GameObjects/Interactable/Paralax/UI/TextButton';
 import SettingPopup from '../GameObjects/Interactable/Paralax/UI/SettingPopup';
-import LevelSelect from '../GameObjects/Interactable/Paralax/UI/LevelSelect/LevelSelect';
 import Atlases from '../Data/Atlases';
 import AtlasImages from '../Data/AtlasImages';
 import CreditsScreen from '../GameObjects/Interactable/Paralax/UI/CreditsScreen';
@@ -11,6 +10,7 @@ import SoundManager from '../Systems/Sound/SoundManager';
 import VehicleSelect from '../GameObjects/Interactable/Paralax/UI/VehicleSelect';
 
 import Viewer from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsViewerScreen';
+import Gameplay from './Gameplay';
 
 /** The menu which opens before the game and in which you can change things about the game */
 export default class Menu extends Phaser.State
@@ -28,8 +28,6 @@ export default class Menu extends Phaser.State
 
     /** The settings popup */
     private _settingGroup: SettingPopup;
-    /** The level select screen */
-    private _levelSelect: LevelSelect;
     /** The credit screen credits */
     private _creditsScreen: CreditsScreen;
     /** The vehicle select screen */
@@ -71,11 +69,6 @@ export default class Menu extends Phaser.State
         this.game.add.existing(this._settingGroup);
         this._settingGroup.onBack.add(this.showMainMenu.bind(this));
 
-        /* Create the level select window */
-        this._levelSelect = new LevelSelect(this.game);
-        this.game.add.existing(this._levelSelect);
-        this._levelSelect.onBack.add(this.showMainMenu.bind(this));
-
         /* Create the credits screen window */
         this._creditsScreen = new CreditsScreen(this.game, () => {
             this.showAMenu(this._mainButtonsGroup);
@@ -106,7 +99,7 @@ export default class Menu extends Phaser.State
         let group: Phaser.Group = new Phaser.Group(this.game);
 
         /* Creating the play button */
-        let playButton: TextButton = new TextButton(this.game, 0, 0, '', 40, 'UserInterface_Menu_PlayButton', this.showLevelSelect, this);
+        let playButton: TextButton = new TextButton(this.game, 0, 0, '', 40, 'UserInterface_Menu_PlayButton', this.startGame, this);
         group.addChild(playButton);
 
         /* Creating the settings button */
@@ -144,7 +137,6 @@ export default class Menu extends Phaser.State
         this._settingGroup.visible = false;
         this._mainButtonsGroup.visible = false;
         this._logoSprite.visible = false;
-        this._levelSelect.visible = false;
         this._creditsScreen.visible = false;
         this._hexViewer.visible = false;
         this._vehicleSelect.visible = false;
@@ -164,9 +156,8 @@ export default class Menu extends Phaser.State
         this.showAMenu(this._mainButtonsGroup);
     }
 
-    /** Show the level select */
-    private showLevelSelect(): void {
-        this.showAMenu(this._levelSelect);
+    private startGame(): void {
+        this.game.state.start(Gameplay.Name);
     }
 
     /* Resize all the menus */
@@ -186,10 +177,6 @@ export default class Menu extends Phaser.State
         /* Creating the settings group */
         this._settingGroup.position.set(this.game.width / 2, this.game.height * .5);
         this._settingGroup.scale.set(vmin / GAME_WIDTH);
-
-        /* Resizing the level select menu */
-        this._levelSelect.position.set(this.game.width / 2, this.game.height * 0.1);
-        this._levelSelect.scale.set(vmin / GAME_WIDTH * .3);
 
         /* Resizing the logo sprite */
         this._logoSprite.position.set(this.game.width / 2, this.game.height * 0.25);
@@ -231,10 +218,6 @@ export default class Menu extends Phaser.State
         /* Destroy the credits screen */
         if (this._creditsScreen) { this._creditsScreen.destroy(); }
         this._creditsScreen = null;
-
-        /* Destroy the level select */
-        if (this._levelSelect) { this._levelSelect.destroy(); }
-        this._levelSelect = null;
 
         /* Destroy the settings group */
         if (this._settingGroup) { this._settingGroup.destroy(); }
