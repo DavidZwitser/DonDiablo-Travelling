@@ -1,4 +1,11 @@
-# Phaser, Typescript and Sass powered by WebPack
+# Upside Don
+![alt text](./assets/)
+
+## General information
+
+## Interesting classes
+
+## Gameplay summary
 A boilerplate for using [Phaser](https://phaser.io/) with [Typescript](https://www.typescriptlang.org/) and [Sass](https://sass-lang.com/). Powering the task handling is [WebPack](https://webpack.js.org/).
 
 The purpose of this framework is to make the development procces of html5 Phaser games easier and faster.

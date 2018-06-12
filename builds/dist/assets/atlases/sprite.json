@@ -35,7 +35,7 @@
         "Background_Building_Purple_04": {
             "frame": {
                 "x": 2844,
-                "y": 803,
+                "y": 557,
                 "w": 86,
                 "h": 241
             }
@@ -43,7 +43,7 @@
         "Background_Building_Purple_05": {
             "frame": {
                 "x": 2998,
-                "y": 0,
+                "y": 1248,
                 "w": 56,
                 "h": 247
             }
@@ -51,39 +51,39 @@
         "Background_Building_Purple_06": {
             "frame": {
                 "x": 2844,
-                "y": 1262,
+                "y": 1049,
                 "w": 97,
                 "h": 208
             }
         },
         "Background_Building_Purple_07": {
             "frame": {
-                "x": 2929,
-                "y": 1717,
+                "x": 2998,
+                "y": 2327,
                 "w": 60,
                 "h": 166
             }
         },
         "Background_Building_Purple_08": {
             "frame": {
-                "x": 2935,
-                "y": 557,
+                "x": 2998,
+                "y": 2498,
                 "w": 58,
                 "h": 147
             }
         },
         "Background_Building_Purple_09": {
             "frame": {
-                "x": 366,
-                "y": 2688,
+                "x": 0,
+                "y": 2812,
                 "w": 77,
                 "h": 202
             }
         },
         "Background_Building_Purple_10": {
             "frame": {
-                "x": 0,
-                "y": 2688,
+                "x": 2998,
+                "y": 249,
                 "w": 67,
                 "h": 244
             }
@@ -99,7 +99,7 @@
         "Background_Building_Red_01": {
             "frame": {
                 "x": 2751,
-                "y": 712,
+                "y": 1077,
                 "w": 83,
                 "h": 360
             }
@@ -115,23 +115,23 @@
         "Background_Building_Red_03": {
             "frame": {
                 "x": 2661,
-                "y": 2238,
+                "y": 1987,
                 "w": 67,
                 "h": 246
             }
         },
         "Background_Building_Red_04": {
             "frame": {
-                "x": 214,
-                "y": 2688,
+                "x": 2998,
+                "y": 747,
                 "w": 65,
                 "h": 244
             }
         },
         "Background_Building_Red_05": {
             "frame": {
-                "x": 3059,
-                "y": 0,
+                "x": 2935,
+                "y": 803,
                 "w": 58,
                 "h": 145
             }
@@ -147,22 +147,22 @@
         "Background_Building_Red_07": {
             "frame": {
                 "x": 2998,
-                "y": 952,
+                "y": 1948,
                 "w": 50,
                 "h": 203
             }
         },
         "Background_Building_Red_08": {
             "frame": {
-                "x": 2661,
-                "y": 1147,
+                "x": 2751,
+                "y": 2179,
                 "w": 52,
                 "h": 319
             }
         },
         "Background_Building_Red_09": {
             "frame": {
-                "x": 2844,
+                "x": 2921,
                 "y": 1959,
                 "w": 72,
                 "h": 246
@@ -178,32 +178,32 @@
         },
         "Background_Building_Red_11": {
             "frame": {
-                "x": 1075,
-                "y": 2518,
+                "x": 2041,
+                "y": 2210,
                 "w": 88,
                 "h": 67
             }
         },
         "Background_Building_Red_12": {
             "frame": {
-                "x": 524,
-                "y": 2688,
+                "x": 329,
+                "y": 2812,
                 "w": 71,
                 "h": 184
             }
         },
         "Background_Building_Red_13": {
             "frame": {
-                "x": 3059,
-                "y": 150,
+                "x": 2946,
+                "y": 328,
                 "w": 39,
                 "h": 174
             }
         },
         "Background_Building_Red_14": {
             "frame": {
-                "x": 3059,
-                "y": 781,
+                "x": 2935,
+                "y": 707,
                 "w": 55,
                 "h": 79
             }
@@ -211,7 +211,7 @@
         "Background_Building_Blue_01": {
             "frame": {
                 "x": 2751,
-                "y": 1077,
+                "y": 712,
                 "w": 83,
                 "h": 360
             }
@@ -227,23 +227,23 @@
         "Background_Building_Blue_03": {
             "frame": {
                 "x": 2661,
-                "y": 1987,
+                "y": 2238,
                 "w": 67,
                 "h": 246
             }
         },
         "Background_Building_Blue_04": {
             "frame": {
-                "x": 144,
-                "y": 2688,
+                "x": 2998,
+                "y": 498,
                 "w": 65,
                 "h": 244
             }
         },
         "Background_Building_Blue_05": {
             "frame": {
-                "x": 2933,
-                "y": 2486,
+                "x": 2935,
+                "y": 557,
                 "w": 58,
                 "h": 145
             }
@@ -259,22 +259,22 @@
         "Background_Building_Blue_07": {
             "frame": {
                 "x": 2998,
-                "y": 744,
+                "y": 1740,
                 "w": 50,
                 "h": 203
             }
         },
         "Background_Building_Blue_08": {
             "frame": {
-                "x": 2751,
-                "y": 2179,
+                "x": 2661,
+                "y": 1147,
                 "w": 52,
                 "h": 319
             }
         },
         "Background_Building_Blue_09": {
             "frame": {
-                "x": 2921,
+                "x": 2844,
                 "y": 1959,
                 "w": 72,
                 "h": 246
@@ -290,32 +290,32 @@
         },
         "Background_Building_Blue_11": {
             "frame": {
-                "x": 1168,
-                "y": 2518,
+                "x": 2134,
+                "y": 2210,
                 "w": 88,
                 "h": 67
             }
         },
         "Background_Building_Blue_12": {
             "frame": {
-                "x": 448,
-                "y": 2688,
+                "x": 253,
+                "y": 2812,
                 "w": 71,
                 "h": 184
             }
         },
         "Background_Building_Blue_13": {
             "frame": {
-                "x": 3059,
-                "y": 329,
+                "x": 2946,
+                "y": 1049,
                 "w": 39,
                 "h": 174
             }
         },
         "Background_Building_Blue_14": {
             "frame": {
-                "x": 3059,
-                "y": 865,
+                "x": 2935,
+                "y": 953,
                 "w": 55,
                 "h": 79
             }
@@ -347,7 +347,7 @@
         "Background_Building_DarkBlue_04": {
             "frame": {
                 "x": 2844,
-                "y": 557,
+                "y": 803,
                 "w": 86,
                 "h": 241
             }
@@ -355,7 +355,7 @@
         "Background_Building_DarkBlue_05": {
             "frame": {
                 "x": 2998,
-                "y": 252,
+                "y": 996,
                 "w": 56,
                 "h": 247
             }
@@ -363,39 +363,39 @@
         "Background_Building_DarkBlue_06": {
             "frame": {
                 "x": 2844,
-                "y": 1049,
+                "y": 1262,
                 "w": 97,
                 "h": 208
             }
         },
         "Background_Building_DarkBlue_07": {
             "frame": {
-                "x": 2929,
-                "y": 1475,
+                "x": 2998,
+                "y": 2156,
                 "w": 60,
                 "h": 166
             }
         },
         "Background_Building_DarkBlue_08": {
             "frame": {
-                "x": 2935,
-                "y": 803,
+                "x": 2998,
+                "y": 2650,
                 "w": 58,
                 "h": 147
             }
         },
         "Background_Building_DarkBlue_09": {
             "frame": {
-                "x": 284,
-                "y": 2688,
+                "x": 82,
+                "y": 2812,
                 "w": 77,
                 "h": 202
             }
         },
         "Background_Building_DarkBlue_10": {
             "frame": {
-                "x": 72,
-                "y": 2688,
+                "x": 2998,
+                "y": 0,
                 "w": 67,
                 "h": 244
             }
@@ -410,7 +410,7 @@
         },
         "ingame_vehicle_1_sideview_left_blink": {
             "frame": {
-                "x": 2311,
+                "x": 1339,
                 "y": 1949,
                 "w": 238,
                 "h": 119
@@ -426,7 +426,7 @@
         },
         "ingame_vehicle_1_sideview_right_blink": {
             "frame": {
-                "x": 1825,
+                "x": 2068,
                 "y": 1949,
                 "w": 238,
                 "h": 119
@@ -434,15 +434,15 @@
         },
         "ingame_vehicle_1_sideview_right": {
             "frame": {
-                "x": 805,
-                "y": 2210,
+                "x": 1825,
+                "y": 1949,
                 "w": 238,
                 "h": 119
             }
         },
         "ingame_vehicle_1_straight_blink": {
             "frame": {
-                "x": 1339,
+                "x": 2311,
                 "y": 1949,
                 "w": 238,
                 "h": 119
@@ -450,29 +450,13 @@
         },
         "ingame_vehicle_1_straight": {
             "frame": {
-                "x": 2068,
-                "y": 1949,
+                "x": 805,
+                "y": 2210,
                 "w": 238,
                 "h": 119
             }
         },
         "ingame_vehicle_2_sideview_left_blink": {
-            "frame": {
-                "x": 805,
-                "y": 2334,
-                "w": 200,
-                "h": 135
-            }
-        },
-        "ingame_vehicle_2_sideview_left": {
-            "frame": {
-                "x": 1420,
-                "y": 2334,
-                "w": 200,
-                "h": 135
-            }
-        },
-        "ingame_vehicle_2_sideview_right_blink": {
             "frame": {
                 "x": 1215,
                 "y": 2334,
@@ -480,7 +464,7 @@
                 "h": 135
             }
         },
-        "ingame_vehicle_2_sideview_right": {
+        "ingame_vehicle_2_sideview_left": {
             "frame": {
                 "x": 1010,
                 "y": 2334,
@@ -488,9 +472,25 @@
                 "h": 135
             }
         },
+        "ingame_vehicle_2_sideview_right_blink": {
+            "frame": {
+                "x": 1420,
+                "y": 2334,
+                "w": 200,
+                "h": 135
+            }
+        },
+        "ingame_vehicle_2_sideview_right": {
+            "frame": {
+                "x": 805,
+                "y": 2334,
+                "w": 200,
+                "h": 135
+            }
+        },
         "ingame_vehicle_2_straight_blink": {
             "frame": {
-                "x": 1868,
+                "x": 1243,
                 "y": 2210,
                 "w": 200,
                 "h": 110
@@ -498,7 +498,7 @@
         },
         "ingame_vehicle_2_straight": {
             "frame": {
-                "x": 2073,
+                "x": 1448,
                 "y": 2210,
                 "w": 200,
                 "h": 110
@@ -506,88 +506,88 @@
         },
         "ingame_vehicle_3_sideview_left_blink": {
             "frame": {
-                "x": 1048,
-                "y": 2210,
-                "w": 200,
-                "h": 114
+                "x": 158,
+                "y": 2688,
+                "w": 152,
+                "h": 119
             }
         },
         "ingame_vehicle_3_sideview_left": {
             "frame": {
-                "x": 1253,
-                "y": 2210,
-                "w": 200,
-                "h": 114
+                "x": 315,
+                "y": 2688,
+                "w": 144,
+                "h": 119
             }
         },
         "ingame_vehicle_3_sideview_right_blink": {
             "frame": {
-                "x": 1458,
-                "y": 2210,
-                "w": 200,
-                "h": 114
+                "x": 1045,
+                "y": 2518,
+                "w": 156,
+                "h": 118
             }
         },
         "ingame_vehicle_3_sideview_right": {
             "frame": {
-                "x": 1663,
-                "y": 2210,
-                "w": 200,
-                "h": 114
+                "x": 2844,
+                "y": 2486,
+                "w": 146,
+                "h": 119
             }
         },
         "ingame_vehicle_3_straight_blink": {
             "frame": {
-                "x": 1625,
-                "y": 2334,
-                "w": 200,
-                "h": 121
+                "x": 873,
+                "y": 2518,
+                "w": 167,
+                "h": 119
             }
         },
         "ingame_vehicle_3_straight": {
             "frame": {
-                "x": 1830,
-                "y": 2334,
-                "w": 200,
-                "h": 121
+                "x": 0,
+                "y": 2688,
+                "w": 153,
+                "h": 119
             }
         },
         "exitbutton": {
             "frame": {
-                "x": 909,
-                "y": 2688,
+                "x": 2049,
+                "y": 2334,
                 "w": 80,
                 "h": 73
             }
         },
         "ui_icon_music_off": {
             "frame": {
-                "x": 3059,
-                "y": 949,
+                "x": 2929,
+                "y": 1475,
                 "w": 49,
                 "h": 44
             }
         },
         "ui_icon_music_on": {
             "frame": {
-                "x": 3059,
-                "y": 1078,
+                "x": 2946,
+                "y": 1302,
                 "w": 34,
                 "h": 36
             }
         },
         "ui_icon_sfx_off": {
             "frame": {
-                "x": 3059,
-                "y": 998,
+                "x": 2946,
+                "y": 507,
                 "w": 43,
                 "h": 35
             }
         },
         "ui_icon_sfx_on": {
             "frame": {
-                "x": 3059,
-                "y": 1038,
+                "x": 2946,
+                "y": 1262,
                 "w": 38,
                 "h": 35
             }
@@ -602,7 +602,7 @@
         },
         "ui_ingame_button": {
             "frame": {
-                "x": 873,
+                "x": 1206,
                 "y": 2518,
                 "w": 116,
                 "h": 118
@@ -634,16 +634,16 @@
         },
         "ui_pijltje": {
             "frame": {
-                "x": 2585,
-                "y": 2210,
+                "x": 1819,
+                "y": 2334,
                 "w": 71,
                 "h": 93
             }
         },
         "ui_close_x_button": {
             "frame": {
-                "x": 2424,
-                "y": 2334,
+                "x": 1585,
+                "y": 2073,
                 "w": 83,
                 "h": 81
             }
@@ -666,7 +666,7 @@
         },
         "Battery": {
             "frame": {
-                "x": 2508,
+                "x": 1883,
                 "y": 2210,
                 "w": 72,
                 "h": 98
@@ -674,15 +674,15 @@
         },
         "Booster_silhouette": {
             "frame": {
-                "x": 2035,
-                "y": 2334,
+                "x": 1048,
+                "y": 2210,
                 "w": 190,
                 "h": 116
             }
         },
         "Booster": {
             "frame": {
-                "x": 2230,
+                "x": 1625,
                 "y": 2334,
                 "w": 189,
                 "h": 114
@@ -690,15 +690,15 @@
         },
         "Button_Right": {
             "frame": {
-                "x": 832,
-                "y": 2688,
+                "x": 1972,
+                "y": 2334,
                 "w": 72,
                 "h": 91
             }
         },
         "Chip_silhouette": {
             "frame": {
-                "x": 2278,
+                "x": 1653,
                 "y": 2210,
                 "w": 110,
                 "h": 110
@@ -706,7 +706,7 @@
         },
         "Chip": {
             "frame": {
-                "x": 2393,
+                "x": 1768,
                 "y": 2210,
                 "w": 110,
                 "h": 109
@@ -778,32 +778,32 @@
         },
         "Metal_silhouette": {
             "frame": {
-                "x": 1954,
-                "y": 1567,
+                "x": 2504,
+                "y": 1784,
                 "w": 145,
                 "h": 54
             }
         },
         "Metal": {
             "frame": {
-                "x": 1836,
-                "y": 1629,
+                "x": 1954,
+                "y": 1567,
                 "w": 144,
                 "h": 53
             }
         },
         "Neck_silhouette": {
             "frame": {
-                "x": 600,
-                "y": 2688,
+                "x": 405,
+                "y": 2812,
                 "w": 73,
                 "h": 124
             }
         },
         "Neck": {
             "frame": {
-                "x": 678,
-                "y": 2688,
+                "x": 483,
+                "y": 2812,
                 "w": 72,
                 "h": 123
             }
@@ -826,16 +826,16 @@
         },
         "Screws_silhouette": {
             "frame": {
-                "x": 2504,
-                "y": 1784,
+                "x": 2511,
+                "y": 777,
                 "w": 138,
                 "h": 63
             }
         },
         "Screws": {
             "frame": {
-                "x": 2511,
-                "y": 777,
+                "x": 2844,
+                "y": 2610,
                 "w": 139,
                 "h": 64
             }
@@ -858,7 +858,7 @@
         },
         "UserInterface_Hex_ScoreBackdrop": {
             "frame": {
-                "x": 681,
+                "x": 1010,
                 "y": 1949,
                 "w": 324,
                 "h": 222
@@ -866,8 +866,8 @@
         },
         "Wires_silhouette": {
             "frame": {
-                "x": 1585,
-                "y": 2073,
+                "x": 1836,
+                "y": 1629,
                 "w": 145,
                 "h": 48
             }
@@ -882,8 +882,8 @@
         },
         "X_Knop": {
             "frame": {
-                "x": 994,
-                "y": 2518,
+                "x": 1960,
+                "y": 2210,
                 "w": 76,
                 "h": 87
             }
@@ -914,7 +914,7 @@
         },
         "UserInterface_Menu_CharacterSelect": {
             "frame": {
-                "x": 0,
+                "x": 176,
                 "y": 2518,
                 "w": 171,
                 "h": 165
@@ -938,7 +938,7 @@
         },
         "UserInterface_Menu_HexButton": {
             "frame": {
-                "x": 176,
+                "x": 0,
                 "y": 2518,
                 "w": 171,
                 "h": 165
@@ -970,8 +970,8 @@
         },
         "UserInterface_Hex_Button_Arrow": {
             "frame": {
-                "x": 755,
-                "y": 2688,
+                "x": 1895,
+                "y": 2334,
                 "w": 72,
                 "h": 91
             }
@@ -986,32 +986,32 @@
         },
         "Fill_Bar": {
             "frame": {
-                "x": 3081,
-                "y": 508,
+                "x": 2718,
+                "y": 1147,
                 "w": 15,
                 "h": 266
             }
         },
         "Knop_Empty": {
             "frame": {
-                "x": 3093,
-                "y": 1156,
+                "x": 2946,
+                "y": 1423,
                 "w": 21,
                 "h": 18
             }
         },
         "Knop_Full": {
             "frame": {
-                "x": 3059,
-                "y": 1119,
+                "x": 2946,
+                "y": 1343,
                 "w": 35,
                 "h": 32
             }
         },
         "laying hexagon_side": {
             "frame": {
-                "x": 2844,
-                "y": 2486,
+                "x": 164,
+                "y": 2812,
                 "w": 84,
                 "h": 185
             }
@@ -1050,16 +1050,16 @@
         },
         "Omlijning_Fill_bar": {
             "frame": {
-                "x": 3059,
-                "y": 508,
+                "x": 2808,
+                "y": 2179,
                 "w": 17,
                 "h": 268
             }
         },
         "Pixel_black": {
             "frame": {
-                "x": 3103,
-                "y": 150,
+                "x": 3059,
+                "y": 996,
                 "w": 1,
                 "h": 1
             }
@@ -1075,14 +1075,14 @@
         "UserInterface_PauseHud_Backdrop": {
             "frame": {
                 "x": 2998,
-                "y": 504,
+                "y": 1500,
                 "w": 48,
                 "h": 235
             }
         },
         "level select": {
             "frame": {
-                "x": 1622,
+                "x": 1279,
                 "y": 1843,
                 "w": 338,
                 "h": 69
@@ -1098,7 +1098,7 @@
         },
         "lockedlevel": {
             "frame": {
-                "x": 352,
+                "x": 535,
                 "y": 2518,
                 "w": 178,
                 "h": 151
@@ -1106,7 +1106,7 @@
         },
         "openlevel": {
             "frame": {
-                "x": 535,
+                "x": 352,
                 "y": 2518,
                 "w": 178,
                 "h": 151
@@ -1122,8 +1122,8 @@
         },
         "Pausemenu_slider_button": {
             "frame": {
-                "x": 3059,
-                "y": 1156,
+                "x": 2946,
+                "y": 1380,
                 "w": 29,
                 "h": 38
             }
@@ -1138,8 +1138,8 @@
         },
         "back to menu": {
             "frame": {
-                "x": 2512,
-                "y": 2334,
+                "x": 1673,
+                "y": 2073,
                 "w": 103,
                 "h": 64
             }
@@ -1162,7 +1162,7 @@
         },
         "settings": {
             "frame": {
-                "x": 1279,
+                "x": 1622,
                 "y": 1843,
                 "w": 338,
                 "h": 69
@@ -1170,8 +1170,8 @@
         },
         "test_particle": {
             "frame": {
-                "x": 3059,
-                "y": 1199,
+                "x": 2946,
+                "y": 1228,
                 "w": 25,
                 "h": 25
             }
@@ -1183,8 +1183,8 @@
         "image": "~sprite.png",
         "scale": 1,
         "size": {
-            "w": 3117,
-            "h": 2932
+            "w": 3065,
+            "h": 3014
         }
     }
 }
