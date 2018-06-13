@@ -26,7 +26,7 @@
         },
         "Background_Building_Purple_03": {
             "frame": {
-                "x": 2914,
+                "x": 2844,
                 "y": 2210,
                 "w": 65,
                 "h": 271
@@ -42,8 +42,8 @@
         },
         "Background_Building_Purple_05": {
             "frame": {
-                "x": 2998,
-                "y": 1248,
+                "x": 3070,
+                "y": 414,
                 "w": 56,
                 "h": 247
             }
@@ -58,24 +58,24 @@
         },
         "Background_Building_Purple_07": {
             "frame": {
-                "x": 2998,
-                "y": 2327,
+                "x": 3070,
+                "y": 1952,
                 "w": 60,
                 "h": 166
             }
         },
         "Background_Building_Purple_08": {
             "frame": {
-                "x": 2998,
-                "y": 2498,
+                "x": 3070,
+                "y": 2551,
                 "w": 58,
                 "h": 147
             }
         },
         "Background_Building_Purple_09": {
             "frame": {
-                "x": 0,
-                "y": 2812,
+                "x": 3070,
+                "y": 207,
                 "w": 77,
                 "h": 202
             }
@@ -91,7 +91,7 @@
         "Background_Building_Purple_11": {
             "frame": {
                 "x": 2661,
-                "y": 1729,
+                "y": 1471,
                 "w": 66,
                 "h": 253
             }
@@ -99,7 +99,7 @@
         "Background_Building_Red_01": {
             "frame": {
                 "x": 2751,
-                "y": 1077,
+                "y": 712,
                 "w": 83,
                 "h": 360
             }
@@ -107,7 +107,7 @@
         "Background_Building_Red_02": {
             "frame": {
                 "x": 2844,
-                "y": 1475,
+                "y": 1717,
                 "w": 80,
                 "h": 237
             }
@@ -130,8 +130,8 @@
         },
         "Background_Building_Red_05": {
             "frame": {
-                "x": 2935,
-                "y": 803,
+                "x": 2998,
+                "y": 996,
                 "w": 58,
                 "h": 145
             }
@@ -146,8 +146,8 @@
         },
         "Background_Building_Red_07": {
             "frame": {
-                "x": 2998,
-                "y": 1948,
+                "x": 3070,
+                "y": 1744,
                 "w": 50,
                 "h": 203
             }
@@ -178,7 +178,7 @@
         },
         "Background_Building_Red_11": {
             "frame": {
-                "x": 2041,
+                "x": 2339,
                 "y": 2210,
                 "w": 88,
                 "h": 67
@@ -186,24 +186,24 @@
         },
         "Background_Building_Red_12": {
             "frame": {
-                "x": 329,
-                "y": 2812,
+                "x": 3070,
+                "y": 918,
                 "w": 71,
                 "h": 184
             }
         },
         "Background_Building_Red_13": {
             "frame": {
-                "x": 2946,
-                "y": 328,
+                "x": 2998,
+                "y": 1475,
                 "w": 39,
                 "h": 174
             }
         },
         "Background_Building_Red_14": {
             "frame": {
-                "x": 2935,
-                "y": 707,
+                "x": 2998,
+                "y": 2011,
                 "w": 55,
                 "h": 79
             }
@@ -211,7 +211,7 @@
         "Background_Building_Blue_01": {
             "frame": {
                 "x": 2751,
-                "y": 712,
+                "y": 1077,
                 "w": 83,
                 "h": 360
             }
@@ -219,7 +219,7 @@
         "Background_Building_Blue_02": {
             "frame": {
                 "x": 2844,
-                "y": 1717,
+                "y": 1475,
                 "w": 80,
                 "h": 237
             }
@@ -242,8 +242,8 @@
         },
         "Background_Building_Blue_05": {
             "frame": {
-                "x": 2935,
-                "y": 557,
+                "x": 2998,
+                "y": 1146,
                 "w": 58,
                 "h": 145
             }
@@ -258,8 +258,8 @@
         },
         "Background_Building_Blue_07": {
             "frame": {
-                "x": 2998,
-                "y": 1740,
+                "x": 3070,
+                "y": 1536,
                 "w": 50,
                 "h": 203
             }
@@ -290,7 +290,7 @@
         },
         "Background_Building_Blue_11": {
             "frame": {
-                "x": 2134,
+                "x": 2246,
                 "y": 2210,
                 "w": 88,
                 "h": 67
@@ -298,24 +298,24 @@
         },
         "Background_Building_Blue_12": {
             "frame": {
-                "x": 253,
-                "y": 2812,
+                "x": 3070,
+                "y": 1107,
                 "w": 71,
                 "h": 184
             }
         },
         "Background_Building_Blue_13": {
             "frame": {
-                "x": 2946,
-                "y": 1049,
+                "x": 2998,
+                "y": 1296,
                 "w": 39,
                 "h": 174
             }
         },
         "Background_Building_Blue_14": {
             "frame": {
-                "x": 2935,
-                "y": 953,
+                "x": 2998,
+                "y": 1927,
                 "w": 55,
                 "h": 79
             }
@@ -338,7 +338,7 @@
         },
         "Background_Building_DarkBlue_03": {
             "frame": {
-                "x": 2844,
+                "x": 2914,
                 "y": 2210,
                 "w": 65,
                 "h": 271
@@ -354,8 +354,8 @@
         },
         "Background_Building_DarkBlue_05": {
             "frame": {
-                "x": 2998,
-                "y": 996,
+                "x": 3070,
+                "y": 666,
                 "w": 56,
                 "h": 247
             }
@@ -370,24 +370,24 @@
         },
         "Background_Building_DarkBlue_07": {
             "frame": {
-                "x": 2998,
-                "y": 2156,
+                "x": 3070,
+                "y": 2123,
                 "w": 60,
                 "h": 166
             }
         },
         "Background_Building_DarkBlue_08": {
             "frame": {
-                "x": 2998,
-                "y": 2650,
+                "x": 3070,
+                "y": 2703,
                 "w": 58,
                 "h": 147
             }
         },
         "Background_Building_DarkBlue_09": {
             "frame": {
-                "x": 82,
-                "y": 2812,
+                "x": 3070,
+                "y": 0,
                 "w": 77,
                 "h": 202
             }
@@ -403,22 +403,22 @@
         "Background_Building_DarkBlue_11": {
             "frame": {
                 "x": 2661,
-                "y": 1471,
+                "y": 1729,
                 "w": 66,
                 "h": 253
             }
         },
         "ingame_vehicle_1_sideview_left_blink": {
             "frame": {
-                "x": 1339,
-                "y": 1949,
+                "x": 805,
+                "y": 2210,
                 "w": 238,
                 "h": 119
             }
         },
         "ingame_vehicle_1_sideview_left": {
             "frame": {
-                "x": 1582,
+                "x": 2311,
                 "y": 1949,
                 "w": 238,
                 "h": 119
@@ -442,7 +442,7 @@
         },
         "ingame_vehicle_1_straight_blink": {
             "frame": {
-                "x": 2311,
+                "x": 1582,
                 "y": 1949,
                 "w": 238,
                 "h": 119
@@ -450,8 +450,8 @@
         },
         "ingame_vehicle_1_straight": {
             "frame": {
-                "x": 805,
-                "y": 2210,
+                "x": 1339,
+                "y": 1949,
                 "w": 238,
                 "h": 119
             }
@@ -466,7 +466,7 @@
         },
         "ingame_vehicle_2_sideview_left": {
             "frame": {
-                "x": 1010,
+                "x": 805,
                 "y": 2334,
                 "w": 200,
                 "h": 135
@@ -482,7 +482,7 @@
         },
         "ingame_vehicle_2_sideview_right": {
             "frame": {
-                "x": 805,
+                "x": 1010,
                 "y": 2334,
                 "w": 200,
                 "h": 135
@@ -490,7 +490,7 @@
         },
         "ingame_vehicle_2_straight_blink": {
             "frame": {
-                "x": 1243,
+                "x": 1653,
                 "y": 2210,
                 "w": 200,
                 "h": 110
@@ -507,7 +507,7 @@
         "ingame_vehicle_3_sideview_left_blink": {
             "frame": {
                 "x": 158,
-                "y": 2688,
+                "y": 2812,
                 "w": 152,
                 "h": 119
             }
@@ -515,15 +515,15 @@
         "ingame_vehicle_3_sideview_left": {
             "frame": {
                 "x": 315,
-                "y": 2688,
+                "y": 2812,
                 "w": 144,
                 "h": 119
             }
         },
         "ingame_vehicle_3_sideview_right_blink": {
             "frame": {
-                "x": 1045,
-                "y": 2518,
+                "x": 172,
+                "y": 2688,
                 "w": 156,
                 "h": 118
             }
@@ -538,8 +538,8 @@
         },
         "ingame_vehicle_3_straight_blink": {
             "frame": {
-                "x": 873,
-                "y": 2518,
+                "x": 0,
+                "y": 2688,
                 "w": 167,
                 "h": 119
             }
@@ -547,47 +547,95 @@
         "ingame_vehicle_3_straight": {
             "frame": {
                 "x": 0,
-                "y": 2688,
+                "y": 2812,
                 "w": 153,
                 "h": 119
             }
         },
+        "ingame_vehicle_4_sideview_left_blink": {
+            "frame": {
+                "x": 2240,
+                "y": 2334,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_sideview_left": {
+            "frame": {
+                "x": 2035,
+                "y": 2334,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_sideview_right_blink": {
+            "frame": {
+                "x": 1830,
+                "y": 2334,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_sideview_right": {
+            "frame": {
+                "x": 1625,
+                "y": 2334,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_straight_blink": {
+            "frame": {
+                "x": 1048,
+                "y": 2210,
+                "w": 200,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_4_straight": {
+            "frame": {
+                "x": 2445,
+                "y": 2334,
+                "w": 200,
+                "h": 120
+            }
+        },
         "exitbutton": {
             "frame": {
-                "x": 2049,
-                "y": 2334,
+                "x": 1297,
+                "y": 2518,
                 "w": 80,
                 "h": 73
             }
         },
         "ui_icon_music_off": {
             "frame": {
-                "x": 2929,
-                "y": 1475,
+                "x": 3070,
+                "y": 2855,
                 "w": 49,
                 "h": 44
             }
         },
         "ui_icon_music_on": {
             "frame": {
-                "x": 2946,
-                "y": 1302,
+                "x": 2998,
+                "y": 2175,
                 "w": 34,
                 "h": 36
             }
         },
         "ui_icon_sfx_off": {
             "frame": {
-                "x": 2946,
-                "y": 507,
+                "x": 2998,
+                "y": 2095,
                 "w": 43,
                 "h": 35
             }
         },
         "ui_icon_sfx_on": {
             "frame": {
-                "x": 2946,
-                "y": 1262,
+                "x": 2998,
+                "y": 2135,
                 "w": 38,
                 "h": 35
             }
@@ -602,8 +650,8 @@
         },
         "ui_ingame_button": {
             "frame": {
-                "x": 1206,
-                "y": 2518,
+                "x": 333,
+                "y": 2688,
                 "w": 116,
                 "h": 118
             }
@@ -634,8 +682,8 @@
         },
         "ui_pijltje": {
             "frame": {
-                "x": 1819,
-                "y": 2334,
+                "x": 1067,
+                "y": 2518,
                 "w": 71,
                 "h": 93
             }
@@ -650,7 +698,7 @@
         },
         "UserInterface_Credits_Background": {
             "frame": {
-                "x": 0,
+                "x": 725,
                 "y": 0,
                 "w": 720,
                 "h": 1280
@@ -666,7 +714,7 @@
         },
         "Battery": {
             "frame": {
-                "x": 1883,
+                "x": 2088,
                 "y": 2210,
                 "w": 72,
                 "h": 98
@@ -674,7 +722,7 @@
         },
         "Booster_silhouette": {
             "frame": {
-                "x": 1048,
+                "x": 1253,
                 "y": 2210,
                 "w": 190,
                 "h": 116
@@ -682,23 +730,23 @@
         },
         "Booster": {
             "frame": {
-                "x": 1625,
-                "y": 2334,
+                "x": 873,
+                "y": 2518,
                 "w": 189,
                 "h": 114
             }
         },
         "Button_Right": {
             "frame": {
-                "x": 1972,
-                "y": 2334,
+                "x": 1220,
+                "y": 2518,
                 "w": 72,
                 "h": 91
             }
         },
         "Chip_silhouette": {
             "frame": {
-                "x": 1653,
+                "x": 1858,
                 "y": 2210,
                 "w": 110,
                 "h": 110
@@ -706,7 +754,7 @@
         },
         "Chip": {
             "frame": {
-                "x": 1768,
+                "x": 1973,
                 "y": 2210,
                 "w": 110,
                 "h": 109
@@ -794,16 +842,16 @@
         },
         "Neck_silhouette": {
             "frame": {
-                "x": 405,
-                "y": 2812,
+                "x": 3070,
+                "y": 2294,
                 "w": 73,
                 "h": 124
             }
         },
         "Neck": {
             "frame": {
-                "x": 483,
-                "y": 2812,
+                "x": 3070,
+                "y": 2423,
                 "w": 72,
                 "h": 123
             }
@@ -858,7 +906,7 @@
         },
         "UserInterface_Hex_ScoreBackdrop": {
             "frame": {
-                "x": 1010,
+                "x": 681,
                 "y": 1949,
                 "w": 324,
                 "h": 222
@@ -882,7 +930,7 @@
         },
         "X_Knop": {
             "frame": {
-                "x": 1960,
+                "x": 2165,
                 "y": 2210,
                 "w": 76,
                 "h": 87
@@ -890,7 +938,7 @@
         },
         "bg": {
             "frame": {
-                "x": 725,
+                "x": 0,
                 "y": 0,
                 "w": 720,
                 "h": 1280
@@ -931,7 +979,7 @@
         "UserInterface_Menu_Credits": {
             "frame": {
                 "x": 2844,
-                "y": 164,
+                "y": 0,
                 "w": 149,
                 "h": 159
             }
@@ -947,7 +995,7 @@
         "UserInterface_Menu_Options": {
             "frame": {
                 "x": 2844,
-                "y": 0,
+                "y": 164,
                 "w": 149,
                 "h": 159
             }
@@ -970,15 +1018,15 @@
         },
         "UserInterface_Hex_Button_Arrow": {
             "frame": {
-                "x": 1895,
-                "y": 2334,
+                "x": 1143,
+                "y": 2518,
                 "w": 72,
                 "h": 91
             }
         },
         "UserInterface_Hex_Button_Cross": {
             "frame": {
-                "x": 1417,
+                "x": 1501,
                 "y": 2073,
                 "w": 79,
                 "h": 90
@@ -986,32 +1034,32 @@
         },
         "Fill_Bar": {
             "frame": {
-                "x": 2718,
-                "y": 1147,
+                "x": 3020,
+                "y": 1654,
                 "w": 15,
                 "h": 266
             }
         },
         "Knop_Empty": {
             "frame": {
-                "x": 2946,
-                "y": 1423,
+                "x": 3123,
+                "y": 1296,
                 "w": 21,
                 "h": 18
             }
         },
         "Knop_Full": {
             "frame": {
-                "x": 2946,
-                "y": 1343,
+                "x": 2998,
+                "y": 2216,
                 "w": 35,
                 "h": 32
             }
         },
         "laying hexagon_side": {
             "frame": {
-                "x": 164,
-                "y": 2812,
+                "x": 0,
+                "y": 2936,
                 "w": 84,
                 "h": 185
             }
@@ -1050,16 +1098,16 @@
         },
         "Omlijning_Fill_bar": {
             "frame": {
-                "x": 2808,
-                "y": 2179,
+                "x": 2998,
+                "y": 1654,
                 "w": 17,
                 "h": 268
             }
         },
         "Pixel_black": {
             "frame": {
-                "x": 3059,
-                "y": 996,
+                "x": 3131,
+                "y": 414,
                 "w": 1,
                 "h": 1
             }
@@ -1074,15 +1122,15 @@
         },
         "UserInterface_PauseHud_Backdrop": {
             "frame": {
-                "x": 2998,
-                "y": 1500,
+                "x": 3070,
+                "y": 1296,
                 "w": 48,
                 "h": 235
             }
         },
         "level select": {
             "frame": {
-                "x": 1279,
+                "x": 1622,
                 "y": 1843,
                 "w": 338,
                 "h": 69
@@ -1098,7 +1146,7 @@
         },
         "lockedlevel": {
             "frame": {
-                "x": 535,
+                "x": 352,
                 "y": 2518,
                 "w": 178,
                 "h": 151
@@ -1106,7 +1154,7 @@
         },
         "openlevel": {
             "frame": {
-                "x": 352,
+                "x": 535,
                 "y": 2518,
                 "w": 178,
                 "h": 151
@@ -1122,8 +1170,8 @@
         },
         "Pausemenu_slider_button": {
             "frame": {
-                "x": 2946,
-                "y": 1380,
+                "x": 2998,
+                "y": 2253,
                 "w": 29,
                 "h": 38
             }
@@ -1138,8 +1186,8 @@
         },
         "back to menu": {
             "frame": {
-                "x": 1673,
-                "y": 2073,
+                "x": 1965,
+                "y": 1843,
                 "w": 103,
                 "h": 64
             }
@@ -1154,15 +1202,15 @@
         },
         "play": {
             "frame": {
-                "x": 1965,
-                "y": 1843,
+                "x": 1673,
+                "y": 2073,
                 "w": 103,
                 "h": 64
             }
         },
         "settings": {
             "frame": {
-                "x": 1622,
+                "x": 1279,
                 "y": 1843,
                 "w": 338,
                 "h": 69
@@ -1170,8 +1218,8 @@
         },
         "test_particle": {
             "frame": {
-                "x": 2946,
-                "y": 1228,
+                "x": 3070,
+                "y": 2904,
                 "w": 25,
                 "h": 25
             }
@@ -1183,8 +1231,8 @@
         "image": "~sprite.png",
         "scale": 1,
         "size": {
-            "w": 3065,
-            "h": 3014
+            "w": 3147,
+            "h": 3121
         }
     }
 }
