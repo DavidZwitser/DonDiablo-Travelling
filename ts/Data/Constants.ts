@@ -240,6 +240,11 @@ export default class Constants
             carName: 'Phaser Noir',
             spriteKey: 'ingame_vehicle_3_sideview_right',
             description: 'Slick, swift and better in\n black!'
+        },
+        {
+            carName: 'Phaser Noir',
+            spriteKey: 'ingame_vehicle_4_sideview_right',
+            description: 'Slick, swift and better in\n purple!'
         }
     ];
 
