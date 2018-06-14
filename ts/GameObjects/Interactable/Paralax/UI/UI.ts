@@ -77,7 +77,7 @@ export default class UI extends Phaser.Group
         {
             this._countdownText.alpha = 1;
             this._countDownFade = this.game.add.tween(this._countdownText)
-            .to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true).start();
+            .to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).start();
             this._countDownFade.onComplete.addOnce(() => this.timeCount(index - 1 ));
         }
         else

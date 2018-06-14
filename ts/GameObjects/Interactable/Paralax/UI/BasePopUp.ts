@@ -1,19 +1,19 @@
 import 'phaser-ce';
-import TextButton from '../UI/TextButton';
 import Atlases from '../../../../Data/Atlases';
 import AtlasImages from '../../../../Data/AtlasImages';
 import Gameplay from '../../../../States/Gameplay';
 import Menu from '../../../../States/Menu';
+import ImageButton from './ImageButton';
 
 /** The based class for any popup in the game */
 export default class BasePopUp extends Phaser.Group
 {
-    private _backToMenuButton: TextButton;
-    private _resetButton: TextButton;
+    private _backToMenuButton: ImageButton;
+    private _resetButton: ImageButton;
 
     protected _titleText: Phaser.BitmapText;
 
-    private _menuBackground: Phaser.Image;
+    protected _menuBackground: Phaser.Image;
     private _blackPixel: Phaser.Sprite;
 
     constructor(game: Phaser.Game, scale: number)
@@ -32,16 +32,12 @@ export default class BasePopUp extends Phaser.Group
         this._menuBackground.alpha = 1;
         this.addChild(this._menuBackground);
 
-        this._resetButton = new TextButton(game, 120, 150, 'Replay', 40, 'Pausemenu_Button_Restart_and_Quit', this.restartScene.bind(this), this);
+        this._resetButton = new ImageButton(game, 120, 130, 'UserInterface_GameOver_ButtonRetry', 'UserInterface_GameOver_ButtonRetry', this.restartScene.bind(this), this);
         this._resetButton.anchor.set(0.5);
-        this._resetButton.label.tint = 0xffffff;
-        this._resetButton.label.fontSize = 35;
         this.addChild(this._resetButton);
 
-        this._backToMenuButton = new TextButton(game, -120, 150, 'Quit', 12, 'Pausemenu_Button_Restart_and_Quit', this.backToMenu.bind(this), this);
+        this._backToMenuButton = new ImageButton(game, -120, 130, 'UserInterface_GameOver_ButtonHome', 'UserInterface_GameOver_ButtonHome', this.backToMenu.bind(this), this);
         this._backToMenuButton.anchor.set(0.5);
-        this._backToMenuButton.label.tint = 0xffffff;
-        this._backToMenuButton.label.fontSize = 40;
         this.addChild(this._backToMenuButton);
 
         this._titleText = new Phaser.BitmapText(game, 0, -150, 'futura', 'Pause', 60);

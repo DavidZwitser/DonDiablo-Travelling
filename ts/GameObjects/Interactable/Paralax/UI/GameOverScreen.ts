@@ -12,16 +12,17 @@ export default class GameOverScreen extends BasePopUp
     {
         super(game, scale);
 
-        this._titleText.text = 'GAME OVER';
+        this._titleText.visible = false;
+        this._menuBackground.frameName = 'UserInterface_GameOver_Backdrop';
 
-        this._highScoreText = new Phaser.BitmapText(game, 0, -20, 'futura', 'highscore: ', 45);
-        this._highScoreText.tint = 0x181137;
+        this._highScoreText = new Phaser.BitmapText(game, 0, -20, 'ailerons', 'highscore: ', 45);
+        this._highScoreText.tint = 0xffffff;
         this._highScoreText.anchor.set(.5);
         this._highScoreText.scale.set(scale, scale);
         this.addChild(this._highScoreText);
 
-        this._scoreText = new Phaser.BitmapText(game, 0, 50, 'futura', 'score: ', 45);
-        this._scoreText.tint = 0x181137;
+        this._scoreText = new Phaser.BitmapText(game, 0, 50, 'ailerons', 'score: ', 45);
+        this._scoreText.tint = 0xffffff;
         this._scoreText.anchor.set(.5);
         this._scoreText.scale.set(scale, scale);
         this.addChild(this._scoreText);

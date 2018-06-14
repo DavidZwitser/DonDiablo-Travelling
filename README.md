@@ -1,11 +1,11 @@
 # Upside Don
 ![alt text](./assets/sprites/favicon.png)
+<!-- ![alt text](./assets/sprites/favicon.png)
 ![alt text](./assets/sprites/favicon.png)
 ![alt text](./assets/sprites/favicon.png)
 ![alt text](./assets/sprites/favicon.png)
 ![alt text](./assets/sprites/favicon.png)
-![alt text](./assets/sprites/favicon.png)
-###### snap je
+###### snap je -->
 
 ## Introduction
 Upside Don is an addition for the world of Don Diablo (Hexagonia).
@@ -43,6 +43,8 @@ Lastly, we made a small class that fixes some typical html5 problems. Phaser fil
 
 [Sebastiaan Buwalda](https://www.youtube.com/channel/UCUUszITqtqrAu7n8sp873JQ)
 
-[Ferry Elbaghdadi]()
+[Ferry Elbaghdadi](ferryelbaghdadi.com)
 
-https://github.com/nathannieuwenhuizen/webpack-boilerplate/blob/master/README.md
+
+[Webpack Boilerplate where this repository is forked from and used as development enviroment:
+link](https://github.com/nathannieuwenhuizen/webpack-boilerplate/blob/master/README.md)
