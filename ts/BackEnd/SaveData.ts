@@ -37,7 +37,7 @@ export default class SaveData
     /** Initial function */
     public static INIT(): void
     {
-        if (this._DATA !== null)
+        if (this._DATA !== null && Object.keys(this._DATA).length === 10)
         {
             return;
         }
