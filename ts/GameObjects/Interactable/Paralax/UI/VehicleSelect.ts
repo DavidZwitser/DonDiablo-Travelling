@@ -64,7 +64,7 @@ export default class VehicleSelect extends Phaser.Group
         this._closeButton.scale.x = -1;
 
         /* Setting up the header text */
-        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'VEHICLE SELECT', 60);
+        this._headerText =  new Phaser.BitmapText(game, 0, -510, 'ailerons', 'VEHICLE SELECT', 55);
         this._headerText.tint = 0xffffff;
         this._headerText.anchor.set(.5);
         this.addChild(this._headerText);

@@ -34,6 +34,8 @@ export default class Menu extends Phaser.State
     private _vehicleSelect: VehicleSelect;
     /** The hex screen */
     private _hexViewer: Viewer;
+    /** The particle emitter for the menu particles */
+    private _worldEmitter: Phaser.Particles.Arcade.Emitter;
 
     constructor()
     {
@@ -55,6 +57,10 @@ export default class Menu extends Phaser.State
 
         /* Create the background sprite */
         this._backgroundSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, 'bg');
+
+        /* Create the world emitter */
+        this._worldEmitter = this.createWorldEmitter();
+        this.add.existing(this._worldEmitter);
 
         /* Create the logo sprite */
         this._logoSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, AtlasImages.LOGO);
@@ -196,12 +202,44 @@ export default class Menu extends Phaser.State
         /* Offsetting the credits screen */
         this._creditsScreen.position.set(this.game.width / 2, this.game.height / 2);
         this._creditsScreen.scale.set(vmin / GAME_WIDTH);
+
+        /* Resizing the word emitter */
+        this._worldEmitter.position.set(this.game.width / 2, this.game.height);
+        this._worldEmitter.width = this.game.width;
+    }
+
+    /** Create the emitter in the main menu */
+    public createWorldEmitter(): Phaser.Particles.Arcade.Emitter
+    {
+        /* Creating the emitter */
+        let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
+
+        /* Setting its default values */
+        emitter.makeParticles(Atlases.INTERFACE, 'test_particle');
+        emitter.setXSpeed(-10, 10);
+        emitter.setYSpeed(0, -100);
+        emitter.setRotation(0, 0);
+        emitter.setAlpha(-1, 1, 2000);
+        emitter.setScale(0, .5, 0, .5, 4000);
+
+        emitter.gravity.y = -30;
+        emitter.width = 740;
+
+        /* Starting it */
+        emitter.start(false, 10000, 400);
+
+        /* And returning it */
+        return emitter;
     }
 
     /* Shut down this state and destroy everything in it */
     public shutdown(): void
     {
         super.shutdown(this.game);
+
+        /* Destoy the world emitter */
+        this._worldEmitter.destroy();
+        this._worldEmitter = null;
 
         /* Destroy the main button group */
         if (this._mainButtonsGroup) { this._mainButtonsGroup.destroy(true); }
