@@ -17,6 +17,7 @@ export default class JSON
     public static readonly BELIEVE: string = 'Believe';
     public static readonly HIGHER: string = 'Higher';
     public static readonly PUT_IT_ON: string = 'Put_It_On';
+    public static readonly TUNNEL_VISION: string = 'Tunnel_Vision';
 
     public static readonly LIST: string[] = [
         JSON.TEST,
@@ -31,6 +32,7 @@ export default class JSON
         JSON.BELIEVE,
         JSON.HIGHER,
         JSON.PUT_IT_ON,
-        JSON.REFLECTIONS
+        JSON.REFLECTIONS,
+        JSON.TUNNEL_VISION
     ];
 }

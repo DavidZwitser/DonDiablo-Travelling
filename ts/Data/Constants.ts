@@ -55,6 +55,9 @@ export default class Constants
 
     public static PICKUPS_BEFORE_HEX_PART: number; //gets really declard in hexbar.ts
 
+
+    public static hexCollected: boolean = true;
+
     /** road colors list with their own color schemes */
     public static readonly ROAD_COLORS: IRoadColors[] = [
         {
@@ -217,7 +220,7 @@ export default class Constants
         {
             title: 'Tunnel Vision',
             artist: 'Don Diablo',
-            json: JSON.PUT_IT_ON,
+            json: JSON.TUNNEL_VISION,
             music: Sounds.FUTURE
         }
 
@@ -225,20 +228,34 @@ export default class Constants
 
     /** Gets a random list of indexes of each level with optional a starting point */
     public static GET_RANDOM_TRACKLIST(initial?: number): number[]{
+       
+        let hexCollected: boolean = true;
+       
         let list: number[] = [];
         let tracklist: number[] = [];
         for (let i: number = 0; i < Constants.LEVELS.length; i++) {
             list.push(i);
         }
-        if (initial) {
-            tracklist.push(list[initial]);
-            list.splice(initial, 1);
+
+        if (!hexCollected)
+        {
+            if (initial) {
+                tracklist.push(list[initial]);
+                list.splice(initial, 1);
+            }
+            while (list.length !== 0) {
+                let random: number = Math.floor(Math.random() * list.length);
+                tracklist.push(list[random]);
+                list.splice(random, 1);
+                }
         }
-        while (list.length !== 0) {
-            let random: number = Math.floor(Math.random() * list.length);
-            tracklist.push(list[random]);
-            list.splice(random, 1);
+        else
+        {
+            let tunnelVision: number = list.length - 1;
+            tracklist.push(list[tunnelVision]);
+            list.splice(tunnelVision, 1);
         }
+     
         return tracklist;
     }
 
