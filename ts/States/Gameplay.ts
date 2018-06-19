@@ -259,12 +259,22 @@ export default class Gameplay extends Phaser.State
     /** Game over widow is activated */
     private gameOver(): void
     {
+<<<<<<< HEAD
         if (this._userInterface.pickupCounter.score > SaveData.HIGHSCORE)
         {
             SaveData.HIGHSCORE = this._userInterface.pickupCounter.score;
         }
 
         this._userInterface.gameOver(this._userInterface.pickupCounter.score, SaveData.HIGHSCORE);
+=======
+        this.score = this._userInterface.pickupCounter.score;
+        if (this.score > SaveData.HIGHSCORE)
+        {
+            SaveData.HIGHSCORE = this.score;
+        }
+
+        this._userInterface.gameOver(this.score, SaveData.HIGHSCORE);
+>>>>>>> 4ac8052c30c8b8f48f74f2733210d01955d99bd3
         this.pause(false);
     }
 
