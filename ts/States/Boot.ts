@@ -1,20 +1,28 @@
 import 'phaser-ce';
 
 import Preload from './Preload';
+import IGame from '../PluginManagers/IGame';
 
+/**
+ * The boot state handles all the mauin configuration settings needed for the application need to work.
+ * After the boot is loaded, it immeditately goes to the loading state to load all the assets needed for the game
+ */
 export default class Boot extends Phaser.State
 {
     public static Name: string = 'boot';
 
     public name: string = Boot.Name;
+    public game: IGame;
 
-    constructor()
+    constructor(game: IGame)
     {
         super();
+        this.game = game;
     }
 
     public init(): void
     {
+        //Sets up the scale for the game
         if (this.game.device.desktop) {
             this.scale.pageAlignHorizontally = true;
             this.scale.windowConstraints.bottom = 'visual';
@@ -42,19 +50,6 @@ export default class Boot extends Phaser.State
             Boot.mobileResizeCallback(this.game.scale);
             this.game.scale.onSizeChange.add(
                 () => {
-                    // if (Constants.LANDSCAPE_LOCKED) {
-                    //     if (this.game.width > this.game.height) {
-                    //         this.handleCorrect();
-                    //     } else {
-                    //         this.handleIncorrect();
-                    //     }
-                    // } else if (Constants.PORTRAIT_LOCKED) {
-                    //     if (this.game.width < this.game.height) {
-                    //         this.handleCorrect();
-                    //     } else {
-                    //         this.handleIncorrect();
-                    //     }
-                    // }
                     this.game.state.getCurrentState().resize(window.innerWidth, window.innerHeight);
                 },
                 this
@@ -68,6 +63,7 @@ export default class Boot extends Phaser.State
             e.preventDefault();
         };
     }
+    /** Contains the canvas size to the size of the device making sure the canvas doesn't go over the border (only desktop) */
     private scaleCanvasContain(): void {
         if (window.innerHeight / window.innerWidth > GAME_HEIGHT / GAME_WIDTH) {
             this.scale.maxHeight = window.innerWidth * (GAME_HEIGHT / GAME_WIDTH);
@@ -78,6 +74,7 @@ export default class Boot extends Phaser.State
         }
     }
 
+    /** Changes the size of the canvas to be filled in within the sizes of the device (mobile only) */
     public static mobileResizeCallback(manager: Phaser.ScaleManager): void {
         let width: number = window.innerWidth;
         let height: number = window.innerHeight;
@@ -87,7 +84,7 @@ export default class Boot extends Phaser.State
 
         let scaleFactor: number = 1;
 
-        //So first we check if the game is beeing played in landscape
+        //So first we check if the game is being played in landscape
         if (width > height) {
             scaleFactor /= width / usedHeight;
         } else {
@@ -104,13 +101,10 @@ export default class Boot extends Phaser.State
     public preload(): void
     {
         super.preload(this.game);
-        this.game.load.image('load_screen', 'assets/sprites/load_screen.jpg');
+        //loades assets needed for the load screen
+        this.game.load.image('load_screen', 'assets/sprites/UserInterface_SplashScreen.jpg');
+        this.game.load.image('load_screen_text', 'assets/sprites/UserInterface_SplashScreen_Loading.png');
 
-    }
-
-    public resize(): void
-    {
-        //
     }
 
     public create(): void
@@ -118,10 +112,4 @@ export default class Boot extends Phaser.State
         super.create(this.game);
         this.state.start(Preload.Name);
     }
-
-    public shutdown(): void
-    {
-        //
-    }
-
 }

@@ -6,25 +6,12 @@ import SaveData from '../../../../BackEnd/SaveData';
 
 export default class PauseScreen extends BasePopUp
 {
-    /** Pause Screen
-     *
-     * This script takes care of the screen that
-     * pops up after tapping the pause button.
-     *
-     * This script contains the functionality of:
-     * - Sound Effect Slider
-     * - Quit Button
-     * - Replay Button
-     * - Resume Button
-     */
-
+    /** The text that shows the highscore */
     private _sfxText: Phaser.BitmapText;
     private _sfxSlider: SlideBar;
     private _closeButton: ImageButton;
 
     public onResume: Phaser.Signal;
-
-    public onContinue: Phaser.Signal;
 
     constructor(game: Phaser.Game, scale: number)
     {
@@ -34,7 +21,7 @@ export default class PauseScreen extends BasePopUp
 
         this.onResume = new Phaser.Signal();
 
-        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'myfont', 'SFX', 40);
+        this._sfxText = new Phaser.BitmapText(game, 0 , -50, 'futura', 'SFX', 40);
         this._sfxText.tint = 0xffffff;
         this._sfxText.anchor.set(0.5);
         this._sfxText.scale.set(scale, scale);
@@ -53,6 +40,7 @@ export default class PauseScreen extends BasePopUp
         this.addChild(this._sfxSlider);
         this.addChild(this._closeButton);
     }
+
     public destroy(): void
     {
         super.destroy();
@@ -62,9 +50,8 @@ export default class PauseScreen extends BasePopUp
         }
         this.onResume = null;
 
-        /** If the game resumes, the pause screen will get destroyed. */
-
         if (this._sfxText) { this._sfxText.destroy(true); }
         this._sfxText = null;
     }
+
 }

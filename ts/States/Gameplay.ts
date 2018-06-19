@@ -20,19 +20,26 @@ import ScoreSystem from '../Systems/ScoreSystem';
 import SaveData from '../BackEnd/SaveData';
 import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
+import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
+import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
+/**
+ * This is the state where the main gameplay is played at.
+ * It only moves back to menu state when in the pause/result menu the user wants to go back to the menu.
+ */
 export default class Gameplay extends Phaser.State
 {
     public static Name: string = 'gameplay';
 
     public name: string = Gameplay.Name;
 
-    private _worldMood: number;
+    public score: number = 0;
 
     private _audioVisualizer: BuildingVisualizer;
 
     private _userInterface: UI;
     private _player: Player;
+    private _lightning: Lightning;
 
     private _input: Input;
     private _pickupSpawner: PickupSpawner;
@@ -42,18 +49,17 @@ export default class Gameplay extends Phaser.State
     private _road: Road;
     private _glowFilter: Phaser.Filter;
 
-    private _gamePaused: boolean = false;
-    private spawnEditor: SpawnEditor;
+    private _spawnEditor: SpawnEditor;
 
     private _scoreSystem: ScoreSystem;
-
-    private _blurred: boolean = false;
     private _phaseSystem: PhaseSystem;
 
-    constructor()
-    {
-        super();
-    }
+    private _gamePaused: boolean = false;
+    private _blurred: boolean = false;
+    private _colorIndex: number = 0;
+
+    private _trackList: number[];
+    private _trackIndex: number = 0;
 
     public init(): void
     {
@@ -67,48 +73,43 @@ export default class Gameplay extends Phaser.State
     private _hideScoreBar: boolean = false;
     private _useContinuesInput: boolean = true;
 
-    public setToggealableOptions(): void
-    {
-        /** Move the player back a bit */
-        Constants.PLAYER_Z_POSITION = 1.1;
-
-        /** Change phase per song and die when bar drains */
-        this._updatePhaseByBar = false;
-
-        /** Is 6 lanes to much as the max difficulty? */
-
-        /** Hide score bar */
-        this._hideScoreBar = true;
-
-        /** Dont use continues input */
-        this._useContinuesInput = false;
-    }
-    /** End toggleable options */
-
     public create(): void
     {
         super.create(this.game);
 
-        //this.setToggealableOptions();
-
         //focus/blur events setup
-        window.addEventListener('blur', this.blur.bind(this));
-        window.addEventListener('focus', this.focus.bind(this));
-
-        this._worldMood = this._worldMood;
+        window.addEventListener('blur', this.onBlur.bind(this));
+        window.addEventListener('focus', this.onFocus.bind(this));
 
         /* Rendering */
         this._perspectiveRenderer = new PerspectiveRenderer(this.game);
+
+        /* tracklist setup */
+        this._trackList = Constants.GET_RANDOM_TRACKLIST(Constants.CURRENT_LEVEL);
 
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
         PlayerCollisionChecker.getInstance(this._player);
 
+        PlayerCollisionChecker.getInstance().onColliding.add(() => {
+
+            this.score = Math.min(5, this.score + 1);
+        });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => {
+            this.score = Math.max(-5, this.score - 5);
+        });
+
+        PlayerCollisionChecker.getInstance().onColliding.add( () => {
+            this._userInterface.scoreBar.value += 1;
+        });
+
+        this._lightning = new Lightning(this.game, this._perspectiveRenderer);
+
         /* Level creation */
-        this.spawnEditor = new SpawnEditor();
+        this._spawnEditor = new SpawnEditor();
 
         //remove below comment to start recording the spawn editor.
-        this.spawnEditor.startRecording();
+        this._spawnEditor.startRecording();
 
         /* Road */
         this._road = new Road(this.game);
@@ -125,7 +126,8 @@ export default class Gameplay extends Phaser.State
         this._audioVisualizer = new BuildingVisualizer(this.game, this.game.width, this.game.height * .2);
         this.game.add.existing(this._audioVisualizer);
 
-        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.worldReact(); });
+        PlayerCollisionChecker.getInstance().onColliding.add(() => { this.makeWorldReact(); });
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => { this.makeWorldReactPerfect(); });
         PlayerCollisionChecker.getInstance().onMissing.add(() => { this.onMissingpPickup(); });
 
         /* Pickups */
@@ -133,6 +135,7 @@ export default class Gameplay extends Phaser.State
         this._pickupSpawner = new PickupSpawner(this.game, this._pickupContainer, this._perspectiveRenderer);
 
         this.game.add.existing(this._player);
+        this.game.add.existing(this._lightning);
 
         /* Input */
         this._input = new Input(this.game, this._useContinuesInput);
@@ -144,11 +147,31 @@ export default class Gameplay extends Phaser.State
         this.game.add.existing(this._userInterface);
         this._userInterface.onPause.add(this.pause, this);
 
+        /** Collecting a new hex part! */
+        this._userInterface.scoreBar.onFull.add( () => {
+            let collectedPickup: HexParts = SaveData.NEXT_HEX_PICKUP;
+            let currentData: IHexBodyPartsCollection = SaveData.HEX_COLLECTIBLES_DATA;
+
+            Object.keys(currentData).forEach( (partKey: any) => {
+                let currentSubParts: IHexPartsCollection = currentData[partKey].subParts;
+
+                Object.keys(currentSubParts).forEach( (subPartKey: any) => {
+                    if (+subPartKey === +collectedPickup)
+                    {
+                        currentData[partKey].subParts[subPartKey].collected = true;
+                    }
+                });
+            });
+
+            SaveData.HEX_COLLECTIBLES_DATA = currentData;
+            SaveData.NEXT_HEX_PICKUP = getRandomHexPart();
+        });
+
         /* Phases! */
         this._phaseSystem = new PhaseSystem();
         this._phaseSystem.init();
 
-        this._phaseSystem.onPhaseChange.add( this.worldReposition.bind(this) );
+        this._phaseSystem.onPhaseChange.add( this.repositionWorld.bind(this) );
 
         this._phaseSystem.prePhaseChange.add( (duration: number) => this._road.hideExistingRoadLines(duration) );
         this._phaseSystem.onPhaseChange.add( this._road.fadeInNewRoadLines.bind(this._road) );
@@ -161,14 +184,10 @@ export default class Gameplay extends Phaser.State
         }
         else
         {
-            this._scoreSystem.onPreviousPhase.add( () => this.gameOver(this._userInterface.pickupCounter.score) );
+            this._scoreSystem.onPreviousPhase.add( () => this.gameOver() );
         }
-
-        this._userInterface.scoreBar.onEmpty.add( () => {
-            if (this._phaseSystem.currentPhase === 1)
-            {
-                this.gameOver(this._userInterface.pickupCounter.score);
-            }
+        this._userInterface.scoreBar.onHealthEmpty.add( () => {
+            this.gameOver();
         });
 
         if (this._hideScoreBar)
@@ -187,9 +206,12 @@ export default class Gameplay extends Phaser.State
     /** sets up next track of the song list */
     private nextTrack(): void
     {
-        Constants.CURRENT_LEVEL = (Constants.CURRENT_LEVEL + 1) % Constants.LEVELS.length;
         this.startTrack();
 
+        this._colorIndex = (this._colorIndex + 1) % Constants.ROAD_COLORS.length;
+        this._trackIndex = (this._trackIndex + 1) % this._trackList.length;
+        this._road.nextColor(this._colorIndex);
+        this._audioVisualizer.setColor(this._colorIndex);
         if (this._updatePhaseByBar)
         {
             this._phaseSystem.startNextPhase();
@@ -197,13 +219,22 @@ export default class Gameplay extends Phaser.State
     }
 
     /** starts the track (optinally with a delay) */
-    private startTrack(delay: number = 1000): void
+    private startTrack(): void
     {
-        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
-        setTimeout(() => {
-            SoundManager.getInstance().playMusic(Constants.LEVELS[Constants.CURRENT_LEVEL].music, 1, false);
+        Constants.CURRENT_LEVEL = this._trackList[this._trackIndex];
+        let songAsset: string = Constants.LEVELS[Constants.CURRENT_LEVEL].music;
+        if (this.game.cache.checkSoundKey(songAsset)) {
+            SoundManager.getInstance().playMusic(songAsset, 1, false);
             this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
-        }, delay);
+        } else {
+            this.game.load.audio(songAsset, ['assets/music/' + songAsset + '.ogg' , 'assets/music/' + songAsset + '.mp3']);
+            this.game.load.start();
+            this.game.load.onFileComplete.addOnce(() => {
+                SoundManager.getInstance().playMusic(songAsset, 1, false);
+                this._pickupSpawner.setNewSong(Constants.LEVELS[Constants.CURRENT_LEVEL].json);
+            });
+        }
+        this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
     }
 
     public update(): void
@@ -221,52 +252,50 @@ export default class Gameplay extends Phaser.State
         this._perspectiveRenderer.render();
 
         if (this._phaseSystem.inTransition === true) { return; }
-        this._scoreSystem.updateScoreSystem(this._userInterface.scoreBar.value);
+        this._scoreSystem.updateScoreSystem(this.score);
 
     }
 
-    public gameOver(score: number): void
+    /** Game over widow is activated */
+    private gameOver(): void
     {
-        console.log('gameover');
-        if (score > SaveData.Highscore)
+        if (this._userInterface.pickupCounter.score > SaveData.HIGHSCORE)
         {
-            SaveData.Highscore = score;
+            SaveData.HIGHSCORE = this._userInterface.pickupCounter.score;
         }
 
-        this._userInterface.gameOver(score, SaveData.Highscore);
+        this._userInterface.gameOver(this._userInterface.pickupCounter.score, SaveData.HIGHSCORE);
         this.pause(false);
     }
 
-    public resize(): void
+    /** called when window gets blurred */
+    private onBlur(): void
     {
-        this._audioVisualizer.resize();
-        this._userInterface.resize();
-        this._road.render(true);
-        this._perspectiveRenderer.resize();
-    }
-
-    //called when window gets blurred
-    public blur(): void {
-        if (this._gamePaused) {
-            return;
-        }
+        if (this._gamePaused) { return; }
         this._blurred = true;
         this.pause(false);
     }
 
-    //called when window gets focused
-    public focus(): void {
-        if (this._gamePaused && this._blurred) {
-            this.pause(false);
-            this._blurred = false;
-        }
+    /** called when window gets focused */
+    private onFocus(): void
+    {
+        if (!this._gamePaused || !this._blurred) { return; }
+
+        this.pause(false);
+        this._blurred = false;
     }
 
-    public onMissingpPickup(): void {
+    /** Reacts negativly when a pickup is missed by the player */
+    private onMissingpPickup(): void
+    {
         SoundManager.getInstance().play(Sounds.LOW_SOUND);
         this.game.camera.flash(0xff0000, 300, true, 0.1);
+        this._userInterface.scoreBar.Health--;
     }
 
+    /** Pgauses/resumes the game.
+     * Gets called when the pausebutton is clicked or the browser is blurred
+     */
     public pause(showPauseScreen: boolean = true): void
     {
         this._gamePaused = !this._gamePaused;
@@ -275,18 +304,28 @@ export default class Gameplay extends Phaser.State
         SoundManager.getInstance().pause(this._gamePaused);
 
         this._input.active = !this._gamePaused;
+        this._lightning.pause(this._gamePaused);
 
         if (showPauseScreen === false) { return; }
         this._userInterface.pauseScreen.visible = this._gamePaused;
 
         if (!this._blurred) {
-            this._userInterface.Pause(this._gamePaused);
+            this._userInterface.pause(this._gamePaused);
         }
     }
 
+    /** Make the world react perfeclty */
+    public makeWorldReactPerfect(): void {
+        this._lightning.initiateThunder(this._player.lane);
+        this._userInterface.scoreBar.Health++;
+        this.makeWorldReact();
+    }
+
     /** Make the world move */
-    public worldReact(): void {
-        if (navigator.vibrate) {
+    private makeWorldReact(): void
+    {
+        if (navigator.vibrate)
+        {
             // vibration API supported
             window.navigator.vibrate(50);
         }
@@ -298,14 +337,20 @@ export default class Gameplay extends Phaser.State
     }
 
     /** Reposition everything on the road so they are ready for the next phase */
-    public worldReposition(): void
+    private repositionWorld(): void
     {
         this._player.reposition();
         this._pickupContainer.reposition();
-        this._userInterface.scoreBar.reset();
     }
 
-    // TODO: DESTROY EVERYTHING THAT IS CREATED *BEUHAHAH*
+    public resize(): void
+    {
+        this._audioVisualizer.resize();
+        this._userInterface.resize();
+        this._road.render(true);
+        this._perspectiveRenderer.resize();
+    }
+
     public shutdown(): void
     {
         this.pause();
@@ -322,6 +367,9 @@ export default class Gameplay extends Phaser.State
 
         this._userInterface.destroy();
         this._userInterface = null;
+
+        this._lightning.destroy();
+        this._lightning = null;
 
         this._pickupSpawner.destroy();
         this._pickupSpawner = null;
@@ -341,19 +389,19 @@ export default class Gameplay extends Phaser.State
         this._road.destroy(true);
         this._road = null;
 
-        this.spawnEditor.destroy();
-        this.spawnEditor = null;
+        this._spawnEditor = null;
 
         this._phaseSystem.destroy();
         this._phaseSystem = null;
 
         this._scoreSystem.destroy();
         this._scoreSystem = null;
+        this.score = 0;
 
         this._glowFilter = null;
 
         //removing events
-        window.removeEventListener('blur', this.blur.bind(this));
-        window.removeEventListener('focus', this.focus.bind(this));
+        window.removeEventListener('blur', this.onBlur.bind(this));
+        window.removeEventListener('focus', this.onFocus.bind(this));
     }
 }

@@ -1,32 +1,12 @@
 import 'phaser-ce';
-import Constants from '../../../../Data/Constants';
-import { setTimeout, clearTimeout } from 'timers';
-import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
+import PopupText from './PopupText';
 
-export default class PickupCounter extends Phaser.BitmapText
+/** Displays the score */
+export default class PickupCounter extends PopupText
 {
     public score: number = 0;
 
-    private _timeOutID: NodeJS.Timer;
-
-    private _hideTween: Phaser.Tween;
-
-    private _reactTween: Phaser.Tween;
-
-    constructor(game: Phaser.Game, x: number, y: number)
-    {
-        super(game, x, y, 'myfont', '0');
-        this.anchor.set(.5);
-        this.alpha = 0.0;
-        this.scale.set(1, 1);
-
-        if (Constants.USE_FILTERS === true)
-        {
-            this.filters = [new Phaser.Filter(this.game, null, Constants.GLOW_FILTER)];
-        }
-    }
-
-    private reactToCollection(): void
+    public react(): void
     {
         if (this._reactTween)
         {
@@ -51,6 +31,7 @@ export default class PickupCounter extends Phaser.BitmapText
         });
     }
 
+    /** Updates the score text by scoreincrease and randomnise its tint */
     public updateScore(scoreIncrease: number, changeColour: boolean): void
     {
         this.fadeIn();
@@ -64,51 +45,40 @@ export default class PickupCounter extends Phaser.BitmapText
         {
             this.tint = 0xffffff;
         }
-        this.reactToCollection();
+        this.react();
     }
 
-    private fadeIn(): void
+    protected fadeIn(): void
     {
-        this.stopHide();
+        super.fadeIn();
 
         this._hideTween = this.game.add.tween(this).to( {alpha: 0.15}, 250, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
-                this.setScaleToAlpha();
+                this.setScaleToAlpha(10);
             }
         );
-
-        clearTimeout(this._timeOutID);
-        this._timeOutID = setTimeout(this.fadeOut.bind(this), 1200);
     }
 
-    private fadeOut(): void
+    protected fadeOut(): void
     {
-        this.stopHide();
+        super.fadeOut();
+
         this._hideTween = this.game.add.tween(this).to( {alpha: 0}, 1000, Phaser.Easing.Linear.None, true, 0, 0)
             .onUpdateCallback(() => {
-                this.setScaleToAlpha();
+                this.setScaleToAlpha(10);
             }
         );
-    }
-
-    private setScaleToAlpha(): void
-    {
-        let desiredScale: number = 1 + this.alpha * 1.5 / 0.15;
-
-        this.scale.set(desiredScale, desiredScale);
-    }
-
-    private stopHide(): void
-    {
-        if (this._hideTween)
-        {
-            this._hideTween.stop(true);
-            this._hideTween = null;
-        }
     }
 
     public destroy(): void
     {
-        PlayerCollisionChecker.getInstance().onColliding.remove(this.reactToCollection);
+        if (this._reactTween) { this._reactTween.stop(true); }
+        this._reactTween = null;
+
+        if (this._hideTween) { this._hideTween.stop(true); }
+        this._hideTween = null;
+
+        clearTimeout(this._timeOutID);
+        this._timeOutID = null;
     }
 }

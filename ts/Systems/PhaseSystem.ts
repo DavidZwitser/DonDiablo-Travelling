@@ -46,11 +46,14 @@ export default class PhaseSystem
         // this.currentPhase ++;
     }
 
+    /** Starts the next phase in the constants phase list if there are any */
     public startNextPhase(): void
     {
         if (this.currentPhase > Constants.PHASES.length) { return; }
         this.currentPhase ++;
     }
+
+    /** Starts the previous phase in the constants phase list if there are any */
     public startPreviousPhase(): void
     {
         if (this.currentPhase < 0) { return; }
@@ -73,7 +76,6 @@ export default class PhaseSystem
         /** Set the new values! */
         LaneIndexer.AMOUNT_OF_ACTIVE_LANES = nextPhase.amountOfLanes;
         Constants.GLOBAL_SPEED = nextPhase.pickupSpeed;
-        this._phaseDuration = nextPhase.phaseDuration;
 
         this._currentPhase = phase;
 

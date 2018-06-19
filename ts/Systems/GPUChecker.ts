@@ -1,7 +1,11 @@
 import Constants from '../Data/Constants';
 
+/**
+ * Checks the GPU of the device to prevent rendering bugs
+ */
 export default class GPUChecker
 {
+    /** Checks if the GPU can handle certain amount of webGL shaders/filters */
     public static CHECK_AND_APPLY_GPU_SETTINGS(game: Phaser.Game): void
     {
         let gl: WebGLRenderingContext;

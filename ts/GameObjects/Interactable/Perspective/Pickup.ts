@@ -14,15 +14,8 @@ export default class Pickup extends ReactivePerspectiveObject
         super(game, renderer);
 
         //art assigning
-        this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.Interface, 'laying hexagon');
+        this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'laying hexagon');
         this.addChild(this.sprite);
-    }
-
-    /** Reset the pickup to its default values */
-    public reset(lane: Lanes): void
-    {
-        this.lane = lane;
-        this.position.set(0, 0);
     }
 
     /** Tell the collision class that it should check if the pickup is colliding with the player */
@@ -57,9 +50,36 @@ export default class Pickup extends ReactivePerspectiveObject
         }
 
         /** If it is on a z position where it could be colliding, call that event */
-        if (this.zPos > 1 && this.zPos < 1.4)
+        if (this.zPos > Constants.PLAYER_Z_POSITION - .2 && this.zPos < Constants.PLAYER_Z_POSITION + .2)
         {
             this.initiateCollision();
+        }
+    }
+
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false): Phaser.Signal
+    {
+        let changeLaneTweenOnComplete: Phaser.Signal = super.changeLane(lane, overwriteOldPosition);
+
+        if (!changeLaneTweenOnComplete) { return; }
+
+        changeLaneTweenOnComplete.addOnce( () => {
+            this.changeSprite();
+        });
+
+        return changeLaneTweenOnComplete;
+    }
+    /** Updates the sprite to match it surroundings */
+    public changeSprite(): void {
+        if (this.lane === Lanes.topCenterLane || this.lane === Lanes.bottomCenterLane)
+        {
+            this.sprite.frameName = 'laying hexagon';
+        } else if (this.lane === Lanes.topRightLane || this.lane === Lanes.bottomRightLane)
+        {
+            this.sprite.frameName = 'laying hexagon_side';
+        } else
+        {
+            this.sprite.frameName = 'laying hexagon_side';
+            this.sprite.scale.x = -this.sprite.scale.x;
         }
     }
 

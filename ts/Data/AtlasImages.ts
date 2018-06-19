@@ -1,46 +1,50 @@
+/**
+ * All the images, for preloading and accessing later.
+ */
 export default class AtlasImages
 {
     //in game
-    public static Spacecraft: string = 'Spaceraft_Main';
+    public static SPACECRAFT: string = 'Spaceraft_Main';
 
     //roads
-    public static Road_Top: string = 'Road_Top_Black';
-    public static Road_Bottom: string = 'Road_Bottom_White';
+    public static ROAD_TOP: string = 'Road_Top_Black';
+    public static ROAD_BOTTOM: string = 'Road_Bottom_White';
 
-    public static Exit_Button: string = 'exitbutton';
+    public static EXIT_BUTTON: string = 'exitbutton';
 
     //sound options
-    public static Music_Off_Button: string = 'ui_icon_music_off';
-    public static Music_On_Button: string = 'ui_icon_music_on';
-    public static SFX_Off_Button: string = 'ui_icon_sfx_off';
-    public static SFX_On_Button: string = 'ui_icon_sfx_on';
+    public static MUSIC_OFF_BUTTON: string = 'ui_icon_music_off';
+    public static MUSIC_ON_BUTTON: string = 'ui_icon_music_on';
+    public static SFX_OFF_BUTTON: string = 'ui_icon_sfx_off';
+    public static SFX_ON_BUTTON: string = 'ui_icon_sfx_on';
 
     //other menus and UI
-    public static Ingame_Button: string = 'ui_ingame_button';
-    public static Example_Greyboxing: string = 'example_greyboxing';
-    public static Close_X_Button: string = 'ui_close_x_button';
-    public static Credits_Screen: string = 'ui_credits_screen';
+    public static INGAME_BUTTON: string = 'ui_ingame_button';
+    public static EXAMPLE_GREYBOXING: string = 'example_greyboxing';
+    public static CLOSE_X_BUTTON: string = 'ui_close_x_button';
+    public static CREDITS_SCREEN: string = 'ui_credits_screen';
 
     //main menu
-    public static Background: string = 'bg';
-    public static MainMenu_Overlay: string = 'background_overlay';
-    public static Menu_Button: string = 'button_menu';
-    public static Logo: string = 'logo';
+    public static BACKGROUND: string = 'bg';
+    public static MAINMENU_OVERLAY: string = 'background_overlay';
+    public static MENU_BUTTON: string = 'button_menu';
+    public static LOGO: string = 'logo_upside_don_final';
 
     //settings
-    public static Setting_Overlay: string = 'backgroundoverlay';
-    public static Setting_Header: string = 'settings';
+    public static SETTINGS_OVERLAY: string = 'backgroundoverlay';
+    public static SETTINGS_HEADER: string = 'settings';
 
     //level select
-    public static Locked_Level: string = 'lockedlevel';
-    public static Open_Level: string = 'openlevel';
-    public static Level_Select_Background: string = 'levelSelectBackground';
+    public static LOCKED_LEVEL: string = 'lockedlevel';
+    public static OPEN_LEVEL: string = 'openlevel';
+    public static LEVEL_SELECT_BACKGROUND: string = 'levelSelectBackground';
 
     //coins
-    public static Hex_Coins: string = 'Hex_Coins';
+    public static HEX_COINS: string = 'Hex_Coins';
 
-    public static ScoreBarBackground: string = 'UserInterface_ScoreBar_Backdrop';
-    public static ScoreBarFill: string = 'UserInterface_ScoreBar_Filling';
-    public static ScoreBarForeground: string = 'UserInterface_ScoreBar_Edges';
-    public static Black_Pixel: string = 'Pixel_black';
+    //hex bar
+    public static SCORE_BAR_BACKGROUND: string = 'Omlijning_Bar';
+    public static SCORE_BAR_FILL: string = 'Fill_Bar';
+    public static SCORE_BAR_FOREGROUND: string = 'Omlijning_Fill_bar';
+    public static BLACK_PIXEL: string = 'Pixel_black';
 }

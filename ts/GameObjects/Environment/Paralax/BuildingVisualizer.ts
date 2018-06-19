@@ -1,9 +1,9 @@
 import 'phaser-ce';
 import AudioAnalyser from '../../../Systems/Sound/AudioAnalyser';
 import Atlases from '../../../Data/Atlases';
+import Constants from '../../../Data/Constants';
 
-/** Visualizes songs */
-/** Visualizes music */
+/** Visualizes the music using building assets as bars */
 export default class BuildingVisualizer extends Phaser.Group
 {
     private _maxWidth: number;
@@ -38,7 +38,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._buildings = [];
         this._topBuildings = [];
 
-        this._contextAvailable = AudioAnalyser.getInstance().Setup();
+        this._contextAvailable = AudioAnalyser.getInstance().setup();
         this._maxWidth = maxWidth;
         this._maxHeight = maxHeight;
 
@@ -61,35 +61,39 @@ export default class BuildingVisualizer extends Phaser.Group
         this.mask = this._maskGraphic;
     }
 
+    /** Sets up the visualizer */
     private setUp(): void
     {
         //bottom half
-        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._backGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'building_glow');
         this._backGlow.anchor.set(0, 1);
         this._backGlow.alpha = 0;
         this._bottomHalf.addChild(this._backGlow);
 
         this.setUpBuildings(false);
 
-        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'Upper_glow_utopia');
+        this._glow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'building_glow');
         this._glow.anchor.set(0, 1);
         this._bottomHalf.addChild(this._glow);
 
         //top half
-        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'dark_glow_top');
+        this._topBackGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'building_glow');
         this._topBackGlow.anchor.set(0, 1);
         this._topHalf.addChild(this._topBackGlow);
 
         this.setUpBuildings(true);
 
-        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.Interface, 'glowunder');
+        this._topGlow = new Phaser.Sprite(this.game, 0, 0, Atlases.INTERFACE, 'building_glow');
         this._topGlow.anchor.set(0, 1);
         this._topHalf.addChild(this._topGlow);
         this._topHalf.y = -this._maxHeight * 1;
         this._topHalf.scale.set(1, -1);
 
+        this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[0].bottomOuterColor;
+        this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[0].topOuterColor;
     }
 
+    /** Sets up the building assets needed for the visualizer */
     private setUpBuildings(top: boolean): void
     {
         let pos: number = 0;
@@ -101,12 +105,12 @@ export default class BuildingVisualizer extends Phaser.Group
             if (top)
             {
                 index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.INTERFACE, 'Background_Building_Red_' + (index < 10 ? '0' + index : index));
             }
             else
             {
                 index = Math.ceil(Math.random() * 14);
-                building = new Phaser.Sprite(this.game, pos, 0, Atlases.Interface, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
+                building = new Phaser.Sprite(this.game, pos, 0, Atlases.INTERFACE, 'Background_Building_Blue_' + (index < 10 ? '0' + index : index));
             }
             building.anchor.set(0);
             building.scale.set((this.game.width / GAME_WIDTH) * .5);
@@ -125,6 +129,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
     }
 
+    /** React function when the player collects a pickup */
     public react(): void
     {
         if (this.reactTween) {
@@ -175,6 +180,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
     }
 
+    /** Renders the building if there is no context by just setting their height normal from side to side */
     private renderBuildingWithoutContext(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void
     {
         for (let i: number = Math.floor(array.length / 2); i--;)
@@ -188,6 +194,7 @@ export default class BuildingVisualizer extends Phaser.Group
         glow.alpha = backGlow.alpha = -array[1].y / array[1].height;
     }
 
+    /** Renders the buildings based on the frquency volume of the volume. */
     private renderBuilding(array: Phaser.Sprite[], glow: Phaser.Sprite, backGlow: Phaser.Sprite): void
     {
         for (let i: number = Math.floor(array.length / 2); i--;)
@@ -201,12 +208,14 @@ export default class BuildingVisualizer extends Phaser.Group
         glow.alpha = backGlow.alpha = -array[1].y / array[1].height;
     }
 
+    /** Switches from the onde building group to the other */
     public switch(): void
     {
         this._topIsActive = !this._topIsActive;
         this.deactivateHalf();
     }
 
+    /** Deactivate on of the buidling group */
     private deactivateHalf(): void
     {
         if (!this._topIsActive)
@@ -221,6 +230,7 @@ export default class BuildingVisualizer extends Phaser.Group
         }
     }
 
+    /** resizes the size of the object to match the devices sizes. */
     public resize(): void
     {
         //needs more things!
@@ -230,8 +240,68 @@ export default class BuildingVisualizer extends Phaser.Group
         });
     }
 
+    /** Sets the framenames of the building based on the color palet */
+    public setColor(index: number): void {
+        let random: number = Math.ceil(Math.random() * 11);
+
+        for (let i: number = this._buildings.length; i--; )
+        {
+            random = Math.ceil(Math.random() * 11);
+            this._buildings[i].frameName = 'Background_Building_' + Constants.ROAD_COLORS[index].bottomSprite + '_' + (random < 10 ? '0' + random : random);
+        }
+        for (let i: number = this._topBuildings.length; i--; )
+        {
+            random = Math.ceil(Math.random() * 11);
+            this._topBuildings[i].frameName = 'Background_Building_' + Constants.ROAD_COLORS[index].topSprite + '_' + (random < 10 ? '0' + random : random);
+        }
+        this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[index].bottomOuterColor;
+        this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[index].topOuterColor;
+    }
+
+    /** Destroys all the building assets/ sprites and tweens */
     public destroy(): void
     {
         super.destroy(true);
+
+        this._bottomHalf.destroy(true);
+        this._bottomHalf = null;
+
+        for (let i: number = this._buildings.length; i--; )
+        {
+            this._buildings[i].destroy();
+            this._buildings.splice(i, 1);
+        }
+        this._buildings = null;
+
+        this._glow.destroy(true);
+        this._glow = null;
+
+        this._backGlow.destroy(true);
+        this._backGlow = null;
+
+        this._topHalf.destroy(true);
+        this._topHalf = null;
+
+        for (let i: number = this._topBuildings.length; i--; )
+        {
+            this._topBuildings[i].destroy();
+            this._topBuildings.slice(i, 1);
+        }
+        this._topBuildings = null;
+
+        this._topGlow.destroy(true);
+        this._topGlow = null;
+
+        this._topBackGlow.destroy(true);
+        this._topBackGlow = null;
+
+        this._maskGraphic.destroy(true);
+        this._maskGraphic = null;
+
+        if (this.reactTween)
+        {
+            this.reactTween.stop(true);
+        }
+        this.reactTween = null;
     }
 }

@@ -37,8 +37,10 @@ export default class ScoreBar extends Phaser.Group
         this._valueSprite.mask = this._fillMask;
 
         this._valueSprite.anchor.set(0, 1);
-        this._backDropSprite.anchor.set(0, 1);
-        this._foreGroundSprite.anchor.set(0, 1);
+        this._backDropSprite.anchor.set(0, .5);
+        this._foreGroundSprite.anchor.set(0, .5);
+
+       // this._valueSprite.position.y = 20;
 
         this.value = .5;
 
@@ -88,8 +90,9 @@ export default class ScoreBar extends Phaser.Group
     {
         let vmin: number = Math.min(this.game.width, this.game.height / 2);
 
-        this.position.set(0, this.game.height / 1.25);
         this.scale.set(vmin / GAME_WIDTH);
+        this.position.set(0, this.game.height / 2);
+
     }
 
     public destroy(): void {

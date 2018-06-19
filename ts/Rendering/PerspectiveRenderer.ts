@@ -13,12 +13,6 @@ interface IScreenTransform
 /** Renders sprites in a pseudo 3d way */
 export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
 {
-    /** The point at which the sprites aim to go */
-    constructor(game: Phaser.Game)
-    {
-        super(game);
-    }
-
     /** Render (position) the sprites in pseudo3d way */
     public render(): void
     {
@@ -43,6 +37,7 @@ export default class PerspectiveRenderer extends Renderer<PerspectiveObject>
         object.position.set(targetTransform.x, targetTransform.y);
     }
 
+    /** Updates the object position */
     private updateObject(object: PerspectiveObject): void {
         if (object.visible) {
             object.updatePosition();

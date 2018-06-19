@@ -2,8 +2,9 @@
 import 'phaser-ce';
 import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
+import {IRoadColors} from '../Data/Constants';
 
-/** Renders a road */
+/** Renders the road */
 export default class Road extends Phaser.Group
 {
     /** How thick the lines should be */
@@ -12,10 +13,8 @@ export default class Road extends Phaser.Group
     private _offset: number = 0;
 
     /** The colors for the lines */
-    private _bottomMiddleColor: number = 0x8bf2d6;
-    private _bottomOuterColor: number = 0x66090f;
-    private _topMiddleColor: number = 0xf4091a;
-    private _topOuterColor: number = 0x148694;
+    private colorIndex: number = 0;
+    private _roadColors: IRoadColors;
 
     /** The layers where the lines on the horion are drawn */
     private _horizonLinesLayer: Phaser.Graphics;
@@ -39,8 +38,13 @@ export default class Road extends Phaser.Group
 
         this._highlightLayer = new Phaser.Graphics(game);
         this.addChild(this._highlightLayer);
+
+        this.setRoadColors(this.colorIndex);
     }
 
+    /** Renders the road lines and if it redraws everything also the road itself
+     * Gets called evey frame to update the road lines.
+     */
     public render(redrawEverything: boolean = false): void
     {
         /* The road lines */
@@ -88,7 +92,7 @@ export default class Road extends Phaser.Group
         }
 
         /** Drawing the top horizon lines */
-        this._horizonLinesLayer.beginFill(this._bottomOuterColor);
+        this._horizonLinesLayer.beginFill(this._roadColors.bottomOuterColor);
         for (let i: number = topHorizontalLines.length; i--; )
         {
             this._horizonLinesLayer.drawShape(topHorizontalLines[i]);
@@ -96,7 +100,7 @@ export default class Road extends Phaser.Group
         this._horizonLinesLayer.endFill();
 
         /** Drawing the bottom horizon lines */
-        this._horizonLinesLayer.beginFill(this._topOuterColor);
+        this._horizonLinesLayer.beginFill(this._roadColors.topOuterColor);
         for (let i: number = bottomHorizontalLines.length; i--; )
         {
             this._horizonLinesLayer.drawShape(bottomHorizontalLines[i]);
@@ -104,6 +108,7 @@ export default class Road extends Phaser.Group
         this._horizonLinesLayer.endFill();
     }
 
+    /** Hides existing road lines */
     public hideExistingRoadLines(transitionDuration?: number): void
     {
         this._roadLineAlpha = 1;
@@ -118,7 +123,7 @@ export default class Road extends Phaser.Group
         });
 
     }
-
+    /** Transitions between different road lines */
     public fadeInNewRoadLines(): void
     {
         this._roadLineAlpha = 0;
@@ -137,7 +142,7 @@ export default class Road extends Phaser.Group
     }
 
     /** Draws the lines that represent the road */
-    public drawRoadLine(alpha: number = 1): void
+    private drawRoadLine(alpha: number = 1): void
     {
         this._roadLinesLayer.clear();
 
@@ -183,7 +188,7 @@ export default class Road extends Phaser.Group
         }
 
         /** Drawing all the top road lines */
-        this._roadLinesLayer.beginFill(this._topMiddleColor, alpha);
+        this._roadLinesLayer.beginFill(this._roadColors.topMiddleColor, alpha);
         for (let i: number = topRoadLines.length; i--; )
         {
             this._roadLinesLayer.drawShape(topRoadLines[i]);
@@ -191,7 +196,7 @@ export default class Road extends Phaser.Group
         this._roadLinesLayer.endFill();
 
         /** Drawing all the bottom road lines */
-        this._roadLinesLayer.beginFill(this._bottomMiddleColor, alpha);
+        this._roadLinesLayer.beginFill(this._roadColors.bottomMiddleColor, alpha);
         for (let i: number = bottomRoadLines.length; i--; )
         {
             this._roadLinesLayer.drawShape(bottomRoadLines[i]);
@@ -217,14 +222,14 @@ export default class Road extends Phaser.Group
         let bottomThickLine: Phaser.Polygon = this.getHorizonLine(.9, .01);
 
         /** Drawing the top hightlights */
-        this._highlightLayer.beginFill(this._bottomOuterColor);
+        this._highlightLayer.beginFill(this._roadColors.bottomOuterColor);
         this._highlightLayer.drawShape(topLeftRoadBorder);
         this._highlightLayer.drawShape(topRightRoadBorder);
         this._highlightLayer.drawShape(topThickLine);
         this._highlightLayer.endFill();
 
         /** Drawing the bottom highlights */
-        this._highlightLayer.beginFill(this._topOuterColor);
+        this._highlightLayer.beginFill(this._roadColors.topOuterColor);
         this._highlightLayer.drawShape(bottomLeftRoadBorder);
         this._highlightLayer.drawShape(bottomRightRoadBorder);
         this._highlightLayer.drawShape(bottomThickLine);
@@ -236,6 +241,59 @@ export default class Road extends Phaser.Group
         this._highlightLayer.beginFill(0x000000);
         this._highlightLayer.drawShape(horizonShape);
         this._highlightLayer.endFill();
+    }
+
+    /** Goes to the next color of the road color set */
+    public nextColor(index: number): void
+    {
+        this.animateToColor(index);
+    }
+
+    /**
+     * Animates the road colors to the index in time amout ont time.
+     * @param index the destination of the new color set
+     * @param time time of the anmiation
+     */
+    private animateToColor(index: number, time: number = 1000): void
+    {
+        let colorBlend: any = {step: 0};
+        // create the tween on this object and tween its step property to 100
+        let colorTween: Phaser.Tween = this.game.add.tween(colorBlend).to({step: 100}, time).start();
+        // run the interpolateColor function every time the tween updates, feeding it the
+        // updated value of our tween each time, and set the result as our tint
+        colorTween.onUpdateCallback(() => {
+            this._roadColors.bottomMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomMiddleColor,
+                Constants.ROAD_COLORS[index].bottomMiddleColor, 100, colorBlend.step);
+
+            this._roadColors.bottomOuterColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomOuterColor,
+                Constants.ROAD_COLORS[index].bottomOuterColor, 100, colorBlend.step);
+
+            this._roadColors.topMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].topMiddleColor,
+                Constants.ROAD_COLORS[index].topMiddleColor, 100, colorBlend.step);
+
+            this._roadColors.topOuterColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].topOuterColor,
+                Constants.ROAD_COLORS[index].topOuterColor, 100, colorBlend.step);
+            this.drawRoadLine();
+            this.drawHighlights();
+        });
+        colorTween.onComplete.addOnce(() => {
+            this.setRoadColors(index);
+        });
+    }
+
+    /** Sets the colors of the road hard */
+    private setRoadColors(index: number): void
+    {
+        this._roadColors = {
+            bottomMiddleColor: Number(Constants.ROAD_COLORS[index].bottomMiddleColor),
+            bottomOuterColor: Number(Constants.ROAD_COLORS[index].bottomOuterColor),
+            topMiddleColor: Number(Constants.ROAD_COLORS[index].topMiddleColor),
+            topOuterColor: Number(Constants.ROAD_COLORS[index].topOuterColor),
+            topSprite: '',
+            bottomSprite: ''
+        };
+        this.colorIndex = index;
+
     }
 
     /** Get a road line for the top side of the screen */

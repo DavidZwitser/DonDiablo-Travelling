@@ -51,6 +51,7 @@ export default class SoundManager
         return SoundManager.instance;
     }
 
+    /** Pauser/ resumes the music */
     public pause(pause: boolean): void {
         if (this._game.device.safari || this._game.device.mobileSafari)
         {
@@ -62,6 +63,7 @@ export default class SoundManager
         }
     }
 
+    /** called when a music piece has ended in the gameplay state */
     private musicEnded(): void {
         this.onMusicEnd.dispatch();
     }
@@ -69,7 +71,7 @@ export default class SoundManager
     /** Play a sfx */
     public play(key: string, volume: number = 1, loop: boolean = false): Phaser.Sound
     {
-        if (SaveGame.SFXMuted)
+        if (SaveGame.SFX_MUTED)
         {
             return null;
         }
@@ -95,22 +97,6 @@ export default class SoundManager
     /** Start playing a background tune */
     public playMusic(key: string, volume: number = 1, loop: boolean = true): void
     {
-        // if (null === this.music || this.music.name !== key)
-        // {
-        //     if (null !== this.music && this.music.name !== key)
-        //     {
-        //         this.music.stop();
-        //         console.error('sound already there!, stopping and playing again');
-        //     }
-
-        //     this.music = this._sound.play(key, 1, true);
-
-        //     console.error('playin ze muziek');
-
-        //     return;
-        // }
-
-        //this.music = this._sound.play(key, 1, true);
         if (this._game.device.safari || this._game.device.mobileSafari) {
                 if (null !== this.music && this.music.name !== key)
                 {
@@ -143,7 +129,7 @@ export default class SoundManager
         //console.error('doing nothing' );
     }
 
-    /* Fade music folume to a spesific new volume */
+    /** Fade music folume to a spesific new volume */
     public fadeMusicVolume(duration: number, volume: number): void
     {
         if (this.music)
@@ -182,15 +168,15 @@ export default class SoundManager
     /** Toggle the sfx mute switch */
     public toggleSfx(): void
     {
-        SaveGame.SFXMuted = !SaveGame.SFXMuted;
+        SaveGame.SFX_MUTED = !SaveGame.SFX_MUTED;
     }
 
     /** Toggle the music mute switch */
     public toggleMusic(): void
     {
-        SaveGame.MusicMuted = !SaveGame.MusicMuted;
+        SaveGame.MUSIC_MUTED = !SaveGame.MUSIC_MUTED;
 
-        if (!SaveGame.MusicMuted)
+        if (!SaveGame.MUSIC_MUTED)
         {
             if (this.music && this.music.isPlaying)
             {

@@ -3,7 +3,7 @@ import 'phaser-ce';
 import PerspectiveRenderer from '../PerspectiveRenderer';
 import { Lanes, ILane, LaneConverter, LaneIndexer } from '../../Enums/Lanes';
 
-/** A sprite that get's rendered by the pseudo3d renderer */
+/** A group that get's rendered by the pseudo3d renderer */
 export default class PerspectiveObject extends Phaser.Group
 {
     protected sprite: Phaser.Sprite;
@@ -28,6 +28,9 @@ export default class PerspectiveObject extends Phaser.Group
         renderer.addObject(this);
     }
 
+    /**
+     * Gets the lane position of the object
+     */
     public get lane(): Lanes
     {
         return this._lane;
@@ -48,26 +51,24 @@ export default class PerspectiveObject extends Phaser.Group
 
         this.yPos = targetPosition.y;
         this.xPos = targetPosition.x;
-
         this.changingLane = false;
 
     }
 
     /** Reset lane, so the object moves to the nearest lane (used when a new lane is added). */
-    public reposition(): void
+    public reposition(): Phaser.Signal
     {
-        this.changeLane(this.lane, true);
+        return this.changeLane(this.lane, true);
     }
 
-    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): void
+    /** Animates from one lane to the other */
+    public changeLane( lane: Lanes, overwriteOldPosition: boolean = false ): Phaser.Signal
     {
         //only move when the lane is different that its own lane
         if (this._lane === lane && overwriteOldPosition === false || this.changingLane === true)
         {
             return;
         }
-
-        console.log('changing lane');
 
         let desiredLane: ILane = LaneIndexer.LANE_TO_ILANE(lane);
         /* So no tslint errors will be thrown */
@@ -124,8 +125,11 @@ export default class PerspectiveObject extends Phaser.Group
         this.rotationTween = this.rotationTween;
 
         this.changingLane = true;
+
+        return this.laneTween.onComplete;
     }
 
+    /** Called when the lane animation has ended */
     private laneEnd(lane: Lanes ): void
     {
         this.lane = lane;
@@ -190,11 +194,13 @@ export default class PerspectiveObject extends Phaser.Group
         this.scaleMultiplier = this.game.width / GAME_WIDTH;
     }
 
+    /** Updates the position of the object */
     public updatePosition(): void
     {
         //
     }
 
+    /** destroys the object and its children since its a phaser group */
     public destroy(destroyChildren: boolean = true): void
     {
         super.destroy(destroyChildren);
