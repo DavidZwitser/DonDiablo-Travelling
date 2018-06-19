@@ -124,7 +124,19 @@ export default class Constants
 
              topSprite: 'Red',
              bottomSprite: 'Purple'
+         },
+         {
+            //black
+            bottomMiddleColor: 0x000000,
+            bottomOuterColor: 0x000000,
+             //black
+             topMiddleColor: 0x000000,
+             topOuterColor: 0x000000,
+
+             topSprite: 'Black',
+             bottomSprite: 'Black'
          }
+
 
     ];
 
@@ -201,6 +213,12 @@ export default class Constants
             artist: 'Don Diablo',
             json: JSON.PUT_IT_ON,
             music: Sounds.PUT_IT_ON_FOR_ME
+        },
+        {
+            title: 'Tunnel Vision',
+            artist: 'Don Diablo',
+            json: JSON.PUT_IT_ON,
+            music: Sounds.FUTURE
         }
 
     ];

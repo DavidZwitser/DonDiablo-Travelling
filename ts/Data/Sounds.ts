@@ -21,6 +21,8 @@ export default class Sounds
     public static DONT_LET_GO: string = 'Dont_Let_Go';
     public static SATALITES: string = 'satalites';
 
+    public static FUTURE: string = 'Tunnel_Vision';
+
     //sound effects
     public static HIGH_SOUND: string = 'high_sound';
     public static LOW_SOUND: string = 'low_sound';
