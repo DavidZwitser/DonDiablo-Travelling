@@ -9,6 +9,7 @@ import PlayerCollisionChecker from '../../../Systems/PlayerCollisionChecker';
 /** A pickup you can pickup */
 export default class Pickup extends ReactivePerspectiveObject
 {
+
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game, renderer);
@@ -16,6 +17,8 @@ export default class Pickup extends ReactivePerspectiveObject
         //art assigning
         this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'laying hexagon');
         this.addChild(this.sprite);
+
+        this.sprite.tint = 0x8bf2d6;
     }
 
     /** Tell the collision class that it should check if the pickup is colliding with the player */

@@ -4,7 +4,7 @@ import Atlases from '../../../../../../../Data/Atlases';
 import { IHexBodyPartsCollection, HexBodyParts, IHexPartsCollection } from '../../HexPartsData';
 import SaveData from '../../../../../../../BackEnd/SaveData';
 
-/** The class where hex pis pieced together to form its full image */
+/** The class where hex is pieced together to form its full image */
 export default class HexPiecedTogether extends Phaser.Group
 {
     /** Its head */
@@ -24,9 +24,17 @@ export default class HexPiecedTogether extends Phaser.Group
     /**  Its booster */
     public booster: Phaser.Sprite;
 
+    public currentAmountParts: number;
+    public amountOfParts: number = 5;
+    public collectedAll: boolean;
+
+    public collectedSignal: Phaser.Signal;
+
     constructor(game: Phaser.Game)
     {
         super(game);
+
+       
 
         /** Creating his neck */
         this.neck = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Neck_silhouette');
@@ -72,30 +80,44 @@ export default class HexPiecedTogether extends Phaser.Group
         if (this.hasAllCollectedSubParts(data[HexBodyParts.head].subParts) === true)
         {
             this.head.frameName = 'Head';
+            this.amountOfParts += 1;
         }
 
         /* Checking torso */
         if (this.hasAllCollectedSubParts(data[HexBodyParts.torso].subParts) === true)
         {
             this.torso.frameName = 'Torso';
+            this.amountOfParts += 1;
         }
 
         /* Checking left arm */
         if (this.hasAllCollectedSubParts(data[HexBodyParts.leftArm].subParts) === true)
         {
             this.leftArm.frameName = 'Left_arm';
+            this.amountOfParts += 1;
         }
 
         /* Checking right arm */
         if (this.hasAllCollectedSubParts(data[HexBodyParts.rightArm].subParts) === true)
         {
             this.rightArm.frameName = 'Right_arm';
+            this.amountOfParts += 1;
         }
 
         /* Checking booster */
         if (this.hasAllCollectedSubParts(data[HexBodyParts.booster].subParts) === true)
         {
             this.booster.frameName = 'Booster';
+            this.amountOfParts += 1;
+        }
+
+        if (this.amountOfParts >= 5)
+        {
+            this.amountOfParts = 5;
+            this.collectedAll = true;
+
+            this.collectedSignal = new Phaser.Signal();
+            this.collectedSignal.dispatch();
         }
     }
 

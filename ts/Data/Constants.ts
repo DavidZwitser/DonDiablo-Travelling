@@ -15,6 +15,17 @@ export interface IRoadColors
     bottomSprite: string;
 }
 
+export interface ISRoadColors
+{
+    bottomMiddleColor: number;
+    bottomOuterColor: number;
+    topMiddleColor: number;
+    topOuterColor: number;
+    topSprite: string;
+    bottomSprite: string;
+    backSprite?: string;
+}
+
 /** Interface of the level info containing  */
 interface ILevel
 {
@@ -55,8 +66,12 @@ export default class Constants
 
     public static PICKUPS_BEFORE_HEX_PART: number; //gets really declard in hexbar.ts
 
+    public static hexCollected: boolean = true; // checks if all hex parts have been collected.
 
-    public static hexCollected: boolean = true;
+    public static get GetHexCollected(): boolean
+    {
+        return this.hexCollected;
+    }
 
     /** road colors list with their own color schemes */
     public static readonly ROAD_COLORS: IRoadColors[] = [
@@ -127,7 +142,34 @@ export default class Constants
 
              topSprite: 'Red',
              bottomSprite: 'Purple'
-         },
+         }
+    ];
+
+    public static readonly SECRET_ROAD_COLORS: ISRoadColors[] = [
+
+        {
+            //blue
+            bottomMiddleColor: 0xAAAAAA,
+            bottomOuterColor: 0xAAAAAA,
+            //purple
+            topMiddleColor: 0xAAAAAA,
+            topOuterColor: 0xAAAAAA,
+
+            topSprite: 'Black',
+            bottomSprite: 'Black'
+
+        },
+        {
+            //purple
+            bottomMiddleColor: 0x111111,
+            bottomOuterColor: 0x111111,
+            //blue
+            topMiddleColor: 0x111111,
+            topOuterColor: 0x111111,
+
+            topSprite: 'Black',
+            bottomSprite: 'Black'
+        },
          {
             //black
             bottomMiddleColor: 0x000000,
@@ -139,7 +181,6 @@ export default class Constants
              topSprite: 'Black',
              bottomSprite: 'Black'
          }
-
 
     ];
 
@@ -229,7 +270,8 @@ export default class Constants
     /** Gets a random list of indexes of each level with optional a starting point */
     public static GET_RANDOM_TRACKLIST(initial?: number): number[]{
        
-        let hexCollected: boolean = true;
+     //   let hexCollected: boolean = this.hexCollected;;
+
        
         let list: number[] = [];
         let tracklist: number[] = [];
@@ -237,7 +279,7 @@ export default class Constants
             list.push(i);
         }
 
-        if (!hexCollected)
+        if (!this.hexCollected)
         {
             if (initial) {
                 tracklist.push(list[initial]);

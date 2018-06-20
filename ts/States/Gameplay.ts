@@ -57,6 +57,7 @@ export default class Gameplay extends Phaser.State
     private _gamePaused: boolean = false;
     private _blurred: boolean = false;
     private _colorIndex: number = 0;
+    private _secretColorIndex: number = 0;
 
     private _trackList: number[];
     private _trackIndex: number = 0;
@@ -76,6 +77,8 @@ export default class Gameplay extends Phaser.State
     public create(): void
     {
         super.create(this.game);
+
+    //   this.game.stage.backgroundColor =  0x4488aa;
 
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
@@ -208,16 +211,25 @@ export default class Gameplay extends Phaser.State
     {
         this.startTrack();
 
-        this._colorIndex = (this._colorIndex + 1) % Constants.ROAD_COLORS.length;
-        this._trackIndex = (this._trackIndex + 1) % this._trackList.length;
-        this._road.nextColor(this._colorIndex);
-        this._audioVisualizer.setColor(this._colorIndex);
-        if (this._updatePhaseByBar)
+        if (!Constants.hexCollected)
         {
-            this._phaseSystem.startNextPhase();
+            this._colorIndex = (this._colorIndex + 1) % Constants.ROAD_COLORS.length;
+            this._trackIndex = (this._trackIndex + 1) % this._trackList.length;
+            this._road.nextColor(this._colorIndex);
+            this._audioVisualizer.setColor(this._colorIndex);
         }
-    }
+        else
+        {
+            this._colorIndex = (this._secretColorIndex + 1) % Constants.SECRET_ROAD_COLORS.length;
+            this._road.nextColor(this._colorIndex);
+            this._audioVisualizer.setColor(this._colorIndex);
+        }
 
+        if (this._updatePhaseByBar)
+    {
+        this._phaseSystem.startNextPhase();
+    }
+}
     /** starts the track (optinally with a delay) */
     private startTrack(): void
     {
@@ -235,6 +247,14 @@ export default class Gameplay extends Phaser.State
             });
         }
         this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
+
+        if (Constants.hexCollected)
+        {
+            this._secretColorIndex = (this._secretColorIndex + 1) % Constants.SECRET_ROAD_COLORS.length;
+            this._road.nextColor(this._secretColorIndex);
+            this._audioVisualizer.setColor(this._secretColorIndex);
+        }
+        
     }
 
     public update(): void
@@ -259,14 +279,6 @@ export default class Gameplay extends Phaser.State
     /** Game over widow is activated */
     private gameOver(): void
     {
-<<<<<<< HEAD
-        if (this._userInterface.pickupCounter.score > SaveData.HIGHSCORE)
-        {
-            SaveData.HIGHSCORE = this._userInterface.pickupCounter.score;
-        }
-
-        this._userInterface.gameOver(this._userInterface.pickupCounter.score, SaveData.HIGHSCORE);
-=======
         this.score = this._userInterface.pickupCounter.score;
         if (this.score > SaveData.HIGHSCORE)
         {
@@ -274,7 +286,6 @@ export default class Gameplay extends Phaser.State
         }
 
         this._userInterface.gameOver(this.score, SaveData.HIGHSCORE);
->>>>>>> 4ac8052c30c8b8f48f74f2733210d01955d99bd3
         this.pause(false);
     }
 

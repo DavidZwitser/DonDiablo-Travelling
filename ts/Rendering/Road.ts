@@ -262,17 +262,37 @@ export default class Road extends Phaser.Group
         // run the interpolateColor function every time the tween updates, feeding it the
         // updated value of our tween each time, and set the result as our tint
         colorTween.onUpdateCallback(() => {
-            this._roadColors.bottomMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomMiddleColor,
-                Constants.ROAD_COLORS[index].bottomMiddleColor, 100, colorBlend.step);
 
-            this._roadColors.bottomOuterColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomOuterColor,
-                Constants.ROAD_COLORS[index].bottomOuterColor, 100, colorBlend.step);
+            if (!Constants.hexCollected)
+            {
+                this._roadColors.bottomMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomMiddleColor,
+                    Constants.ROAD_COLORS[index].bottomMiddleColor, 100, colorBlend.step);
 
-            this._roadColors.topMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].topMiddleColor,
-                Constants.ROAD_COLORS[index].topMiddleColor, 100, colorBlend.step);
+                this._roadColors.bottomOuterColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomOuterColor,
+                    Constants.ROAD_COLORS[index].bottomOuterColor, 100, colorBlend.step);
 
-            this._roadColors.topOuterColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].topOuterColor,
-                Constants.ROAD_COLORS[index].topOuterColor, 100, colorBlend.step);
+                this._roadColors.topMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].topMiddleColor,
+                    Constants.ROAD_COLORS[index].topMiddleColor, 100, colorBlend.step);
+
+                this._roadColors.topOuterColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].topOuterColor,
+                    Constants.ROAD_COLORS[index].topOuterColor, 100, colorBlend.step);
+            }
+            else
+            {
+                this._roadColors.bottomMiddleColor = Phaser.Color.interpolateColor(Constants.SECRET_ROAD_COLORS[this.colorIndex].bottomMiddleColor,
+                    Constants.SECRET_ROAD_COLORS[index].bottomMiddleColor, 100, colorBlend.step);
+
+                this._roadColors.bottomOuterColor = Phaser.Color.interpolateColor(Constants.SECRET_ROAD_COLORS[this.colorIndex].bottomOuterColor,
+                    Constants.SECRET_ROAD_COLORS[index].bottomOuterColor, 100, colorBlend.step);
+
+                this._roadColors.topMiddleColor = Phaser.Color.interpolateColor(Constants.SECRET_ROAD_COLORS[this.colorIndex].topMiddleColor,
+                    Constants.SECRET_ROAD_COLORS[index].topMiddleColor, 100, colorBlend.step);
+
+                this._roadColors.topOuterColor = Phaser.Color.interpolateColor(Constants.SECRET_ROAD_COLORS[this.colorIndex].topOuterColor,
+                    Constants.SECRET_ROAD_COLORS[index].topOuterColor, 100, colorBlend.step);
+
+            }
+
             this.drawRoadLine();
             this.drawHighlights();
         });
@@ -284,6 +304,8 @@ export default class Road extends Phaser.Group
     /** Sets the colors of the road hard */
     private setRoadColors(index: number): void
     {
+        if (!Constants.hexCollected)
+    {
         this._roadColors = {
             bottomMiddleColor: Number(Constants.ROAD_COLORS[index].bottomMiddleColor),
             bottomOuterColor: Number(Constants.ROAD_COLORS[index].bottomOuterColor),
@@ -292,6 +314,18 @@ export default class Road extends Phaser.Group
             topSprite: '',
             bottomSprite: ''
         };
+    }
+    else
+    {
+        this._roadColors = {
+            bottomMiddleColor: Number(Constants.SECRET_ROAD_COLORS[index].bottomMiddleColor),
+            bottomOuterColor: Number(Constants.SECRET_ROAD_COLORS[index].bottomOuterColor),
+            topMiddleColor: Number(Constants.SECRET_ROAD_COLORS[index].topMiddleColor),
+            topOuterColor: Number(Constants.SECRET_ROAD_COLORS[index].topOuterColor),
+            topSprite: '',
+            bottomSprite: ''
+    }
+        
         this.colorIndex = index;
 
     }
