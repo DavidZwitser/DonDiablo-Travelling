@@ -13,16 +13,6 @@ export interface IRoadColors
     topOuterColor: number;
     topSprite: string;
     bottomSprite: string;
-}
-
-export interface ISRoadColors
-{
-    bottomMiddleColor: number;
-    bottomOuterColor: number;
-    topMiddleColor: number;
-    topOuterColor: number;
-    topSprite: string;
-    bottomSprite: string;
     backSprite?: string;
 }
 
@@ -145,7 +135,7 @@ export default class Constants
          }
     ];
 
-    public static readonly SECRET_ROAD_COLORS: ISRoadColors[] = [
+    public static readonly SECRET_ROAD_COLORS: IRoadColors[] = [
 
         {
             //blue

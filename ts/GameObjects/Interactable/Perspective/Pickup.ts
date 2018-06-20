@@ -13,12 +13,24 @@ export default class Pickup extends ReactivePerspectiveObject
     constructor(game: Phaser.Game, renderer: PerspectiveRenderer)
     {
         super(game, renderer);
-
-        //art assigning
+         //art assigning
         this.sprite = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'laying hexagon');
         this.addChild(this.sprite);
+        this.constructSprite();
+    }
 
-        this.sprite.tint = 0x8bf2d6;
+
+    private constructSprite(): void
+    {
+         this.checkSecret();
+    }
+
+    private checkSecret(): void
+    {
+        if (Constants.hexCollected)
+        {
+            this.sprite.tint = 0xff0000;
+        }
     }
 
     /** Tell the collision class that it should check if the pickup is colliding with the player */

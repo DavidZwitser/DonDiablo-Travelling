@@ -89,8 +89,17 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topHalf.y = -this._maxHeight * 1;
         this._topHalf.scale.set(1, -1);
 
-        this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[0].bottomOuterColor;
-        this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[0].topOuterColor;
+        if (!Constants.hexCollected)
+        {
+            this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[0].bottomOuterColor;
+            this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[0].topOuterColor;
+        }
+        else
+        {
+            this._topBackGlow.tint = this._topGlow.tint = Constants.SECRET_ROAD_COLORS[0].bottomOuterColor;
+            this._backGlow.tint = this._glow.tint = Constants.SECRET_ROAD_COLORS[0].topOuterColor;
+        }
+        
     }
 
     /** Sets up the building assets needed for the visualizer */
@@ -254,8 +263,18 @@ export default class BuildingVisualizer extends Phaser.Group
             random = Math.ceil(Math.random() * 11);
             this._topBuildings[i].frameName = 'Background_Building_' + Constants.ROAD_COLORS[index].topSprite + '_' + (random < 10 ? '0' + random : random);
         }
-        this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[index].bottomOuterColor;
-        this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[index].topOuterColor;
+
+        if (!Constants.hexCollected)
+        {
+            this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[index].bottomOuterColor;
+            this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[index].topOuterColor;
+        }
+        else
+        {
+            this._topBackGlow.tint = this._topGlow.tint = Constants.SECRET_ROAD_COLORS[index].bottomOuterColor;
+            this._backGlow.tint = this._glow.tint = Constants.SECRET_ROAD_COLORS[index].topOuterColor;
+        }
+       
     }
 
     /** Destroys all the building assets/ sprites and tweens */
