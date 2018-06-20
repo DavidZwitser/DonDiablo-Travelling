@@ -8,7 +8,7 @@ import {IRoadColors} from '../Data/Constants';
 export default class Road extends Phaser.Group
 {
     /** How thick the lines should be */
-    private _lineThickness: number = .008;
+    private _lineThickness: number = .005;
     /** This is used for the horizon lines to offset them a bit every frame */
     private _offset: number = 0;
 
@@ -22,6 +22,13 @@ export default class Road extends Phaser.Group
     private _roadLinesLayer: Phaser.Graphics;
     /** The layer where the horizon clear and the highlights around the road are drawn */
     private _highlightLayer: Phaser.Graphics;
+
+    get gethighlightLayer(): Phaser.Graphics {
+        return this._highlightLayer;
+    }
+    set sethighlightLayer(theRoad: Phaser.Graphics) {
+        this._highlightLayer = theRoad;
+    }
 
     private _roadLineAlpha: number = 0;
     private _roadAmountTransitionTween: Phaser.Tween;
@@ -152,6 +159,7 @@ export default class Road extends Phaser.Group
 
         /* Clearing the side lines that are drawn over the road */
         this._roadLinesLayer.beginFill(0x000000);
+        this._roadLinesLayer.alpha = 0.5;
         this._roadLinesLayer.drawShape(roadShapeBottom);
         this._roadLinesLayer.drawShape(roadShapeTop);
         this._roadLinesLayer.endFill();
@@ -239,6 +247,7 @@ export default class Road extends Phaser.Group
 
         /* Clearing the road lines that are drawn over the horizon */
         this._highlightLayer.beginFill(0x000000);
+        this._highlightLayer.alpha = 0.5;
         this._highlightLayer.drawShape(horizonShape);
         this._highlightLayer.endFill();
     }

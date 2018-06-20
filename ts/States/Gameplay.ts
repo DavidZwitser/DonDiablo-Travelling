@@ -1,7 +1,6 @@
 import 'phaser-ce';
 
 import BuildingVisualizer from '../GameObjects/Environment/Paralax/BuildingVisualizer';
-import BackgroundVisualizer from '../Systems/BackgroundVisualizer';
 import UI from '../GameObjects/Interactable/Paralax/UI/UI';
 import Player from '../GameObjects/Interactable/Perspective/Player';
 import SoundManager from '../Systems/Sound/SoundManager';
@@ -22,13 +21,16 @@ import SaveData from '../BackEnd/SaveData';
 import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
 import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
-import RoadLighting from '../Systems/RoadLighting';
+
+import SecretUnlocker from '../Systems/SecretUnlocker';
+
 import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 /**
  * This is the state where the main gameplay is played at.
  * It only moves back to menu state when in the pause/result menu the user wants to go back to the menu.
  */
+
 export default class Gameplay extends Phaser.State
 {
     public static Name: string = 'gameplay';
@@ -38,12 +40,11 @@ export default class Gameplay extends Phaser.State
     public score: number = 0;
 
     private _audioVisualizer: BuildingVisualizer;
-    private _backgroundVisualizer: BackgroundVisualizer;
 
     private _userInterface: UI;
     private _player: Player;
     private _lightning: Lightning;
-    private _roadLighting: RoadLighting;
+
 
     private _input: Input;
     private _pickupSpawner: PickupSpawner;
@@ -57,6 +58,8 @@ export default class Gameplay extends Phaser.State
 
     private _scoreSystem: ScoreSystem;
     private _phaseSystem: PhaseSystem;
+
+    private _secretUnlocker: SecretUnlocker;
 
     private _gamePaused: boolean = false;
     private _blurred: boolean = false;
@@ -82,7 +85,9 @@ export default class Gameplay extends Phaser.State
     {
         super.create(this.game);
 
-    //   this.game.stage.backgroundColor =  0x4488aa;
+         /* The secret Level */
+        this._secretUnlocker = new SecretUnlocker(this.game);
+        this.game.add.existing(this._secretUnlocker);
 
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
@@ -93,11 +98,6 @@ export default class Gameplay extends Phaser.State
 
         /* tracklist setup */
         this._trackList = Constants.GET_RANDOM_TRACKLIST(Constants.CURRENT_LEVEL);
-
-
-        /* Background */
-        this._backgroundVisualizer = new BackgroundVisualizer(this.game, this._perspectiveRenderer);
-
 
         /* Player */
         this._player = new Player(this.game, this._perspectiveRenderer);
@@ -116,8 +116,6 @@ export default class Gameplay extends Phaser.State
         });
 
         this._lightning = new Lightning(this.game, this._perspectiveRenderer);
-
-        this._roadLighting = new RoadLighting(this.game);
 
         /* Level creation */
         this._spawnEditor = new SpawnEditor();
@@ -148,7 +146,6 @@ export default class Gameplay extends Phaser.State
         this._pickupContainer = new PickupContianer(this.game);
         this._pickupSpawner = new PickupSpawner(this.game, this._pickupContainer, this._perspectiveRenderer);
 
-        
         this.game.add.existing(this._player);
         this.game.add.existing(this._lightning);
 
@@ -213,9 +210,8 @@ export default class Gameplay extends Phaser.State
         SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
         this.startTrack();
 
-        //addEventListener('click', this.nextTrack.bind(this));
+       
 
-        this.game.add.existing(this._backgroundVisualizer);
         this.resize();
 
     }
@@ -431,9 +427,6 @@ export default class Gameplay extends Phaser.State
         this._scoreSystem.destroy();
         this._scoreSystem = null;
         this.score = 0;
-
-        this._backgroundVisualizer.destroy();
-        this._backgroundVisualizer = null;
 
         this._glowFilter = null;
 
