@@ -12,80 +12,81 @@ interface ITiming {
     lane: number;
 }
 
-
 export default class SecretUnlocker extends Phaser.Group
 {
-
-    private _levelData: ILevelData;
-    public _lightingSignal: Phaser.Signal;
-
     private _backgroundVisualizer: BackgroundVisualizer;
     private _roadLighting: RoadLighting;
-    
 
-    private _backgroundSprite: Phaser.Sprite;
+    private _levelData: ILevelData;
+    public _secretSignal: Phaser.Signal;
 
     private _currentTime: number;
+    
+    private _signalSent: boolean;
+
 
     constructor(game: Phaser.Game)
     {
         super(game);
 
-        this._lightingSignal = new Phaser.Signal();
+        this._levelData = game.cache.getJSON(Constants.LEVELS[12].json); // Grab the last song, Tunnel Vision
+        this._currentTime = 0.001; // add exact timer
+        this._signalSent = false;
 
-        this._levelData = game.cache.getJSON(Constants.LEVELS[12].json);
-        this._currentTime = 0.001;
-
-
-        if (Constants.hexCollected)
-        {
-            this.changeSurroundings();
-        }
-
+        this.addIngredients(this.game);
     }
 
+    
 
     private update(): void
     {
-        // drop = [55]
-
-        if (Constants.hexCollected)
+        if (Constants.hexCollected && !this._signalSent)
         {
-            this._currentTime += 1 * 0.025;
-
-            if (this._currentTime >= this._levelData.timings[1].time)
-            {
-                this.addScripts();
-                this._lightingSignal.dispatch();
-    
-            }
+            this.countDownSecret();
         }
-        
     }
 
-
-    private changeSurroundings(): void
+    private createSignal(): void
     {
-        /* Create the background sprite */
+        this._secretSignal = new Phaser.Signal(); // create Phaser.Signal for the secret
+    }
+
+    private addIngredients(game: Phaser.Game): void
+    {
+       /* Create the background sprite */
+
         this._backgroundVisualizer = new BackgroundVisualizer(this.game);
+     //   this._roadLighting = new RoadLighting(this.game);
 
-        this._backgroundSprite = this._backgroundVisualizer.getBackgroundSprite;
-        this._backgroundSprite.visible = false;
-
-        // bool runningHex  = true;
-      
-
-    }
-
-    private addScripts(): void
-    {
         this.game.add.existing(this._backgroundVisualizer);
-        this.game.add.existing(this._roadLighting);
+     //  this.game.add.existing(this._roadLighting);
     }
+
+  private countDownSecret(): void
+  {
+       // drop = [55]
+
+    if (this._currentTime >= this._levelData.timings[1].time)
+    {
+
+        this._signalSent = true;
+
+        this.createSignal();
+        this._secretSignal.dispatch();
+        console.log('works step 1');
+    }
+
+    if (!this._signalSent)
+    {
+        this._currentTime += 1 * 0.025;
+    }
+  }
 
       /** destroys and clears all secret lockables */
       public destroy(): void
       {
+         this._levelData = null;
+
          this._backgroundVisualizer.destroy();
          this._backgroundVisualizer = null;
 

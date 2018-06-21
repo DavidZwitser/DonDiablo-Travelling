@@ -34,8 +34,6 @@ export default class HexPiecedTogether extends Phaser.Group
     {
         super(game);
 
-       
-
         /** Creating his neck */
         this.neck = new Phaser.Sprite(game, 0, 0, Atlases.INTERFACE, 'Neck_silhouette');
         this.neck.anchor.set(.5, 0);
