@@ -1,6 +1,7 @@
 import Constants from '../../Data/Constants';
 
 import HexParts from '../Secret/HexParts';
+import HexEnemy from '../Secret/HexEnemy';
 
 import BackgroundVisualizer from '../Secret/BackgroundVisualizer';
 import RoadLighting from '../Secret/RoadLighting';
@@ -21,6 +22,7 @@ export default class SecretUnlocker extends Phaser.Group
     private _roadLighting: RoadLighting;
 
     private _hexParts: HexParts;
+    private _hexEnemy: HexEnemy;
 
     private _levelData: ILevelData;
     public _secretSignal: Phaser.Signal;
@@ -37,8 +39,10 @@ export default class SecretUnlocker extends Phaser.Group
         this.addIngredients();
 
         this._levelData = game.cache.getJSON(Constants.LEVELS[12].json); // Grab the last song, Tunnel Vision
+        
         this._currentTime = 0.001; // add exact timer
-        this._signalSent = false;
+
+        this._signalSent = false; // Has the signal been sent?
 
     }
 
@@ -53,6 +57,12 @@ export default class SecretUnlocker extends Phaser.Group
     private createSignal(): void
     {
         this._secretSignal = new Phaser.Signal(); // create Phaser.Signal for the secret
+    }
+
+    private createHexEnemy(): void
+    {
+        this._hexEnemy = new HexEnemy(this.game);
+        this.game.add.existing(this._hexEnemy);
     }
 
     private addIngredients(): void
@@ -77,7 +87,7 @@ export default class SecretUnlocker extends Phaser.Group
   {
        // drop = [54]
 
-    if (this._currentTime >= this._levelData.timings[54].time)
+    if (this._currentTime >= this._levelData.timings[46].time)
     {
         this._signalSent = true;
 
@@ -85,6 +95,8 @@ export default class SecretUnlocker extends Phaser.Group
 
         this._backgroundVisualizer.makeVisible(); // FIX WITH SIGNAL
         this._roadLighting.changeHighlight();
+
+        this.createHexEnemy();
     }
 
     if (!this._signalSent)

@@ -28,11 +28,15 @@ export default class HexPartsSecret extends Phaser.Group
 
     private repeatHexParts(): void
     {
-        this.game.time.events.repeat(Phaser.Timer.SECOND * 3, 10, this.animateHexPart, this);
+        this.game.time.events.repeat(Phaser.Timer.SECOND * 3, 8, this.animateHexPart, this);
     }
 
     private collectHexSprites(): void
     {
+
+        /** Here we will be collecting the data of all hex parts. 
+         * 8 pieces will be put into the array of strings.
+         */
 
         this._hexSpriteParts = new Array<string>();
 
@@ -43,18 +47,16 @@ export default class HexPartsSecret extends Phaser.Group
         this._hexSpriteParts[4] = 'Screws';
         this._hexSpriteParts[5] = 'Booster';
         this._hexSpriteParts[6] = 'Wires';
-        this._hexSpriteParts[7] = 'Neck';
-        this._hexSpriteParts[8] = 'Metal';
-        this._hexSpriteParts[9] = 'Torso';
-        this._hexSpriteParts[10] = 'Head';
+        this._hexSpriteParts[7] = 'Torso';
+        this._hexSpriteParts[8] = 'Head';
     }
 
     /** Go through the hex data and recheck if any parts are collected in which case hex should display the sprite which is not the silouette */
     public addHexPart(): void
     {
-        /** Getting the data */
-       // this.game.add.existing(this._hexSpriteParts[this._hexPartCounter]);
-       this._currentHexSprite = this.game.add.sprite(this.game.width / 2, this.game.height / 2, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
+        /** adding the specific part onto the screen */
+
+       this._currentHexSprite = this.game.add.sprite(this.game.width / 5, this.game.height / 2, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
        this.countHexPart();
     }
 
@@ -68,6 +70,9 @@ export default class HexPartsSecret extends Phaser.Group
     private animateHexPart(): void
     {
         this.addHexPart();
+
+        this._currentHexSprite.scale.x = .5;
+        this._currentHexSprite.scale.y = .5;
 
         this.game.add.tween(this._currentHexSprite).to({alpha: .5, x: this._currentHexSprite.position.x + 200}, 2000, Phaser.Easing.Cubic.Out, true)
         .onComplete.addOnce(() => {

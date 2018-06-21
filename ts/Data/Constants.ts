@@ -139,11 +139,11 @@ export default class Constants
 
         {
             //blue
-            bottomMiddleColor: 0xAAAAAA,
-            bottomOuterColor: 0xAAAAAA,
+            bottomMiddleColor: 0xBB0000,
+            bottomOuterColor: 0x000000,
             //purple
-            topMiddleColor: 0xAAAAAA,
-            topOuterColor: 0xAAAAAA,
+            topMiddleColor: 0xBB0000,
+            topOuterColor: 0x000000,
 
             topSprite: 'Blue',
             bottomSprite: 'Blue'
@@ -159,18 +159,7 @@ export default class Constants
 
             topSprite: 'Blue',
             bottomSprite: 'Blue'
-        },
-         {
-            //black
-            bottomMiddleColor: 0xBB0000,
-            bottomOuterColor: 0xBB0000,
-             //black
-             topMiddleColor: 0xBB0000,
-             topOuterColor: 0xBB0000,
-
-             topSprite: 'Black',
-             bottomSprite: 'Black'
-         }
+        }
 
     ];
 
