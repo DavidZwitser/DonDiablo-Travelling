@@ -1,4 +1,5 @@
 import 'phaser-ce';
+
 import AudioAnalyser from '../../../Systems/Sound/AudioAnalyser';
 import Atlases from '../../../Data/Atlases';
 import Constants from '../../../Data/Constants';
@@ -89,7 +90,7 @@ export default class BuildingVisualizer extends Phaser.Group
         this._topHalf.y = -this._maxHeight * 1;
         this._topHalf.scale.set(1, -1);
 
-        if (!Constants.hexCollected)
+        if (!Constants.HEX_COLLECTED)
         {
             this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[0].bottomOuterColor;
             this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[0].topOuterColor;
@@ -264,7 +265,7 @@ export default class BuildingVisualizer extends Phaser.Group
             this._topBuildings[i].frameName = 'Background_Building_' + Constants.ROAD_COLORS[index].topSprite + '_' + (random < 10 ? '0' + random : random);
         }
 
-        if (!Constants.hexCollected)
+        if (!Constants.HEX_COLLECTED)
         {
             this._topBackGlow.tint = this._topGlow.tint = Constants.ROAD_COLORS[index].bottomOuterColor;
             this._backGlow.tint = this._glow.tint = Constants.ROAD_COLORS[index].topOuterColor;

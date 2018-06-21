@@ -22,7 +22,7 @@ import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
 import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
 
-import SecretUnlocker from '../Systems/SecretUnlocker';
+import SecretUnlocker from '../Systems/Secret/SecretUnlocker';
 
 import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
@@ -89,6 +89,8 @@ export default class Gameplay extends Phaser.State
          this._secretUnlocker = new SecretUnlocker(this.game);
          this.game.add.existing(this._secretUnlocker);
 
+         this.secretTrack();
+
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
         window.addEventListener('focus', this.onFocus.bind(this));
@@ -104,8 +106,8 @@ export default class Gameplay extends Phaser.State
         PlayerCollisionChecker.getInstance(this._player);
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-
             this.score = Math.min(5, this.score + 1);
+            //this.gameOver();
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
             this.score = Math.max(-5, this.score - 5);
@@ -219,7 +221,7 @@ export default class Gameplay extends Phaser.State
     {
         this.startTrack();
 
-        if (!Constants.hexCollected)
+        if (!Constants.HEX_COLLECTED)
         {
             this._colorIndex = (this._colorIndex + 1) % Constants.ROAD_COLORS.length;
             this._trackIndex = (this._trackIndex + 1) % this._trackList.length;
@@ -238,6 +240,15 @@ export default class Gameplay extends Phaser.State
         this._phaseSystem.startNextPhase();
     }
 }
+    private secretTrack(): void
+    {
+        this._secretUnlocker._secretSignal.add (() =>
+    {
+        this._colorIndex = (this._secretColorIndex + 1) % Constants.SECRET_ROAD_COLORS.length;
+        this._road.nextColor(this._colorIndex);
+        this._audioVisualizer.setColor(this._colorIndex);
+    });
+    }
     /** starts the track (optinally with a delay) */
     private startTrack(): void
     {
@@ -256,7 +267,7 @@ export default class Gameplay extends Phaser.State
         }
         this._userInterface.displayTrackTitle(Constants.LEVELS[Constants.CURRENT_LEVEL].title);
 
-        if (Constants.hexCollected)
+        if (Constants.HEX_COLLECTED)
         {
             this._secretColorIndex = (this._secretColorIndex + 1) % Constants.SECRET_ROAD_COLORS.length;
             this._road.nextColor(this._secretColorIndex);

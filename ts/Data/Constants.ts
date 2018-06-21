@@ -56,11 +56,11 @@ export default class Constants
 
     public static PICKUPS_BEFORE_HEX_PART: number; //gets really declard in hexbar.ts
 
-    public static hexCollected: boolean = true; // checks if all hex parts have been collected.
+    public static HEX_COLLECTED: boolean = true; // checks if all hex parts have been collected.
 
     public static get GetHexCollected(): boolean
     {
-        return this.hexCollected;
+        return this.HEX_COLLECTED;
     }
 
     /** road colors list with their own color schemes */
@@ -162,11 +162,11 @@ export default class Constants
         },
          {
             //black
-            bottomMiddleColor: 0x000000,
-            bottomOuterColor: 0x000000,
+            bottomMiddleColor: 0xBB0000,
+            bottomOuterColor: 0xBB0000,
              //black
-             topMiddleColor: 0x000000,
-             topOuterColor: 0x000000,
+             topMiddleColor: 0xBB0000,
+             topOuterColor: 0xBB0000,
 
              topSprite: 'Black',
              bottomSprite: 'Black'
@@ -269,7 +269,7 @@ export default class Constants
             list.push(i);
         }
 
-        if (!this.hexCollected)
+        if (!this.HEX_COLLECTED)
         {
             if (initial) {
                 tracklist.push(list[initial]);

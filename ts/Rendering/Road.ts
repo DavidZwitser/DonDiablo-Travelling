@@ -4,6 +4,8 @@ import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
 import {IRoadColors} from '../Data/Constants';
 
+import RoadLighting from '../Systems/Secret/RoadLighting'
+
 /** Renders the road */
 export default class Road extends Phaser.Group
 {
@@ -22,6 +24,8 @@ export default class Road extends Phaser.Group
     private _roadLinesLayer: Phaser.Graphics;
     /** The layer where the horizon clear and the highlights around the road are drawn */
     private _highlightLayer: Phaser.Graphics;
+
+    private _roadLighting: RoadLighting;
 
     get gethighlightLayer(): Phaser.Graphics {
         return this._highlightLayer;
@@ -45,6 +49,8 @@ export default class Road extends Phaser.Group
 
         this._highlightLayer = new Phaser.Graphics(game);
         this.addChild(this._highlightLayer);
+
+        this._roadLighting = new RoadLighting(this.game);
 
         this.setRoadColors(this.colorIndex);
     }
@@ -247,7 +253,6 @@ export default class Road extends Phaser.Group
 
         /* Clearing the road lines that are drawn over the horizon */
         this._highlightLayer.beginFill(0x000000);
-        this._highlightLayer.alpha = 0.5;
         this._highlightLayer.drawShape(horizonShape);
         this._highlightLayer.endFill();
     }
@@ -272,7 +277,7 @@ export default class Road extends Phaser.Group
         // updated value of our tween each time, and set the result as our tint
         colorTween.onUpdateCallback(() => {
 
-            if (!Constants.hexCollected)
+            if (!Constants.HEX_COLLECTED)
             {
                 this._roadColors.bottomMiddleColor = Phaser.Color.interpolateColor(Constants.ROAD_COLORS[this.colorIndex].bottomMiddleColor,
                     Constants.ROAD_COLORS[index].bottomMiddleColor, 100, colorBlend.step);
@@ -310,10 +315,24 @@ export default class Road extends Phaser.Group
         });
     }
 
+    public secretRoadColors(horizoncolor: number, roadcolor: number, highcolor: number, alpha?: number): void
+    {
+        this._horizonLinesLayer.beginFill(horizoncolor);
+        this._horizonLinesLayer.endFill(horizoncolor);
+        this._roadLinesLayer.beginFill(roadcolor);
+        this._highlightLayer.beginFill(highcolor);
+
+        this._horizonLinesLayer.alpha = alpha;
+        this._roadLinesLayer.alpha = alpha;
+        this._highlightLayer.alpha = alpha;
+
+        console.log('roep aan');
+    }
+
     /** Sets the colors of the road hard */
     private setRoadColors(index: number): void
     {
-        if (!Constants.hexCollected)
+        if (!Constants.HEX_COLLECTED)
     {
         this._roadColors = {
             bottomMiddleColor: Number(Constants.ROAD_COLORS[index].bottomMiddleColor),

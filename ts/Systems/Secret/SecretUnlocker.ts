@@ -1,6 +1,9 @@
-import Constants from '../Data/Constants';
-import BackgroundVisualizer from '../Systems/BackgroundVisualizer';
-import RoadLighting from '../Systems/RoadLighting';
+import Constants from '../../Data/Constants';
+
+import HexParts from '../Secret/HexParts';
+
+import BackgroundVisualizer from '../Secret/BackgroundVisualizer';
+import RoadLighting from '../Secret/RoadLighting';
 
 /** interface that is the same of the json file it get recieved from */
 export default interface ILevelData {
@@ -17,30 +20,31 @@ export default class SecretUnlocker extends Phaser.Group
     private _backgroundVisualizer: BackgroundVisualizer;
     private _roadLighting: RoadLighting;
 
+    private _hexParts: HexParts;
+
     private _levelData: ILevelData;
     public _secretSignal: Phaser.Signal;
 
     private _currentTime: number;
-    
-    private _signalSent: boolean;
 
+    private _signalSent: boolean;
 
     constructor(game: Phaser.Game)
     {
         super(game);
 
+        this.createSignal();
+        this.addIngredients();
+
         this._levelData = game.cache.getJSON(Constants.LEVELS[12].json); // Grab the last song, Tunnel Vision
         this._currentTime = 0.001; // add exact timer
         this._signalSent = false;
 
-        this.addIngredients(this.game);
     }
-
-    
 
     private update(): void
     {
-        if (Constants.hexCollected && !this._signalSent)
+        if (Constants.HEX_COLLECTED && !this._signalSent)
         {
             this.countDownSecret();
         }
@@ -51,29 +55,36 @@ export default class SecretUnlocker extends Phaser.Group
         this._secretSignal = new Phaser.Signal(); // create Phaser.Signal for the secret
     }
 
-    private addIngredients(game: Phaser.Game): void
+    private addIngredients(): void
     {
-       /* Create the background sprite */
+              /* Create the background sprite */
+              this._backgroundVisualizer = new BackgroundVisualizer(this.game);
 
-        this._backgroundVisualizer = new BackgroundVisualizer(this.game);
-     //   this._roadLighting = new RoadLighting(this.game);
+             /* Create road lighting */
+              this._roadLighting = new RoadLighting(this.game);
 
-        this.game.add.existing(this._backgroundVisualizer);
-     //  this.game.add.existing(this._roadLighting);
+            /* Create hex parts */
+              this._hexParts = new HexParts(this.game);
+
+             /* Add to the game */
+              this.game.add.existing(this._backgroundVisualizer);
+              this.game.add.existing(this._roadLighting);
+              this.game.add.existing(this._hexParts);
+
     }
 
   private countDownSecret(): void
   {
-       // drop = [55]
+       // drop = [54]
 
-    if (this._currentTime >= this._levelData.timings[1].time)
+    if (this._currentTime >= this._levelData.timings[54].time)
     {
-
         this._signalSent = true;
 
-        this.createSignal();
         this._secretSignal.dispatch();
-        console.log('works step 1');
+
+        this._backgroundVisualizer.makeVisible(); // FIX WITH SIGNAL
+        this._roadLighting.changeHighlight();
     }
 
     if (!this._signalSent)

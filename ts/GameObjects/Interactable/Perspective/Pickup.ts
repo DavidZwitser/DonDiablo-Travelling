@@ -27,7 +27,7 @@ export default class Pickup extends ReactivePerspectiveObject
 
     private checkSecret(): void
     {
-        if (Constants.hexCollected)
+        if (Constants.HEX_COLLECTED)
         {
             this.sprite.tint = 0xff0000;
         }
