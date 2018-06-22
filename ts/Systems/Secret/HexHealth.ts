@@ -3,6 +3,9 @@ import 'phaser-ce';
 import Atlases from '../../Data/Atlases';
 import PlayerCollisionChecker from '../PlayerCollisionChecker';
 
+import SoundManager from '../../Systems/Sound/SoundManager';
+import Sounds from '../../Data/Sounds'; // might have other script
+
 // constants
 //secret
 
@@ -17,10 +20,8 @@ export default class HexHealth extends Phaser.Group
     {
         super(game);
 
-        this.addPlayerCollision();
         this.setHexHealth();
-        this.adjustHexHealth();
-       //this.repeatHexParts();
+        this.hexCollision();
 
         /** Check through hex's data and see how the part should be displayed */
     }
@@ -28,28 +29,41 @@ export default class HexHealth extends Phaser.Group
 
     private setHexHealth(): void
     {
-        this._HexHealth = 50;
+        if (this._HexHealth >= 50)
+        {
+            this._HexHealth = 50;
+        }
+
     }
 
-    private addPlayerCollision(): void
-    {
-    }
-
-    private adjustHexHealth(): void
+    private hexCollision(): void
     {
      
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            console.log('work on health');
-            //this.gameOver();
+            this.adjustHexHealth(5);
+            console.log('added health ' + this._HexHealth);
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
          //   this.score = Math.max(-5, this.score - 5);
         });
         
-        PlayerCollisionChecker.getInstance().onColliding.add( () => {
-         //   this._userInterface.scoreBar.value += 1;
+        PlayerCollisionChecker.getInstance().onCollidingPerfect.add( () => {
+        this.adjustHexHealth(-5);
+        this.hexHit();
+        console.log('gotcha ' + this._HexHealth);
         });
         
+    }
+
+    private adjustHexHealth(amount: number): void
+    {
+        this._HexHealth += amount;
+    }
+
+    private hexHit(): void
+    {
+        SoundManager.getInstance().play(Sounds.LOW_SOUND);
+        this.game.camera.flash(0xff0000, 300, true, 0.1);
     }
 
    

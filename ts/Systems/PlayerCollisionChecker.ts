@@ -28,6 +28,7 @@ export default class PlayerCollisionChecker
      * Returns true (1,2) if a pickup z and lane posittion matches the player.
      * Also checks whether the player is tapped for the perfect pickup
      */
+
     public isCollidingLanes(lane: Lanes): number
     {
         if ( this._player.lane !== lane) { return 0; }

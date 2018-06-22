@@ -35,14 +35,12 @@ export default class SecretUnlocker extends Phaser.Group
     {
         super(game);
 
-        this.createSignal();
-        this.addIngredients();
-
-        this._levelData = game.cache.getJSON(Constants.LEVELS[12].json); // Grab the last song, Tunnel Vision
-        
-        this._currentTime = 0.001; // add exact timer
-
-        this._signalSent = false; // Has the signal been sent?
+        if (Constants.HEX_COLLECTED)
+        {
+            this.createSignal();
+            this.addIngredients();
+            this.collectLevelData();
+        }
 
     }
 
@@ -52,6 +50,15 @@ export default class SecretUnlocker extends Phaser.Group
         {
             this.countDownSecret();
         }
+    }
+
+
+    private collectLevelData(): void
+    {
+
+        this._levelData = this.game.cache.getJSON(Constants.LEVELS[12].json); // Grab the last song, Tunnel Vision
+        this._currentTime = 0.001; // add exact timer
+        this._signalSent = false; // Has the signal been sent?
     }
 
     private createSignal(): void
@@ -87,7 +94,7 @@ export default class SecretUnlocker extends Phaser.Group
   {
        // drop = [54]
 
-    if (this._currentTime >= this._levelData.timings[1].time)
+    if (this._currentTime >= this._levelData.timings[46].time)
     {
         this._signalSent = true;
 

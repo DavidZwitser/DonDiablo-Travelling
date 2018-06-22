@@ -24,7 +24,7 @@ export default class BackgroundVisualizer extends Phaser.Group
 
     private addSignal(): void
     {
-        this._secretUnlocker._secretSignal.add (() =>
+        this.SecretUnlocker._secretSignal.add (() =>
         {
             // make BG visible
         });
@@ -45,6 +45,9 @@ export default class BackgroundVisualizer extends Phaser.Group
     public makeVisible(): void
     {
         this._backgroundSprite.visible = true;
+
+        this._backgroundSprite.alpha = 0;
+        this.game.add.tween(this._backgroundSprite).to( { alpha: 1 }, 1000, "Linear", true);
     }
 
 }

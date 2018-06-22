@@ -48,6 +48,7 @@ export default class HexPartsSecret extends Phaser.Group
         /** Getting the data */
        // this.game.add.existing(this._hexSpriteParts[this._hexPartCounter]);
        this._HexSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, this._hexString);
+       this._HexSprite.anchor.set(0.5);
        this.resize();
     }
 
@@ -55,7 +56,14 @@ export default class HexPartsSecret extends Phaser.Group
     {
         this.addHexPart();
 
-        this.game.add.tween(this._HexSprite.position).to( {y: 100}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
+        this.game.add.tween(this._HexSprite).from( { y: -100 }, 2000, Phaser.Easing.Bounce.Out, true).onComplete.addOnce(() => 
+        {
+            setTimeout( () => {
+                this.game.add.tween(this._HexSprite).to({x: 200}, 1500, Phaser.Easing.Cubic.In, true);
+            }, 500);
+        });
+
+       // this.game.add.tween(this._HexSprite.position).to( {y: 100}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
     }
 
     /** Resize all the parts into their position */
@@ -63,8 +71,8 @@ export default class HexPartsSecret extends Phaser.Group
     {
         let vmin: number = Math.min(this.game.height, this.game.width);
 
-        this._HexSprite.position.set(this.game.width / 3.5, this.game.height / 2);
-        this._HexSprite.scale.set(vmin / GAME_WIDTH);
+        this._HexSprite.scale.set(vmin / GAME_WIDTH, vmin / GAME_WIDTH);
+        this._HexSprite.position.set(this.game.width / 2, this.game.height / 2 + 1);
 
         this._HexSprite.scale.x = .25;
         this._HexSprite.scale.y = .25;

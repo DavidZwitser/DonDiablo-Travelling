@@ -56,7 +56,8 @@ export default class HexPartsSecret extends Phaser.Group
     {
         /** adding the specific part onto the screen */
 
-       this._currentHexSprite = this.game.add.sprite(this.game.width / 2, this.game.height / 2, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
+       this._currentHexSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
+       this._currentHexSprite.anchor.set(0.5);
        this.countHexPart();
        
        this.resize();
@@ -75,6 +76,8 @@ export default class HexPartsSecret extends Phaser.Group
 
         this._currentHexSprite.scale.x = .5;
         this._currentHexSprite.scale.y = .5;
+
+        this._currentHexSprite.x -= 200;
 
         this.game.add.tween(this._currentHexSprite).to({alpha: .5, x: this._currentHexSprite.position.x + 200}, 2000, Phaser.Easing.Cubic.Out, true)
         .onComplete.addOnce(() => {

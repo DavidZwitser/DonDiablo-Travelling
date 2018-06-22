@@ -91,10 +91,9 @@ export default class Gameplay extends Phaser.State
         super.create(this.game);
 
          /* The secret Level */
-        this._secretUnlocker = new SecretUnlocker(this.game);
-        this.game.add.existing(this._secretUnlocker);
+         this._secretUnlocker = new SecretUnlocker(this.game);
+         this.game.add.existing(this._secretUnlocker);
 
-        this.secretTrack();
 
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
@@ -215,7 +214,11 @@ export default class Gameplay extends Phaser.State
         }
 
         SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
+        
         this.startTrack();
+
+        if (Constants.HEX_COLLECTED)
+        this.secretTrack();
 
         this.resize();
 
