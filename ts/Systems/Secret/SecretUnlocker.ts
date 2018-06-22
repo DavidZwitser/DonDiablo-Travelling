@@ -87,7 +87,7 @@ export default class SecretUnlocker extends Phaser.Group
   {
        // drop = [54]
 
-    if (this._currentTime >= this._levelData.timings[46].time)
+    if (this._currentTime >= this._levelData.timings[1].time)
     {
         this._signalSent = true;
 
@@ -97,6 +97,8 @@ export default class SecretUnlocker extends Phaser.Group
         this._roadLighting.changeHighlight();
 
         this.createHexEnemy();
+
+       // this.resize();
     }
 
     if (!this._signalSent)
@@ -104,6 +106,11 @@ export default class SecretUnlocker extends Phaser.Group
         this._currentTime += 1 * 0.025;
     }
   }
+
+    public resize(): void
+    {
+        this._hexEnemy.resize();
+    }
 
       /** destroys and clears all secret lockables */
       public destroy(): void

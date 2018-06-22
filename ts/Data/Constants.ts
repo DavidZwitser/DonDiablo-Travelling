@@ -145,8 +145,8 @@ export default class Constants
             topMiddleColor: 0xBB0000,
             topOuterColor: 0x000000,
 
-            topSprite: 'Blue',
-            bottomSprite: 'Blue'
+            topSprite: 'DarkBlue',
+            bottomSprite: 'DarkBlue'
 
         },
         {

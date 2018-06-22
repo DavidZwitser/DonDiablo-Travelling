@@ -11,6 +11,8 @@ import MotivationalPopupText from '../UI/MotivationalPopupText';
 import SoundManager from '../../../../Systems/Sound/SoundManager';
 import Sounds from '../../../../Data/Sounds';
 
+import SecretUnlocker from '../../../../Systems/Secret/SecretUnlocker';
+
 /** The user interface group in the gameplay state */
 export default class UI extends Phaser.Group
 {
@@ -24,6 +26,8 @@ export default class UI extends Phaser.Group
     private _pauseButton: PauseButton;
     private _motivationalPopupText: MotivationalPopupText;
     public pauseScreen: PauseScreen;
+
+    private _secretUnlocker: SecretUnlocker;
 
     private _gameOverScreen: GameOverScreen;
     private _trackText: Phaser.BitmapText;
@@ -39,6 +43,10 @@ export default class UI extends Phaser.Group
     {
         super(game);
 
+        
+        //this._secretUnlocker = new SecretUnlocker(this.createHexText);
+        //this.createHexText();
+
         this.createPauseButton();
         this.createScoreBar();
         this.createPickUpCounter();
@@ -51,12 +59,16 @@ export default class UI extends Phaser.Group
         this.pauseScreen = new PauseScreen(game, 1);
         this.pauseScreen.onResume.add(() => this.unpauseDelay(), this);
 
+        
+        
         this._gameOverScreen = new GameOverScreen(game, 1);
         this.addChild(this._gameOverScreen);
 
         this.addChild(this.pauseScreen);
 
         this.onPause = new Phaser.Signal();
+
+        
 
     }
 
@@ -166,11 +178,25 @@ export default class UI extends Phaser.Group
     /** Creates and declares the count down text */
     private createCountDownText(): void
     {
-        this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'ailerons', this._fullCountdown.toString(), 30);
+        this._countdownText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Song track', 30);
         this._countdownText.tint = 0xffffff;
         this._countdownText.anchor.set(0.5);
         this._countdownText.fontSize = 90;
         this.addChild(this._countdownText);
+    }
+
+    private createHexText(): void
+    {
+        this._secretUnlocker._secretSignal.add(() =>
+    {
+        this._trackText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Hex', 30);
+        this._trackText.tint = 0xffffff;
+        this._trackText.anchor.set(0.5);
+        this._trackText.fontSize = 90;
+        this.addChild(this._trackText);
+
+        console.log("added text");
+    });
     }
 
     /** (un)pauses the ui */

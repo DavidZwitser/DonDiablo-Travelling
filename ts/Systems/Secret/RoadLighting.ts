@@ -41,5 +41,7 @@ export default class RoadLighting extends Phaser.Group
     {
         this._roadLayers = new Road(this.game);
         this._roadLayers.secretRoadColors(this._whiteColor, this._whiteColor, this._whiteColor, 0);
+
+        
     }
 }

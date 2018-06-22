@@ -3,7 +3,7 @@ import SecretUnlocker from '../Secret/SecretUnlocker';
 
 export default class BackgroundVisualizer extends Phaser.Group
 {
-    private _secretUnlocker: SecretUnlocker;
+    //private _secretUnlocker: SecretUnlocker;
 
     private _backgroundSprite: Phaser.Sprite;
 

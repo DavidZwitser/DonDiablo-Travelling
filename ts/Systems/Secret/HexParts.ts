@@ -56,8 +56,10 @@ export default class HexPartsSecret extends Phaser.Group
     {
         /** adding the specific part onto the screen */
 
-       this._currentHexSprite = this.game.add.sprite(this.game.width / 5, this.game.height / 2, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
+       this._currentHexSprite = this.game.add.sprite(this.game.width / 2, this.game.height / 2, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
        this.countHexPart();
+       
+       this.resize();
     }
 
     /** Counts the current hex part */
@@ -86,7 +88,10 @@ export default class HexPartsSecret extends Phaser.Group
     /** Resize all the parts into their position */
     public resize(): void
     {
+        let vmin: number = Math.min(this.game.height, this.game.width);
 
+        this._currentHexSprite.position.set(this.game.width / 2, this.game.height / 2);
+        this._currentHexSprite.scale.set(vmin / GAME_WIDTH);
     }
 
     /** Destroy all the parts */

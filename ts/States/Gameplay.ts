@@ -61,6 +61,11 @@ export default class Gameplay extends Phaser.State
 
     private _secretUnlocker: SecretUnlocker;
 
+    get getSecretScript(): SecretUnlocker
+    {
+        return this._secretUnlocker;
+    }
+
     private _gamePaused: boolean = false;
     private _blurred: boolean = false;
     private _colorIndex: number = 0;
@@ -86,10 +91,10 @@ export default class Gameplay extends Phaser.State
         super.create(this.game);
 
          /* The secret Level */
-         this._secretUnlocker = new SecretUnlocker(this.game);
-         this.game.add.existing(this._secretUnlocker);
+        this._secretUnlocker = new SecretUnlocker(this.game);
+        this.game.add.existing(this._secretUnlocker);
 
-         this.secretTrack();
+        this.secretTrack();
 
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
