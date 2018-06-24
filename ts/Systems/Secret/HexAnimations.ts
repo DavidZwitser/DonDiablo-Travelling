@@ -16,8 +16,8 @@ export default class HexAnimations extends Phaser.Group
     constructor(game: Phaser.Game)
     {
         super(game);
-        this.entryHex();
 
+        this.entryHex();
         this.signalHex();
 
         /** Check through hex's data and see how the part should be displayed */
@@ -26,6 +26,8 @@ export default class HexAnimations extends Phaser.Group
     private signalHex(): void
     {
 
+        if (!HexEnemy.defeated)
+        {
          /** Normal Hit */
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
@@ -41,10 +43,9 @@ export default class HexAnimations extends Phaser.Group
          /** Recovery Hex */
 
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
-         //   this.adjustHexHealth(5);
+        this.recoveryHex();
         });
-
-        
+        }
     }
 
     private entryHex(): void
@@ -55,24 +56,23 @@ export default class HexAnimations extends Phaser.Group
         {
             this.movingHex();
         });
-
-       // this.game.add.tween(this._HexSprite.position).to( {y: 100}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
-    }
+     }
 
     private movingHex(): void
     {
-
+         this.game.add.tween(this._hexSprite.position).to( {x: 50}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
     }
 
     private hurtHex(): void
     {
         this.lightUpHex(0xff0000);
-        this.addDamageParticle();
+        this.HexHitParticles(true);
     }
 
     private recoveryHex(): void
     {
         this.lightUpHex(0x00ff00);
+        this.HexHitParticles(false);
     }
 
     private lightUpHex(color: Phaser.Color): void
@@ -83,16 +83,24 @@ export default class HexAnimations extends Phaser.Group
 
     }
 
-    private addDamageParticle(): Phaser.Particles.Arcade.Emitter 
+    private HexHitParticles(damaged: boolean): Phaser.Particles.Arcade.Emitter 
     {
 
         let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
 
         this.game.add.emitter(0, 0, 100);
-        emitter.makeParticles(Atlases.INTERFACE, 'Chip');
 
-        emitter.gravity.y = 500;
-
+        if (damaged)
+        {
+            emitter.makeParticles(Atlases.INTERFACE, 'Chip');
+            emitter.gravity.y = 500;
+        }
+        else
+        {
+            emitter.makeParticles(Atlases.INTERFACE, 'Hex_Heal');
+            emitter.gravity.y = -500;
+        }
+        
         emitter.x = this._hexSprite.x;
         emitter.y = this._hexSprite.y;
 
@@ -106,18 +114,13 @@ export default class HexAnimations extends Phaser.Group
 
     private defeatHex(): void
     {
-
+        HexEnemy._HexSprite.visible = false;
     }
 
     /** Resize all the parts into their position */
     public resize(): void
     {
         let vmin: number = Math.min(this.game.height, this.game.width);
-
-        this._HexSprite.scale.set(vmin / GAME_WIDTH, vmin / GAME_WIDTH);
-
-        this._HexSprite.scale.x = .25;
-        this._HexSprite.scale.y = .25;
     }
 
     /** Destroy all the parts */

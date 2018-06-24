@@ -8,6 +8,7 @@ export default class Input
 
     public onInputMove: Phaser.Signal;
     public onInputDown: Phaser.Signal;
+    
     public active: boolean = true;
 
     constructor(game: Phaser.Game, useContinuesInput: boolean)

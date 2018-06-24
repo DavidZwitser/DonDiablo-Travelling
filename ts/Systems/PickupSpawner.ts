@@ -102,8 +102,6 @@ export default class PickupSpawner extends Phaser.Group
             }
 
         }, delay * 1000);
-
-        
     }
 
     /** Pauses/resumes the pickupspawner */

@@ -18,9 +18,16 @@ export default class HexHealth extends Phaser.Group
     {
         super(game);
 
+        this.setSignal();
         this.hexCollision();
 
         /** Check through hex's data and see how the part should be displayed */
+    }
+
+
+    private setSignal(): void
+    {
+        this.onDeath = new Phaser.Signal();
     }
 
     private setHexHealth(): void
@@ -33,7 +40,6 @@ export default class HexHealth extends Phaser.Group
         {
             this._HexHealth = 0;
 
-            this.onDeath = new Phaser.Signal();
             this.onDeath.dispatch();
         }
     }

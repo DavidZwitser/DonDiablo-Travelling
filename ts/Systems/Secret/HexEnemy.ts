@@ -1,6 +1,7 @@
 import 'phaser-ce';
 
 import Atlases from '../../Data/Atlases';
+
 import HexHealth from '../Secret/HexHealth';
 import HexAnimations from '../Secret/HexAnimations';
 
@@ -11,10 +12,12 @@ export default class HexEnemy extends Phaser.Group
     private _hexHealth: HexHealth;
     private _hexAnimations: HexAnimations;
 
-    public static _HexSprite: Phaser.Sprite;
-
     private _hexString: string;
 
+    public static _HexSprite: Phaser.Sprite;
+    public static defeated: boolean;
+
+   
     constructor(game: Phaser.Game)
     {
         super(game);
@@ -23,6 +26,7 @@ export default class HexEnemy extends Phaser.Group
 
         this.addHexPart();
         this.animateHex();
+
         this.hexHealth();
         /** Check through hex's data and see how the part should be displayed */
     }
@@ -37,6 +41,8 @@ export default class HexEnemy extends Phaser.Group
     {
         this._hexHealth = new HexHealth(this.game);
         this.game.add.existing(this._hexHealth);
+
+        this.defeatHex();
     }
 
     /** Go through the hex data and recheck if any parts are collected in which case hex should display the sprite which is not the silouette */
@@ -52,8 +58,15 @@ export default class HexEnemy extends Phaser.Group
     {
         this._hexAnimations = new HexAnimations(this.game);
         this.game.add.existing(this._hexAnimations);
+    }
 
-       // this.game.add.tween(this._HexSprite.position).to( {y: 100}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
+    private defeatHex(): void
+    {
+        this._hexHealth.onDeath.add(() =>
+        {
+            HexEnemy._HexSprite.visible = false;
+            HexEnemy.defeated = true;
+        });
     }
 
     /** Resize all the parts into their position */
