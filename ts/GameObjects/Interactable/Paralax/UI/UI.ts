@@ -32,6 +32,9 @@ export default class UI extends Phaser.Group
     private _gameOverScreen: GameOverScreen;
     private _trackText: Phaser.BitmapText;
     private _countdownText: Phaser.BitmapText;
+
+    private _hexText: Phaser.BitmapText ;
+
     private _comboValue: number = 1;
     private _streakCount: number = 0;
 
@@ -44,7 +47,7 @@ export default class UI extends Phaser.Group
         super(game);
 
         
-        //this._secretUnlocker = new SecretUnlocker(this.createHexText);
+        this._secretUnlocker = new SecretUnlocker(this.game);
         //this.createHexText();
 
         this.createPauseButton();
@@ -54,13 +57,13 @@ export default class UI extends Phaser.Group
         this.createPopUpText();
         this.createCountDownText();
 
+        this.createHexText();
+
         this._countdownText.visible = false;
 
         this.pauseScreen = new PauseScreen(game, 1);
         this.pauseScreen.onResume.add(() => this.unpauseDelay(), this);
 
-        
-        
         this._gameOverScreen = new GameOverScreen(game, 1);
         this.addChild(this._gameOverScreen);
 
@@ -68,7 +71,6 @@ export default class UI extends Phaser.Group
 
         this.onPause = new Phaser.Signal();
 
-        
 
     }
 
@@ -189,13 +191,13 @@ export default class UI extends Phaser.Group
     {
         this._secretUnlocker._secretSignal.add(() =>
     {
-        this._trackText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Hex', 30);
-        this._trackText.tint = 0xffffff;
-        this._trackText.anchor.set(0.5);
-        this._trackText.fontSize = 90;
+        this._hexText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Hex', 30);
+        this._hexText.tint = 0xffffff;
+        this._hexText.anchor.set(0.5);
+        this._hexText.fontSize = 90;
         this.addChild(this._trackText);
 
-        console.log("added text");
+        console.log('added text');
     });
     }
 

@@ -13,14 +13,12 @@ import Sounds from '../../Data/Sounds'; // might have other script
 export default class HexHealth extends Phaser.Group
 {
 
-    private _HexHealth: number;
+    private _HexHealth: number = 100;
 
 
     constructor(game: Phaser.Game)
     {
         super(game);
-
-        this.setHexHealth();
         this.hexCollision();
 
         /** Check through hex's data and see how the part should be displayed */
@@ -29,30 +27,39 @@ export default class HexHealth extends Phaser.Group
 
     private setHexHealth(): void
     {
-        if (this._HexHealth >= 50)
+        if (this._HexHealth >= 100)
         {
-            this._HexHealth = 50;
+            this._HexHealth = 100;
         }
 
     }
 
     private hexCollision(): void
     {
-     
+
+        this.setHexHealth();
+
+        this._HexHealth  = 100;
+
+
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
+            this.adjustHexHealth(-1);
+            this.hexHit(); 
+        });
+        PlayerCollisionChecker.getInstance().onMissing.add(() => {
             this.adjustHexHealth(5);
             console.log('added health ' + this._HexHealth);
         });
-        PlayerCollisionChecker.getInstance().onMissing.add(() => {
-         //   this.score = Math.max(-5, this.score - 5);
-        });
-        
+
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add( () => {
+
+        this.setHexHealth();
+
         this.adjustHexHealth(-5);
         this.hexHit();
         console.log('gotcha ' + this._HexHealth);
         });
-        
+
     }
 
     private adjustHexHealth(amount: number): void

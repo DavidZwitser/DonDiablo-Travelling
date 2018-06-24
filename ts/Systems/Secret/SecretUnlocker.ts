@@ -44,7 +44,7 @@ export default class SecretUnlocker extends Phaser.Group
 
     }
 
-    private update(): void
+    public update(): void
     {
         if (Constants.HEX_COLLECTED && !this._signalSent)
         {
@@ -94,7 +94,7 @@ export default class SecretUnlocker extends Phaser.Group
   {
        // drop = [54]
 
-    if (this._currentTime >= this._levelData.timings[46].time)
+    if (this._currentTime >= this._levelData.timings[2].time)
     {
         this._signalSent = true;
 
@@ -104,8 +104,6 @@ export default class SecretUnlocker extends Phaser.Group
         this._roadLighting.changeHighlight();
 
         this.createHexEnemy();
-
-       // this.resize();
     }
 
     if (!this._signalSent)
@@ -129,6 +127,7 @@ export default class SecretUnlocker extends Phaser.Group
 
          this._roadLighting.destroy();
          this._roadLighting = null;
+
+         this._secretSignal.removeAll();
       }
   }
-}
