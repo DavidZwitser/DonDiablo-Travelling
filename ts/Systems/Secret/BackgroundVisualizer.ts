@@ -29,9 +29,6 @@ export default class BackgroundVisualizer extends Phaser.Group
         this._backgroundSprite.width = this.game.width;
 
         this._backgroundSprite.visible = false;
-
-       // this.game.add.tween(this._backgroundSprite.position).to( {y: 100}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
-
     }
 
     public makeVisible(): void

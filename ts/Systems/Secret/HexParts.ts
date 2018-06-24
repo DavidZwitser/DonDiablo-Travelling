@@ -1,20 +1,16 @@
 import 'phaser-ce';
 
 import Atlases from '../../Data/Atlases';
-import AtlasImages from '../../Data/AtlasImages';
-// constants
-//secret
 
 /** The class where Hex shows up at the start */
-export default class HexPartsSecret extends Phaser.Group
+export default class HexParts extends Phaser.Group
 {
 
     private _hexSpriteParts: string[];
     private _hexPartCounter: number = 0;
 
-    private _currentHexSprite: Phaser.Sprite;
+    public static currentHexSprite: Phaser.Sprite;
 
-    private _hexChipSprite: string = 'Chip';
 
     constructor(game: Phaser.Game)
     {
@@ -52,15 +48,23 @@ export default class HexPartsSecret extends Phaser.Group
     }
 
     /** Go through the hex data and recheck if any parts are collected in which case hex should display the sprite which is not the silouette */
-    public addHexPart(): void
+    public addHexPart(random: boolean): void
     {
         /** adding the specific part onto the screen */
 
-       this._currentHexSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
-       this._currentHexSprite.anchor.set(0.5);
-       this.countHexPart();
-       
-       this.resize();
+        if (!random)
+        {
+            HexParts.currentHexSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, this._hexSpriteParts[this._hexPartCounter]);
+            this.countHexPart();
+        }
+
+        else
+        {
+            HexParts.currentHexSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, this._hexSpriteParts[this.game.rnd.integerInRange(0, 6)]);
+        }
+
+        HexParts.currentHexSprite.anchor.set(0.5);
+        this.resize();
     }
 
     /** Counts the current hex part */
@@ -72,17 +76,17 @@ export default class HexPartsSecret extends Phaser.Group
 
     private animateHexPart(): void
     {
-        this.addHexPart();
+        this.addHexPart(false);
 
-        this._currentHexSprite.scale.x = .5;
-        this._currentHexSprite.scale.y = .5;
+        HexParts.currentHexSprite.scale.x = .5;
+        HexParts.currentHexSprite.scale.y = .5;
 
-        this._currentHexSprite.x -= 200;
+        HexParts.currentHexSprite.x -= 200;
 
-        this.game.add.tween(this._currentHexSprite).to({alpha: .5, x: this._currentHexSprite.position.x + 200}, 2000, Phaser.Easing.Cubic.Out, true)
+        this.game.add.tween(HexParts.currentHexSprite).to({alpha: .5, x: HexParts.currentHexSprite.position.x + 200}, 2000, Phaser.Easing.Cubic.Out, true)
         .onComplete.addOnce(() => {
             setTimeout( () => {
-                this.game.add.tween(this._currentHexSprite).to({alpha: 0, x: this._currentHexSprite.position.x + 200}, 1500, Phaser.Easing.Cubic.In, true);
+                this.game.add.tween(HexParts.currentHexSprite).to({alpha: 0, x: HexParts.currentHexSprite.position.x + 200}, 1500, Phaser.Easing.Cubic.In, true);
             }, 500);
 
         });
@@ -93,8 +97,8 @@ export default class HexPartsSecret extends Phaser.Group
     {
         let vmin: number = Math.min(this.game.height, this.game.width);
 
-        this._currentHexSprite.position.set(this.game.width / 2, this.game.height / 2);
-        this._currentHexSprite.scale.set(vmin / GAME_WIDTH);
+        HexParts.currentHexSprite.position.set(this.game.width / 2, this.game.height / 2);
+        HexParts.currentHexSprite.scale.set(vmin / GAME_WIDTH);
     }
 
     /** Destroy all the parts */

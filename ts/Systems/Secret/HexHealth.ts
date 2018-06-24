@@ -32,6 +32,8 @@ export default class HexHealth extends Phaser.Group
         else if (this._HexHealth <= 0)
         {
             this._HexHealth = 0;
+
+            this.onDeath = new Phaser.Signal();
             this.onDeath.dispatch();
         }
     }
