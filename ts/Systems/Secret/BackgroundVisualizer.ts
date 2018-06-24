@@ -3,7 +3,7 @@ import SecretUnlocker from '../Secret/SecretUnlocker';
 
 export default class BackgroundVisualizer extends Phaser.Group
 {
-    //private _secretUnlocker: SecretUnlocker;
+    private _secretUnlocker: SecretUnlocker;
 
     private _backgroundSprite: Phaser.Sprite;
 
@@ -20,14 +20,6 @@ export default class BackgroundVisualizer extends Phaser.Group
     {
         super(game);
         this.addBackground();
-    }
-
-    private addSignal(): void
-    {
-        this.SecretUnlocker._secretSignal.add (() =>
-        {
-            // make BG visible
-        });
     }
 
     private addBackground(): void

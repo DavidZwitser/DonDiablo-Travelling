@@ -18,6 +18,9 @@ interface ITiming {
 
 export default class SecretUnlocker extends Phaser.Group
 {
+
+    private static instance: SecretUnlocker = null;
+
     private _backgroundVisualizer: BackgroundVisualizer;
     private _roadLighting: RoadLighting;
 
@@ -25,6 +28,7 @@ export default class SecretUnlocker extends Phaser.Group
     private _hexEnemy: HexEnemy;
 
     private _levelData: ILevelData;
+
     public _secretSignal: Phaser.Signal;
 
     private _currentTime: number;
@@ -100,9 +104,7 @@ export default class SecretUnlocker extends Phaser.Group
 
         this._secretSignal.dispatch();
 
-        this._backgroundVisualizer.makeVisible(); // FIX WITH SIGNAL
-        this._roadLighting.changeHighlight();
-
+        this._backgroundVisualizer.makeVisible();
         this.createHexEnemy();
     }
 
@@ -111,6 +113,18 @@ export default class SecretUnlocker extends Phaser.Group
         this._currentTime += 1 * 0.025;
     }
   }
+  /*
+
+  public static getInstance(game: Phaser.Game): SecretUnlocker
+  {
+      if (null === SecretUnlocker.instance)
+      {
+        SecretUnlocker.instance = new SecretUnlocker(game);
+      }
+
+      return SecretUnlocker.instance;
+  }
+*/
 
     public resize(): void
     {

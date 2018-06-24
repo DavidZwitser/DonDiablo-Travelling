@@ -46,10 +46,6 @@ export default class UI extends Phaser.Group
     {
         super(game);
 
-        
-        this._secretUnlocker = new SecretUnlocker(this.game);
-        //this.createHexText();
-
         this.createPauseButton();
         this.createScoreBar();
         this.createPickUpCounter();
@@ -57,7 +53,7 @@ export default class UI extends Phaser.Group
         this.createPopUpText();
         this.createCountDownText();
 
-        this.createHexText();
+      //  this.createHexText();
 
         this._countdownText.visible = false;
 
@@ -70,8 +66,6 @@ export default class UI extends Phaser.Group
         this.addChild(this.pauseScreen);
 
         this.onPause = new Phaser.Signal();
-
-
     }
 
     /** unpauses the game after the countdown */
@@ -198,6 +192,7 @@ export default class UI extends Phaser.Group
         this.addChild(this._trackText);
 
         console.log('added text');
+
     });
     }
 

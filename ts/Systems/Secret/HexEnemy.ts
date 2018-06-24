@@ -17,10 +17,12 @@ export default class HexPartsSecret extends Phaser.Group
     {
         super(game);
 
+        this.hexHealth();
+
         this.collectHexString();
         this.animateHex();
 
-        this.hexHealth();
+       
 
         /** Check through hex's data and see how the part should be displayed */
     }
@@ -38,15 +40,15 @@ export default class HexPartsSecret extends Phaser.Group
 
     private hexHealth(): void
     {
-        this.hexHealth = new HexHealth(this.game);
-        this.game.add.existing(this.hexHealth);
+        this._hexHealth = new HexHealth(this.game);
+        this.game.add.existing(this._hexHealth);
     }
 
     /** Go through the hex data and recheck if any parts are collected in which case hex should display the sprite which is not the silouette */
-    public addHexPart(): void
+    private addHexPart(): void
     {
         /** Getting the data */
-       // this.game.add.existing(this._hexSpriteParts[this._hexPartCounter]);
+        
        this._HexSprite = this.game.add.sprite(0, 0, Atlases.INTERFACE, this._hexString);
        this._HexSprite.anchor.set(0.5);
        this.resize();
