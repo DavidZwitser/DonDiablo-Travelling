@@ -54,7 +54,7 @@ export default class HexAnimations extends Phaser.Group
 
         this.game.add.tween(this._hexSprite).from( { y: -100 }, 2000, Phaser.Easing.Bounce.Out, true).onComplete.addOnce(() => 
         {
-            this.movingHex();
+         //   this.movingHex();
         });
      }
 
@@ -67,7 +67,7 @@ export default class HexAnimations extends Phaser.Group
     {
         if (perfect)
         {
-            this.HexHitParticles(true, 5);
+            this.HexHitParticles(true, 3);
         }
         else
         {
@@ -101,7 +101,7 @@ export default class HexAnimations extends Phaser.Group
 
         if (damaged)
         {
-            emitter.makeParticles(Atlases.INTERFACE, 'Chip');
+            emitter.makeParticles(Atlases.INTERFACE, 'Hex_Heal');
             emitter.gravity.y = 500;
         }
         else

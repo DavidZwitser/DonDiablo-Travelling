@@ -5,6 +5,7 @@ import PlayerCollisionChecker from '../../../../Systems/PlayerCollisionChecker';
 
 import PauseScreen from './PauseScreen';
 import GameOverScreen from './GameOverScreen';
+import HexScreen from './HexScreen';
 
 import PickupCounter from '../UI/PickupCounter';
 import MotivationalPopupText from '../UI/MotivationalPopupText';
@@ -28,17 +29,16 @@ export default class UI extends Phaser.Group
     public pauseScreen: PauseScreen;
 
     private _secretUnlocker: SecretUnlocker;
+    private _hexScreen: HexScreen;
 
     private _gameOverScreen: GameOverScreen;
     private _trackText: Phaser.BitmapText;
     private _countdownText: Phaser.BitmapText;
 
-    private _hexText: Phaser.BitmapText ;
+    private _hexText: Phaser.BitmapText;
 
     private _comboValue: number = 1;
     private _streakCount: number = 0;
-
-    private _fullCountdown: number = 3;
 
     private _countDownFade: Phaser.Tween;
 
@@ -64,6 +64,9 @@ export default class UI extends Phaser.Group
         this.addChild(this._gameOverScreen);
 
         this.addChild(this.pauseScreen);
+
+        this._hexScreen = new HexScreen(game, 1);
+        this.addChild(this._hexScreen);
 
         this.onPause = new Phaser.Signal();
     }
@@ -219,6 +222,14 @@ export default class UI extends Phaser.Group
         this._gameOverScreen.show(score, highscore);
     }
 
+    /** Shows Hex Screen screen */
+    public showHexScreen(): void
+    {
+        SoundManager.getInstance().play(Sounds.HIGH_SOUND, 1);
+        this._hexScreen.show();
+    }
+
+
     /** displays the title of the song using tween */
     public displayTrackTitle(title: string): void {
         this.resize();
@@ -246,6 +257,10 @@ export default class UI extends Phaser.Group
         this._gameOverScreen.position.set(this.game.width / 2, this.game.height / 2);
         this._gameOverScreen.scale.set(vmin / GAME_WIDTH);
         this._gameOverScreen.resize();
+
+        this._hexScreen.position.set(this.game.width / 2, this.game.height / 2);
+        this._hexScreen.scale.set(vmin / GAME_WIDTH);
+        this._hexScreen.resize();
 
         this._trackText.scale.set(vmin / GAME_WIDTH, vmin / GAME_WIDTH);
         this._trackText.position.set(this.game.width / 2, this.game.height / 2 + this.pickupCounter.height);

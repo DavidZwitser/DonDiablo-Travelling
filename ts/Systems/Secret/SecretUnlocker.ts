@@ -18,9 +18,6 @@ interface ITiming {
 
 export default class SecretUnlocker extends Phaser.Group
 {
-
-    private static instance: SecretUnlocker = null;
-
     private _backgroundVisualizer: BackgroundVisualizer;
     private _roadLighting: RoadLighting;
 
@@ -98,7 +95,7 @@ export default class SecretUnlocker extends Phaser.Group
   {
        // drop = [54]
 
-    if (this._currentTime >= this._levelData.timings[2].time)
+    if (this._currentTime >= this._levelData.timings[47].time)
     {
         this._signalSent = true;
 
@@ -113,18 +110,6 @@ export default class SecretUnlocker extends Phaser.Group
         this._currentTime += 1 * 0.025;
     }
   }
-  /*
-
-  public static getInstance(game: Phaser.Game): SecretUnlocker
-  {
-      if (null === SecretUnlocker.instance)
-      {
-        SecretUnlocker.instance = new SecretUnlocker(game);
-      }
-
-      return SecretUnlocker.instance;
-  }
-*/
 
     public resize(): void
     {
@@ -134,14 +119,19 @@ export default class SecretUnlocker extends Phaser.Group
       /** destroys and clears all secret lockables */
       public destroy(): void
       {
-         this._levelData = null;
 
-         this._backgroundVisualizer.destroy();
-         this._backgroundVisualizer = null;
+        if (Constants.HEX_COLLECTED)
+        {
+            this._levelData = null;
 
-         this._roadLighting.destroy();
-         this._roadLighting = null;
-
-         this._secretSignal.removeAll();
+            this._backgroundVisualizer.destroy();
+            this._backgroundVisualizer = null;
+   
+            this._roadLighting.destroy();
+            this._roadLighting = null;
+   
+            this._secretSignal.removeAll();
+        }
+        
       }
   }

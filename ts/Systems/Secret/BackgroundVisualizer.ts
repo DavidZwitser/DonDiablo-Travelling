@@ -38,5 +38,4 @@ export default class BackgroundVisualizer extends Phaser.Group
         this._backgroundSprite.alpha = 0;
         this.game.add.tween(this._backgroundSprite).to( { alpha: 1 }, 1000, "Linear", true);
     }
-
 }

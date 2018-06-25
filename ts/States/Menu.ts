@@ -12,6 +12,8 @@ import VehicleSelect from '../GameObjects/Interactable/Paralax/UI/VehicleSelect'
 import Viewer from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsViewerScreen';
 import Gameplay from './Gameplay';
 
+import Constants from '../Data/Constants';
+
 /** The menu which opens before the game and in which you can change things about the game */
 export default class Menu extends Phaser.State
 {
@@ -131,6 +133,12 @@ export default class Menu extends Phaser.State
             this.showAMenu(this._hexViewer);
         }, this);
         group.addChild(hexButton);
+
+        /* Creating the secret button */
+        let secretButton: TextButton = new TextButton(this.game, 0, 220, '', 40, 'UserInterface_Menu_HexButton', () => {
+            Constants.HEX_COLLECTED = !Constants.HEX_COLLECTED;
+        }, this);
+        group.addChild(secretButton);
 
         /* Returning this new group */
         return group;

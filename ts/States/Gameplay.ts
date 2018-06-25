@@ -22,9 +22,14 @@ import PickupContianer from '../Systems/PickupContainer';
 import Sounds from '../Data/Sounds';
 import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
 
+import HexEnemy from '../Systems/Secret/HexEnemy';
+import HexParts from '../Systems/Secret/HexParts';
+
 import SecretUnlocker from '../Systems/Secret/SecretUnlocker';
 
-import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
+
+import { getRandomHexPart, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
+
 
 /**
  * This is the state where the main gameplay is played at.
@@ -44,7 +49,6 @@ export default class Gameplay extends Phaser.State
     private _userInterface: UI;
     private _player: Player;
     private _lightning: Lightning;
-
 
     private _input: Input;
     private _pickupSpawner: PickupSpawner;
@@ -68,6 +72,9 @@ export default class Gameplay extends Phaser.State
 
     private _gamePaused: boolean = false;
     private _blurred: boolean = false;
+
+    private _hexActivated: boolean = false;
+
     private _colorIndex: number = 0;
     private _secretColorIndex: number = 0;
 
@@ -91,9 +98,8 @@ export default class Gameplay extends Phaser.State
         super.create(this.game);
 
          /* The secret Level */
-         this._secretUnlocker = new SecretUnlocker(this.game);
-         this.game.add.existing(this._secretUnlocker);
-
+        this._secretUnlocker = new SecretUnlocker(this.game);
+        this.game.add.existing(this._secretUnlocker);
 
         //focus/blur events setup
         window.addEventListener('blur', this.onBlur.bind(this));
@@ -111,10 +117,34 @@ export default class Gameplay extends Phaser.State
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
             this.score = Math.min(5, this.score + 1);
-            //this.gameOver();
         });
+
+        if (Constants.HEX_COLLECTED)
+        {
+            this._secretUnlocker._secretSignal.add(() =>
+            {
+                this._hexActivated = true;
+        
+                PlayerCollisionChecker.getInstance().onCollidingPerfect.add(() => {
+                    this.score = Math.min(10, this.score + 2);
+            });
+        });
+        }
+     
+        
+
+
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
-            this.score = Math.max(-5, this.score - 5);
+
+            if (this._hexActivated)
+            {
+                this.gameOver();
+            }
+            else
+            {
+                this.score = Math.max(-5, this.score - 5);
+            }
+            
         });
 
         PlayerCollisionChecker.getInstance().onColliding.add( () => {
@@ -213,12 +243,29 @@ export default class Gameplay extends Phaser.State
             this._userInterface.scoreBar.visible = false;
         }
 
-        SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
-        
+
+        if (!Constants.HEX_COLLECTED)
+        {
+            SoundManager.getInstance().onMusicEnd.add(this.nextTrack.bind(this));
+        }
+
+        else
+        {
+            SoundManager.getInstance().onMusicEnd.add(this.hexEnd);
+        }
         this.startTrack();
 
+        /** secret */
         if (Constants.HEX_COLLECTED)
-        this.secretTrack();
+        {
+            this.secretTrack();
+        }
+        
+
+        this._pickupSpawner.pickupsEnded.add( () =>
+    {
+        this.hexEnd();
+    });
 
         this.resize();
 
@@ -313,6 +360,18 @@ export default class Gameplay extends Phaser.State
 
         this._userInterface.gameOver(this.score, SaveData.HIGHSCORE);
         this.pause(false);
+
+        HexParts.currentHexSprite.visible = !this._gamePaused;
+        HexEnemy._HexSprite.visible = !this._gamePaused;
+    }
+
+
+     /** Hex end window is activated */
+
+    private hexEnd(): void
+    {
+        this._userInterface.showHexScreen();
+        this.pause(false);
     }
 
     /** called when window gets blurred */
@@ -358,6 +417,12 @@ export default class Gameplay extends Phaser.State
 
         if (!this._blurred) {
             this._userInterface.pause(this._gamePaused);
+        }
+
+        if (Constants.HEX_COLLECTED)
+        {
+            HexParts.currentHexSprite.visible = !this._gamePaused;
+            HexEnemy._HexSprite.visible = !this._gamePaused;
         }
     }
 

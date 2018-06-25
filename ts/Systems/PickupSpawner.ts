@@ -27,6 +27,8 @@ export default class PickupSpawner extends Phaser.Group
     private _pool: ObjectPool;
     private _container: PickupContainer;
 
+    public pickupsEnded: Phaser.Signal;
+
     constructor(game: Phaser.Game, container: PickupContainer, renderer: PerspectiveRenderer)
     {
         super(game);
@@ -39,6 +41,8 @@ export default class PickupSpawner extends Phaser.Group
 
             return pickup;
         });
+
+        this.pickupsEnded = new Phaser.Signal();
     }
 
     /** Sets a new song */
@@ -100,7 +104,8 @@ export default class PickupSpawner extends Phaser.Group
             {
                 if (Constants.HEX_COLLECTED)
                 {
-                    console.log("shit ended");
+                    
+                    this.pickupsEnded.dispatch();
                 }
 
                 return;

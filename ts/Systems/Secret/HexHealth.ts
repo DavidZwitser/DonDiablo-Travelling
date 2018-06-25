@@ -1,6 +1,5 @@
 import 'phaser-ce';
 
-import Atlases from '../../Data/Atlases';
 import PlayerCollisionChecker from '../PlayerCollisionChecker';
 
 import SoundManager from '../../Systems/Sound/SoundManager';
@@ -24,7 +23,6 @@ export default class HexHealth extends Phaser.Group
         /** Check through hex's data and see how the part should be displayed */
     }
 
-
     private setSignal(): void
     {
         this.onDeath = new Phaser.Signal();
@@ -32,9 +30,9 @@ export default class HexHealth extends Phaser.Group
 
     private setHexHealth(): void
     {
-        if (this._HexHealth >= 100)
+        if (this._HexHealth >= 200)
         {
-            this._HexHealth = 100;
+            this._HexHealth = 200;
         }
         else if (this._HexHealth <= 0)
         {
@@ -46,11 +44,11 @@ export default class HexHealth extends Phaser.Group
 
     private hexCollision(): void
     {
-        this._HexHealth  = 100;
+        this._HexHealth  = 200;
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
             this.adjustHexHealth(-1);
-            this.hexHit(); 
+            this.hexHit();
         });
         PlayerCollisionChecker.getInstance().onMissing.add(() => {
             this.adjustHexHealth(5);
@@ -60,8 +58,6 @@ export default class HexHealth extends Phaser.Group
 
         this.adjustHexHealth(-5);
         this.hexHit();
-
-        console.log('perfect!: ' + this._HexHealth);
         });
 
     }
