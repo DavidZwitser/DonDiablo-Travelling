@@ -1,10 +1,7 @@
 import Atlases from '../../Data/Atlases';
-import SecretUnlocker from '../Secret/SecretUnlocker';
 
 export default class BackgroundVisualizer extends Phaser.Group
 {
-    private _secretUnlocker: SecretUnlocker;
-
     private _backgroundSprite: Phaser.Sprite;
 
     get getBackgroundSprite(): Phaser.Sprite
@@ -36,6 +33,6 @@ export default class BackgroundVisualizer extends Phaser.Group
         this._backgroundSprite.visible = true;
 
         this._backgroundSprite.alpha = 0;
-        this.game.add.tween(this._backgroundSprite).to( { alpha: 1 }, 1000, "Linear", true);
+        this.game.add.tween(this._backgroundSprite).to( { alpha: 1 }, 1000, 'Linear', true);
     }
 }

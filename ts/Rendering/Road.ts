@@ -1,10 +1,7 @@
-
 import 'phaser-ce';
 import { LaneIndexer } from '../Enums/Lanes';
 import Constants from '../Data/Constants';
 import {IRoadColors} from '../Data/Constants';
-
-import RoadLighting from '../Systems/Secret/RoadLighting'
 
 /** Renders the road */
 export default class Road extends Phaser.Group
@@ -24,8 +21,6 @@ export default class Road extends Phaser.Group
     private _roadLinesLayer: Phaser.Graphics;
     /** The layer where the horizon clear and the highlights around the road are drawn */
     private _highlightLayer: Phaser.Graphics;
-
-    private _roadLighting: RoadLighting;
 
     get gethighlightLayer(): Phaser.Graphics {
         return this._highlightLayer;
@@ -50,8 +45,6 @@ export default class Road extends Phaser.Group
         this._highlightLayer = new Phaser.Graphics(game);
         this.addChild(this._highlightLayer);
 
-        this._roadLighting = new RoadLighting(this.game);
-
         this.setRoadColors(this.colorIndex);
     }
 
@@ -74,7 +67,6 @@ export default class Road extends Phaser.Group
 
         /* Drawing the highlights around the sides */
         this.drawHighlights();
-
     }
 
     /** Draws the lines on the side giving the feel of movement */
@@ -318,15 +310,13 @@ export default class Road extends Phaser.Group
     public secretRoadColors(horizoncolor: number, roadcolor: number, highcolor: number, alpha?: number): void
     {
         this._horizonLinesLayer.beginFill(horizoncolor);
-        this._horizonLinesLayer.endFill(horizoncolor);
+
         this._roadLinesLayer.beginFill(roadcolor);
         this._highlightLayer.beginFill(highcolor);
 
         this._horizonLinesLayer.alpha = alpha;
         this._roadLinesLayer.alpha = alpha;
         this._highlightLayer.alpha = alpha;
-
-        console.log('roep aan');
     }
 
     /** Sets the colors of the road hard */
@@ -353,9 +343,9 @@ export default class Road extends Phaser.Group
             topSprite: '',
             bottomSprite: ''
     }
-        
-        this.colorIndex = index;
 
+        this.colorIndex = index;
+}
     }
 
     /** Get a road line for the top side of the screen */

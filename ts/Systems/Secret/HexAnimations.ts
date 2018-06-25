@@ -4,14 +4,11 @@ import Atlases from '../../Data/Atlases';
 import PlayerCollisionChecker from '../PlayerCollisionChecker';
 
 import HexEnemy from '../Secret/HexEnemy';
-import HexParts from '../Secret/HexParts';
-
 /** The class where Hex shows up at the start */
 export default class HexAnimations extends Phaser.Group
 {
 
     private _hexSprite: Phaser.Sprite;
-    private _brokenHexSprite: any;
 
     constructor(game: Phaser.Game)
     {
@@ -52,16 +49,17 @@ export default class HexAnimations extends Phaser.Group
     {
         this._hexSprite = HexEnemy._HexSprite;
 
-        this.game.add.tween(this._hexSprite).from( { y: -100 }, 2000, Phaser.Easing.Bounce.Out, true).onComplete.addOnce(() => 
+        this.game.add.tween(this._hexSprite).from( { y: -100 }, 2000, Phaser.Easing.Bounce.Out, true).onComplete.addOnce(() =>
         {
          //   this.movingHex();
         });
      }
-
+/*
     private movingHex(): void
     {
          this.game.add.tween(this._hexSprite.position).to( {x: 50}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
     }
+    */
 
     private hurtHex(perfect: boolean): void
     {
@@ -75,7 +73,6 @@ export default class HexAnimations extends Phaser.Group
         }
 
         this.lightUpHex(0xff0000);
-        
     }
 
     private recoveryHex(): void
@@ -90,10 +87,9 @@ export default class HexAnimations extends Phaser.Group
             tint: color,
         }, 100, Phaser.Easing.Exponential.Out, true, 0, 0, true);
 
-
     }
 
-    private HexHitParticles(damaged: boolean, amount: number): Phaser.Particles.Arcade.Emitter 
+    private HexHitParticles(damaged: boolean, amount: number): Phaser.Particles.Arcade.Emitter
     {
 
         let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
@@ -110,7 +106,7 @@ export default class HexAnimations extends Phaser.Group
             emitter.makeParticles(Atlases.INTERFACE, 'Hex_Heal');
             emitter.gravity.y = -500;
         }
-        
+
         emitter.x = this._hexSprite.x;
         emitter.y = this._hexSprite.y;
 
@@ -121,17 +117,6 @@ export default class HexAnimations extends Phaser.Group
         return emitter;
     }
 
-
-    private defeatHex(): void
-    {
-        HexEnemy._HexSprite.visible = false;
-    }
-
-    /** Resize all the parts into their position */
-    public resize(): void
-    {
-        let vmin: number = Math.min(this.game.height, this.game.width);
-    }
 
     /** Destroy all the parts */
     public destroy(): void

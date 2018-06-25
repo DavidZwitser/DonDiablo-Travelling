@@ -33,19 +33,17 @@ export default class HexScreen extends BasePopUp
         this.addChild(this._closeButton);
     }
 
-
        /** The hex screen gets displayed */
        public show(): void
        {
            this.visible = true;
        }
-   
+
        /** T The hex screen is hidden */
        public hide(): void
        {
            this.visible = false;
        }
-   
 
     public destroy(): void
     {

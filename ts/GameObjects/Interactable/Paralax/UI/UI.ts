@@ -12,8 +12,6 @@ import MotivationalPopupText from '../UI/MotivationalPopupText';
 import SoundManager from '../../../../Systems/Sound/SoundManager';
 import Sounds from '../../../../Data/Sounds';
 
-import SecretUnlocker from '../../../../Systems/Secret/SecretUnlocker';
-
 /** The user interface group in the gameplay state */
 export default class UI extends Phaser.Group
 {
@@ -28,14 +26,11 @@ export default class UI extends Phaser.Group
     private _motivationalPopupText: MotivationalPopupText;
     public pauseScreen: PauseScreen;
 
-    private _secretUnlocker: SecretUnlocker;
     private _hexScreen: HexScreen;
 
     private _gameOverScreen: GameOverScreen;
     private _trackText: Phaser.BitmapText;
     private _countdownText: Phaser.BitmapText;
-
-    private _hexText: Phaser.BitmapText;
 
     private _comboValue: number = 1;
     private _streakCount: number = 0;
@@ -52,8 +47,6 @@ export default class UI extends Phaser.Group
         this.createTrackText();
         this.createPopUpText();
         this.createCountDownText();
-
-      //  this.createHexText();
 
         this._countdownText.visible = false;
 
@@ -184,21 +177,6 @@ export default class UI extends Phaser.Group
         this.addChild(this._countdownText);
     }
 
-    private createHexText(): void
-    {
-        this._secretUnlocker._secretSignal.add(() =>
-    {
-        this._hexText = new Phaser.BitmapText(this.game, 0, 0, 'futura', 'Hex', 30);
-        this._hexText.tint = 0xffffff;
-        this._hexText.anchor.set(0.5);
-        this._hexText.fontSize = 90;
-        this.addChild(this._trackText);
-
-        console.log('added text');
-
-    });
-    }
-
     /** (un)pauses the ui */
     public pause(pause: boolean): void {
 
@@ -228,7 +206,6 @@ export default class UI extends Phaser.Group
         SoundManager.getInstance().play(Sounds.HIGH_SOUND, 1);
         this._hexScreen.show();
     }
-
 
     /** displays the title of the song using tween */
     public displayTrackTitle(title: string): void {

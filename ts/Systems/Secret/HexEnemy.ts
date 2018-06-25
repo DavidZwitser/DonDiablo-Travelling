@@ -17,7 +17,6 @@ export default class HexEnemy extends Phaser.Group
     public static _HexSprite: Phaser.Sprite;
     public static defeated: boolean;
 
-   
     constructor(game: Phaser.Game)
     {
         super(game);

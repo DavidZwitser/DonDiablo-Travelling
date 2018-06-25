@@ -23,12 +23,11 @@ import Sounds from '../Data/Sounds';
 import Lightning from '../GameObjects/Interactable/Perspective/Lightning';
 
 import HexEnemy from '../Systems/Secret/HexEnemy';
-import HexParts from '../Systems/Secret/HexParts';
 
 import SecretUnlocker from '../Systems/Secret/SecretUnlocker';
 
 
-import { getRandomHexPart, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
+import { getRandomHexPart, HexParts, IHexPartsCollection, IHexBodyPartsCollection } from '../GameObjects/Interactable/Paralax/UI/HexPartsMenu/HexPartsData';
 
 
 /**
@@ -361,7 +360,6 @@ export default class Gameplay extends Phaser.State
         this._userInterface.gameOver(this.score, SaveData.HIGHSCORE);
         this.pause(false);
 
-        HexParts.currentHexSprite.visible = !this._gamePaused;
         HexEnemy._HexSprite.visible = !this._gamePaused;
     }
 

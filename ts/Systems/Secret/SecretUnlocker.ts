@@ -1,6 +1,6 @@
 import Constants from '../../Data/Constants';
 
-import HexParts from '../Secret/HexParts';
+import HexEnemyParts from '../Secret/HexEnemyParts';
 import HexEnemy from '../Secret/HexEnemy';
 
 import BackgroundVisualizer from '../Secret/BackgroundVisualizer';
@@ -21,7 +21,7 @@ export default class SecretUnlocker extends Phaser.Group
     private _backgroundVisualizer: BackgroundVisualizer;
     private _roadLighting: RoadLighting;
 
-    private _hexParts: HexParts;
+    private _hexParts: HexEnemyParts;
     private _hexEnemy: HexEnemy;
 
     private _levelData: ILevelData;
@@ -83,7 +83,7 @@ export default class SecretUnlocker extends Phaser.Group
               this._roadLighting = new RoadLighting(this.game);
 
             /* Create hex parts */
-              this._hexParts = new HexParts(this.game);
+              this._hexParts = new HexEnemyParts(this.game);
 
              /* Add to the game */
               this.game.add.existing(this._backgroundVisualizer);
@@ -127,12 +127,11 @@ export default class SecretUnlocker extends Phaser.Group
 
             this._backgroundVisualizer.destroy();
             this._backgroundVisualizer = null;
-   
+
             this._roadLighting.destroy();
             this._roadLighting = null;
-   
+
             this._secretSignal.removeAll();
         }
-        
       }
   }
