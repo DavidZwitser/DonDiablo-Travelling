@@ -1,3 +1,6 @@
+/**
+ * All the images, for preloading and accessing later.
+ */
 export default class Images
 {
 
@@ -5,7 +8,7 @@ export default class Images
 
     public static List: string[] = [
         //Add images to load
-        Images.IconTest
+        //Images.IconTest
     ];
 
 }

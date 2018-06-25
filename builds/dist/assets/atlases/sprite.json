@@ -1,19 +1,1251 @@
 {
     "frames": {
-        "icon": {
+        "building_glow": {
             "frame": {
-                "x": 398,
-                "y": 0,
-                "w": 159,
-                "h": 149
+                "x": 1279,
+                "y": 1799,
+                "w": 720,
+                "h": 120
             }
         },
-        "Naamloos": {
+        "Background_Building_Purple_01": {
+            "frame": {
+                "x": 1965,
+                "y": 664,
+                "w": 88,
+                "h": 351
+            }
+        },
+        "Background_Building_Purple_02": {
+            "frame": {
+                "x": 1875,
+                "y": 664,
+                "w": 85,
+                "h": 368
+            }
+        },
+        "Background_Building_Purple_03": {
+            "frame": {
+                "x": 3044,
+                "y": 1754,
+                "w": 65,
+                "h": 271
+            }
+        },
+        "Background_Building_Purple_04": {
+            "frame": {
+                "x": 3044,
+                "y": 0,
+                "w": 86,
+                "h": 241
+            }
+        },
+        "Background_Building_Purple_05": {
+            "frame": {
+                "x": 3135,
+                "y": 750,
+                "w": 56,
+                "h": 247
+            }
+        },
+        "Background_Building_Purple_06": {
+            "frame": {
+                "x": 0,
+                "y": 2883,
+                "w": 97,
+                "h": 208
+            }
+        },
+        "Background_Building_Purple_07": {
+            "frame": {
+                "x": 3135,
+                "y": 1829,
+                "w": 60,
+                "h": 166
+            }
+        },
+        "Background_Building_Purple_08": {
+            "frame": {
+                "x": 3135,
+                "y": 2000,
+                "w": 58,
+                "h": 147
+            }
+        },
+        "Background_Building_Purple_09": {
+            "frame": {
+                "x": 2873,
+                "y": 817,
+                "w": 77,
+                "h": 202
+            }
+        },
+        "Background_Building_Purple_10": {
+            "frame": {
+                "x": 2958,
+                "y": 2395,
+                "w": 67,
+                "h": 244
+            }
+        },
+        "Background_Building_Purple_11": {
+            "frame": {
+                "x": 2958,
+                "y": 1386,
+                "w": 66,
+                "h": 253
+            }
+        },
+        "Background_Building_Red_01": {
+            "frame": {
+                "x": 0,
+                "y": 2518,
+                "w": 83,
+                "h": 360
+            }
+        },
+        "Background_Building_Red_02": {
+            "frame": {
+                "x": 3044,
+                "y": 492,
+                "w": 80,
+                "h": 237
+            }
+        },
+        "Background_Building_Red_03": {
+            "frame": {
+                "x": 2958,
+                "y": 1895,
+                "w": 67,
+                "h": 246
+            }
+        },
+        "Background_Building_Red_04": {
+            "frame": {
+                "x": 3135,
+                "y": 249,
+                "w": 65,
+                "h": 244
+            }
+        },
+        "Background_Building_Red_05": {
+            "frame": {
+                "x": 3135,
+                "y": 2454,
+                "w": 58,
+                "h": 145
+            }
+        },
+        "Background_Building_Red_06": {
+            "frame": {
+                "x": 2779,
+                "y": 1276,
+                "w": 113,
+                "h": 339
+            }
+        },
+        "Background_Building_Red_07": {
+            "frame": {
+                "x": 3135,
+                "y": 1450,
+                "w": 50,
+                "h": 203
+            }
+        },
+        "Background_Building_Red_08": {
+            "frame": {
+                "x": 3044,
+                "y": 2030,
+                "w": 52,
+                "h": 319
+            }
+        },
+        "Background_Building_Red_09": {
+            "frame": {
+                "x": 3044,
+                "y": 976,
+                "w": 72,
+                "h": 246
+            }
+        },
+        "Background_Building_Red_10": {
+            "frame": {
+                "x": 2958,
+                "y": 369,
+                "w": 81,
+                "h": 363
+            }
+        },
+        "Background_Building_Red_11": {
+            "frame": {
+                "x": 1257,
+                "y": 2674,
+                "w": 88,
+                "h": 67
+            }
+        },
+        "Background_Building_Red_12": {
+            "frame": {
+                "x": 2874,
+                "y": 1049,
+                "w": 71,
+                "h": 184
+            }
+        },
+        "Background_Building_Red_13": {
+            "frame": {
+                "x": 3135,
+                "y": 2783,
+                "w": 39,
+                "h": 174
+            }
+        },
+        "Background_Building_Red_14": {
+            "frame": {
+                "x": 3135,
+                "y": 2962,
+                "w": 55,
+                "h": 79
+            }
+        },
+        "Background_Building_Blue_01": {
+            "frame": {
+                "x": 88,
+                "y": 2518,
+                "w": 83,
+                "h": 360
+            }
+        },
+        "Background_Building_Blue_02": {
+            "frame": {
+                "x": 3044,
+                "y": 734,
+                "w": 80,
+                "h": 237
+            }
+        },
+        "Background_Building_Blue_03": {
+            "frame": {
+                "x": 2958,
+                "y": 1644,
+                "w": 67,
+                "h": 246
+            }
+        },
+        "Background_Building_Blue_04": {
+            "frame": {
+                "x": 3135,
+                "y": 0,
+                "w": 65,
+                "h": 244
+            }
+        },
+        "Background_Building_Blue_05": {
+            "frame": {
+                "x": 3135,
+                "y": 2304,
+                "w": 58,
+                "h": 145
+            }
+        },
+        "Background_Building_Blue_06": {
+            "frame": {
+                "x": 2661,
+                "y": 1276,
+                "w": 113,
+                "h": 339
+            }
+        },
+        "Background_Building_Blue_07": {
+            "frame": {
+                "x": 3135,
+                "y": 1242,
+                "w": 50,
+                "h": 203
+            }
+        },
+        "Background_Building_Blue_08": {
+            "frame": {
+                "x": 3044,
+                "y": 2354,
+                "w": 52,
+                "h": 319
+            }
+        },
+        "Background_Building_Blue_09": {
+            "frame": {
+                "x": 3044,
+                "y": 1227,
+                "w": 72,
+                "h": 246
+            }
+        },
+        "Background_Building_Blue_10": {
+            "frame": {
+                "x": 2958,
+                "y": 0,
+                "w": 81,
+                "h": 364
+            }
+        },
+        "Background_Building_Blue_11": {
+            "frame": {
+                "x": 1350,
+                "y": 2674,
+                "w": 88,
+                "h": 67
+            }
+        },
+        "Background_Building_Blue_12": {
+            "frame": {
+                "x": 204,
+                "y": 2883,
+                "w": 71,
+                "h": 184
+            }
+        },
+        "Background_Building_Blue_13": {
+            "frame": {
+                "x": 3135,
+                "y": 2604,
+                "w": 39,
+                "h": 174
+            }
+        },
+        "Background_Building_Blue_14": {
+            "frame": {
+                "x": 2894,
+                "y": 318,
+                "w": 55,
+                "h": 79
+            }
+        },
+        "Background_Building_DarkBlue_01": {
+            "frame": {
+                "x": 2005,
+                "y": 1285,
+                "w": 88,
+                "h": 351
+            }
+        },
+        "Background_Building_DarkBlue_02": {
+            "frame": {
+                "x": 2511,
+                "y": 866,
+                "w": 85,
+                "h": 378
+            }
+        },
+        "Background_Building_DarkBlue_03": {
+            "frame": {
+                "x": 3044,
+                "y": 1478,
+                "w": 65,
+                "h": 271
+            }
+        },
+        "Background_Building_DarkBlue_04": {
+            "frame": {
+                "x": 3044,
+                "y": 246,
+                "w": 86,
+                "h": 241
+            }
+        },
+        "Background_Building_DarkBlue_05": {
+            "frame": {
+                "x": 3135,
+                "y": 498,
+                "w": 56,
+                "h": 247
+            }
+        },
+        "Background_Building_DarkBlue_06": {
+            "frame": {
+                "x": 102,
+                "y": 2883,
+                "w": 97,
+                "h": 208
+            }
+        },
+        "Background_Building_DarkBlue_07": {
+            "frame": {
+                "x": 3135,
+                "y": 1658,
+                "w": 60,
+                "h": 166
+            }
+        },
+        "Background_Building_DarkBlue_08": {
+            "frame": {
+                "x": 3135,
+                "y": 2152,
+                "w": 58,
+                "h": 147
+            }
+        },
+        "Background_Building_DarkBlue_09": {
+            "frame": {
+                "x": 2958,
+                "y": 2644,
+                "w": 77,
+                "h": 202
+            }
+        },
+        "Background_Building_DarkBlue_10": {
+            "frame": {
+                "x": 2958,
+                "y": 2146,
+                "w": 67,
+                "h": 244
+            }
+        },
+        "Background_Building_DarkBlue_11": {
+            "frame": {
+                "x": 2958,
+                "y": 1128,
+                "w": 66,
+                "h": 253
+            }
+        },
+        "ingame_vehicle_1_sideview_left_blink": {
+            "frame": {
+                "x": 2661,
+                "y": 2186,
+                "w": 238,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_1_sideview_left": {
+            "frame": {
+                "x": 2408,
+                "y": 1705,
+                "w": 238,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_1_sideview_right_blink": {
+            "frame": {
+                "x": 2408,
+                "y": 1581,
+                "w": 238,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_1_sideview_right": {
+            "frame": {
+                "x": 2661,
+                "y": 2310,
+                "w": 238,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_1_straight_blink": {
+            "frame": {
+                "x": 1582,
+                "y": 2042,
+                "w": 238,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_1_straight": {
+            "frame": {
+                "x": 1339,
+                "y": 2042,
+                "w": 238,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_2_sideview_left_blink": {
+            "frame": {
+                "x": 940,
+                "y": 2210,
+                "w": 200,
+                "h": 135
+            }
+        },
+        "ingame_vehicle_2_sideview_left": {
+            "frame": {
+                "x": 1350,
+                "y": 2210,
+                "w": 200,
+                "h": 135
+            }
+        },
+        "ingame_vehicle_2_sideview_right_blink": {
+            "frame": {
+                "x": 1145,
+                "y": 2210,
+                "w": 200,
+                "h": 135
+            }
+        },
+        "ingame_vehicle_2_sideview_right": {
+            "frame": {
+                "x": 735,
+                "y": 2210,
+                "w": 200,
+                "h": 135
+            }
+        },
+        "ingame_vehicle_2_straight_blink": {
+            "frame": {
+                "x": 2225,
+                "y": 2042,
+                "w": 200,
+                "h": 110
+            }
+        },
+        "ingame_vehicle_2_straight": {
+            "frame": {
+                "x": 2430,
+                "y": 2042,
+                "w": 200,
+                "h": 110
+            }
+        },
+        "ingame_vehicle_3_sideview_left_blink": {
+            "frame": {
+                "x": 642,
+                "y": 2674,
+                "w": 152,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_3_sideview_left": {
+            "frame": {
+                "x": 950,
+                "y": 2674,
+                "w": 144,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_3_sideview_right_blink": {
+            "frame": {
+                "x": 869,
+                "y": 2518,
+                "w": 156,
+                "h": 118
+            }
+        },
+        "ingame_vehicle_3_sideview_right": {
+            "frame": {
+                "x": 799,
+                "y": 2674,
+                "w": 146,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_3_straight_blink": {
+            "frame": {
+                "x": 697,
+                "y": 2518,
+                "w": 167,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_3_straight": {
+            "frame": {
+                "x": 484,
+                "y": 2674,
+                "w": 153,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_4_sideview_left_blink": {
+            "frame": {
+                "x": 1760,
+                "y": 2210,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_sideview_left": {
+            "frame": {
+                "x": 2170,
+                "y": 2210,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_sideview_right_blink": {
+            "frame": {
+                "x": 1965,
+                "y": 2210,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_sideview_right": {
+            "frame": {
+                "x": 1555,
+                "y": 2210,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "ingame_vehicle_4_straight_blink": {
+            "frame": {
+                "x": 1825,
+                "y": 2042,
+                "w": 200,
+                "h": 119
+            }
+        },
+        "ingame_vehicle_4_straight": {
+            "frame": {
+                "x": 2375,
+                "y": 2210,
+                "w": 200,
+                "h": 120
+            }
+        },
+        "exitbutton": {
+            "frame": {
+                "x": 587,
+                "y": 2883,
+                "w": 80,
+                "h": 73
+            }
+        },
+        "ui_icon_music_off": {
+            "frame": {
+                "x": 3135,
+                "y": 3046,
+                "w": 49,
+                "h": 44
+            }
+        },
+        "ui_icon_music_on": {
+            "frame": {
+                "x": 2894,
+                "y": 482,
+                "w": 34,
+                "h": 36
+            }
+        },
+        "ui_icon_sfx_off": {
+            "frame": {
+                "x": 2894,
+                "y": 402,
+                "w": 43,
+                "h": 35
+            }
+        },
+        "ui_icon_sfx_on": {
+            "frame": {
+                "x": 2894,
+                "y": 442,
+                "w": 38,
+                "h": 35
+            }
+        },
+        "ui_ingame_button_pause": {
+            "frame": {
+                "x": 1365,
+                "y": 2518,
+                "w": 79,
+                "h": 92
+            }
+        },
+        "ui_ingame_button": {
+            "frame": {
+                "x": 1030,
+                "y": 2518,
+                "w": 116,
+                "h": 118
+            }
+        },
+        "hexagon_small_left": {
+            "frame": {
+                "x": 2104,
+                "y": 1581,
+                "w": 299,
+                "h": 313
+            }
+        },
+        "hexagon_small_right": {
+            "frame": {
+                "x": 2661,
+                "y": 0,
+                "w": 292,
+                "h": 313
+            }
+        },
+        "ui_middle_hexagon": {
+            "frame": {
+                "x": 1450,
+                "y": 664,
+                "w": 420,
+                "h": 565
+            }
+        },
+        "ui_pijltje": {
+            "frame": {
+                "x": 357,
+                "y": 2883,
+                "w": 71,
+                "h": 93
+            }
+        },
+        "ui_close_x_button": {
+            "frame": {
+                "x": 1617,
+                "y": 2518,
+                "w": 83,
+                "h": 81
+            }
+        },
+        "UserInterface_Credits_Background": {
             "frame": {
                 "x": 0,
                 "y": 0,
-                "w": 393,
-                "h": 605
+                "w": 720,
+                "h": 1280
+            }
+        },
+        "Battery_silhouette": {
+            "frame": {
+                "x": 2580,
+                "y": 2210,
+                "w": 73,
+                "h": 98
+            }
+        },
+        "Battery": {
+            "frame": {
+                "x": 1099,
+                "y": 2674,
+                "w": 72,
+                "h": 98
+            }
+        },
+        "Booster_silhouette": {
+            "frame": {
+                "x": 2030,
+                "y": 2042,
+                "w": 190,
+                "h": 116
+            }
+        },
+        "Booster": {
+            "frame": {
+                "x": 559,
+                "y": 2380,
+                "w": 189,
+                "h": 114
+            }
+        },
+        "Button_Right": {
+            "frame": {
+                "x": 433,
+                "y": 2883,
+                "w": 72,
+                "h": 91
+            }
+        },
+        "Chip_silhouette": {
+            "frame": {
+                "x": 753,
+                "y": 2380,
+                "w": 110,
+                "h": 110
+            }
+        },
+        "Chip": {
+            "frame": {
+                "x": 868,
+                "y": 2380,
+                "w": 110,
+                "h": 109
+            }
+        },
+        "Head_silhouette": {
+            "frame": {
+                "x": 2661,
+                "y": 1049,
+                "w": 208,
+                "h": 222
+            }
+        },
+        "Head": {
+            "frame": {
+                "x": 2661,
+                "y": 817,
+                "w": 207,
+                "h": 227
+            }
+        },
+        "Hearth_silhouette": {
+            "frame": {
+                "x": 983,
+                "y": 2380,
+                "w": 104,
+                "h": 103
+            }
+        },
+        "Hearth": {
+            "frame": {
+                "x": 1092,
+                "y": 2380,
+                "w": 104,
+                "h": 102
+            }
+        },
+        "Hex_Collecting_UI_Parts": {
+            "frame": {
+                "x": 654,
+                "y": 1285,
+                "w": 620,
+                "h": 649
+            }
+        },
+        "Hex_Collecting_UI_Screen": {
+            "frame": {
+                "x": 0,
+                "y": 1285,
+                "w": 649,
+                "h": 659
+            }
+        },
+        "Left_arm_silhouette": {
+            "frame": {
+                "x": 2661,
+                "y": 1620,
+                "w": 125,
+                "h": 278
+            }
+        },
+        "Left_arm": {
+            "frame": {
+                "x": 2791,
+                "y": 1620,
+                "w": 123,
+                "h": 277
+            }
+        },
+        "Metal_silhouette": {
+            "frame": {
+                "x": 1344,
+                "y": 2380,
+                "w": 145,
+                "h": 54
+            }
+        },
+        "Metal": {
+            "frame": {
+                "x": 1494,
+                "y": 2380,
+                "w": 144,
+                "h": 53
+            }
+        },
+        "Neck_silhouette": {
+            "frame": {
+                "x": 2005,
+                "y": 1641,
+                "w": 73,
+                "h": 124
+            }
+        },
+        "Neck": {
+            "frame": {
+                "x": 280,
+                "y": 2883,
+                "w": 72,
+                "h": 123
+            }
+        },
+        "Right_arm_silhouette": {
+            "frame": {
+                "x": 2661,
+                "y": 1903,
+                "w": 119,
+                "h": 278
+            }
+        },
+        "Right_arm": {
+            "frame": {
+                "x": 2785,
+                "y": 1903,
+                "w": 117,
+                "h": 276
+            }
+        },
+        "Screws_silhouette": {
+            "frame": {
+                "x": 1201,
+                "y": 2380,
+                "w": 138,
+                "h": 63
+            }
+        },
+        "Screws": {
+            "frame": {
+                "x": 2425,
+                "y": 1949,
+                "w": 139,
+                "h": 64
+            }
+        },
+        "Torso_silhouette": {
+            "frame": {
+                "x": 2661,
+                "y": 318,
+                "w": 228,
+                "h": 245
+            }
+        },
+        "Torso": {
+            "frame": {
+                "x": 2661,
+                "y": 568,
+                "w": 228,
+                "h": 244
+            }
+        },
+        "UserInterface_Hex_ScoreBackdrop": {
+            "frame": {
+                "x": 681,
+                "y": 1949,
+                "w": 324,
+                "h": 222
+            }
+        },
+        "Wires_silhouette": {
+            "frame": {
+                "x": 1643,
+                "y": 2380,
+                "w": 145,
+                "h": 48
+            }
+        },
+        "Wires": {
+            "frame": {
+                "x": 1793,
+                "y": 2380,
+                "w": 145,
+                "h": 46
+            }
+        },
+        "X_Knop": {
+            "frame": {
+                "x": 1176,
+                "y": 2674,
+                "w": 76,
+                "h": 87
+            }
+        },
+        "bg": {
+            "frame": {
+                "x": 725,
+                "y": 0,
+                "w": 720,
+                "h": 1280
+            }
+        },
+        "button_menu": {
+            "frame": {
+                "x": 1339,
+                "y": 1949,
+                "w": 395,
+                "h": 88
+            }
+        },
+        "logo_upside_don_final": {
+            "frame": {
+                "x": 0,
+                "y": 2210,
+                "w": 554,
+                "h": 303
+            }
+        },
+        "UserInterface_Menu_CharacterSelect": {
+            "frame": {
+                "x": 559,
+                "y": 2210,
+                "w": 171,
+                "h": 165
+            }
+        },
+        "UserInterface_Menu_ContinueButton": {
+            "frame": {
+                "x": 542,
+                "y": 2518,
+                "w": 150,
+                "h": 150
+            }
+        },
+        "UserInterface_Menu_Credits": {
+            "frame": {
+                "x": 176,
+                "y": 2674,
+                "w": 149,
+                "h": 159
+            }
+        },
+        "UserInterface_Menu_HexButton": {
+            "frame": {
+                "x": 1875,
+                "y": 1037,
+                "w": 171,
+                "h": 165
+            }
+        },
+        "UserInterface_Menu_Options": {
+            "frame": {
+                "x": 330,
+                "y": 2674,
+                "w": 149,
+                "h": 159
+            }
+        },
+        "UserInterface_Menu_PlayButton": {
+            "frame": {
+                "x": 2104,
+                "y": 866,
+                "w": 402,
+                "h": 419
+            }
+        },
+        "UserInterface_Hex_Backdrop": {
+            "frame": {
+                "x": 1450,
+                "y": 0,
+                "w": 649,
+                "h": 659
+            }
+        },
+        "UserInterface_Hex_Button_Arrow": {
+            "frame": {
+                "x": 510,
+                "y": 2883,
+                "w": 72,
+                "h": 91
+            }
+        },
+        "UserInterface_Hex_Button_Cross": {
+            "frame": {
+                "x": 1533,
+                "y": 2518,
+                "w": 79,
+                "h": 90
+            }
+        },
+        "Fill_Bar": {
+            "frame": {
+                "x": 3114,
+                "y": 1478,
+                "w": 15,
+                "h": 266
+            }
+        },
+        "Knop_Empty": {
+            "frame": {
+                "x": 3179,
+                "y": 2604,
+                "w": 21,
+                "h": 18
+            }
+        },
+        "Knop_Full": {
+            "frame": {
+                "x": 2894,
+                "y": 523,
+                "w": 35,
+                "h": 32
+            }
+        },
+        "laying hexagon_side": {
+            "frame": {
+                "x": 3044,
+                "y": 2678,
+                "w": 84,
+                "h": 185
+            }
+        },
+        "laying hexagon": {
+            "frame": {
+                "x": 2520,
+                "y": 1290,
+                "w": 97,
+                "h": 224
+            }
+        },
+        "Pausemenu_Background": {
+            "frame": {
+                "x": 2104,
+                "y": 433,
+                "w": 552,
+                "h": 428
+            }
+        },
+        "Pausemenu_Button_Restart_and_Quit": {
+            "frame": {
+                "x": 2661,
+                "y": 2434,
+                "w": 180,
+                "h": 63
+            }
+        },
+        "UserInterface_GameOver_Backdrop": {
+            "frame": {
+                "x": 1279,
+                "y": 1285,
+                "w": 721,
+                "h": 509
+            }
+        },
+        "UserInterface_GameOver_ButtonHome": {
+            "frame": {
+                "x": 1258,
+                "y": 2518,
+                "w": 102,
+                "h": 114
+            }
+        },
+        "UserInterface_GameOver_ButtonRetry": {
+            "frame": {
+                "x": 1151,
+                "y": 2518,
+                "w": 102,
+                "h": 114
+            }
+        },
+        "Omlijning_Bar": {
+            "frame": {
+                "x": 2958,
+                "y": 737,
+                "w": 68,
+                "h": 386
+            }
+        },
+        "Omlijning_Fill_bar": {
+            "frame": {
+                "x": 3101,
+                "y": 2030,
+                "w": 17,
+                "h": 268
+            }
+        },
+        "Pixel_black": {
+            "frame": {
+                "x": 3196,
+                "y": 498,
+                "w": 1,
+                "h": 1
+            }
+        },
+        "UserInterface_PauseButton": {
+            "frame": {
+                "x": 2004,
+                "y": 1799,
+                "w": 79,
+                "h": 92
+            }
+        },
+        "UserInterface_PauseHud_Backdrop": {
+            "frame": {
+                "x": 3135,
+                "y": 1002,
+                "w": 48,
+                "h": 235
+            }
+        },
+        "level select": {
+            "frame": {
+                "x": 2082,
+                "y": 1949,
+                "w": 338,
+                "h": 69
+            }
+        },
+        "levelSelectBackground": {
+            "frame": {
+                "x": 0,
+                "y": 1949,
+                "w": 676,
+                "h": 256
+            }
+        },
+        "lockedlevel": {
+            "frame": {
+                "x": 359,
+                "y": 2518,
+                "w": 178,
+                "h": 151
+            }
+        },
+        "openlevel": {
+            "frame": {
+                "x": 176,
+                "y": 2518,
+                "w": 178,
+                "h": 151
+            }
+        },
+        "Pausemenu_Slider_Balk": {
+            "frame": {
+                "x": 2104,
+                "y": 1899,
+                "w": 423,
+                "h": 31
+            }
+        },
+        "Pausemenu_slider_button": {
+            "frame": {
+                "x": 3101,
+                "y": 2303,
+                "w": 29,
+                "h": 38
+            }
+        },
+        "Pausemenu_Slider_Fill": {
+            "frame": {
+                "x": 1450,
+                "y": 1234,
+                "w": 410,
+                "h": 18
+            }
+        },
+        "back to menu": {
+            "frame": {
+                "x": 1813,
+                "y": 2518,
+                "w": 103,
+                "h": 64
+            }
+        },
+        "backgroundoverlay": {
+            "frame": {
+                "x": 2104,
+                "y": 1290,
+                "w": 411,
+                "h": 286
+            }
+        },
+        "play": {
+            "frame": {
+                "x": 1705,
+                "y": 2518,
+                "w": 103,
+                "h": 64
+            }
+        },
+        "settings": {
+            "frame": {
+                "x": 1739,
+                "y": 1949,
+                "w": 338,
+                "h": 69
+            }
+        },
+        "test_particle": {
+            "frame": {
+                "x": 3101,
+                "y": 2354,
+                "w": 25,
+                "h": 25
             }
         }
     },
@@ -23,8 +1255,8 @@
         "image": "~sprite.png",
         "scale": 1,
         "size": {
-            "w": 557,
-            "h": 605
+            "w": 3200,
+            "h": 3091
         }
     }
 }

@@ -8,6 +8,8 @@ import Test from './States/Test';
 import Gameplay from './States/Gameplay';
 import Preload from './States/Preload';
 
+import GPUChecker from './Systems/GPUChecker';
+
 namespace WebPackGame
 {
     export class Game extends Phaser.Game
@@ -27,7 +29,7 @@ namespace WebPackGame
             });
             this.clearBeforeRender = false;
 
-            SaveData.Init();
+            SaveData.INIT();
 
             this.state.add('game', {
                 create: this.stateCreator.bind(this),
@@ -37,6 +39,8 @@ namespace WebPackGame
 
         private statePreloader(): void
         {
+            GPUChecker.CHECK_AND_APPLY_GPU_SETTINGS(this);
+
             // libs.forEach((library: string) => {
             //     this.load.script(library, library);
             // });

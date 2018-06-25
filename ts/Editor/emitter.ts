@@ -18,7 +18,7 @@ export default class EditorEmitter extends Phaser.Particles.Arcade.Emitter
         alphamax: number,
         alpharate: number,
         scalemin: number,
-        scaleMax: number,
+        scalemax: number,
         scaleRate: number,
         minrotation: number,
         maxrotation: number,
@@ -35,7 +35,8 @@ export default class EditorEmitter extends Phaser.Particles.Arcade.Emitter
         maxParticles: number,
         spriteSheet: boolean,
         spriteSheetFPS: number,
-        spriteSheetLoop: boolean
+        spriteSheetLoop: boolean,
+        followMouse: boolean
     };
 
     constructor(game: Phaser.Game, x: number, y: number)
@@ -65,7 +66,7 @@ export default class EditorEmitter extends Phaser.Particles.Arcade.Emitter
             });
         } else {
             this.code += 'emitter.makeParticles(Atlases.Interface, \'' + this.editorValues.spriteName.split(', ') + '\');';
-            this.makeParticles(Atlases.Interface, this.editorValues.spriteName.split(', '));
+            this.makeParticles(Atlases.INTERFACE, this.editorValues.spriteName.split(', '));
         }
 
         this.code += 'emitter.setXSpeed(' + this.editorValues.minXSpeed + ', ' + this.editorValues.maxXSpeed + ');' +
@@ -84,9 +85,9 @@ export default class EditorEmitter extends Phaser.Particles.Arcade.Emitter
             this.setAlpha(this.editorValues.alphamin, this.editorValues.alphamax, this.editorValues.alpharate);
         }
 
-        this.code += 'emitter.setScale(' + this.editorValues.scalemin + ', ' + this.editorValues.scaleMax + ', ' +
-        this.editorValues.scalemin + ', ' + this.editorValues.scaleMax + ', ' + this.editorValues.scaleRate + ');';
-        this.setScale(this.editorValues.scalemin, this.editorValues.scaleMax, this.editorValues.scalemin, this.editorValues.scaleMax, this.editorValues.scaleRate);
+        this.code += 'emitter.setScale(' + this.editorValues.scalemin + ', ' + this.editorValues.scalemax + ', ' +
+        this.editorValues.scalemin + ', ' + this.editorValues.scalemax + ', ' + this.editorValues.scaleRate + ');';
+        this.setScale(this.editorValues.scalemin, this.editorValues.scalemax, this.editorValues.scalemin, this.editorValues.scalemax, this.editorValues.scaleRate);
 
         if (this.editorValues.gravity !== 0) {
             this.code += 'emitter.gravity.y = ' + this.editorValues.gravity + ';';
