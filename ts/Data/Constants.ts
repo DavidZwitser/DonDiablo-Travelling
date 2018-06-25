@@ -56,7 +56,7 @@ export default class Constants
 
     public static PICKUPS_BEFORE_HEX_PART: number; //gets really declard in hexbar.ts
 
-    public static HEX_COLLECTED: boolean = true; // checks if all hex parts have been collected.
+    public static HEX_COLLECTED: boolean = false; // checks if all hex parts have been collected.
 
     public static get GetHexCollected(): boolean
     {
@@ -139,11 +139,11 @@ export default class Constants
 
         {
             //blue
-            bottomMiddleColor: 0xBB0000,
-            bottomOuterColor: 0x000000,
+            bottomMiddleColor: 0x001111,
+            bottomOuterColor: 0x001111,
             //purple
-            topMiddleColor: 0xBB0000,
-            topOuterColor: 0x000000,
+            topMiddleColor: 0x001111,
+            topOuterColor: 0x001111,
 
             topSprite: 'DarkBlue',
             bottomSprite: 'DarkBlue'

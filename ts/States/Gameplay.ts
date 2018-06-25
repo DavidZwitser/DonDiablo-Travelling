@@ -421,7 +421,7 @@ export default class Gameplay extends Phaser.State
 
         if (Constants.HEX_COLLECTED)
         {
-            HexParts.currentHexSprite.visible = !this._gamePaused;
+         //   HexParts.currentHexSprite.visible = !this._gamePaused;
             HexEnemy._HexSprite.visible = !this._gamePaused;
         }
     }

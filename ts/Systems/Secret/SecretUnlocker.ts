@@ -26,12 +26,13 @@ export default class SecretUnlocker extends Phaser.Group
 
     private _levelData: ILevelData;
 
-    public _secretSignal: Phaser.Signal;
+ 
 
     private _currentTime: number;
 
     private _signalSent: boolean;
 
+    public _secretSignal: Phaser.Signal;
     constructor(game: Phaser.Game)
     {
         super(game);

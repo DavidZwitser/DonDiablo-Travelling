@@ -90,6 +90,7 @@ export default class HexAnimations extends Phaser.Group
             tint: color,
         }, 100, Phaser.Easing.Exponential.Out, true, 0, 0, true);
 
+
     }
 
     private HexHitParticles(damaged: boolean, amount: number): Phaser.Particles.Arcade.Emitter 

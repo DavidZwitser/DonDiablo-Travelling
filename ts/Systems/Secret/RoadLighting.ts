@@ -1,7 +1,6 @@
 import Constants from '../../Data/Constants';
 import SecretUnlocker from '../Secret/SecretUnlocker';
 import Road from '../../Rendering/Road';
-import { QuadTree } from 'phaser-ce';
 
 /** Choose at what time to light up the road */
 export default class RoadLighting extends Phaser.Group
@@ -24,12 +23,6 @@ export default class RoadLighting extends Phaser.Group
        this._redColor = 0xaa0000; // highlightLayer, middle screen
        this._blackColor = 0x000000; // roadLayer, colours on the road
        this._whiteColor = 0xffffff; // roadLayer, colours on the road
-
-         //this._secretHighLight = this._roadLayers.gethighlightLayer;
-       // this._roadLayers.sethighlightLayer.beginFill(0xaa0000);
-
-       // this._secretHighLight.beginFill(0xaa0000);
-
     }
 
     constructor(game: Phaser.Game)
@@ -41,7 +34,5 @@ export default class RoadLighting extends Phaser.Group
     {
         this._roadLayers = new Road(this.game);
         this._roadLayers.secretRoadColors(this._whiteColor, this._whiteColor, this._whiteColor, 0);
-
-        
     }
 }

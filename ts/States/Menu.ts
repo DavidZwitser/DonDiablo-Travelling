@@ -54,6 +54,8 @@ export default class Menu extends Phaser.State
     {
         super.create(this.game);
 
+        Constants.HEX_COLLECTED = false;
+
         /* Start playing menu music */
         SoundManager.getInstance().play(Sounds.UI_MENU_MUSIC , 1, true);
 
@@ -135,10 +137,24 @@ export default class Menu extends Phaser.State
         group.addChild(hexButton);
 
         /* Creating the secret button */
-        let secretButton: TextButton = new TextButton(this.game, 0, 220, '', 40, 'UserInterface_Menu_HexButton', () => {
+        let secretButton: TextButton = new TextButton(this.game, 0, 350, '', 40, 'UserInterface_Menu_SecretButtonDisabled', () => {
             Constants.HEX_COLLECTED = !Constants.HEX_COLLECTED;
+            secretButtonActivated.visible = true;
+            secretButton.visible = false;
+            
         }, this);
+
+        let secretButtonActivated: TextButton = new TextButton(this.game, 0, 350, '', 40, 'UserInterface_Menu_SecretButton', () => {
+            Constants.HEX_COLLECTED = !Constants.HEX_COLLECTED;
+            secretButton.visible = true;
+            secretButtonActivated.visible = false;
+           
+        }, this);
+
+        group.addChild(secretButtonActivated);
         group.addChild(secretButton);
+
+
 
         /* Returning this new group */
         return group;
