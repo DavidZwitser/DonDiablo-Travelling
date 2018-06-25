@@ -98,6 +98,11 @@ export default class PickupSpawner extends Phaser.Group
             }
             else
             {
+                if (Constants.HEX_COLLECTED)
+                {
+                    console.log("shit ended");
+                }
+
                 return;
             }
 

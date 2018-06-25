@@ -31,13 +31,13 @@ export default class HexAnimations extends Phaser.Group
          /** Normal Hit */
 
         PlayerCollisionChecker.getInstance().onColliding.add(() => {
-            this.hurtHex();
+            this.hurtHex(false);
         });
 
          /** Super Hit */
 
         PlayerCollisionChecker.getInstance().onCollidingPerfect.add( () => {
-            this.hurtHex();
+            this.hurtHex(true);
         });
 
          /** Recovery Hex */
@@ -63,16 +63,25 @@ export default class HexAnimations extends Phaser.Group
          this.game.add.tween(this._hexSprite.position).to( {x: 50}, 2200, Phaser.Easing.Sinusoidal.InOut, true, 2000, 20, true).loop(true);
     }
 
-    private hurtHex(): void
+    private hurtHex(perfect: boolean): void
     {
+        if (perfect)
+        {
+            this.HexHitParticles(true, 5);
+        }
+        else
+        {
+            this.HexHitParticles(true, 1);
+        }
+
         this.lightUpHex(0xff0000);
-        this.HexHitParticles(true);
+        
     }
 
     private recoveryHex(): void
     {
         this.lightUpHex(0x00ff00);
-        this.HexHitParticles(false);
+        this.HexHitParticles(false, 3);
     }
 
     private lightUpHex(color: Phaser.Color): void
@@ -83,7 +92,7 @@ export default class HexAnimations extends Phaser.Group
 
     }
 
-    private HexHitParticles(damaged: boolean): Phaser.Particles.Arcade.Emitter 
+    private HexHitParticles(damaged: boolean, amount: number): Phaser.Particles.Arcade.Emitter 
     {
 
         let emitter: Phaser.Particles.Arcade.Emitter = new Phaser.Particles.Arcade.Emitter(this.game, 0, 0, 50);
@@ -104,7 +113,7 @@ export default class HexAnimations extends Phaser.Group
         emitter.x = this._hexSprite.x;
         emitter.y = this._hexSprite.y;
 
-        emitter.start(true, 4000, null, 5);
+        emitter.start(true, 4000, null, amount);
 
         // this.game.time.events.add(3000, destroyEmitter, this);
 

@@ -5,7 +5,6 @@ import Atlases from '../../Data/Atlases';
 /** The class where Hex shows up at the start */
 export default class HexParts extends Phaser.Group
 {
-
     private _hexSpriteParts: string[];
     private _hexPartCounter: number = 0;
 
@@ -106,6 +105,5 @@ export default class HexParts extends Phaser.Group
     {
         //TODO: you know what to do here
         super.destroy(true);
-
     }
 }
